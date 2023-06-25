@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.corange.medzo.medzo">
+    package="com.corange.medzo">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
-        android:label="medzo"
+        android:label="Medzo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

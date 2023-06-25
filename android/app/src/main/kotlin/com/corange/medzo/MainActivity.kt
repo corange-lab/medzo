@@ -1,4 +1,4 @@
-package com.corange.medzo.medzo
+package com.corange.medzo
 
 import io.flutter.embedding.android.FlutterActivity
 

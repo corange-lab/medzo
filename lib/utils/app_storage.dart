@@ -1,4 +1,5 @@
 import 'package:get_storage/get_storage.dart';
+import 'package:medzo/model/user_model.dart';
 
 class AppStorage {
   // ignore: prefer_function_declarations_over_variables
@@ -19,19 +20,19 @@ class AppStorage {
     return await storageBox().write(key, value);
   }
 
-  // UserModel? getUserData() {
-  //   String? loggedInUser = read(StorageKey.kLoggedInUser);
-  //   if (loggedInUser == null) {
-  //     return null;
-  //   }
-  //   UserModel userModel = UserModel.fromJson(loggedInUser);
-  //   return userModel;
-  // }
-  //
-  // Future<void> setUserData(UserModel userModel) async {
-  //   await write(StorageKey.kLoggedInUser, userModel.toJson(isPref: true));
-  //   return;
-  // }
+  UserModel? getUserData() {
+    String? loggedInUser = read(StorageKey.kLoggedInUser);
+    if (loggedInUser == null) {
+      return null;
+    }
+    UserModel userModel = UserModel.fromJson(loggedInUser);
+    return userModel;
+  }
+
+  Future<void> setUserData(UserModel userModel) async {
+    await write(StorageKey.kLoggedInUser, userModel.toJson());
+    return;
+  }
 
   Future<void> setNotificationSettingData(
       Map<String, dynamic> notificationModel) async {

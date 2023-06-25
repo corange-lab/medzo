@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/auth_controller.dart';
+import 'package:medzo/controller/global_config_controller.dart';
+import 'package:medzo/controller/network_handling_service.dart';
+import 'package:medzo/firebase_options.dart';
 import 'package:medzo/theme/colors_theme.dart';
+import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/view/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await AppStorage().initStorage();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.black,
     statusBarColor: Colors.transparent,
@@ -33,6 +43,7 @@ class MyApp extends StatelessWidget {
         title: 'Medzo',
         theme: ThemeColor.mThemeData(context),
         darkTheme: ThemeColor.mThemeData(context, isDark: true),
+        initialBinding: GlobalBindings(),
         defaultTransition: Transition.cupertino,
         opaqueRoute: Get.isOpaqueRouteDefault,
         popGesture: Get.isPopGestureEnable,
@@ -40,5 +51,14 @@ class MyApp extends StatelessWidget {
         defaultGlobalState: true,
         themeMode: ThemeMode.light,
         home: const SplashScreen());
+  }
+}
+
+class GlobalBindings extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => AuthController(), fenix: true);
+    Get.put(NetworkHandlingService(), permanent: true);
+    Get.lazyPut(() => GlobalConfigController(), fenix: true);
   }
 }
