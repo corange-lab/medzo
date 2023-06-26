@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medzo/app_font.dart';
+import 'package:medzo/utils/app_font.dart';
 
 class ThemeColor {
   static Color lightPrimaryColor = const Color(0xff97E8D9);
