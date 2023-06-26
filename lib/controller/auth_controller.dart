@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medzo/api/create_user_api.dart';
 import 'package:medzo/model/user_model.dart';
-import 'package:medzo/services/notification/notification_service.dart';
 import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/utils/controller_ids.dart';
 import 'package:medzo/utils/string.dart';
@@ -65,7 +64,6 @@ class AuthController extends GetxController {
     }
   }
 
-
   @override
   void dispose() {
     // phoneNumberController.clear();
@@ -85,7 +83,6 @@ class AuthController extends GetxController {
     update([ControllerIds.verifyButtonKey]);
     if (gotUser != null) {
       await appStorage.setUserData(gotUser);
-      await NotificationService.instance.getTokenAndUpdateCurrentUser();
       Get.offAll(() => const HomeScreen());
     }
   }
@@ -152,7 +149,6 @@ class AuthController extends GetxController {
             await NewUser.instance.fetchUser(id: useruid, ownProfile: true);
         if (currentUser != null) {
           await appStorage.setUserData(currentUser);
-          await NotificationService.instance.getTokenAndUpdateCurrentUser();
           Get.offAll(() => const HomeScreen());
         } else {
           showInSnackBar(
@@ -189,40 +185,35 @@ class AuthController extends GetxController {
 
   Future<void> signinWithApple() async {
     try {
-      bool hasInternet = await Utils.hasInternetConnection();
-      if (!hasInternet) {
-        showInSnackBar('noInternetConnection'.tr);
-      } else {
-        if (await SignInWithApple.isAvailable()) {
-          final appleCredential = await SignInWithApple.getAppleIDCredential(
-            scopes: [
-              AppleIDAuthorizationScopes.email,
-              AppleIDAuthorizationScopes.fullName,
-            ],
-            webAuthenticationOptions: WebAuthenticationOptions(
-              clientId: 'com.corange.medzo',
-              redirectUri: Uri.parse(
-                'https://topicks-dev.firebaseapp.com/__/auth/handler',
-              ),
+      if (await SignInWithApple.isAvailable()) {
+        final appleCredential = await SignInWithApple.getAppleIDCredential(
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName,
+          ],
+          webAuthenticationOptions: WebAuthenticationOptions(
+            clientId: 'com.corange.medzo',
+            redirectUri: Uri.parse(
+              'https://topicks-dev.firebaseapp.com/__/auth/handler',
             ),
-          );
+          ),
+        );
 
-          final oauthCredential = OAuthProvider('apple.com').credential(
-            idToken: appleCredential.identityToken,
-            accessToken: appleCredential.authorizationCode,
-          );
+        final oauthCredential = OAuthProvider('apple.com').credential(
+          idToken: appleCredential.identityToken,
+          accessToken: appleCredential.authorizationCode,
+        );
 
-          UserCredential? userCredential =
-              await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-          if (userCredential.user != null) {
-            user = userCredential.user!;
-            showInSnackBar(ConstString.fetchApple, isSuccess: true);
-            socialSignInBool = true;
-          }
-        } else {
-          social = false;
-          update([socialButtonId, continueButtonId]);
+        UserCredential? userCredential =
+            await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+        if (userCredential.user != null) {
+          user = userCredential.user!;
+          showInSnackBar(ConstString.fetchApple, isSuccess: true);
+          socialSignInBool = true;
         }
+      } else {
+        social = false;
+        update([socialButtonId, continueButtonId]);
       }
     } on PlatformException catch (e) {
       if (e.code == 'sign_in_canceled') {
@@ -243,30 +234,25 @@ class AuthController extends GetxController {
 
   Future<void> signInWithGoogle() async {
     try {
-      bool hasInternet = await Utils.hasInternetConnection();
-      if (!hasInternet) {
-        showInSnackBar('noInternetConnection'.tr);
-      } else {
-        final GoogleSignInAccount? guser;
-        guser = await googleSignIn.signIn();
-        if (guser != null && guser.email.isNotEmpty) {
-          final GoogleSignInAuthentication gauth = await guser.authentication;
-          final credential = GoogleAuthProvider.credential(
-              accessToken: gauth.accessToken, idToken: gauth.idToken);
-          UserCredential userCredential =
-              await FirebaseAuth.instance.signInWithCredential(credential);
-          if (userCredential.user != null) {
-            user = userCredential.user!;
+      final GoogleSignInAccount? guser;
+      guser = await googleSignIn.signIn();
+      if (guser != null && guser.email.isNotEmpty) {
+        final GoogleSignInAuthentication gauth = await guser.authentication;
+        final credential = GoogleAuthProvider.credential(
+            accessToken: gauth.accessToken, idToken: gauth.idToken);
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        if (userCredential.user != null) {
+          user = userCredential.user!;
 
-            showInSnackBar(ConstString.fetchGoogle, isSuccess: true);
-            socialSignInBool = true;
-          } else {
-            showInSnackBar(ConstString.selectGoogleAccount);
-          }
+          showInSnackBar(ConstString.fetchGoogle, isSuccess: true);
+          socialSignInBool = true;
         } else {
-          social = false;
-          update([socialButtonId, continueButtonId]);
+          showInSnackBar(ConstString.selectGoogleAccount);
         }
+      } else {
+        social = false;
+        update([socialButtonId, continueButtonId]);
       }
     } on PlatformException catch (e) {
       if (e.code == 'sign_in_canceled') {
@@ -360,9 +346,6 @@ class AuthController extends GetxController {
   }
 
   Future<void> signOut() async {
-    await NotificationService.instance.reGenerateFCMToken();
-    // phoneNumberController.clear();
-    // phoneNumberController.clear();
     otpController.text = "";
     otpController.clear();
     try {

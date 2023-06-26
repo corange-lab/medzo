@@ -9,7 +9,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medzo/api/create_user_api.dart';
 import 'package:medzo/controller/auth_controller.dart';
 import 'package:medzo/model/user_model.dart';
-import 'package:medzo/services/notification/notification_service.dart';
 import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/utils/controller_ids.dart';
 import 'package:medzo/utils/string.dart';
@@ -70,30 +69,25 @@ class OTPController extends GetxController {
 
   Future<void> signInWithGoogle() async {
     try {
-      bool hasInternet = await Utils.hasInternetConnection();
-      if (!hasInternet) {
-        showInSnackBar('noInternetConnection'.tr);
-      } else {
-        final GoogleSignInAccount? guser;
-        guser = await googleSignIn.signIn();
-        if (guser != null && guser.email.isNotEmpty) {
-          final GoogleSignInAuthentication gauth = await guser.authentication;
-          final credential = GoogleAuthProvider.credential(
-              accessToken: gauth.accessToken, idToken: gauth.idToken);
-          UserCredential userCredential =
-              await FirebaseAuth.instance.signInWithCredential(credential);
-          if (userCredential.user != null) {
-            user = userCredential.user!;
+      final GoogleSignInAccount? guser;
+      guser = await googleSignIn.signIn();
+      if (guser != null && guser.email.isNotEmpty) {
+        final GoogleSignInAuthentication gauth = await guser.authentication;
+        final credential = GoogleAuthProvider.credential(
+            accessToken: gauth.accessToken, idToken: gauth.idToken);
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        if (userCredential.user != null) {
+          user = userCredential.user!;
 
-            showInSnackBar(ConstString.fetchGoogle, isSuccess: true);
-            googleSignInBool = true;
-          } else {
-            showInSnackBar(ConstString.selectGoogleAccount);
-          }
+          showInSnackBar(ConstString.fetchGoogle, isSuccess: true);
+          googleSignInBool = true;
         } else {
-          update(
-              [AuthController.socialButtonId, AuthController.continueButtonId]);
+          showInSnackBar(ConstString.selectGoogleAccount);
         }
+      } else {
+        update(
+            [AuthController.socialButtonId, AuthController.continueButtonId]);
       }
     } on PlatformException catch (e) {
       if (e.code == 'sign_in_canceled') {
@@ -213,7 +207,6 @@ class OTPController extends GetxController {
 
         if (gotUser != null) {
           await appStorage.setUserData(gotUser);
-          await NotificationService.instance.getTokenAndUpdateCurrentUser();
           Get.offAll(() => const HomeScreen());
         }
         isLoading = false;
@@ -225,7 +218,6 @@ class OTPController extends GetxController {
           return;
         }
         await appStorage.setUserData(gotUser);
-        await NotificationService.instance.getTokenAndUpdateCurrentUser();
         Get.offAll(() => const HomeScreen());
         isLoading = false;
         update([ControllerIds.verifyButtonKey]);
@@ -268,9 +260,6 @@ class OTPController extends GetxController {
     try {
       final UserModel? response =
           await NewUser.instance.createUser(params: params);
-      await addFcmToken(
-        fcmToken: NotificationService.instance.deviceToken ?? "",
-      );
       log("$response", name: " param");
     } catch (e) {
       log("$e", name: " error");
@@ -294,5 +283,4 @@ class OTPController extends GetxController {
       log('$e');
     }
   }
-
 }

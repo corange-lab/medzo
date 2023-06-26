@@ -1,9 +1,6 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medzo/theme/colors.dart';
@@ -79,32 +76,6 @@ class Utils {
 
   static String fromDateTimeToUTCString(String dateFormat, String timeFormat) {
     return fromDateTimeToUTCDateTime(dateFormat, timeFormat).toIso8601String();
-  }
-
-  static Future<bool> hasInternetConnection() async {
-    bool isOffline;
-    try {
-      ConnectivityResult connectivityResult =
-          await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.mobile) {
-        // I am connected to a mobile network.
-        return true;
-      } else if (connectivityResult == ConnectivityResult.wifi) {
-        // I am connected to a wifi network.
-        return true;
-      } else {
-        return false;
-      }
-    } on PlatformException catch (_) {
-      isOffline = false;
-      return isOffline;
-    } on TimeoutException catch (_) {
-      isOffline = false;
-      return isOffline;
-    } on SocketException catch (_) {
-      isOffline = false;
-      return isOffline;
-    }
   }
 
   Future<ImageSource?> selectImageSource({
