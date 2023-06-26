@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:medzo/utils/app_font.dart';
 
 class ThemeColor {
-  static Color lightPrimaryColor = const Color(0xff97E8D9);
-  static Color primaryColor = const Color(0xff006573);
-  static Color darkPrimaryColor = const Color(0xff09262D);
-  static Color grey = const Color(0xff849396);
-  static Color lightGrey = const Color(0xffBBC2C3);
+  static Color primaryColor = const Color(0xffF29D38);
+  static Color darkPrimaryColor = const Color(0xff0D0D0D);
+  static Color black = const Color(0xff180E02);
+  static Color grey = const Color(0xff818181);
+  static Color lightGrey = const Color(0xffBABABA);
   static Color white = const Color(0xffF8FAFA);
   static Color lightSky = const Color(0xffE8F5F5);
-  static Color darkPink = const Color(0xffFF007A);
-  static Color red = const Color(0xffFA4856);
-  static Color green = const Color(0xff72D62A);
+  static Color orange = const Color(0xffFF4000);
+  static Color blue = const Color(0xff0064B2);
+  static Color sky = const Color(0xff00B2CB);
+  static Color lightgreen = const Color(0xff61CA05);
+  static Color tilecolor = const Color(0xffFDF3E7);
+  static Color lightpurple = const Color(0xffCE9FFC);
+  static Color darkpurple = const Color(0xff7367F0);
 
   static ThemeData mThemeData(BuildContext context, {bool isDark = false}) {
     return ThemeData(
