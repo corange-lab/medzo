@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "429541735617-pulo7svtn19i9ol3tcidog6fqrc6fthb.apps.googleusercontent.com",
+          "client_id": "429541735617-r36sqbdas7n3plct60rpbbkkh6ogk3c6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.corange.medzo",
+            "certificate_hash": "91c4f7cd34516fb3f020b1c871c6d3baee6f20c3"
+          }
+        },
+        {
+          "client_id": "429541735617-r20qckgeljco2olo1v7q6es1a57i7crs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
