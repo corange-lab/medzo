@@ -9,11 +9,23 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return GetBuilder(
       init: HomeController(),
-      builder: (controller) {
+      builder: (ctrl) {
         return Scaffold(
             body: Column(
-          children: const [
-            Text('Home Screen'),
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Center(child: Text('Home Screen')),
+            const SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: () async {
+                await controller.signOut();
+              },
+              child: Text(
+                'Sign Out',
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+            ),
           ],
         ));
       },

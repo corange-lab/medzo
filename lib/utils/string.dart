@@ -6,8 +6,7 @@ class ConstString {
   static const int timeOutTimeInSeconds = 25;
   static const String somethingWentWrong = "Something went wrong";
   static const String noConnection = "No internet connection";
-  static const String noDataFound =
-      "Oops! Problem fetching details.";
+  static const String noDataFound = "Oops! Problem fetching details.";
   static const String noImages = "No images to display";
   static const String notConnected = "Not connected";
   static const String connected = "Connected";
@@ -67,6 +66,12 @@ class ConstString {
 
 // ---------------------------- Authentication Error Codes ---------------------------- //
 
+  static const String invalidEmail = "invalid-email";
+  static const String wrongPassword = "wrong-password";
+  static const String userNotFound = "user-not-found";
+  static const String tooManyRequests = "too-many-requests";
+  static const String operationNotAllowed = "operation-not-allowed";
+  static const String emailAlreadyInUse = "email-already-in-use";
   static const String invalidVerificationCode = "invalid-verification-code";
   static const String networkRequestFailed = 'network-request-failed';
   static const String userDisabled = 'user-disabled';
@@ -85,6 +90,19 @@ class ConstString {
       "The requested operation cannot be completed as it exceeds the project quota limit.";
   static const String sessionExpiredMessage =
       "The sms code has expired. Please re-send the verification code";
+  static const String invalidEmailMessage = "The email address is not valid.";
+  static const String wrongPasswordMessage =
+      "The password is invalid for the given email.";
+  static const String userNotFoundMessage =
+      "There is no user with the given email address.";
+  static const String userDisabledMessage =
+      "The user with the given email address has been disabled.";
+  static const String tooManyRequestsMessage =
+      "The user has exceeded the rate limit for auth attempts.";
+  static const String operationNotAllowedMessage =
+      "The auth operation is not allowed.";
+  static const String emailAlreadyInUseMessage =
+      "The email address is already in use.";
   static const String invalidVerificationMessage =
       "Oops! The OTP you entered is invalid. Please check and try again.";
   static const String checkNetworkConnection =
@@ -147,9 +165,7 @@ class ConstString {
   static const String appSetting = "App settings";
   static const String enablePushNotification = "Enable push notifications";
   static const String social = "Social";
-  static const String inviteFriends = "Invite friends to use Topicks";
-  static const String sendLinkToFriends =
-      "Talking Topicks with friends in fun. Send this link to their mobile to get bonus points if they join!";
+  static const String inviteFriends = "Invite friends to use Medzo";
   static const String legal = "Legal";
   static const String notificationTitle = 'Notifications';
   static const String badgesandtrophititle = "Badges and Trophies";

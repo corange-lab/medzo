@@ -14,6 +14,7 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/view/login_screen.dart';
+import 'package:medzo/view/signup_screen.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -38,6 +39,9 @@ class AuthController extends GetxController {
   RxBool resendButton = true.obs;
   // TextEditingController phoneNumberController = TextEditingController();
   TextEditingController otpController = TextEditingController();
+  TextEditingController emailTextController = TextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
+
   bool socialButtonVisible = true;
   // FocusNode phoneNumberTextField = FocusNode();
   AppStorage appStorage = AppStorage();
@@ -47,21 +51,33 @@ class AuthController extends GetxController {
 
   late Rx<User?> firebaseUser;
 
+  UserCredential? _authResult;
+
   @override
   void onReady() {
     super.onReady();
     firebaseUser = Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
 
-    ever(firebaseUser, _setInitialScreen);
+    // ever(firebaseUser, _setInitialScreen);
   }
 
-  _setInitialScreen(User? user) {
+  /*_setInitialScreen(User? user) {
     if (user != null) {
       Get.offAll(() => const HomeScreen());
     } else {
       Get.offAll(() => const LoginScreen());
     }
+  }*/
+
+  void navigateToSignUp() {
+    Get.to(() => const SignUpScreen());
+    return;
+  }
+
+  void navigateToHomeScreen() {
+    Get.offAll(() => const HomeScreen());
+    return;
   }
 
   @override
@@ -73,6 +89,61 @@ class AuthController extends GetxController {
     social = false;
     update([socialButtonId, continueButtonId]);
     super.dispose();
+  }
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      String email = emailTextController.text.trim();
+      String password = passwordTextController.text;
+
+      if (email.isEmpty || password.isEmpty) {
+        showInSnackBar('Email and password both is required!');
+        return;
+      }
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      print('Signed in with uid: ${userCredential.user!.uid}');
+      if (userCredential.user != null) {
+        navigateToHomeScreen();
+      }
+    } on FirebaseAuthException catch (e) {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
+
+      update([continueButtonId]);
+
+      isLoading = false;
+      update([ControllerIds.verifyButtonKey]);
+
+      authException(e);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> signUp() async {
+    try {
+      String email = emailTextController.text.trim();
+      String password = passwordTextController.text;
+
+      _authResult = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      print("Account created for user: " + (_authResult?.user?.email ?? ''));
+      _authResult?.user?.sendEmailVerification();
+      Get.back();
+    } on FirebaseAuthException catch (e) {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
+
+      update([continueButtonId]);
+
+      isLoading = false;
+      update([ControllerIds.verifyButtonKey]);
+
+      authException(e);
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> navigateToNextScreen(UserCredential credentials) async {
@@ -125,7 +196,7 @@ class AuthController extends GetxController {
         await checkAfterSocialSignin(socialLoginType: 'Apple ID');
       }
     } on PlatformException catch (_) {
-      log('Platform Excetion ------------------------------');
+      log('Platform Exception ------------------------------');
       social = false;
       update([socialButtonId, continueButtonId]);
     } catch (e) {
@@ -194,7 +265,7 @@ class AuthController extends GetxController {
           webAuthenticationOptions: WebAuthenticationOptions(
             clientId: 'com.corange.medzo',
             redirectUri: Uri.parse(
-              'https://topicks-dev.firebaseapp.com/__/auth/handler',
+              'https://medzo-2687b.firebaseapp.com/__/auth/handler',
             ),
           ),
         );
@@ -247,6 +318,7 @@ class AuthController extends GetxController {
 
           showInSnackBar(ConstString.fetchGoogle, isSuccess: true);
           socialSignInBool = true;
+          navigateToHomeScreen();
         } else {
           showInSnackBar(ConstString.selectGoogleAccount);
         }
@@ -384,7 +456,21 @@ class AuthController extends GetxController {
   }
 
   void authException(FirebaseAuthException e) {
-    if (e.code == ConstString.invalidVerificationCode) {
+    isLoading = false;
+    update([ControllerIds.verifyButtonKey]);
+    if (e.code == ConstString.invalidEmail) {
+      showInSnackBar(ConstString.invalidEmailMessage);
+    } else if (e.code == ConstString.wrongPassword) {
+      showInSnackBar(ConstString.wrongPasswordMessage);
+    } else if (e.code == ConstString.userNotFound) {
+      showInSnackBar(ConstString.userNotFoundMessage);
+    } else if (e.code == ConstString.tooManyRequests) {
+      showInSnackBar(ConstString.tooManyRequestsMessage);
+    } else if (e.code == ConstString.operationNotAllowed) {
+      showInSnackBar(ConstString.operationNotAllowedMessage);
+    } else if (e.code == ConstString.emailAlreadyInUse) {
+      showInSnackBar(ConstString.emailAlreadyInUseMessage);
+    } else if (e.code == ConstString.invalidVerificationCode) {
       showInSnackBar(ConstString.invalidVerificationMessage);
       isLoading = false;
       update([ControllerIds.verifyButtonKey]);

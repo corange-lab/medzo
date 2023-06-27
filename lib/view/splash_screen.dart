@@ -10,9 +10,11 @@ class SplashScreen extends GetWidget<SplashScreenController> {
     return GetBuilder<SplashScreenController>(
       init: SplashScreenController(),
       builder: (controller) {
-        return Scaffold(
+        return const Scaffold(
             body: Column(
-          children: const [
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
             Text('Medzo'),
           ],
         ));
