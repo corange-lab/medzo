@@ -45,8 +45,8 @@ class OTPController extends GetxController {
 
   @override
   void onInit() {
-    var dt = Get.arguments;
-    verificationId = dt['verificationId'];
+    // var dt = Get.arguments;
+    // verificationId = dt['verificationId'];
     super.onInit();
     startTimer();
   }

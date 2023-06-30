@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/auth_controller.dart';
@@ -13,9 +12,11 @@ import 'package:medzo/view/question_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
-class newpassword extends GetView {
-  FocusNode fnode = FocusNode();
-  FocusNode fnode1 = FocusNode();
+class NewPassword extends GetView {
+  final FocusNode fNode = FocusNode();
+  final FocusNode fNode1 = FocusNode();
+
+  NewPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class newpassword extends GetView {
                   ),
                 ),
               ),
-              Expanded(flex: 9, child: con_newpass(controller, context)),
+              Expanded(flex: 9, child: newPasswordWidget(controller, context)),
             ],
           ),
         );
@@ -70,7 +71,7 @@ class newpassword extends GetView {
     );
   }
 
-  Container con_newpass(AuthController controller, BuildContext context) {
+  Container newPasswordWidget(AuthController controller, BuildContext context) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -114,7 +115,7 @@ class newpassword extends GetView {
                     () => TextField(
                       autofocus: false,
                       obscureText: controller.hidepass.value,
-                      focusNode: fnode,
+                      focusNode: fNode,
                       cursorColor: ThemeColor.grey,
                       // controller: ctrl.passwordTextController,
                       // style: Theme.of(context).textTheme.bodyMedium,
@@ -138,12 +139,12 @@ class newpassword extends GetView {
                                     SvgIcon.pass_eye,
                                     height: Responsive.height(2, context),
                                   )
-                                : Icon(
+                                : const Icon(
                                     Icons.visibility_off_outlined,
                                     size: 15,
                                     color: Colors.black38,
                                   )),
-                        fillColor: fnode.hasFocus
+                        fillColor: fNode.hasFocus
                             ? ThemeColor.tilecolor
                             : AppColors.splashdetail,
                         hintText: "Enter Password",
@@ -182,7 +183,7 @@ class newpassword extends GetView {
                       autofocus: false,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: controller.hidepass2.value,
-                      focusNode: fnode1,
+                      focusNode: fNode1,
                       cursorColor: ThemeColor.grey,
                       // controller: ctrl.passwordTextController,
                       // style: Theme.of(context).textTheme.bodyMedium,
@@ -206,12 +207,12 @@ class newpassword extends GetView {
                                     SvgIcon.pass_eye,
                                     height: Responsive.height(2, context),
                                   )
-                                : Icon(
+                                : const Icon(
                                     Icons.visibility_off_outlined,
                                     size: 15,
                                     color: Colors.black38,
                                   )),
-                        fillColor: fnode1.hasFocus
+                        fillColor: fNode1.hasFocus
                             ? ThemeColor.tilecolor
                             : AppColors.splashdetail,
                         hintText: "Enter Password",
@@ -341,7 +342,7 @@ class newpassword extends GetView {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  Get.off(Question_screen());
+                  Get.off(QuestionScreen());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ThemeColor.primaryColor,
@@ -351,24 +352,9 @@ class newpassword extends GetView {
                       borderRadius: BorderRadius.circular(50)),
                 ),
                 child: Text(
-                  ConstString.login,
+                  ConstString.save,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-              ),
-
-              SizedBox(
-                height: Responsive.height(13, context),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text.rich(TextSpan(children: [
-                  TextSpan(
-                      text: ConstString.didnthaveanaccount,
-                      style: Theme.of(context).textTheme.labelSmall),
-                  TextSpan(
-                      text: ConstString.createaccount,
-                      style: Theme.of(context).textTheme.labelMedium)
-                ])),
               ),
             ],
           ),

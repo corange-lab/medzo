@@ -7,6 +7,7 @@ class ThemeColor {
   static Color primaryColor = const Color(0xffF29D38);
   static Color darkPrimaryColor = const Color(0xff0D0D0D);
   static Color black = const Color(0xff180E02);
+  static Color darkyellow = const Color(0xff85561D);
   static Color grey = const Color(0xff818181);
   static Color lightGrey = const Color(0xffBABABA);
   static Color lightwGrey = const Color(0xddbababa);
@@ -300,9 +301,12 @@ class ThemeColor {
           letterSpacing: 0.5,
           color: grey),
       labelLarge: TextStyle(
-        fontSize: 22, // 50
+        fontSize: Responsive.sp(3.8, context),
+        // 35
         fontFamily: AppFont.fontFamily,
-        color: isDark ? darkPrimaryColor : Colors.white,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.5,
+        color: isDark ? Colors.white : Color(0xFF180E02),
       ),
       labelMedium: TextStyle(
         fontSize: 10,

@@ -4,17 +4,17 @@ import 'package:get/get.dart';
 import 'package:medzo/controller/auth_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/theme/colors_theme.dart';
-import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
-import 'package:medzo/view/otp_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class SignUpScreen extends GetView<AuthController> {
-  FocusNode fnode = FocusNode();
-  FocusNode fnode1 = FocusNode();
+  final FocusNode fNode = FocusNode();
+  final FocusNode fNode1 = FocusNode();
+
+  SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class SignUpScreen extends GetView<AuthController> {
                       ),
                     ),
                   ),
-                  Expanded(flex: 9, child: con_signin(ctrl, context)),
+                  Expanded(flex: 9, child: signUpWidget(ctrl, context)),
                 ],
               ),
             ));
@@ -71,7 +71,7 @@ class SignUpScreen extends GetView<AuthController> {
     );
   }
 
-  Container con_signin(AuthController ctrl, BuildContext context) {
+  Container signUpWidget(AuthController ctrl, BuildContext context) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -112,7 +112,7 @@ class SignUpScreen extends GetView<AuthController> {
                 padding: const EdgeInsets.symmetric(vertical: 7),
                 child: TextField(
                   autofocus: false,
-                  focusNode: fnode,
+                  focusNode: fNode,
                   cursorColor: ThemeColor.grey,
                   enabled: true,
                   controller: controller.supemailTextController,
@@ -127,7 +127,7 @@ class SignUpScreen extends GetView<AuthController> {
                         width: 5,
                       ),
                     ),
-                    fillColor: fnode.hasFocus
+                    fillColor: fNode.hasFocus
                         ? ThemeColor.tilecolor
                         : AppColors.splashdetail,
                     hintText: "Enter Email Address",
@@ -165,7 +165,7 @@ class SignUpScreen extends GetView<AuthController> {
                     () => TextField(
                       autofocus: false,
                       obscureText: ctrl.hidepass.value,
-                      focusNode: fnode1,
+                      focusNode: fNode1,
                       cursorColor: ThemeColor.grey,
                       controller: controller.suppasswordTextController,
                       // style: Theme.of(context).textTheme.bodyMedium,
@@ -188,12 +188,12 @@ class SignUpScreen extends GetView<AuthController> {
                                     SvgIcon.pass_eye,
                                     height: Responsive.height(2, context),
                                   )
-                                : Icon(
+                                : const Icon(
                                     Icons.visibility_off_outlined,
                                     size: 15,
                                     color: Colors.black38,
                                   )),
-                        fillColor: fnode1.hasFocus
+                        fillColor: fNode1.hasFocus
                             ? ThemeColor.tilecolor
                             : AppColors.splashdetail,
                         hintText: "Enter Password",
@@ -367,7 +367,7 @@ class SignUpScreen extends GetView<AuthController> {
                       text: ConstString.alreadyhaveaccount,
                       style: Theme.of(context).textTheme.labelSmall),
                   TextSpan(
-                      text: ConstString.createaccount,
+                      text: ConstString.login,
                       style: Theme.of(context).textTheme.labelMedium)
                 ])),
               ),

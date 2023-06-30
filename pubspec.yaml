@@ -46,6 +46,8 @@ dependencies:
   firebase_messaging:
   sizer:
   flutter_otp_text_field:
+  getwidget:
+
 
 dev_dependencies:
   flutter_test:

@@ -14,6 +14,7 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/view/login_screen.dart';
+import 'package:medzo/view/otp_screen.dart';
 import 'package:medzo/view/signup_screen.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -83,6 +84,10 @@ class AuthController extends GetxController {
     Get.offAll(() => const HomeScreen());
     return;
   }
+  void navigateVerificationFlow() {
+    Get.to(() => OTPScreen());
+    return;
+  }
 
   @override
   void dispose() {
@@ -107,8 +112,15 @@ class AuthController extends GetxController {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       print('Signed in with uid: ${userCredential.user!.uid}');
+      userCredential.user!.emailVerified;
+      // TODO: Vijay check and handle verification screen for not verified user userCredential.user!.emailVerified
       if (userCredential.user != null) {
-        navigateToHomeScreen();
+        if (userCredential.user!.emailVerified) {
+          navigateToHomeScreen();
+        }
+        else {
+          navigateVerificationFlow();
+        }
       }
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');
@@ -134,7 +146,13 @@ class AuthController extends GetxController {
           email: email, password: password);
       print("Account created for user: " + (_authResult?.user?.email ?? ''));
       _authResult?.user?.sendEmailVerification();
-      Get.back();
+      if (_authResult?.user!.emailVerified?? false) {
+        navigateToHomeScreen();
+        showInSnackBar('SignUp successfully with $email mail address');
+      }
+      else {
+        navigateVerificationFlow();
+      }
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');
       print(e.message);
@@ -336,6 +354,7 @@ class AuthController extends GetxController {
       } else {
         log('An error occurred during sign-in: ${e.message}');
       }
+      log("-----------$e");
     } catch (e) {
       log("-----------$e");
       social = false;

@@ -12,12 +12,21 @@ class Question_controller extends GetxController {
   RxString healthDropdown = "Ashthma".obs;
   RxString yearDropdown = "1 Years".obs;
 
+  RxString selectedAge = "".obs;
+
   List<String> healthCondition = [
     "Ashthma",
     "Diabetic",
     "Cancer",
     "Food Poision",
     "Handicap"
+  ];
+
+  List<String> QuestionTopic = [
+    "Current Health Conditions",
+    "Current Medications being taken",
+    "Current allergies",
+    "Age"
   ];
 
   List<String> year = [

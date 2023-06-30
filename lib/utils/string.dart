@@ -40,6 +40,7 @@ class ConstString {
   static const String skipButton = "Skip";
   static const String next = "Next";
   static const String back = "Back";
+  static const String sendotp = "Send OTP";
   static const String savencontinue = "Save and Continue";
   static const String cancel = "Cancel";
   static const String delete = "Delete image";
@@ -47,6 +48,7 @@ class ConstString {
   static const String report = "Report";
   static const String deleteAccount = "Delete account";
   static const String saveChanges = "Save changes";
+  static const String save = "Save";
 
 // ---------------------------- AuthController Strings ----------------------------//
 

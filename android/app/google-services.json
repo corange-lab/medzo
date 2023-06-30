@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "429541735617-vc7p6u8p408914ufhdeoqd247b09m3s4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.corange.medzo",
+            "certificate_hash": "9a6a5c7229cc5bcd182e0011c1c3e74acfb0f94b"
+          }
+        },
+        {
           "client_id": "429541735617-r20qckgeljco2olo1v7q6es1a57i7crs.apps.googleusercontent.com",
           "client_type": 3
         }

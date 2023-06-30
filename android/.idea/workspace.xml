@@ -5,117 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa2cefb4-83a2-4b90-aea2-d8ae96641440" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.metadata" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/medzo/MainActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assets/icons/fillcheck.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assets/images/Logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assets/images/Logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assets/images/apple.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assets/images/google.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assets/images/medzo logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assets/images/splash_background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/controller/forgot_controller.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/controller/question_controller.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/utils/responsive.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/view/create_newpass.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/view/forgotpassword.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/view/question_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/widgets/custom_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/../.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/../.dart_tool/version" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/../.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/../.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/google-services.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/debug/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-night/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-night/styles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/profile/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medzo_android.iml" beforeDir="false" afterPath="$PROJECT_DIR$/medzo_android.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/Rx_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/Rx_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/alcohol_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/alcohol_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/antibiotic_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/antibiotic_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/at_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/at_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/baby_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/baby_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/bookmark_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/bookmark_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/chat_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/chat_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/check_circle_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/check_circle_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/delete_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/delete_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/email_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/email_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/fill_radio_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/fill_radio_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/first_aid_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/first_aid_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/heartbeat_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/heartbeat_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/home_medzo_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/home_medzo_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/key_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/key_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/masksad_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/masksad_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/pass_eye.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/pass_eye.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/password_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/password_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/pen_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/pen_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/pencil_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/pencil_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/pencil_simple_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/pencil_simple_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/person_run_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/person_run_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/pill_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/pill_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/post_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/post_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/profile_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/profile_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/qrcode_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/qrcode_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/save_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/save_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/send_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/send_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/signout_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/signout_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/smiley_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/smiley_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/snowflack_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/snowflack_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/upload_image_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/upload_image_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/verify_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/verify_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/icons/virus_icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/icons/virus_icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/alergies.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/alergies.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/anti_biotic.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/anti_biotic.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/anti_depresent.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/anti_depresent.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/cardiovascular.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/cardiovascular.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/chat_message.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/chat_message.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/devices.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/devices.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/hypnotics.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/hypnotics.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/medzo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/medzo.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/mobile_image.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/mobile_image.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/painkiller.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/painkiller.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/pill.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/pill.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/images/supplements.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/images/supplements.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/api/api_defaults.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/api/api_defaults.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/api/create_user_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/api/create_user_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/medzo/MainActivity.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/controller/auth_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/controller/auth_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/controller/global_config_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/controller/global_config_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/controller/home_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/controller/home_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/controller/network_handling_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/controller/network_handling_service.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/controller/otp_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/controller/otp_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/controller/splash_screen_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/controller/splash_screen_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/firebase_options.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/firebase_options.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/model/current_medication.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/model/current_medication.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/model/health_condition.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/model/health_condition.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/model/user_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/model/user_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/network_api_urls.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/network_api_urls.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/theme/colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/theme/colors.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/controller/question_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/controller/question_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/theme/colors_theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/theme/colors_theme.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/utils/app_font.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/utils/app_font.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/utils/app_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/utils/app_storage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/utils/assets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/utils/assets.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/utils/controller_ids.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/utils/controller_ids.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/utils/get_connect.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/utils/get_connect.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/utils/string.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/utils/string.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/utils/utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/utils/utils.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/view/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/view/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/view/create_newpass.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/view/create_newpass.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/view/forgotpassword.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/view/forgotpassword.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/view/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/view/login_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/view/otp_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/view/otp_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/view/question_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/view/question_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/view/signup_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/view/signup_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/view/splash_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/view/splash_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.lock" afterDir="false" />
@@ -152,18 +56,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "android.gradle.sync.needed": "true",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "D:/FlutterProjects/medzo/android",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/FlutterProjects/medzo/android&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="gradle signingReport" />

@@ -9,20 +9,23 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+// import 'package:medzo/view/QuestionScreen.dart';
 import 'package:medzo/view/question_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class OTPScreen extends GetView<OTPController> {
+  const OTPScreen({super.key});
+
   // final String email, verificationId;
   // const OTPScreen({Key? key, required this.email, required this.verificationId})
   //     : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // return GetBuilder(
-    //   init: OTPController(/*email: email, verificationId: verificationId*/),
-    //   builder: (controller) {
+    return GetBuilder(
+      init: OTPController(/*email: email, verificationId: verificationId*/),
+      builder: (controller) {
     return Scaffold(
       backgroundColor: ThemeColor.primaryColor,
       body: Column(
@@ -64,16 +67,16 @@ class OTPScreen extends GetView<OTPController> {
               ),
             ),
           ),
-          Expanded(flex: 9, child: con_otp(context)),
+          Expanded(flex: 9, child: otpWidget(context)),
         ],
       ),
 
     );
-    //   },
-    // );
+      },
+    );
   }
 
-  Container con_otp(BuildContext context)  {
+  Container otpWidget(BuildContext context)  {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -127,7 +130,7 @@ class OTPScreen extends GetView<OTPController> {
                   focusedBorderColor: ThemeColor.primaryColor,
                   enabledBorderColor: AppColors.splashdetail,
                   textStyle: Theme.of(context).textTheme.headlineLarge,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       fillColor: Colors.black26),
                 ),
@@ -168,7 +171,7 @@ class OTPScreen extends GetView<OTPController> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  Get.off(Question_screen());
+                  Get.off(QuestionScreen());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ThemeColor.primaryColor,
@@ -181,22 +184,6 @@ class OTPScreen extends GetView<OTPController> {
                   ConstString.verifyotp,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-              ),
-              SizedBox(
-                height: Responsive.height(32, context),
-              ),
-              TextButton(
-                onPressed: () {
-                  // ctrl.navigateToSignUp();
-                },
-                child: Text.rich(TextSpan(children: [
-                  TextSpan(
-                      text: ConstString.didnthaveanaccount,
-                      style: Theme.of(context).textTheme.labelSmall),
-                  TextSpan(
-                      text: ConstString.createaccount,
-                      style: Theme.of(context).textTheme.labelMedium)
-                ])),
               ),
             ],
           ),

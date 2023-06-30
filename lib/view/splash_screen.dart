@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/splash_screen_controller.dart';
 import 'package:medzo/theme/colors.dart';
-import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/widgets/custom_widget.dart';
@@ -32,7 +31,7 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                           colors: GradientThemeColors.orangegradient,
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                           image: AssetImage(AppImages.splashback))),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,

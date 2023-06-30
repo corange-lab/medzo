@@ -13,8 +13,10 @@ import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginScreen extends GetView<AuthController> {
-  FocusNode fnode = FocusNode();
-  FocusNode fnode1 = FocusNode();
+  final FocusNode fNode = FocusNode();
+  final FocusNode fNode1 = FocusNode();
+
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +64,14 @@ class LoginScreen extends GetView<AuthController> {
                     ),
                   ),
                 ),
-                Expanded(flex: 9, child: con_signin(ctrl, context)),
+                Expanded(flex: 9, child: signInWidget(ctrl, context)),
               ],
             ),
           );
         });
   }
 
-  Container con_signin(AuthController ctrl, BuildContext context) {
+  Container signInWidget(AuthController ctrl, BuildContext context) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -110,7 +112,7 @@ class LoginScreen extends GetView<AuthController> {
                 padding: const EdgeInsets.symmetric(vertical: 7),
                 child: TextField(
                   autofocus: false,
-                  focusNode: fnode,
+                  focusNode: fNode,
                   cursorColor: ThemeColor.grey,
                   enabled: true,
                   controller: ctrl.emailTextController,
@@ -125,7 +127,7 @@ class LoginScreen extends GetView<AuthController> {
                         width: 5,
                       ),
                     ),
-                    fillColor: fnode.hasFocus
+                    fillColor: fNode.hasFocus
                         ? ThemeColor.tilecolor
                         : AppColors.splashdetail,
                     hintText: "Enter Email Address",
@@ -163,7 +165,7 @@ class LoginScreen extends GetView<AuthController> {
                     () => TextField(
                       autofocus: false,
                       obscureText: ctrl.hidepass.value,
-                      focusNode: fnode1,
+                      focusNode: fNode1,
                       cursorColor: ThemeColor.grey,
                       controller: ctrl.passwordTextController,
                       // style: Theme.of(context).textTheme.bodyMedium,
@@ -186,12 +188,12 @@ class LoginScreen extends GetView<AuthController> {
                                     SvgIcon.pass_eye,
                                     height: Responsive.height(2, context),
                                   )
-                                : Icon(
+                                : const Icon(
                                     Icons.visibility_off_outlined,
                                     size: 15,
                                     color: Colors.black38,
                                   )),
-                        fillColor: fnode1.hasFocus
+                        fillColor: fNode1.hasFocus
                             ? ThemeColor.tilecolor
                             : AppColors.splashdetail,
                         hintText: "Enter Password",

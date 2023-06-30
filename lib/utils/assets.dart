@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class AppImages {
 
   static const String logo = 'assets/images/Logo.png';
@@ -29,6 +27,7 @@ class SvgIcon {
   static const String baby = 'assets/icons/baby_icon.svg';
   static const String bookmark = 'assets/icons/bookmark_icon.svg';
   static const String chat = 'assets/icons/chat_icon.svg';
+  static const String skip = 'assets/icons/skip.svg';
   static const String check_circle = 'assets/icons/check_circle_icon.svg';
   static const String delete = 'assets/icons/delete_icon.svg';
   static const String email = 'assets/icons/email_icon.svg';

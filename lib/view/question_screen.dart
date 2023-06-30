@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
 import 'package:medzo/controller/question_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/theme/colors_theme.dart';
@@ -14,7 +13,12 @@ import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
-class Question_screen extends GetView<Question_controller> {
+class QuestionScreen extends GetView<Question_controller> {
+  final FocusNode fNode = FocusNode();
+  final FocusNode fNode1 = FocusNode();
+
+  QuestionScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<Question_controller>(
@@ -29,39 +33,85 @@ class Question_screen extends GetView<Question_controller> {
                 child: Container(
                   height: 140,
                   color: ThemeColor.primaryColor,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(AppImages.logo,
-                              height: Responsive.height(4, context)),
-                          SizedBox(
-                            width: Responsive.width(2, context),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Obx(
+                                () => TextWidget(
+                                  controller.QuestionTopic[
+                                      controller.selectedPageIndex.value],
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: () async {
+                                    if (controller.selectedPageIndex.value == 0) {
+                                      controller.pageController.value
+                                          .animateToPage(1,
+                                              duration: const Duration(
+                                                  milliseconds: 10),
+                                              curve: Curves.easeInOut);
+                                    } else if (controller
+                                            .selectedPageIndex.value ==
+                                        1) {
+                                      controller.pageController.value
+                                          .animateToPage(2,
+                                              duration: const Duration(
+                                                  milliseconds: 10),
+                                              curve: Curves.easeInOut);
+                                    } else if (controller
+                                            .selectedPageIndex.value ==
+                                        2) {
+                                      controller.pageController.value
+                                          .animateToPage(3,
+                                              duration: const Duration(
+                                                  milliseconds: 10),
+                                              curve: Curves.easeInOut);
+                                    } else {
+                                      Get.off(const HomeScreen());
+                                    }
+                                  },
+                                  icon: SvgPicture.asset(
+                                    SvgIcon.skip,
+                                    width: Responsive.width(5, context),
+                                    height: Responsive.height(3, context),
+                                  )),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: SvgPicture.asset(
-                              AppImages.medzo,
-                              height: Responsive.height(3, context),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: TextWidget(
-                          ConstString.exploreandknowaboutmedicine,
-                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
-                      )
-                    ],
+                        Obx(() => GFProgressBar(
+                              lineHeight: 6,
+                              width: Responsive.width(86, context),
+                              percentage: controller.selectedPageIndex.value ==
+                                      0
+                                  ? 0.25
+                                  : controller.selectedPageIndex.value == 1
+                                      ? 0.5
+                                      : controller.selectedPageIndex.value == 2
+                                          ? 0.75
+                                          : controller.selectedPageIndex
+                                                      .value ==
+                                                  3
+                                              ? 1
+                                              : 1,
+                              backgroundColor: Color(0xffF8C890),
+                              progressBarColor: ThemeColor.white,
+                            ))
+                      ],
+                    ),
                   ),
                 ),
               ),
-              Expanded(flex: 9, child: con_question(controller, context)),
+              Expanded(flex: 9, child: questionWidget(controller, context)),
             ],
           ),
         );
@@ -69,7 +119,7 @@ class Question_screen extends GetView<Question_controller> {
     );
   }
 
-  Container con_question(Question_controller ctrl, BuildContext context) {
+  Container questionWidget(Question_controller ctrl, BuildContext context) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -85,285 +135,355 @@ class Question_screen extends GetView<Question_controller> {
             Expanded(
                 flex: 12,
                 child: Obx(
-                  () => Container(
-                    child: PageView.builder(
-                      controller: ctrl.pageController.value,
-                      onPageChanged: (value) => onPageChanged(ctrl, value),
-                      itemCount: ctrl.Questions.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            SizedBox(
-                              height: Responsive.height(2, context),
-                            ),
-                            Align(
-                                alignment: Alignment.centerLeft,
-                                child: TextWidget(
-                                  ctrl.Questions[ctrl.selectedPageIndex.value]
-                                      [0][0],
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                )),
-                            Obx(
-                              () => Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Radio(
-                                    value: "No",
-                                    groupValue: ctrl.healthAns.value,
-                                    onChanged: (value) {
-                                      ctrl.healthAns.value = value!;
-                                    },
-                                    activeColor: ThemeColor.primaryColor,
-                                  ),
-                                  TextWidget(
-                                    "No",
-                                    style: TextStyle(
-                                        fontSize: Responsive.sp(3.3, context),
-                                        fontFamily: AppFont.fontFamily,
-                                        letterSpacing: 0.5,
-                                        height: 1.4,
-                                        color: ctrl.healthAns.value == "No"
-                                            ? ThemeColor.primaryColor
-                                            : ThemeColor.grey,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    width: Responsive.width(3, context),
-                                  ),
-                                  Radio(
-                                    value: "Yes",
-                                    groupValue: ctrl.healthAns.value,
-                                    onChanged: (value) {
-                                      ctrl.healthAns.value = value!;
-                                    },
-                                    activeColor: ThemeColor.primaryColor,
-                                  ),
-                                  TextWidget(
-                                    "Yes",
-                                    style: TextStyle(
-                                        fontSize: Responsive.sp(3.3, context),
-                                        fontFamily: AppFont.fontFamily,
-                                        letterSpacing: 0.5,
-                                        height: 1.4,
-                                        color: ctrl.healthAns.value == "Yes"
-                                            ? ThemeColor.primaryColor
-                                            : ThemeColor.grey,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: Responsive.height(1, context),
-                            ),
-                            Align(
+                  () => PageView.builder(
+                    controller: ctrl.pageController.value,
+                    onPageChanged: (value) => onPageChanged(ctrl, value),
+                    itemCount: ctrl.Questions.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          SizedBox(
+                            height: Responsive.height(2, context),
+                          ),
+                          Align(
                               alignment: Alignment.centerLeft,
                               child: TextWidget(
-                                ctrl.Questions[ctrl.selectedPageIndex.value][1]
+                                ctrl.Questions[ctrl.selectedPageIndex.value][0]
                                     [0],
                                 style: Theme.of(context).textTheme.titleLarge,
-                              ),
+                              )),
+                          Obx(
+                            () => Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Radio(
+                                  value: "No",
+                                  groupValue: ctrl.healthAns.value,
+                                  onChanged: (value) {
+                                    ctrl.healthAns.value = value!;
+                                  },
+                                  activeColor: ThemeColor.primaryColor,
+                                ),
+                                TextWidget(
+                                  "No",
+                                  style: TextStyle(
+                                      fontSize: Responsive.sp(3.3, context),
+                                      fontFamily: AppFont.fontFamily,
+                                      letterSpacing: 0.5,
+                                      height: 1.4,
+                                      color: ctrl.healthAns.value == "No"
+                                          ? ThemeColor.primaryColor
+                                          : ThemeColor.grey,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  width: Responsive.width(3, context),
+                                ),
+                                Radio(
+                                  value: "Yes",
+                                  groupValue: ctrl.healthAns.value,
+                                  onChanged: (value) {
+                                    ctrl.healthAns.value = value!;
+                                  },
+                                  activeColor: ThemeColor.primaryColor,
+                                ),
+                                TextWidget(
+                                  "Yes",
+                                  style: TextStyle(
+                                      fontSize: Responsive.sp(3.3, context),
+                                      fontFamily: AppFont.fontFamily,
+                                      letterSpacing: 0.5,
+                                      height: 1.4,
+                                      color: ctrl.healthAns.value == "Yes"
+                                          ? ThemeColor.primaryColor
+                                          : ThemeColor.grey,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: Responsive.height(2, context),
+                          ),
+                          SizedBox(
+                            height: Responsive.height(1, context),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextWidget(
+                              ctrl.Questions[ctrl.selectedPageIndex.value][1]
+                                  [0],
+                              style: Theme.of(context).textTheme.titleLarge,
                             ),
-                            ctrl.selectedPageIndex.value == 0 ||
-                                    ctrl.selectedPageIndex.value == 1
-                                ? Obx(() => Container(
-                                      decoration: BoxDecoration(
-                                          color: AppColors.splashdetail,
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
-                                      height: Responsive.height(5.5, context),
-                                      width: SizerUtil.width,
-                                      child: DropdownButton(
-                                        underline: SizedBox(),
-                                        items: ctrl.healthCondition
-                                            .map((String items) {
-                                          return DropdownMenuItem<String>(
-                                            value: items,
-                                            child: Text(items),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          ctrl.healthDropdown.value = value!;
-                                        },
-                                        icon: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 190),
-                                          child: Icon(
-                                            Icons.keyboard_arrow_down,
-                                            color: ThemeColor.grey,
-                                          ),
+                          ),
+                          SizedBox(
+                            height: Responsive.height(2, context),
+                          ),
+                          ctrl.selectedPageIndex.value == 0 ||
+                                  ctrl.selectedPageIndex.value == 1
+                              ? Obx(() => Container(
+                                    decoration: BoxDecoration(
+                                        color: AppColors.splashdetail,
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                    height: Responsive.height(5.5, context),
+                                    width: SizerUtil.width,
+                                    child: DropdownButton(
+                                      underline: const SizedBox(),
+                                      items: ctrl.healthCondition
+                                          .map((String items) {
+                                        return DropdownMenuItem<String>(
+                                          value: items,
+                                          child: Text(items),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        ctrl.healthDropdown.value = value!;
+                                      },
+                                      icon: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 190),
+                                        child: Icon(
+                                          Icons.keyboard_arrow_down,
+                                          color: ThemeColor.grey,
                                         ),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium,
-                                        value: ctrl.healthDropdown.value,
-                                        padding: EdgeInsets.only(left: 15),
                                       ),
-                                    ))
-                                : ctrl.selectedPageIndex.value == 2
-                                    ? TextField(
-                                        autofocus: false,
-                                        // focusNode: fnode1,
-                                        cursorColor: ThemeColor.grey,
-                                        // style: Theme.of(context).textTheme.bodyMedium,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          enabled: true,
-                                          // fillColor: fnode1.hasFocus
-                                          // ? ThemeColor.tilecolor
-                                          //     : AppColors.splashdetail,
-                                          hintText: "Enter Allergies",
-                                          hintStyle: Theme.of(context)
-                                              .textTheme
-                                              .headlineSmall,
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: ThemeColor.white,
-                                                width: 0.5),
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: AppColors.txtborder,
-                                                width: 0.5),
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                          ),
-                                          disabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: ThemeColor.white,
-                                                width: 0.5),
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: ThemeColor.white,
-                                                width: 0.5),
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                          ),
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                            vertical: 10,
-                                          ),
-                                        ),
-                                      )
-                                    : ctrl.selectedPageIndex.value == 3
-                                        ? Container()
-                                        : SizedBox(),
-                            SizedBox(
-                              height: Responsive.height(2, context),
-                            ),
-                            ctrl.selectedPageIndex.value != 3
-                                ? Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: TextWidget(
-                                      ctrl.Questions[
-                                          ctrl.selectedPageIndex.value][2][0],
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleLarge,
-                                      textAlign: TextAlign.left,
-                                    ))
-                                : SizedBox(),
-                            SizedBox(
-                              height: Responsive.height(2, context),
-                            ),
-                            ctrl.selectedPageIndex.value != 3
-                                ? ctrl.selectedPageIndex.value == 0 || ctrl.selectedPageIndex.value == 1 ? Obx(() => Container(
-                                      decoration: BoxDecoration(
-                                          color: AppColors.splashdetail,
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
-                                      height: Responsive.height(5.5, context),
-                                      width: SizerUtil.width,
-                                      child: DropdownButton(
-                                        underline: SizedBox(),
-                                        items: ctrl.year.map((String items) {
-                                          return DropdownMenuItem<String>(
-                                            value: items,
-                                            child: Text(items),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          ctrl.yearDropdown.value = value!;
-                                        },
-                                        icon: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 220),
-                                          child: Icon(
-                                            Icons.keyboard_arrow_down,
-                                            color: ThemeColor.grey,
-                                          ),
-                                        ),
-                                        style: Theme.of(context)
+                                          .titleMedium,
+                                      value: ctrl.healthDropdown.value,
+                                      padding: const EdgeInsets.only(left: 15),
+                                    ),
+                                  ))
+                              : ctrl.selectedPageIndex.value == 2
+                                  ? TextField(
+                                      autofocus: false,
+                                      // focusNode: fnode1,
+                                      cursorColor: ThemeColor.grey,
+                                      // style: Theme.of(context).textTheme.bodyMedium,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        enabled: true,
+                                        // fillColor: fnode1.hasFocus
+                                        // ? ThemeColor.tilecolor
+                                        //     : AppColors.splashdetail,
+                                        hintText: "Enter Allergies",
+                                        hintStyle: Theme.of(context)
                                             .textTheme
-                                            .titleMedium,
-                                        value: ctrl.yearDropdown.value,
-                                        padding: EdgeInsets.only(left: 15),
+                                            .headlineSmall,
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ThemeColor.white,
+                                              width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColors.txtborder,
+                                              width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        disabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ThemeColor.white,
+                                              width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ThemeColor.white,
+                                              width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 10,
+                                        ),
                                       ),
-                                    ))
-                                : SizedBox() : TextField(
-                              autofocus: false,
-                              // focusNode: fnode1,
-                              cursorColor: ThemeColor.grey,
-                              // style: Theme.of(context).textTheme.bodyMedium,
-                              decoration: InputDecoration(
-                                filled: true,
-                                enabled: true,
-                                // fillColor: fnode1.hasFocus
-                                // ? ThemeColor.tilecolor
-                                //     : AppColors.splashdetail,
-                                hintText: "Enter Allergies",
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .headlineSmall,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ThemeColor.white,
-                                      width: 0.5),
-                                  borderRadius:
-                                  BorderRadius.circular(7),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppColors.txtborder,
-                                      width: 0.5),
-                                  borderRadius:
-                                  BorderRadius.circular(7),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ThemeColor.white,
-                                      width: 0.5),
-                                  borderRadius:
-                                  BorderRadius.circular(7),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ThemeColor.white,
-                                      width: 0.5),
-                                  borderRadius:
-                                  BorderRadius.circular(7),
-                                ),
-                                contentPadding:
-                                const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 10,
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                                    )
+                                  : ctrl.selectedPageIndex.value == 3
+                                      ? Container(
+                                          height:
+                                              Responsive.height(10, context),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 10),
+                                            child: GridView.builder(
+                                              gridDelegate:
+                                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 5,
+                                                      mainAxisExtent: 30,
+                                                      crossAxisSpacing: 10,
+                                                      mainAxisSpacing: 7),
+                                              itemBuilder: (context, index) {
+                                                return Obx(() => InkWell(
+                                                      onTap: () {
+                                                        ctrl.selectedAge.value =
+                                                            ctrl.ageGroup[
+                                                                index];
+                                                      },
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        decoration: BoxDecoration(
+                                                            color: ctrl.selectedAge
+                                                                        .value ==
+                                                                    ctrl.ageGroup[
+                                                                        index]
+                                                                ? ThemeColor
+                                                                    .tilecolor
+                                                                : AppColors
+                                                                    .splashdetail,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20)),
+                                                        child: Text(
+                                                          "${ctrl.ageGroup[index]}",
+                                                          style: TextStyle(
+                                                            fontSize: 10,
+                                                            fontFamily: AppFont
+                                                                .fontFamily,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            letterSpacing: 0.5,
+                                                            color: ctrl
+                                                                        .selectedAge
+                                                                        .value ==
+                                                                    ctrl.ageGroup[
+                                                                        index]
+                                                                ? ThemeColor
+                                                                    .primaryColor
+                                                                : ThemeColor
+                                                                    .grey,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ));
+                                              },
+                                              itemCount: ctrl.ageGroup.length,
+                                              shrinkWrap: true,
+                                              padding: EdgeInsets.zero,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                          SizedBox(
+                            height: Responsive.height(2, context),
+                          ),
+                          ctrl.selectedPageIndex.value != 3
+                              ? Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: TextWidget(
+                                    ctrl.Questions[ctrl.selectedPageIndex.value]
+                                        [2][0],
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                    textAlign: TextAlign.left,
+                                  ))
+                              : const SizedBox(),
+                          SizedBox(
+                            height: Responsive.height(2, context),
+                          ),
+                          ctrl.selectedPageIndex.value != 3
+                              ? ctrl.selectedPageIndex.value == 0 ||
+                                      ctrl.selectedPageIndex.value == 1
+                                  ? Obx(() => Container(
+                                        decoration: BoxDecoration(
+                                            color: AppColors.splashdetail,
+                                            borderRadius:
+                                                BorderRadius.circular(30)),
+                                        height: Responsive.height(5.5, context),
+                                        width: SizerUtil.width,
+                                        child: DropdownButton(
+                                          underline: const SizedBox(),
+                                          items: ctrl.year.map((String items) {
+                                            return DropdownMenuItem<String>(
+                                              value: items,
+                                              child: Text(items),
+                                            );
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            ctrl.yearDropdown.value = value!;
+                                          },
+                                          icon: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 220),
+                                            child: Icon(
+                                              Icons.keyboard_arrow_down,
+                                              color: ThemeColor.grey,
+                                            ),
+                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                          value: ctrl.yearDropdown.value,
+                                          padding:
+                                              const EdgeInsets.only(left: 15),
+                                        ),
+                                      ))
+                                  : ctrl.selectedPageIndex.value == 2
+                                      ? TextField(
+                                          autofocus: false,
+                                          maxLines: 5,
+                                          // focusNode: fnode1,
+                                          cursorColor: ThemeColor.grey,
+                                          // style: Theme.of(context).textTheme.bodyMedium,
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            enabled: true,
+                                            // fillColor: fnode1.hasFocus
+                                            // ? ThemeColor.tilecolor
+                                            //     : AppColors.splashdetail,
+                                            hintText: "Enter Allergies",
+                                            hintStyle: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall,
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: ThemeColor.white,
+                                                  width: 0.5),
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: AppColors.txtborder,
+                                                  width: 0.5),
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                            ),
+                                            disabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: ThemeColor.white,
+                                                  width: 0.5),
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: ThemeColor.white,
+                                                  width: 0.5),
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                            ),
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 10,
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox()
+                              : const SizedBox()
+                        ],
+                      );
+                    },
                   ),
                 )),
             Obx(
@@ -374,15 +494,15 @@ class Question_screen extends GetView<Question_controller> {
                         onPressed: () async {
                           if (ctrl.selectedPageIndex.value == 0) {
                             controller.pageController.value.animateToPage(1,
-                                duration: Duration(milliseconds: 10),
+                                duration: const Duration(milliseconds: 10),
                                 curve: Curves.easeInOut);
                           } else if (ctrl.selectedPageIndex.value == 1) {
                             controller.pageController.value.animateToPage(2,
-                                duration: Duration(milliseconds: 10),
+                                duration: const Duration(milliseconds: 10),
                                 curve: Curves.easeInOut);
                           } else if (ctrl.selectedPageIndex.value == 2) {
                             controller.pageController.value.animateToPage(3,
-                                duration: Duration(milliseconds: 10),
+                                duration: const Duration(milliseconds: 10),
                                 curve: Curves.easeInOut);
                           } else {
                             Get.off(const HomeScreen());
@@ -409,22 +529,26 @@ class Question_screen extends GetView<Question_controller> {
                                 if (ctrl.selectedPageIndex.value == 1) {
                                   controller.pageController.value.animateToPage(
                                       0,
-                                      duration: Duration(milliseconds: 10),
+                                      duration:
+                                          const Duration(milliseconds: 10),
                                       curve: Curves.easeInOut);
                                 } else if (ctrl.selectedPageIndex.value == 2) {
                                   controller.pageController.value.animateToPage(
                                       1,
-                                      duration: Duration(milliseconds: 10),
+                                      duration:
+                                          const Duration(milliseconds: 10),
                                       curve: Curves.easeInOut);
                                 } else if (ctrl.selectedPageIndex.value == 3) {
                                   controller.pageController.value.animateToPage(
                                       2,
-                                      duration: Duration(milliseconds: 10),
+                                      duration:
+                                          const Duration(milliseconds: 10),
                                       curve: Curves.easeInOut);
                                 } else {
                                   controller.pageController.value.animateToPage(
                                       0,
-                                      duration: Duration(milliseconds: 10),
+                                      duration:
+                                          const Duration(milliseconds: 10),
                                       curve: Curves.easeInOut);
                                 }
                               },
@@ -451,17 +575,20 @@ class Question_screen extends GetView<Question_controller> {
                                 if (ctrl.selectedPageIndex.value == 0) {
                                   controller.pageController.value.animateToPage(
                                       1,
-                                      duration: Duration(milliseconds: 10),
+                                      duration:
+                                          const Duration(milliseconds: 10),
                                       curve: Curves.easeInOut);
                                 } else if (ctrl.selectedPageIndex.value == 1) {
                                   controller.pageController.value.animateToPage(
                                       2,
-                                      duration: Duration(milliseconds: 10),
+                                      duration:
+                                          const Duration(milliseconds: 10),
                                       curve: Curves.easeInOut);
                                 } else if (ctrl.selectedPageIndex.value == 2) {
                                   controller.pageController.value.animateToPage(
                                       3,
-                                      duration: Duration(milliseconds: 10),
+                                      duration:
+                                          const Duration(milliseconds: 10),
                                       curve: Curves.easeInOut);
                                 } else {
                                   Get.off(const HomeScreen());
