@@ -19,6 +19,6 @@ class HomeController extends GetxController {
     AppStorage appStorage = AppStorage();
     appStorage.appLogout();
 
-    Get.offAll(() => const LoginScreen());
+    Get.offAll(() => LoginScreen());
   }
 }

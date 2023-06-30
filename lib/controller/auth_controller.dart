@@ -24,6 +24,8 @@ class AuthController extends GetxController {
   RxString otp = ''.obs;
   RxString userName = ''.obs;
   bool isLoading = false;
+  var hidepass = true.obs;
+  var hidepass2 = true.obs;
 
   bool socialSignInBool = false;
   RxBool isOtpSent = false.obs;
@@ -40,7 +42,9 @@ class AuthController extends GetxController {
   // TextEditingController phoneNumberController = TextEditingController();
   TextEditingController otpController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
+  TextEditingController supemailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
+  TextEditingController suppasswordTextController = TextEditingController();
 
   bool socialButtonVisible = true;
   // FocusNode phoneNumberTextField = FocusNode();
@@ -71,7 +75,7 @@ class AuthController extends GetxController {
   }*/
 
   void navigateToSignUp() {
-    Get.to(() => const SignUpScreen());
+    Get.to(() =>  SignUpScreen());
     return;
   }
 
@@ -123,8 +127,8 @@ class AuthController extends GetxController {
 
   Future<void> signUp() async {
     try {
-      String email = emailTextController.text.trim();
-      String password = passwordTextController.text;
+      String email = supemailTextController.text.trim();
+      String password = suppasswordTextController.text;
 
       _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -432,7 +436,7 @@ class AuthController extends GetxController {
 
     Get.delete<AuthController>();
     Get.put(AuthController(), permanent: true);
-    Get.offAll(() => const LoginScreen());
+    Get.offAll(() =>  LoginScreen());
   }
 
   // bool validateData() {

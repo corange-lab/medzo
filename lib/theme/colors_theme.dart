@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
+import 'package:medzo/utils/responsive.dart';
 
 class ThemeColor {
   static Color primaryColor = const Color(0xffF29D38);
@@ -7,7 +9,10 @@ class ThemeColor {
   static Color black = const Color(0xff180E02);
   static Color grey = const Color(0xff818181);
   static Color lightGrey = const Color(0xffBABABA);
+  static Color lightwGrey = const Color(0xddbababa);
+  static Color extralightgrey = const Color(0xFFB9B9B9);
   static Color white = const Color(0xffF8FAFA);
+  static Color whitedown = const Color(0xffF8FAFA);
   static Color lightSky = const Color(0xffE8F5F5);
   static Color orange = const Color(0xffFF4000);
   static Color blue = const Color(0xff0064B2);
@@ -55,7 +60,7 @@ class ThemeColor {
       hintColor: Colors.grey,
       indicatorColor: primaryColor,
       outlinedButtonTheme: OutlinedButtonThemeData(style: textButtonStyle),
-      primaryTextTheme: textTheme(isDark),
+      primaryTextTheme: textTheme(isDark, context),
       textButtonTheme: TextButtonThemeData(style: textButtonStyle),
       timePickerTheme: TimePickerThemeData(
           backgroundColor: Colors.white,
@@ -162,7 +167,7 @@ class ThemeColor {
           fontFamily: AppFont.fontFamily,
         ),
       ),
-      textTheme: textTheme(isDark),
+      textTheme: textTheme(isDark, context),
       snackBarTheme: SnackBarThemeData(
         actionTextColor: Colors.white,
         backgroundColor: isDark ? Colors.white : Colors.black,
@@ -196,65 +201,116 @@ class ThemeColor {
     );
   }
 
-  static TextTheme textTheme(isDark) {
+  static TextTheme textTheme(isDark, context) {
     return TextTheme(
       displayLarge: TextStyle(
         fontSize: 30, // 75
         fontFamily: AppFont.fontFamily,
-        color: isDark ? Colors.white : Colors.black,
+        color: isDark ? Colors.white : darkPrimaryColor,
       ),
       displayMedium: TextStyle(
-        fontSize: 22, // 50
-        color: isDark ? Colors.white : Colors.black,
+        fontSize: Responsive.sp(3.3, context),
+        // 50
+        color: isDark ? Colors.white : extralightgrey,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.5,
+        wordSpacing: 0.5,
         fontFamily: AppFont.fontFamily,
       ),
       displaySmall: TextStyle(
-        fontSize: 19, // 40
-        color: isDark ? Colors.white : Colors.black,
-        fontFamily: AppFont.fontFamily,
-      ),
+          fontSize: Responsive.sp(2.3, context),
+          fontFamily: AppFont.fontFamily,
+          color: AppColors.splashdetail,
+          letterSpacing: 0.5,
+          height: 1.7,
+          fontWeight: FontWeight.w500),
+      headlineLarge: TextStyle(
+          fontSize: Responsive.sp(5, context),
+          fontFamily: AppFont.fontFamily,
+          letterSpacing: 0.5,
+          color: ThemeColor.darkPrimaryColor,
+          fontWeight: FontWeight.w600),
       headlineMedium: TextStyle(
-        fontSize: 14, // 35
-        color: isDark ? Colors.white : Colors.black,
+        fontSize: Responsive.sp(3.2, context),
+        // 35
+        color: isDark ? darkPrimaryColor : ThemeColor.white,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.6,
         fontFamily: AppFont.fontFamily,
       ),
       headlineSmall: TextStyle(
-        fontSize: 20, // 45
-        fontFamily: AppFont.fontFamily,
-      ),
-      titleLarge: TextStyle(
-          fontSize: 18, // 40
+          fontSize: Responsive.sp(3.3, context),
           fontFamily: AppFont.fontFamily,
-          color: isDark ? Colors.white : Colors.black),
+          letterSpacing: 0.5,
+          height: 1.4,
+          color: ThemeColor.grey,
+          fontWeight: FontWeight.w600),
+      titleLarge: TextStyle(
+          fontSize: Responsive.sp(3.1, context),
+          fontFamily: AppFont.fontFamily,
+          letterSpacing: 0.3,
+          wordSpacing: 0.3,
+          height: 1.4,
+          color: ThemeColor.darkPrimaryColor,
+          fontWeight: FontWeight.w600),
       bodyLarge: TextStyle(
-        fontSize: 14, // 35
+        fontSize: 11,
+        // 35
         fontFamily: AppFont.fontFamily,
-        color: isDark ? Colors.white : Colors.grey,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.5,
+        color: isDark ? Colors.white : Color(0xFF474747),
       ),
       bodyMedium: TextStyle(
-        fontSize: 14, // 35
+        fontSize: 12,
+        // 35
         fontFamily: AppFont.fontFamily,
-        color: isDark ? Colors.white : Colors.black,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.5,
+        color: isDark ? Colors.white : darkPrimaryColor,
+      ),
+      bodySmall: TextStyle(
+        fontSize: 10,
+        // 35
+        fontFamily: AppFont.fontFamily,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.5,
+        color: isDark ? Colors.white : grey,
       ),
       titleMedium: TextStyle(
-        fontSize: 16,
-        fontFamily: AppFont.fontFamily,
-        letterSpacing: 0.15,
+        fontSize: Responsive.sp(3.2, context),
+        // 35
+        fontFamily: AppFont.fontFamilysemi,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.3,
+        color: isDark ? Colors.white : darkPrimaryColor,
       ),
       titleSmall: TextStyle(
-        fontSize: 14,
+        fontSize: 10,
+        // 35
         fontFamily: AppFont.fontFamily,
-        letterSpacing: 0.1,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 0.5,
+        color: isDark ? Colors.white : darkPrimaryColor,
       ),
       labelSmall: TextStyle(
-          fontSize: 13,
+          fontSize: 10,
           fontFamily: AppFont.fontFamily,
-          letterSpacing: 0.1,
-          color: Colors.grey),
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+          color: grey),
       labelLarge: TextStyle(
         fontSize: 22, // 50
         fontFamily: AppFont.fontFamily,
-        color: isDark ? Colors.black : Colors.white,
+        color: isDark ? darkPrimaryColor : Colors.white,
+      ),
+      labelMedium: TextStyle(
+        fontSize: 10,
+        // 50
+        fontFamily: AppFont.fontFamily,
+        letterSpacing: 0.5,
+        fontWeight: FontWeight.w600,
+        color: isDark ? darkPrimaryColor : primaryColor,
       ),
       //caption: TextStyle(color: Colors.white),
     );

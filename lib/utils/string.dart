@@ -38,6 +38,9 @@ class ConstString {
   static const String verify = "Verify";
   static const String getStarted = "Get started";
   static const String skipButton = "Skip";
+  static const String next = "Next";
+  static const String back = "Back";
+  static const String savencontinue = "Save and Continue";
   static const String cancel = "Cancel";
   static const String delete = "Delete image";
   static const String logout = "Logout";
@@ -173,6 +176,27 @@ class ConstString {
   static const String leaderboardtitle = "Leaderboard";
   static const String monthlyleaderboard = "Monthly Leaderboard";
   static const String weeklyleaderboard = "Weekly Leaderboard";
+  static const String welcomeback = "Welcome Back";
+  static const String enterdetailstocontinue = "Enter your details to continue";
+  static const String exploreandknowaboutmedicine = "Explore and know about your medicine...";
+  static const String forgotpassword = "Forgot Password";
+  static const String login = "Log in";
+  static const String sigup = "Sign Up";
+  static const String verifyotp = "Verify OTP";
+  static const String orloginwith = "or log in with";
+  static const String didnthaveanaccount = "Didn’t have an account? ";
+  static const String didntreceivecode = "Didn’t receive code? ";
+  static const String resendit = "Resend It";
+  static const String alreadyhaveaccount = "Already have an account? ";
+  static const String createaccount = "Create an Account";
+  static const String createnewpassword = "Create new password";
+  static const String passwordstrength = "Password Strength : ";
+  static const String passrule1 = "Must not contain your name or email";
+  static const String passrule2 = "At least 8 characters";
+  static const String passrule3 = "Contain a symbol or a number";
+  static const String newpassworddetail = "Your new password must be different from previously used password.";
+  static const String verificationotp = "Verification OTP";
+  static const String otpdetails = "Please enter 4 Digit OTP sent on your email address us...23@gmail.com";
 
 // ---------------------------- Social Media ---------------------------- //
 
@@ -197,6 +221,20 @@ class ConstString {
 
   static const String privacyUrl = "https://www.medzo.au/privacy";
   static const String termsUSe = "https://www.medzo.au/terms";
+
+// ---------------------------- Questions ---------------------------- //
+
+  static const String question1 = "Do you currently have any health conditions?";
+  static const String question2 = "Specify the health conditions you have";
+  static const String question3 = "How long have you been dealing with your current health condition?";
+  static const String question4 = "Are you currently taking any medications?";
+  static const String question5 = "Please list the medications you are currently taking";
+  static const String question6 = "How long have you been taking these medications?";
+  static const String question7 = "Do you have any allergies?";
+  static const String question8 = "Please specify the allergies you have.";
+  static const String question9 = "How severe are your allergies?";
+  static const String question10 = "What is your age?";
+  static const String question11 = "Which age group do you belong to?";
 
 // ---------------------------- gender and age list ---------------------------- //
 

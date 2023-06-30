@@ -9,11 +9,11 @@ class SplashScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Future.delayed(const Duration(seconds: 2)).then((value) {
+    Future.delayed(const Duration(seconds: 3)).then((value) {
       if (_auth.currentUser != null) {
         Get.offAll(() => const HomeScreen());
       } else {
-        Get.offAll(() => const LoginScreen());
+        Get.offAll(() => LoginScreen());
       }
     });
   }

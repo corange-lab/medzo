@@ -1,66 +1,61 @@
 import 'package:flutter/material.dart';
 
 class AppImages {
-  static AssetImage defaultUser = const AssetImage('assets/default_user.png');
-  static AssetImage defaultTopicBG =
-      const AssetImage('assets/default_topic_bg.png');
-  static AssetImage defaultGallery =
-      const AssetImage('assets/default_gallery.png');
 
-  static AssetImage lockIcon = const AssetImage('assets/lock_icon.png');
-  static AssetImage unlockIcon = const AssetImage('assets/unlock_icon.png');
-  static AssetImage hideComment = const AssetImage('assets/hide_comment.png');
+  static const String logo = 'assets/images/Logo.png';
+  static const String logo1 = 'assets/images/Logo.svg';
+  static const String medzo = 'assets/images/medzo.svg';
+  static const String google = 'assets/images/google.svg';
+  static const String apple = 'assets/images/apple.svg';
+  static const String medzologo = 'assets/images/medzo logo.svg';
+  static const String alergies = 'assets/images/alergies.svg';
+  static const String antibiotic = 'assets/images/anti_biotic.svg';
+  static const String antidepreset = 'assets/images/anti_depresent.svg';
+  static const String cardiovascular = 'assets/images/cardiovascular.svg';
+  static const String chat_message = 'assets/images/chat_message.svg';
+  static const String devices = 'assets/images/devices.svg';
+  static const String hypnotics = 'assets/images/hypnotics.svg';
+  static const String mobile_image = 'assets/images/mobile_image.svg';
+  static const String painkiller = 'assets/images/painkiller.svg';
+  static const String pill = 'assets/images/pill.svg';
+  static const String supplements = 'assets/images/supplements.svg';
+  static const String splashback = 'assets/images/splash_background.png';
 }
 
-class SvgAssetIcon {
-  static const String bonusPoints = 'assets/iconPoints.svg';
+class SvgIcon {
+  static const String alcohol = 'assets/icons/alcohol_icon.svg';
+  static const String antibiotic = 'assets/icons/antibiotic_icon.svg';
+  static const String at_icon = 'assets/icons/at_icon.svg';
+  static const String baby = 'assets/icons/baby_icon.svg';
+  static const String bookmark = 'assets/icons/bookmark_icon.svg';
+  static const String chat = 'assets/icons/chat_icon.svg';
+  static const String check_circle = 'assets/icons/check_circle_icon.svg';
+  static const String delete = 'assets/icons/delete_icon.svg';
+  static const String email = 'assets/icons/email_icon.svg';
+  static const String fill_radio = 'assets/icons/fill_radio_icon.svg';
+  static const String first_aid = 'assets/icons/first_aid_icon.svg';
+  static const String fillcheck = 'assets/icons/fillcheck.svg';
+  static const String heartbeat = 'assets/icons/heartbeat_icon.svg';
+  static const String home_medzo = 'assets/icons/home_medzo_icon.svg';
+  static const String key = 'assets/icons/masksad_icon.svg';
+  static const String pass_eye = 'assets/icons/pass_eye.svg';
+  static const String password = 'assets/icons/password_icon.svg';
+  static const String pen = 'assets/icons/pen_icon.svg';
+  static const String pencil = 'assets/icons/pencil_icon.svg';
+  static const String pencil_simple = 'assets/icons/pencil_simple_icon.svg';
+  static const String person_run = 'assets/icons/person_run_icon.svg';
+  static const String pill = 'assets/icons/pill_icon.svg';
+  static const String post = 'assets/icons/post_icon.svg';
+  static const String profile = 'assets/icons/profile_icon.svg';
+  static const String qrcode = 'assets/icons/qrcode_icon.svg';
+  static const String Rx = 'assets/icons/Rx_icon.svg';
+  static const String save = 'assets/icons/save_icon.svg';
+  static const String send = 'assets/icons/send_icon.svg';
+  static const String signout = 'assets/icons/signout_icon.svg';
+  static const String smiley = 'assets/icons/smiley_icon.svg';
+  static const String snowflack = 'assets/icons/snowflack_icon.svg';
+  static const String upload_image = 'assets/icons/upload_image_icon.svg';
+  static const String verify = 'assets/icons/verify_icon.svg';
+  static const String virus = 'assets/icons/virus_icon.svg';
 
-  static const String othersProfileBackArrow =
-      'assets/others_profile_back_arrow.svg';
-
-  static const String rightArrow = 'assets/right_arrow.svg';
-  static const String greenBackIcon = 'assets/greenBackIcon.svg';
-
-  static const String reactionDownArrow = 'assets/reactionDownArrow.svg';
-  static const String timerIcon = 'assets/timer.svg';
-
-  static const String report = 'assets/report.svg';
-  static const String follow = 'assets/follow.svg';
-  static const String unFollow = 'assets/unFollow.svg';
-
-  static const String editComment = 'assets/edit_comment.svg';
-  static const String deleteComment = 'assets/delete_white.svg';
-  static const String hideComment = 'assets/hide_comment.svg';
-  static const String unHideComment = 'assets/unHideComment.svg';
-
-  static const String userFollowingRight = 'assets/user_following_right.svg';
-  static const String commentOutline = 'assets/comment_outline.svg';
-  static const String ourProfileSetting = 'assets/profile_picture/setting.svg';
-  static const String deleteIcon = 'assets/delete.svg';
-  static const String lockIcon = 'assets/lock_icon.svg';
-  static const String unlockIcon = 'assets/unlock_icon.svg';
-  static const String commentIcon = "assets/comment_icon.svg";
-  static const String mainLogo = "assets/images/mainLogo.svg";
-  static const String greenIconCamera = "assets/green_icon_camera.svg";
-  static const String whiteIconCamera = "assets/camera.svg";
-  static const String whiteShare = "assets/share.svg";
-  static const String arrowCircleColor = "assets/arrow_circle_color.svg";
-  static const String frontWhiteIcon = "assets/front_white_icon.svg";
-
-  static const String separateDot = "assets/emoticons/Ellipse.svg";
-  static const String addEmotion = 'assets/emoticons/addEmotion.svg';
-  static const String bulbIcon = 'assets/emoticons/Bulb.svg';
-  static const String loveIcon = 'assets/emoticons/love.svg';
-  static const String strongIcon = 'assets/emoticons/strong.svg';
-  static const String funnyIcon = 'assets/emoticons/LOL.svg';
-  static const String wowIcon = 'assets/emoticons/wow.svg';
-  static const String unSelectedBulbIcon =
-      'assets/emoticons/unselectedBulb.svg';
-  static const String unSelectedLoveIcon =
-      'assets/emoticons/unSelectedLove.svg';
-  static const String unSelectedStrongIcon =
-      'assets/emoticons/unSelectedStrong.svg';
-  static const String unSelectedFunnyIcon =
-      'assets/emoticons/unselectedLOL.svg';
-  static const String unSelectedWowIcon = 'assets/emoticons/unSelectedWow.svg';
 }

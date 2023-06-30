@@ -13,13 +13,10 @@ class GradientThemeColors {
     const Color(0xffC701E1),
     const Color(0xffC901E9),
   ];
-}
-
-class ThemeColors {
-  static Color darkBlue = const Color(0xff021639);
-  static Color pink = const Color(0xffB900A4);
-  static Color purple = const Color(0xffC901E9);
-  static Color blueGrey = const Color(0xff7B6DB7);
+  static List<Color> orangegradient = [
+    const Color(0xffFCCF31),
+    const Color(0xffF55555),
+  ];
 }
 
 class AppColors {
@@ -31,8 +28,7 @@ class AppColors {
   static Color textBody = const Color(0xffF0F0F0);
   static Color notificationOff = const Color.fromARGB(186, 255, 0, 0);
 
-  static List<Color> linearGradient = [
-    const Color(0xffC701E1),
-    const Color(0xffE90189),
-  ];
+  static Color splashdetail = const Color(0xFFF2F2F2);
+  static Color txtborder = const Color(0xFFF29D38);
+
 }
