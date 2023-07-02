@@ -17,7 +17,7 @@ import 'package:medzo/view/home_screen.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 
 class OTPController extends GetxController {
-  RxString verificationId = "".obs;
+  String verificationId = "";
   RxString otp = ''.obs;
   RxString userName = ''.obs;
   RxString verificationid = "".obs;
@@ -31,6 +31,8 @@ class OTPController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
+  String email;
+
   static String get googlesignin => "googlesignin";
   UserModel? userModel;
   User? user;
@@ -43,10 +45,10 @@ class OTPController extends GetxController {
   FocusNode phoneNumberTextField = FocusNode();
   AppStorage appStorage = AppStorage();
 
+  OTPController({/*required this.verificationId,*/ required this.email});
+
   @override
   void onInit() {
-    // var dt = Get.arguments;
-    // verificationId = dt['verificationId'];
     super.onInit();
     startTimer();
   }
@@ -172,7 +174,7 @@ class OTPController extends GetxController {
     try {
       final UserCredential result;
       PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-          verificationId: verificationId.value, smsCode: otp.value);
+          verificationId: verificationId, smsCode: otp.value);
 
       if (googleSignInBool || user != null) {
         if (user!.phoneNumber == null) {

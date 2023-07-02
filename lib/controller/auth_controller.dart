@@ -76,7 +76,7 @@ class AuthController extends GetxController {
   }*/
 
   void navigateToSignUp() {
-    Get.to(() =>  SignUpScreen());
+    Get.to(() => SignUpScreen());
     return;
   }
 
@@ -84,8 +84,11 @@ class AuthController extends GetxController {
     Get.offAll(() => const HomeScreen());
     return;
   }
-  void navigateVerificationFlow() {
-    Get.to(() => OTPScreen());
+
+  void navigateVerificationFlow(String email) {
+    Get.to(() => OTPScreen(
+          email: email, /*verificationId: verificationId.value*/
+        ));
     return;
   }
 
@@ -117,9 +120,8 @@ class AuthController extends GetxController {
       if (userCredential.user != null) {
         if (userCredential.user!.emailVerified) {
           navigateToHomeScreen();
-        }
-        else {
-          navigateVerificationFlow();
+        } else {
+          navigateVerificationFlow(email);
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -146,12 +148,11 @@ class AuthController extends GetxController {
           email: email, password: password);
       print("Account created for user: " + (_authResult?.user?.email ?? ''));
       _authResult?.user?.sendEmailVerification();
-      if (_authResult?.user!.emailVerified?? false) {
+      if (_authResult?.user!.emailVerified ?? false) {
         navigateToHomeScreen();
         showInSnackBar('SignUp successfully with $email mail address');
-      }
-      else {
-        navigateVerificationFlow();
+      } else {
+        navigateVerificationFlow(email);
       }
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');
@@ -303,6 +304,14 @@ class AuthController extends GetxController {
           user = userCredential.user!;
           showInSnackBar(ConstString.fetchApple, isSuccess: true);
           socialSignInBool = true;
+
+          if (userCredential.user != null) {
+            if (userCredential.user!.emailVerified) {
+              navigateToHomeScreen();
+            } else {
+              navigateVerificationFlow(userCredential.user!.email!);
+            }
+          }
         }
       } else {
         social = false;
@@ -340,7 +349,13 @@ class AuthController extends GetxController {
 
           showInSnackBar(ConstString.fetchGoogle, isSuccess: true);
           socialSignInBool = true;
-          navigateToHomeScreen();
+          if (userCredential.user != null) {
+            if (userCredential.user!.emailVerified) {
+              navigateToHomeScreen();
+            } else {
+              navigateVerificationFlow(guser.email);
+            }
+          }
         } else {
           showInSnackBar(ConstString.selectGoogleAccount);
         }
@@ -455,7 +470,7 @@ class AuthController extends GetxController {
 
     Get.delete<AuthController>();
     Get.put(AuthController(), permanent: true);
-    Get.offAll(() =>  LoginScreen());
+    Get.offAll(() => LoginScreen());
   }
 
   // bool validateData() {

@@ -9,23 +9,37 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
-// import 'package:medzo/view/QuestionScreen.dart';
 import 'package:medzo/view/question_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
-class OTPScreen extends GetView<OTPController> {
-  const OTPScreen({super.key});
-
-  // final String email, verificationId;
-  // const OTPScreen({Key? key, required this.email, required this.verificationId})
-  //     : super(key: key);
+class OTPScreen extends StatelessWidget {
+  final String email;
+  const OTPScreen({
+    Key? key,
+    required this.email,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: OTPController(/*email: email, verificationId: verificationId*/),
+      init: OTPController(email: email),
       builder: (controller) {
+        return OTPScreenWidget(email: email);
+      },
+    );
+  }
+}
+
+class OTPScreenWidget extends GetView<OTPController> {
+  final String email;
+  const OTPScreenWidget({
+    Key? key,
+    required this.email,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeColor.primaryColor,
       body: Column(
@@ -70,13 +84,10 @@ class OTPScreen extends GetView<OTPController> {
           Expanded(flex: 9, child: otpWidget(context)),
         ],
       ),
-
-    );
-      },
     );
   }
 
-  Container otpWidget(BuildContext context)  {
+  Container otpWidget(BuildContext context) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -125,17 +136,19 @@ class OTPScreen extends GetView<OTPController> {
                   borderColor: ThemeColor.primaryColor,
                   enabled: true,
                   filled: true,
-                  fillColor: AppColors.splashdetail,keyboardType: TextInputType.number,
+                  fillColor: AppColors.splashdetail,
+                  keyboardType: TextInputType.number,
                   disabledBorderColor: AppColors.splashdetail,
                   focusedBorderColor: ThemeColor.primaryColor,
                   enabledBorderColor: AppColors.splashdetail,
                   textStyle: Theme.of(context).textTheme.headlineLarge,
                   decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      fillColor: Colors.black26),
+                      border: OutlineInputBorder(), fillColor: Colors.black26),
                 ),
               ),
-              SizedBox(height: Responsive.height(1, context),),
+              SizedBox(
+                height: Responsive.height(1, context),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
