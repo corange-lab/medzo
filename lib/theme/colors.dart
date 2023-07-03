@@ -29,6 +29,7 @@ class AppColors {
   static Color notificationOff = const Color.fromARGB(186, 255, 0, 0);
 
   static Color splashdetail = const Color(0xFFF2F2F2);
+  static Color searchbar = const Color(0xFFE7E7E7);
   static Color txtborder = const Color(0xFFF29D38);
 
 }

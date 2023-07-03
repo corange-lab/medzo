@@ -12,7 +12,8 @@ class ThemeColor {
   static Color lightGrey = const Color(0xffBABABA);
   static Color lightwGrey = const Color(0xddbababa);
   static Color extralightgrey = const Color(0xFFB9B9B9);
-  static Color white = const Color(0xffF8FAFA);
+  static Color white = const Color(0xffffffff);
+  static Color whitehome = const Color(0xfffcfcfc);
   static Color whitedown = const Color(0xffF8FAFA);
   static Color lightSky = const Color(0xffE8F5F5);
   static Color orange = const Color(0xffFF4000);
@@ -242,7 +243,8 @@ class ThemeColor {
       headlineSmall: TextStyle(
           fontSize: Responsive.sp(3.3, context),
           fontFamily: AppFont.fontFamily,
-          letterSpacing: 0.5,
+          letterSpacing: 0.6,
+          wordSpacing: 0.5,
           height: 1.4,
           color: ThemeColor.grey,
           fontWeight: FontWeight.w600),

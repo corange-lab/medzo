@@ -49,6 +49,7 @@ class ConstString {
   static const String deleteAccount = "Delete account";
   static const String saveChanges = "Save changes";
   static const String save = "Save";
+  static const String viewmoredetails = "View More Details";
 
 // ---------------------------- AuthController Strings ----------------------------//
 
@@ -184,6 +185,9 @@ class ConstString {
   static const String forgotpassword = "Forgot Password";
   static const String login = "Log in";
   static const String sigup = "Sign Up";
+  static const String category = "Categories";
+  static const String popularmedicine = "Popular Medicines";
+  static const String viewall = "View All >";
   static const String verifyotp = "Verify OTP";
   static const String orloginwith = "or log in with";
   static const String didnthaveanaccount = "Didn’t have an account? ";
@@ -199,6 +203,23 @@ class ConstString {
   static const String newpassworddetail = "Your new password must be different from previously used password.";
   static const String verificationotp = "Verification OTP";
   static const String otpdetails = "Please enter 4 Digit OTP sent on your email address us...23@gmail.com";
+
+// ---------------------------- category ---------------------------- //
+
+  static const String painkillar = "Painkillers";
+  static const String antidepresant = "Anti-Depressants";
+  static const String antibiotic = "Antibiotics";
+  static const String cardiovascular = "Cardiovascular";
+  static const String supplements = "Supplements";
+  static const String allergies = "Allergies";
+  static const String devices = "Devices";
+  static const String hypnotics = "Hypnotics";
+  static const String prescribed = "Prescribed";
+  static const String allcategory = "All Categories";
+  static const String search = "Search";
+
+
+
 
 // ---------------------------- Social Media ---------------------------- //
 

@@ -11,7 +11,7 @@ class SplashScreenController extends GetxController {
     super.onInit();
     Future.delayed(const Duration(seconds: 3)).then((value) {
       if (_auth.currentUser != null) {
-        Get.offAll(() => const HomeScreen());
+        Get.offAll(() =>  HomeScreen());
       } else {
         Get.offAll(() => LoginScreen());
       }

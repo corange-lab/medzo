@@ -81,7 +81,7 @@ class AuthController extends GetxController {
   }
 
   void navigateToHomeScreen() {
-    Get.offAll(() => const HomeScreen());
+    Get.offAll(() =>  HomeScreen());
     return;
   }
 
@@ -177,7 +177,7 @@ class AuthController extends GetxController {
     update([ControllerIds.verifyButtonKey]);
     if (gotUser != null) {
       await appStorage.setUserData(gotUser);
-      Get.offAll(() => const HomeScreen());
+      Get.offAll(() =>  HomeScreen());
     }
   }
 
@@ -243,7 +243,7 @@ class AuthController extends GetxController {
             await NewUser.instance.fetchUser(id: useruid, ownProfile: true);
         if (currentUser != null) {
           await appStorage.setUserData(currentUser);
-          Get.offAll(() => const HomeScreen());
+          Get.offAll(() =>  HomeScreen());
         } else {
           showInSnackBar(
               "Sorry, we couldn't retrieve the user details. Please try again later.");

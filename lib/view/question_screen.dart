@@ -54,9 +54,11 @@ class QuestionScreen extends GetView<Question_controller> {
                               ),
                               IconButton(
                                   onPressed: () async {
-                                    if (controller.selectedPageIndex.value == 0) {
+                                    if (controller.selectedPageIndex.value ==
+                                        0) {
                                       controller.pageController.value
-                                          .animateToPage(1,
+                                          .animateToPage(
+                                              1,
                                               duration: const Duration(
                                                   milliseconds: 10),
                                               curve: Curves.easeInOut);
@@ -64,7 +66,8 @@ class QuestionScreen extends GetView<Question_controller> {
                                             .selectedPageIndex.value ==
                                         1) {
                                       controller.pageController.value
-                                          .animateToPage(2,
+                                          .animateToPage(
+                                              2,
                                               duration: const Duration(
                                                   milliseconds: 10),
                                               curve: Curves.easeInOut);
@@ -72,12 +75,13 @@ class QuestionScreen extends GetView<Question_controller> {
                                             .selectedPageIndex.value ==
                                         2) {
                                       controller.pageController.value
-                                          .animateToPage(3,
+                                          .animateToPage(
+                                              3,
                                               duration: const Duration(
                                                   milliseconds: 10),
                                               curve: Curves.easeInOut);
                                     } else {
-                                      Get.off(const HomeScreen());
+                                      Get.off(HomeScreen());
                                     }
                                   },
                                   icon: SvgPicture.asset(
@@ -505,7 +509,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                 duration: const Duration(milliseconds: 10),
                                 curve: Curves.easeInOut);
                           } else {
-                            Get.off(const HomeScreen());
+                            Get.off(HomeScreen());
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -591,7 +595,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                           const Duration(milliseconds: 10),
                                       curve: Curves.easeInOut);
                                 } else {
-                                  Get.off(const HomeScreen());
+                                  Get.off(HomeScreen());
                                 }
                               },
                               style: ElevatedButton.styleFrom(

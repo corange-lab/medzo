@@ -15,7 +15,7 @@ class AppImages {
   static const String hypnotics = 'assets/images/hypnotics.svg';
   static const String mobile_image = 'assets/images/mobile_image.svg';
   static const String painkiller = 'assets/images/painkiller.svg';
-  static const String pill = 'assets/images/pill.svg';
+  static const String pill = 'assets/images/pill.png';
   static const String supplements = 'assets/images/supplements.svg';
   static const String splashback = 'assets/images/splash_background.png';
 }
@@ -27,6 +27,7 @@ class SvgIcon {
   static const String baby = 'assets/icons/baby_icon.svg';
   static const String bookmark = 'assets/icons/bookmark_icon.svg';
   static const String chat = 'assets/icons/chat_icon.svg';
+  static const String chathome = 'assets/icons/chathome.svg';
   static const String skip = 'assets/icons/skip.svg';
   static const String check_circle = 'assets/icons/check_circle_icon.svg';
   static const String delete = 'assets/icons/delete_icon.svg';
@@ -51,6 +52,7 @@ class SvgIcon {
   static const String save = 'assets/icons/save_icon.svg';
   static const String send = 'assets/icons/send_icon.svg';
   static const String signout = 'assets/icons/signout_icon.svg';
+  static const String search = 'assets/icons/search.svg';
   static const String smiley = 'assets/icons/smiley_icon.svg';
   static const String snowflack = 'assets/icons/snowflack_icon.svg';
   static const String upload_image = 'assets/icons/upload_image_icon.svg';

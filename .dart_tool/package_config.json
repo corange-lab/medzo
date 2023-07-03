@@ -206,6 +206,12 @@
       "languageVersion": "2.16"
     },
     {
+      "name": "getwidget",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/getwidget-3.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "google_identity_services_web",
       "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/google_identity_services_web-0.2.1",
       "packageUri": "lib/",
@@ -548,7 +554,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-06-30T08:29:43.527171Z",
+  "generated": "2023-07-03T07:32:32.574529Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

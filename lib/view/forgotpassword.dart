@@ -81,7 +81,8 @@ class ForgotScreen extends GetView<Forgotcontroller> {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
-          child: Obx(() => Column(
+            child: Obx(
+          () => Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -111,121 +112,125 @@ class ForgotScreen extends GetView<Forgotcontroller> {
               ),
               controller.pageStatus.value
                   ? SizedBox(
-                height: Responsive.height(6.5, context),
-                child: OtpTextField(
-                  numberOfFields: 4,
-                  cursorColor: ThemeColor.primaryColor,
-                  borderRadius: BorderRadius.circular(28),
-                  showFieldAsBox: true,
-                  fieldWidth: 70,
-                  borderColor: ThemeColor.primaryColor,
-                  enabled: true,
-                  filled: true,
-                  fillColor: AppColors.splashdetail,
-                  keyboardType: TextInputType.number,
-                  disabledBorderColor: AppColors.splashdetail,
-                  focusedBorderColor: ThemeColor.primaryColor,
-                  enabledBorderColor: AppColors.splashdetail,
-                  textStyle: Theme.of(context).textTheme.headlineLarge,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      fillColor: Colors.black26),
-                ),
-              )
+                      height: Responsive.height(6.5, context),
+                      child: OtpTextField(
+                        numberOfFields: 4,
+                        cursorColor: ThemeColor.primaryColor,
+                        borderRadius: BorderRadius.circular(28),
+                        showFieldAsBox: true,
+                        fieldWidth: 70,
+                        borderColor: ThemeColor.primaryColor,
+                        enabled: true,
+                        filled: true,
+                        fillColor: AppColors.splashdetail,
+                        keyboardType: TextInputType.number,
+                        disabledBorderColor: AppColors.splashdetail,
+                        focusedBorderColor: ThemeColor.primaryColor,
+                        enabledBorderColor: AppColors.splashdetail,
+                        textStyle: Theme.of(context).textTheme.headlineLarge,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            fillColor: Colors.black26),
+                      ),
+                    )
                   : Padding(
-                padding: const EdgeInsets.symmetric(vertical: 7),
-                child: TextField(
-                  autofocus: false,
-                  focusNode: fNode,
-                  cursorColor: ThemeColor.grey,
-                  enabled: true,
-                  // controller: controller.emailTextController,
-                  // style: Theme.of(context).textTheme.bodyMedium,
-                  decoration: InputDecoration(
-                    filled: true,
-                    enabled: true,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 18),
-                      child: SvgPicture.asset(
-                        SvgIcon.email,
-                        width: 5,
+                      padding: const EdgeInsets.symmetric(vertical: 7),
+                      child: TextField(
+                        autofocus: false,
+                        focusNode: fNode,
+                        cursorColor: ThemeColor.grey,
+                        enabled: true,
+                        // controller: controller.emailTextController,
+                        // style: Theme.of(context).textTheme.bodyMedium,
+                        decoration: InputDecoration(
+                          filled: true,
+                          enabled: true,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            child: SvgPicture.asset(
+                              SvgIcon.email,
+                              width: 5,
+                            ),
+                          ),
+                          fillColor: fNode.hasFocus
+                              ? ThemeColor.tilecolor
+                              : AppColors.splashdetail,
+                          hintText: "Enter Email Address",
+                          hintStyle: Theme.of(context).textTheme.headlineSmall,
+                          border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: ThemeColor.white, width: 0.5),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: AppColors.txtborder, width: 0.5),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: ThemeColor.white, width: 0.5),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: ThemeColor.white, width: 0.5),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 10,
+                          ),
+                        ),
                       ),
                     ),
-                    fillColor: fNode.hasFocus
-                        ? ThemeColor.tilecolor
-                        : AppColors.splashdetail,
-                    hintText: "Enter Email Address",
-                    hintStyle: Theme.of(context).textTheme.headlineSmall,
-                    border: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: ThemeColor.white, width: 0.5),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: AppColors.txtborder, width: 0.5),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: ThemeColor.white, width: 0.5),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: ThemeColor.white, width: 0.5),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
-                    ),
-                  ),
-                ),
-              ),
               SizedBox(
                 height: Responsive.height(1, context),
               ),
               controller.pageStatus.value
                   ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextWidget(
-                    "00 : 29 Sec",
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // ctrl.navigateToSignUp();
-                    },
-                    child: Text.rich(TextSpan(children: [
-                      TextSpan(
-                          text: ConstString.didntreceivecode,
-                          style: Theme.of(context).textTheme.labelSmall),
-                      TextSpan(
-                        text: ConstString.resendit,
-                        style: TextStyle(
-                          fontSize: 10,
-                          // 50
-                          fontFamily: AppFont.fontFamilysemi,
-                          letterSpacing: 0.6,
-                          fontWeight: FontWeight.w600,
-                          color: ThemeColor.blue,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextWidget(
+                          "00 : 29 Sec",
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
-                      )
-                    ])),
-                  ),
-                ],
-              )
+                        TextButton(
+                          onPressed: () {
+                            // ctrl.navigateToSignUp();
+                          },
+                          child: Text.rich(TextSpan(children: [
+                            TextSpan(
+                                text: ConstString.didntreceivecode,
+                                style: Theme.of(context).textTheme.labelSmall),
+                            TextSpan(
+                              text: ConstString.resendit,
+                              style: TextStyle(
+                                fontSize: 10,
+                                // 50
+                                fontFamily: AppFont.fontFamilysemi,
+                                letterSpacing: 0.6,
+                                fontWeight: FontWeight.w600,
+                                color: ThemeColor.blue,
+                              ),
+                            )
+                          ])),
+                        ),
+                      ],
+                    )
                   : SizedBox(),
               SizedBox(
                 height: Responsive.height(3, context),
               ),
               Obx(
-                    () => ElevatedButton(
+                () => ElevatedButton(
                   onPressed: () async {
                     controller.pageStatus.value = true;
-                    Get.off(NewPassword());
+                    controller.btnClick++;
+                    print(controller.btnClick);
+                    if (controller.btnClick == 2) {
+                      Get.off(NewPassword());
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ThemeColor.primaryColor,
@@ -243,8 +248,8 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                 ),
               )
             ],
-          ),)
-        ),
+          ),
+        )),
       ),
     );
   }

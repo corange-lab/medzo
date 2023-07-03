@@ -209,7 +209,7 @@ class OTPController extends GetxController {
 
         if (gotUser != null) {
           await appStorage.setUserData(gotUser);
-          Get.offAll(() => const HomeScreen());
+          Get.offAll(() =>  HomeScreen());
         }
         isLoading = false;
         update([ControllerIds.verifyButtonKey]);
@@ -220,7 +220,7 @@ class OTPController extends GetxController {
           return;
         }
         await appStorage.setUserData(gotUser);
-        Get.offAll(() => const HomeScreen());
+        Get.offAll(() =>  HomeScreen());
         isLoading = false;
         update([ControllerIds.verifyButtonKey]);
       }
