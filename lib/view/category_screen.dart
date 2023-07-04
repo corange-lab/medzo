@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/home_controller.dart';
-import 'package:medzo/theme/colors_theme.dart';
+import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
+import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
-class category_screen extends StatelessWidget {
-  const category_screen({super.key});
+class CategoryScreen extends StatelessWidget {
+  const CategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +18,17 @@ class category_screen extends StatelessWidget {
       init: HomeController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: ThemeColor.whitehome,
+          backgroundColor: AppColors.whitehome,
           appBar: AppBar(
-            backgroundColor: ThemeColor.white,
+            titleSpacing: 0,
+            backgroundColor: AppColors.white,
             leading: IconButton(
                 onPressed: () {
                   Get.back();
                 },
-                icon: Icon(
-                  Icons.arrow_back_rounded,
-                  color: ThemeColor.darkPrimaryColor,
+                icon: SvgPicture.asset(
+                  SvgIcon.backarrow,
+                  height: Responsive.height(1.6, context),
                 )),
             title: Padding(
               padding: const EdgeInsets.only(right: 10),
@@ -52,10 +54,10 @@ class category_screen extends StatelessWidget {
   Container categoryWidget(HomeController controller, BuildContext context) {
     return Container(
       child: GridView.builder(
-        padding: EdgeInsets.zero,physics: NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.zero,physics: const NeverScrollableScrollPhysics(),
         itemCount: controller.categoryImage.length,
         gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,childAspectRatio: 1.6),
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,childAspectRatio: 1.6),
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
@@ -78,7 +80,7 @@ class category_screen extends StatelessWidget {
                           fontSize: Responsive.sp(2.4, context),
                           fontFamily: AppFont.fontFamily,
 
-                          color: ThemeColor.grey),
+                          color: AppColors.grey),
                     )
                   ],
                 ),

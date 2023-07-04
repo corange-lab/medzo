@@ -39,8 +39,10 @@ class ConstString {
   static const String getStarted = "Get started";
   static const String skipButton = "Skip";
   static const String next = "Next";
+  static const String submit = "Submit";
   static const String back = "Back";
   static const String sendotp = "Send OTP";
+  static const String writereview = "Write a Review";
   static const String savencontinue = "Save and Continue";
   static const String cancel = "Cancel";
   static const String delete = "Delete image";
@@ -187,7 +189,12 @@ class ConstString {
   static const String sigup = "Sign Up";
   static const String category = "Categories";
   static const String popularmedicine = "Popular Medicines";
+  static const String popularquestions = "Popular Questions:";
+  static const String mostrecent = "Most Recent";
+  static const String viewreply = "View Replied";
+  static const String ask = "Ask Real Time Q&A";
   static const String viewall = "View All >";
+  static const String viewall1 = "View All";
   static const String verifyotp = "Verify OTP";
   static const String orloginwith = "or log in with";
   static const String didnthaveanaccount = "Didn’t have an account? ";

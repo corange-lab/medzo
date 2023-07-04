@@ -1,5 +1,4 @@
 class AppImages {
-
   static const String logo = 'assets/images/Logo.png';
   static const String logo1 = 'assets/images/Logo.svg';
   static const String medzo = 'assets/images/medzo.svg';
@@ -25,13 +24,17 @@ class SvgIcon {
   static const String antibiotic = 'assets/icons/antibiotic_icon.svg';
   static const String at_icon = 'assets/icons/at_icon.svg';
   static const String baby = 'assets/icons/baby_icon.svg';
+  static const String backarrow = 'assets/icons/back_arrow.svg';
   static const String bookmark = 'assets/icons/bookmark_icon.svg';
   static const String chat = 'assets/icons/chat_icon.svg';
+  static const String chat2 = 'assets/icons/chat2.svg';
   static const String chathome = 'assets/icons/chathome.svg';
   static const String skip = 'assets/icons/skip.svg';
   static const String check_circle = 'assets/icons/check_circle_icon.svg';
   static const String delete = 'assets/icons/delete_icon.svg';
   static const String email = 'assets/icons/email_icon.svg';
+  static const String experts = 'assets/icons/experts.svg';
+  static const String expert = 'assets/icons/expert.png';
   static const String fill_radio = 'assets/icons/fill_radio_icon.svg';
   static const String first_aid = 'assets/icons/first_aid_icon.svg';
   static const String fillcheck = 'assets/icons/fillcheck.svg';
@@ -58,5 +61,4 @@ class SvgIcon {
   static const String upload_image = 'assets/icons/upload_image_icon.svg';
   static const String verify = 'assets/icons/verify_icon.svg';
   static const String virus = 'assets/icons/virus_icon.svg';
-
 }

@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/auth_controller.dart';
 import 'package:medzo/theme/colors.dart';
-import 'package:medzo/theme/colors_theme.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
@@ -24,14 +23,14 @@ class LoginScreen extends GetView<AuthController> {
         init: AuthController(),
         builder: (ctrl) {
           return Scaffold(
-            backgroundColor: ThemeColor.primaryColor,
+            backgroundColor: AppColors.primaryColor,
             body: Column(
               children: [
                 Expanded(
                   flex: 2,
                   child: Container(
                     height: 140,
-                    color: ThemeColor.primaryColor,
+                    color: AppColors.primaryColor,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -57,7 +56,8 @@ class LoginScreen extends GetView<AuthController> {
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: TextWidget(
                             ConstString.exploreandknowaboutmedicine,
-                            style: Theme.of(context).textTheme.headlineMedium,
+                            style: Theme.of(context).textTheme.titleMedium!
+                                .copyWith(color: AppColors.white,fontWeight: FontWeight.w600),
                           ),
                         )
                       ],
@@ -113,7 +113,7 @@ class LoginScreen extends GetView<AuthController> {
                 child: TextField(
                   autofocus: false,
                   focusNode: fNode,
-                  cursorColor: ThemeColor.grey,
+                  cursorColor: AppColors.grey,
                   enabled: true,
                   controller: ctrl.emailTextController,
                   // style: Theme.of(context).textTheme.bodyMedium,
@@ -128,13 +128,13 @@ class LoginScreen extends GetView<AuthController> {
                       ),
                     ),
                     fillColor: fNode.hasFocus
-                        ? ThemeColor.tilecolor
+                        ? AppColors.tilecolor
                         : AppColors.splashdetail,
                     hintText: "Enter Email Address",
                     hintStyle: Theme.of(context).textTheme.headlineSmall,
                     border: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: ThemeColor.white, width: 0.5),
+                          BorderSide(color: AppColors.white, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -144,12 +144,12 @@ class LoginScreen extends GetView<AuthController> {
                     ),
                     disabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: ThemeColor.white, width: 0.5),
+                          BorderSide(color: AppColors.white, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: ThemeColor.white, width: 0.5),
+                          BorderSide(color: AppColors.white, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -166,7 +166,7 @@ class LoginScreen extends GetView<AuthController> {
                       autofocus: false,
                       obscureText: ctrl.hidepass.value,
                       focusNode: fNode1,
-                      cursorColor: ThemeColor.grey,
+                      cursorColor: AppColors.grey,
                       controller: ctrl.passwordTextController,
                       // style: Theme.of(context).textTheme.bodyMedium,
                       decoration: InputDecoration(
@@ -194,13 +194,13 @@ class LoginScreen extends GetView<AuthController> {
                                     color: Colors.black38,
                                   )),
                         fillColor: fNode1.hasFocus
-                            ? ThemeColor.tilecolor
+                            ? AppColors.tilecolor
                             : AppColors.splashdetail,
                         hintText: "Enter Password",
                         hintStyle: Theme.of(context).textTheme.headlineSmall,
                         border: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ThemeColor.white, width: 0.5),
+                              BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -210,12 +210,12 @@ class LoginScreen extends GetView<AuthController> {
                         ),
                         disabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ThemeColor.white, width: 0.5),
+                              BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ThemeColor.white, width: 0.5),
+                              BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -239,7 +239,7 @@ class LoginScreen extends GetView<AuthController> {
                         style: TextStyle(
                             fontFamily: AppFont.fontFamily,
                             fontSize: Responsive.sp(2.8, context),
-                            color: ThemeColor.blue,
+                            color: AppColors.blue,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.3),
                       ),
@@ -253,7 +253,7 @@ class LoginScreen extends GetView<AuthController> {
                   await ctrl.signInWithEmailAndPassword();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: ThemeColor.primaryColor,
+                  backgroundColor: AppColors.primaryColor,
                   elevation: 0,
                   fixedSize: Size(SizerUtil.width, 45),
                   shape: RoundedRectangleBorder(

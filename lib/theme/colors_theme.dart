@@ -4,30 +4,11 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/responsive.dart';
 
 class ThemeColor {
-  static Color primaryColor = const Color(0xffF29D38);
-  static Color darkPrimaryColor = const Color(0xff0D0D0D);
-  static Color black = const Color(0xff180E02);
-  static Color darkyellow = const Color(0xff85561D);
-  static Color grey = const Color(0xff818181);
-  static Color lightGrey = const Color(0xffBABABA);
-  static Color lightwGrey = const Color(0xddbababa);
-  static Color extralightgrey = const Color(0xFFB9B9B9);
-  static Color white = const Color(0xffffffff);
-  static Color whitehome = const Color(0xfffcfcfc);
-  static Color whitedown = const Color(0xffF8FAFA);
-  static Color lightSky = const Color(0xffE8F5F5);
-  static Color orange = const Color(0xffFF4000);
-  static Color blue = const Color(0xff0064B2);
-  static Color sky = const Color(0xff00B2CB);
-  static Color lightgreen = const Color(0xff61CA05);
-  static Color tilecolor = const Color(0xffFDF3E7);
-  static Color lightpurple = const Color(0xffCE9FFC);
-  static Color darkpurple = const Color(0xff7367F0);
 
   static ThemeData mThemeData(BuildContext context, {bool isDark = false}) {
     return ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      primaryColor: lightGrey,
+      primaryColor: AppColors.lightGrey,
       scaffoldBackgroundColor: isDark ? Colors.black : const Color(0xffF3F4F9),
       applyElevationOverlayColor: true,
       bannerTheme: MaterialBannerTheme.of(context),
@@ -43,11 +24,11 @@ class ThemeColor {
         ),
       ),
       textSelectionTheme: TextSelectionThemeData(
-        cursorColor: primaryColor,
+        cursorColor: AppColors.primaryColor,
       ),
       checkboxTheme: CheckboxThemeData(
           checkColor: MaterialStateProperty.all(Colors.white),
-          fillColor: MaterialStateProperty.all(primaryColor),
+          fillColor: MaterialStateProperty.all(AppColors.primaryColor),
           visualDensity: VisualDensity.adaptivePlatformDensity),
       dialogBackgroundColor: Colors.white,
       dialogTheme: DialogTheme(
@@ -60,24 +41,24 @@ class ThemeColor {
       focusColor: Colors.pink[50],
       fontFamily: AppFont.fontFamily,
       hintColor: Colors.grey,
-      indicatorColor: primaryColor,
+      indicatorColor: AppColors.primaryColor,
       outlinedButtonTheme: OutlinedButtonThemeData(style: textButtonStyle),
       primaryTextTheme: textTheme(isDark, context),
       textButtonTheme: TextButtonThemeData(style: textButtonStyle),
       timePickerTheme: TimePickerThemeData(
           backgroundColor: Colors.white,
           hourMinuteColor: MaterialStateColor.resolveWith((states) =>
-              states.contains(MaterialState.selected) ? lightGrey : lightGrey),
+              states.contains(MaterialState.selected) ? AppColors.lightGrey : AppColors.lightGrey),
           hourMinuteTextColor:
-              MaterialStateColor.resolveWith((states) => primaryColor),
+              MaterialStateColor.resolveWith((states) => AppColors.primaryColor),
           dialHandColor: Colors.pink.shade200,
-          dialBackgroundColor: lightGrey,
-          dayPeriodColor: primaryColor,
+          dialBackgroundColor: AppColors.lightGrey,
+          dayPeriodColor: AppColors.primaryColor,
           dialTextColor: MaterialStateColor.resolveWith((states) =>
               states.contains(MaterialState.selected)
                   ? Colors.black
                   : Colors.black),
-          entryModeIconColor: primaryColor),
+          entryModeIconColor: AppColors.primaryColor),
       buttonTheme: ButtonThemeData(
         height: 50,
         shape: RoundedRectangleBorder(
@@ -87,11 +68,11 @@ class ThemeColor {
         textTheme: ButtonTextTheme.normal,
       ),
       inputDecorationTheme: InputDecorationTheme(
-        focusColor: primaryColor,
+        focusColor: AppColors.primaryColor,
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: primaryColor,
+            color: AppColors.primaryColor,
           ),
         ),
         errorBorder: OutlineInputBorder(
@@ -104,27 +85,27 @@ class ThemeColor {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: primaryColor,
+            color: AppColors.primaryColor,
           ),
         ),
         errorStyle: const TextStyle(color: Colors.red),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: primaryColor,
+            color: AppColors.primaryColor,
           ),
         ),
         hintStyle: TextStyle(
           fontSize: 14, // 35
           fontFamily: AppFont.fontFamily,
-          color: primaryColor,
+          color: AppColors.primaryColor,
         ),
       ),
       appBarTheme: AppBarTheme(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: const Color(0xffF3F4F9),
         elevation: 0,
-        actionsIconTheme: IconThemeData(color: primaryColor),
+        actionsIconTheme: IconThemeData(color: AppColors.primaryColor),
         toolbarTextStyle: TextTheme(
                 bodyLarge: TextStyle(
                   fontSize: 29, // 35
@@ -154,7 +135,7 @@ class ThemeColor {
         backgroundColor: Colors.white,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        selectedItemColor: primaryColor,
+        selectedItemColor: AppColors.primaryColor,
         unselectedItemColor: Colors.grey,
       ),
       tabBarTheme: TabBarTheme(
@@ -177,18 +158,18 @@ class ThemeColor {
         elevation: 3,
       ),
       colorScheme: ColorScheme(
-        primary: lightGrey,
-        secondary: lightGrey,
+        primary: AppColors.lightGrey,
+        secondary: AppColors.lightGrey,
         brightness: Brightness.light,
         background: isDark ? Colors.black : Colors.white,
         error: Colors.red,
-        onBackground: lightGrey,
+        onBackground: AppColors.lightGrey,
         onError: Colors.red,
-        onPrimary: lightGrey,
-        onSecondary: lightGrey,
-        onSurface: lightGrey,
-        surface: lightGrey,
-      ).copyWith(background: lightGrey).copyWith(error: Colors.red),
+        onPrimary: AppColors.lightGrey,
+        onSecondary: AppColors.lightGrey,
+        onSurface: AppColors.lightGrey,
+        surface: AppColors.lightGrey,
+      ).copyWith(background: AppColors.lightGrey).copyWith(error: Colors.red),
     );
   }
 
@@ -208,12 +189,12 @@ class ThemeColor {
       displayLarge: TextStyle(
         fontSize: 30, // 75
         fontFamily: AppFont.fontFamily,
-        color: isDark ? Colors.white : darkPrimaryColor,
+        color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       displayMedium: TextStyle(
         fontSize: Responsive.sp(3.3, context),
         // 50
-        color: isDark ? Colors.white : extralightgrey,
+        color: isDark ? Colors.white : AppColors.extralightgrey,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.5,
         wordSpacing: 0.5,
@@ -230,12 +211,12 @@ class ThemeColor {
           fontSize: Responsive.sp(5, context),
           fontFamily: AppFont.fontFamily,
           letterSpacing: 0.5,
-          color: ThemeColor.darkPrimaryColor,
+          color: AppColors.darkPrimaryColor,
           fontWeight: FontWeight.w600),
       headlineMedium: TextStyle(
         fontSize: Responsive.sp(3.2, context),
         // 35
-        color: isDark ? darkPrimaryColor : ThemeColor.white,
+        color: isDark ? AppColors.darkPrimaryColor : AppColors.white,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.6,
         fontFamily: AppFont.fontFamily,
@@ -246,7 +227,7 @@ class ThemeColor {
           letterSpacing: 0.6,
           wordSpacing: 0.5,
           height: 1.4,
-          color: ThemeColor.grey,
+          color: AppColors.grey,
           fontWeight: FontWeight.w600),
       titleLarge: TextStyle(
           fontSize: Responsive.sp(3.1, context),
@@ -254,7 +235,7 @@ class ThemeColor {
           letterSpacing: 0.3,
           wordSpacing: 0.3,
           height: 1.4,
-          color: ThemeColor.darkPrimaryColor,
+          color: AppColors.darkPrimaryColor,
           fontWeight: FontWeight.w600),
       bodyLarge: TextStyle(
         fontSize: 11,
@@ -270,7 +251,7 @@ class ThemeColor {
         fontFamily: AppFont.fontFamily,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.5,
-        color: isDark ? Colors.white : darkPrimaryColor,
+        color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       bodySmall: TextStyle(
         fontSize: 10,
@@ -278,15 +259,14 @@ class ThemeColor {
         fontFamily: AppFont.fontFamily,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.5,
-        color: isDark ? Colors.white : grey,
+        color: isDark ? Colors.white : AppColors.grey,
       ),
       titleMedium: TextStyle(
         fontSize: Responsive.sp(3.2, context),
-        // 35
         fontFamily: AppFont.fontFamilysemi,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.3,
-        color: isDark ? Colors.white : darkPrimaryColor,
+        color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       titleSmall: TextStyle(
         fontSize: 10,
@@ -294,14 +274,14 @@ class ThemeColor {
         fontFamily: AppFont.fontFamily,
         fontWeight: FontWeight.bold,
         letterSpacing: 0.5,
-        color: isDark ? Colors.white : darkPrimaryColor,
+        color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       labelSmall: TextStyle(
           fontSize: 10,
           fontFamily: AppFont.fontFamily,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
-          color: grey),
+          color: AppColors.grey),
       labelLarge: TextStyle(
         fontSize: Responsive.sp(3.8, context),
         // 35
@@ -316,7 +296,7 @@ class ThemeColor {
         fontFamily: AppFont.fontFamily,
         letterSpacing: 0.5,
         fontWeight: FontWeight.w600,
-        color: isDark ? darkPrimaryColor : primaryColor,
+        color: isDark ? AppColors.darkPrimaryColor : AppColors.primaryColor,
       ),
       //caption: TextStyle(color: Colors.white),
     );

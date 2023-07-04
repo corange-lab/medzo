@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/auth_controller.dart';
 import 'package:medzo/theme/colors.dart';
-import 'package:medzo/theme/colors_theme.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
@@ -23,14 +22,14 @@ class NewPassword extends GetView {
     return GetBuilder<AuthController>(
       builder: (controller) {
         return Scaffold(
-          backgroundColor: ThemeColor.primaryColor,
+          backgroundColor: AppColors.primaryColor,
           body: Column(
             children: [
               Expanded(
                 flex: 2,
                 child: Container(
                   height: 140,
-                  color: ThemeColor.primaryColor,
+                  color: AppColors.primaryColor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -56,7 +55,8 @@ class NewPassword extends GetView {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: TextWidget(
                           ConstString.exploreandknowaboutmedicine,
-                          style: Theme.of(context).textTheme.headlineMedium,
+                          style: Theme.of(context).textTheme.titleMedium!
+                              .copyWith(color: AppColors.white,fontWeight: FontWeight.w600),
                         ),
                       )
                     ],
@@ -116,7 +116,7 @@ class NewPassword extends GetView {
                       autofocus: false,
                       obscureText: controller.hidepass.value,
                       focusNode: fNode,
-                      cursorColor: ThemeColor.grey,
+                      cursorColor: AppColors.grey,
                       // controller: ctrl.passwordTextController,
                       // style: Theme.of(context).textTheme.bodyMedium,
                       decoration: InputDecoration(
@@ -145,13 +145,13 @@ class NewPassword extends GetView {
                                     color: Colors.black38,
                                   )),
                         fillColor: fNode.hasFocus
-                            ? ThemeColor.tilecolor
+                            ? AppColors.tilecolor
                             : AppColors.splashdetail,
                         hintText: "Enter Password",
                         hintStyle: Theme.of(context).textTheme.headlineSmall,
                         border: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ThemeColor.white, width: 0.5),
+                              BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -161,12 +161,12 @@ class NewPassword extends GetView {
                         ),
                         disabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ThemeColor.white, width: 0.5),
+                              BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ThemeColor.white, width: 0.5),
+                              BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -184,7 +184,7 @@ class NewPassword extends GetView {
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: controller.hidepass2.value,
                       focusNode: fNode1,
-                      cursorColor: ThemeColor.grey,
+                      cursorColor: AppColors.grey,
                       // controller: ctrl.passwordTextController,
                       // style: Theme.of(context).textTheme.bodyMedium,
                       decoration: InputDecoration(
@@ -213,13 +213,13 @@ class NewPassword extends GetView {
                                     color: Colors.black38,
                                   )),
                         fillColor: fNode1.hasFocus
-                            ? ThemeColor.tilecolor
+                            ? AppColors.tilecolor
                             : AppColors.splashdetail,
                         hintText: "Enter Password",
                         hintStyle: Theme.of(context).textTheme.headlineSmall,
                         border: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ThemeColor.white, width: 0.5),
+                              BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -229,12 +229,12 @@ class NewPassword extends GetView {
                         ),
                         disabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ThemeColor.white, width: 0.5),
+                              BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ThemeColor.white, width: 0.5),
+                              BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -257,7 +257,7 @@ class NewPassword extends GetView {
                           fontFamily: AppFont.fontFamily,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.5,
-                          color: ThemeColor.grey),),
+                          color: AppColors.grey),),
                   TextSpan(
                     text: "Strong",
                     style: TextStyle(
@@ -266,7 +266,7 @@ class NewPassword extends GetView {
                       fontFamily: AppFont.fontFamily,
                       letterSpacing: 0.5,
                       fontWeight: FontWeight.w600,
-                      color: ThemeColor.lightgreen,
+                      color: AppColors.lightgreen,
                     ),
                   )
                 ])),
@@ -345,7 +345,7 @@ class NewPassword extends GetView {
                   Get.off(QuestionScreen());
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: ThemeColor.primaryColor,
+                  backgroundColor: AppColors.primaryColor,
                   elevation: 0,
                   fixedSize: Size(SizerUtil.width, 45),
                   shape: RoundedRectangleBorder(

@@ -13,6 +13,7 @@ class HomeController extends GetxController {
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   RxInt pageIndex = 0.obs;
+
   TextEditingController searchController = TextEditingController();
 
   var selectedPageIndex = 0.obs;
@@ -39,6 +40,29 @@ class HomeController extends GetxController {
     ConstString.allergies,
     ConstString.devices,
     ConstString.hypnotics
+  ];
+
+  List searchList = [
+    "Cetirizine",
+    "Cetuximab",
+    "Cetraxal",
+    "Cetamolol",
+    "Cetilistat"
+  ];
+  List searchsubtitleList = [
+    "in allergies",
+    "in cancer treatment",
+    "in antibiotics",
+    "in cardiovascular",
+    "in weightless"
+  ];
+
+  List searchIcons = [
+    SvgIcon.virus,
+    SvgIcon.first_aid,
+    SvgIcon.virus,
+    SvgIcon.heartbeat,
+    SvgIcon.person_run
   ];
 
   pageUpdateOnHomeScreen(int index) {

@@ -5,6 +5,7 @@ import 'package:medzo/controller/auth_controller.dart';
 import 'package:medzo/controller/global_config_controller.dart';
 import 'package:medzo/controller/network_handling_service.dart';
 import 'package:medzo/firebase_options.dart';
+import 'package:medzo/theme/colors.dart';
 import 'package:medzo/theme/colors_theme.dart';
 import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/view/splash_screen.dart';
@@ -23,7 +24,7 @@ Future<void> main() async {
     statusBarColor: Colors.transparent,
     statusBarBrightness: Brightness.dark,
     statusBarIconBrightness: Brightness.dark,
-    systemNavigationBarDividerColor: ThemeColor.lightGrey,
+    systemNavigationBarDividerColor: AppColors.lightGrey,
     systemNavigationBarIconBrightness: Brightness.light,
   ));
 

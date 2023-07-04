@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/otp_controller.dart';
 import 'package:medzo/theme/colors.dart';
-import 'package:medzo/theme/colors_theme.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
@@ -41,14 +40,14 @@ class OTPScreenWidget extends GetView<OTPController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColor.primaryColor,
+      backgroundColor: AppColors.primaryColor,
       body: Column(
         children: [
           Expanded(
             flex: 2,
             child: Container(
               height: 140,
-              color: ThemeColor.primaryColor,
+              color: AppColors.primaryColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -74,7 +73,8 @@ class OTPScreenWidget extends GetView<OTPController> {
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: TextWidget(
                       ConstString.exploreandknowaboutmedicine,
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      style: Theme.of(context).textTheme.titleMedium!
+                          .copyWith(color: AppColors.white,fontWeight: FontWeight.w600),
                     ),
                   )
                 ],
@@ -129,17 +129,17 @@ class OTPScreenWidget extends GetView<OTPController> {
                 height: Responsive.height(6.5, context),
                 child: OtpTextField(
                   numberOfFields: 4,
-                  cursorColor: ThemeColor.primaryColor,
+                  cursorColor: AppColors.primaryColor,
                   borderRadius: BorderRadius.circular(28),
                   showFieldAsBox: true,
                   fieldWidth: 70,
-                  borderColor: ThemeColor.primaryColor,
+                  borderColor: AppColors.primaryColor,
                   enabled: true,
                   filled: true,
                   fillColor: AppColors.splashdetail,
                   keyboardType: TextInputType.number,
                   disabledBorderColor: AppColors.splashdetail,
-                  focusedBorderColor: ThemeColor.primaryColor,
+                  focusedBorderColor: AppColors.primaryColor,
                   enabledBorderColor: AppColors.splashdetail,
                   textStyle: Theme.of(context).textTheme.headlineLarge,
                   decoration: const InputDecoration(
@@ -172,7 +172,7 @@ class OTPScreenWidget extends GetView<OTPController> {
                           fontFamily: AppFont.fontFamily,
                           letterSpacing: 0.5,
                           fontWeight: FontWeight.w600,
-                          color: ThemeColor.blue,
+                          color: AppColors.blue,
                         ),
                       )
                     ])),
@@ -187,7 +187,7 @@ class OTPScreenWidget extends GetView<OTPController> {
                   Get.off(QuestionScreen());
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: ThemeColor.primaryColor,
+                  backgroundColor: AppColors.primaryColor,
                   elevation: 0,
                   fixedSize: Size(SizerUtil.width, 45),
                   shape: RoundedRectangleBorder(

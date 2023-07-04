@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
 import 'package:medzo/controller/question_controller.dart';
 import 'package:medzo/theme/colors.dart';
-import 'package:medzo/theme/colors_theme.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
@@ -25,14 +24,14 @@ class QuestionScreen extends GetView<Question_controller> {
       init: Question_controller(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: ThemeColor.primaryColor,
+          backgroundColor: AppColors.primaryColor,
           body: Column(
             children: [
               Expanded(
                 flex: 2,
                 child: Container(
                   height: 140,
-                  color: ThemeColor.primaryColor,
+                  color: AppColors.primaryColor,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Column(
@@ -108,7 +107,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                               ? 1
                                               : 1,
                               backgroundColor: Color(0xffF8C890),
-                              progressBarColor: ThemeColor.white,
+                              progressBarColor: AppColors.white,
                             ))
                       ],
                     ),
@@ -167,7 +166,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                   onChanged: (value) {
                                     ctrl.healthAns.value = value!;
                                   },
-                                  activeColor: ThemeColor.primaryColor,
+                                  activeColor: AppColors.primaryColor,
                                 ),
                                 TextWidget(
                                   "No",
@@ -177,8 +176,8 @@ class QuestionScreen extends GetView<Question_controller> {
                                       letterSpacing: 0.5,
                                       height: 1.4,
                                       color: ctrl.healthAns.value == "No"
-                                          ? ThemeColor.primaryColor
-                                          : ThemeColor.grey,
+                                          ? AppColors.primaryColor
+                                          : AppColors.grey,
                                       fontWeight: FontWeight.w600),
                                 ),
                                 SizedBox(
@@ -190,7 +189,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                   onChanged: (value) {
                                     ctrl.healthAns.value = value!;
                                   },
-                                  activeColor: ThemeColor.primaryColor,
+                                  activeColor: AppColors.primaryColor,
                                 ),
                                 TextWidget(
                                   "Yes",
@@ -200,8 +199,8 @@ class QuestionScreen extends GetView<Question_controller> {
                                       letterSpacing: 0.5,
                                       height: 1.4,
                                       color: ctrl.healthAns.value == "Yes"
-                                          ? ThemeColor.primaryColor
-                                          : ThemeColor.grey,
+                                          ? AppColors.primaryColor
+                                          : AppColors.grey,
                                       fontWeight: FontWeight.w600),
                                 ),
                               ],
@@ -247,7 +246,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                             const EdgeInsets.only(left: 190),
                                         child: Icon(
                                           Icons.keyboard_arrow_down,
-                                          color: ThemeColor.grey,
+                                          color: AppColors.grey,
                                         ),
                                       ),
                                       style: Theme.of(context)
@@ -261,13 +260,13 @@ class QuestionScreen extends GetView<Question_controller> {
                                   ? TextField(
                                       autofocus: false,
                                       // focusNode: fnode1,
-                                      cursorColor: ThemeColor.grey,
+                                      cursorColor: AppColors.grey,
                                       // style: Theme.of(context).textTheme.bodyMedium,
                                       decoration: InputDecoration(
                                         filled: true,
                                         enabled: true,
                                         // fillColor: fnode1.hasFocus
-                                        // ? ThemeColor.tilecolor
+                                        // ? AppColors.tilecolor
                                         //     : AppColors.splashdetail,
                                         hintText: "Enter Allergies",
                                         hintStyle: Theme.of(context)
@@ -275,7 +274,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                             .headlineSmall,
                                         border: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: ThemeColor.white,
+                                              color: AppColors.white,
                                               width: 0.5),
                                           borderRadius:
                                               BorderRadius.circular(7),
@@ -289,14 +288,14 @@ class QuestionScreen extends GetView<Question_controller> {
                                         ),
                                         disabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: ThemeColor.white,
+                                              color: AppColors.white,
                                               width: 0.5),
                                           borderRadius:
                                               BorderRadius.circular(7),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: ThemeColor.white,
+                                              color: AppColors.white,
                                               width: 0.5),
                                           borderRadius:
                                               BorderRadius.circular(7),
@@ -337,8 +336,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                                                         .value ==
                                                                     ctrl.ageGroup[
                                                                         index]
-                                                                ? ThemeColor
-                                                                    .tilecolor
+                                                                ? AppColors.tilecolor
                                                                 : AppColors
                                                                     .splashdetail,
                                                             borderRadius:
@@ -359,10 +357,8 @@ class QuestionScreen extends GetView<Question_controller> {
                                                                         .value ==
                                                                     ctrl.ageGroup[
                                                                         index]
-                                                                ? ThemeColor
-                                                                    .primaryColor
-                                                                : ThemeColor
-                                                                    .grey,
+                                                                ? AppColors.primaryColor
+                                                                : AppColors.grey,
                                                           ),
                                                         ),
                                                       ),
@@ -420,7 +416,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                                 left: 220),
                                             child: Icon(
                                               Icons.keyboard_arrow_down,
-                                              color: ThemeColor.grey,
+                                              color: AppColors.grey,
                                             ),
                                           ),
                                           style: Theme.of(context)
@@ -436,13 +432,13 @@ class QuestionScreen extends GetView<Question_controller> {
                                           autofocus: false,
                                           maxLines: 5,
                                           // focusNode: fnode1,
-                                          cursorColor: ThemeColor.grey,
+                                          cursorColor: AppColors.grey,
                                           // style: Theme.of(context).textTheme.bodyMedium,
                                           decoration: InputDecoration(
                                             filled: true,
                                             enabled: true,
                                             // fillColor: fnode1.hasFocus
-                                            // ? ThemeColor.tilecolor
+                                            // ? AppColors.tilecolor
                                             //     : AppColors.splashdetail,
                                             hintText: "Enter Allergies",
                                             hintStyle: Theme.of(context)
@@ -450,7 +446,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                                 .headlineSmall,
                                             border: OutlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: ThemeColor.white,
+                                                  color: AppColors.white,
                                                   width: 0.5),
                                               borderRadius:
                                                   BorderRadius.circular(7),
@@ -464,14 +460,14 @@ class QuestionScreen extends GetView<Question_controller> {
                                             ),
                                             disabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: ThemeColor.white,
+                                                  color: AppColors.white,
                                                   width: 0.5),
                                               borderRadius:
                                                   BorderRadius.circular(7),
                                             ),
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: ThemeColor.white,
+                                                  color: AppColors.white,
                                                   width: 0.5),
                                               borderRadius:
                                                   BorderRadius.circular(7),
@@ -513,7 +509,7 @@ class QuestionScreen extends GetView<Question_controller> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: ThemeColor.primaryColor,
+                          backgroundColor: AppColors.primaryColor,
                           elevation: 0,
                           fixedSize: Size(SizerUtil.width, 45),
                           shape: RoundedRectangleBorder(
@@ -599,7 +595,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: ThemeColor.primaryColor,
+                                backgroundColor: AppColors.primaryColor,
                                 elevation: 0,
                                 fixedSize: Size(SizerUtil.width, 45),
                                 shape: RoundedRectangleBorder(

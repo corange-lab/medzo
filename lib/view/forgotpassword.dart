@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/forgot_controller.dart';
 import 'package:medzo/theme/colors.dart';
-import 'package:medzo/theme/colors_theme.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
@@ -23,14 +22,14 @@ class ForgotScreen extends GetView<Forgotcontroller> {
       init: Forgotcontroller(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: ThemeColor.primaryColor,
+          backgroundColor: AppColors.primaryColor,
           body: Column(
             children: [
               Expanded(
                 flex: 2,
                 child: Container(
                   height: 140,
-                  color: ThemeColor.primaryColor,
+                  color: AppColors.primaryColor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -56,7 +55,8 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: TextWidget(
                           ConstString.exploreandknowaboutmedicine,
-                          style: Theme.of(context).textTheme.headlineMedium,
+                          style: Theme.of(context).textTheme.titleMedium!
+                              .copyWith(color: AppColors.white,fontWeight: FontWeight.w600),
                         ),
                       )
                     ],
@@ -115,17 +115,17 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                       height: Responsive.height(6.5, context),
                       child: OtpTextField(
                         numberOfFields: 4,
-                        cursorColor: ThemeColor.primaryColor,
+                        cursorColor: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(28),
                         showFieldAsBox: true,
                         fieldWidth: 70,
-                        borderColor: ThemeColor.primaryColor,
+                        borderColor: AppColors.primaryColor,
                         enabled: true,
                         filled: true,
                         fillColor: AppColors.splashdetail,
                         keyboardType: TextInputType.number,
                         disabledBorderColor: AppColors.splashdetail,
-                        focusedBorderColor: ThemeColor.primaryColor,
+                        focusedBorderColor: AppColors.primaryColor,
                         enabledBorderColor: AppColors.splashdetail,
                         textStyle: Theme.of(context).textTheme.headlineLarge,
                         decoration: const InputDecoration(
@@ -138,7 +138,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                       child: TextField(
                         autofocus: false,
                         focusNode: fNode,
-                        cursorColor: ThemeColor.grey,
+                        cursorColor: AppColors.grey,
                         enabled: true,
                         // controller: controller.emailTextController,
                         // style: Theme.of(context).textTheme.bodyMedium,
@@ -153,13 +153,13 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                             ),
                           ),
                           fillColor: fNode.hasFocus
-                              ? ThemeColor.tilecolor
+                              ? AppColors.tilecolor
                               : AppColors.splashdetail,
                           hintText: "Enter Email Address",
                           hintStyle: Theme.of(context).textTheme.headlineSmall,
                           border: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: ThemeColor.white, width: 0.5),
+                                BorderSide(color: AppColors.white, width: 0.5),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -169,12 +169,12 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                           ),
                           disabledBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: ThemeColor.white, width: 0.5),
+                                BorderSide(color: AppColors.white, width: 0.5),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: ThemeColor.white, width: 0.5),
+                                BorderSide(color: AppColors.white, width: 0.5),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -211,7 +211,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                                 fontFamily: AppFont.fontFamilysemi,
                                 letterSpacing: 0.6,
                                 fontWeight: FontWeight.w600,
-                                color: ThemeColor.blue,
+                                color: AppColors.blue,
                               ),
                             )
                           ])),
@@ -233,7 +233,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: ThemeColor.primaryColor,
+                    backgroundColor: AppColors.primaryColor,
                     elevation: 0,
                     fixedSize: Size(SizerUtil.width, 45),
                     shape: RoundedRectangleBorder(
