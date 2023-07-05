@@ -47,6 +47,7 @@ dependencies:
   sizer:
   flutter_otp_text_field:
   getwidget:
+  custom_rating_bar:
 
 
 dev_dependencies:

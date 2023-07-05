@@ -43,6 +43,7 @@ class ConstString {
   static const String back = "Back";
   static const String sendotp = "Send OTP";
   static const String writereview = "Write a Review";
+  static const String askquestion = "Ask a Questions";
   static const String savencontinue = "Save and Continue";
   static const String cancel = "Cancel";
   static const String delete = "Delete image";
@@ -165,7 +166,11 @@ class ConstString {
   static const String socialLogin = "Social logins";
   static const String unfollow = "Unfollow";
   static const String follow = "Follow";
+  static const String review = "Review";
+  static const String addreview = "Add Review";
+  static const String leavereview = "Leave a review here";
   static const String hallOfBadges = "Hall of badges";
+  static const String rateproduct = "Rate the products";
   static const String reactionbadge = "Reaction badges";
   static const String settings = "Settings";
   static const String reactonlistheadline = "Reactions";
@@ -207,6 +212,7 @@ class ConstString {
   static const String passrule1 = "Must not contain your name or email";
   static const String passrule2 = "At least 8 characters";
   static const String passrule3 = "Contain a symbol or a number";
+  static const String clickicon = "Click icons for more informations";
   static const String newpassworddetail = "Your new password must be different from previously used password.";
   static const String verificationotp = "Verification OTP";
   static const String otpdetails = "Please enter 4 Digit OTP sent on your email address us...23@gmail.com";
@@ -224,6 +230,14 @@ class ConstString {
   static const String prescribed = "Prescribed";
   static const String allcategory = "All Categories";
   static const String search = "Search";
+  static const String drowsiness = "Drowsiness";
+  static const String pregnancy = "Pregnancy";
+  static const String allergy = "Allergies";
+  static const String olderage = "Older Age";
+  static const String alcohol = "Alcohol";
+  static const String maoi = "MAOIs";
+  static const String therphy = "Theophylline";
+  static const String drugs = "Drugs";
 
 
 

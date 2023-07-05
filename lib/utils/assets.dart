@@ -15,12 +15,14 @@ class AppImages {
   static const String mobile_image = 'assets/images/mobile_image.svg';
   static const String painkiller = 'assets/images/painkiller.svg';
   static const String pill = 'assets/images/pill.png';
+  static const String pillw = 'assets/images/pillwhite.png';
   static const String supplements = 'assets/images/supplements.svg';
   static const String splashback = 'assets/images/splash_background.png';
 }
 
 class SvgIcon {
   static const String alcohol = 'assets/icons/alcohol_icon.svg';
+  static const String arrowup = 'assets/icons/arrowup.svg';
   static const String antibiotic = 'assets/icons/antibiotic_icon.svg';
   static const String at_icon = 'assets/icons/at_icon.svg';
   static const String baby = 'assets/icons/baby_icon.svg';
@@ -33,6 +35,7 @@ class SvgIcon {
   static const String check_circle = 'assets/icons/check_circle_icon.svg';
   static const String delete = 'assets/icons/delete_icon.svg';
   static const String email = 'assets/icons/email_icon.svg';
+  static const String info = 'assets/icons/Info.svg';
   static const String experts = 'assets/icons/experts.svg';
   static const String expert = 'assets/icons/expert.png';
   static const String fill_radio = 'assets/icons/fill_radio_icon.svg';
@@ -61,4 +64,5 @@ class SvgIcon {
   static const String upload_image = 'assets/icons/upload_image_icon.svg';
   static const String verify = 'assets/icons/verify_icon.svg';
   static const String virus = 'assets/icons/virus_icon.svg';
+  static const String masksad = 'assets/icons/masksad_icon.svg';
 }

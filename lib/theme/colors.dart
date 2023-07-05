@@ -38,9 +38,11 @@ class AppColors {
   static Color blacktxt = const Color(0xff505050);
   static Color buttontext = const Color(0xffFDF3E7);
   static Color darkyellow = const Color(0xff85561D);
+  static Color dark = const Color(0xff474747);
   static Color grey = const Color(0xff818181);
   static Color lightGrey = const Color(0xffBABABA);
   static Color lightwGrey = const Color(0xddbababa);
+  static Color icongrey = const Color(0xddA0A0A0);
   static Color extralightgrey = const Color(0xFFB9B9B9);
   static Color white = const Color(0xffffffff);
   static Color whitehome = const Color(0xfffcfcfc);
@@ -53,5 +55,6 @@ class AppColors {
   static Color tilecolor = const Color(0xffFDF3E7);
   static Color lightpurple = const Color(0xffCE9FFC);
   static Color darkpurple = const Color(0xff7367F0);
+  static Color purple = const Color(0xff5D5DFF);
 
 }
