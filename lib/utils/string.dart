@@ -159,6 +159,7 @@ class ConstString {
   static const String popularComments = 'Popular comments';
   static const String recentComments = 'Recent comments';
   static const String profile = "Profile";
+  static const String bookmark = "Bookmarks";
   static const String about = "About";
   static const String location = "Location";
   static const String contact = "Contact";

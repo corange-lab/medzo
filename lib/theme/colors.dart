@@ -38,6 +38,8 @@ class AppColors {
   static Color blacktxt = const Color(0xff505050);
   static Color buttontext = const Color(0xffFDF3E7);
   static Color darkyellow = const Color(0xff85561D);
+  static Color chatblack = const Color(0xff2C2C2E);
+  static Color chatgrey = const Color(0xff666668);
   static Color dark = const Color(0xff474747);
   static Color grey = const Color(0xff818181);
   static Color lightGrey = const Color(0xffBABABA);

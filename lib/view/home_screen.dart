@@ -8,6 +8,7 @@ import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
+import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/category_screen.dart';
 import 'package:medzo/view/chat_screen.dart';
 import 'package:medzo/view/message_screen.dart';
@@ -53,12 +54,7 @@ class HomeScreen extends GetView<HomeController> {
           );
         } else if (controller.pageIndex.value == 3) {
           return Scaffold(
-            body: Center(
-              child: Container(
-                color: AppColors.whitehome,
-                child: const Text("Bookmark"),
-              ),
-            ),
+            body: const BookmarkScreen(),
             bottomNavigationBar: bottomNavigationBar(controller, context),
           );
         }
@@ -1056,7 +1052,7 @@ class HomeScreen extends GetView<HomeController> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Get.to(ChatScreen());
+                  Get.to(MessageScreen());
                 },
                 icon: SvgPicture.asset(
                   SvgIcon.chathome,
