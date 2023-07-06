@@ -40,6 +40,10 @@ class ConstString {
   static const String skipButton = "Skip";
   static const String next = "Next";
   static const String submit = "Submit";
+  static const String addpost = "Add Post";
+  static const String chat = "Chat";
+  static const String follownow = "Follow Now";
+  static const String editprofile = "Edit Profile";
   static const String back = "Back";
   static const String sendotp = "Send OTP";
   static const String writereview = "Write a Review";
@@ -193,6 +197,13 @@ class ConstString {
   static const String login = "Log in";
   static const String sigup = "Sign Up";
   static const String category = "Categories";
+  static const String description = "Description";
+  static const String uploadimage = "Upload Images";
+  static const String uploadpost = "Upload Post";
+  static const String newpost = "New Post";
+  static const String bookmarkpost = "Bookmark Posts";
+  static const String allpost = "All Posts";
+  static const String bestmarches = "Best Marches";
   static const String popularmedicine = "Popular Medicines";
   static const String popularquestions = "Popular Questions:";
   static const String mostrecent = "Most Recent";
@@ -215,6 +226,7 @@ class ConstString {
   static const String clickicon = "Click icons for more informations";
   static const String newpassworddetail = "Your new password must be different from previously used password.";
   static const String verificationotp = "Verification OTP";
+  static const String profilesentance = "Find your closest \nmatches for the best \nand most important \nreviews!";
   static const String otpdetails = "Please enter 4 Digit OTP sent on your email address us...23@gmail.com";
 
 // ---------------------------- category ---------------------------- //

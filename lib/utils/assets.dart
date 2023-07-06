@@ -28,6 +28,7 @@ class SvgIcon {
   static const String baby = 'assets/icons/baby_icon.svg';
   static const String backarrow = 'assets/icons/back_arrow.svg';
   static const String bookmark = 'assets/icons/bookmark_icon.svg';
+  static const String fillbookmark = 'assets/icons/fill_bookmark.svg';
   static const String chat = 'assets/icons/chat_icon.svg';
   static const String chat2 = 'assets/icons/chat2.svg';
   static const String chathome = 'assets/icons/chathome.svg';

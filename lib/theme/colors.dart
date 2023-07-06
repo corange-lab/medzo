@@ -2,8 +2,8 @@ import 'package:flutter/animation.dart';
 
 class GradientThemeColors {
   static List<Color> purpleGradient = [
-    const Color(0xff42007B),
-    const Color(0xff540056),
+    const Color(0xffCE9FFC),
+    const Color(0xff7367F0),
   ];
   static List<Color> greenGradient = [
     const Color(0xff20BF55),
