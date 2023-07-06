@@ -9,6 +9,8 @@ import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
 import 'package:medzo/view/category_screen.dart';
+import 'package:medzo/view/chat_screen.dart';
+import 'package:medzo/view/message_screen.dart';
 import 'package:medzo/view/expert_profile.dart';
 import 'package:medzo/view/medicine_detail.dart';
 import 'package:medzo/view/profile_screen.dart';
@@ -95,12 +97,12 @@ class HomeScreen extends GetView<HomeController> {
                 Text(
                   "Henry, Arthur",
                   style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    fontSize: Responsive.sp(3.8, context),
-                    fontFamily: AppFont.fontFamilysemi,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.5,
-                    color: const Color(0xFF0D0D0D),
-                  ),
+                        fontSize: Responsive.sp(3.8, context),
+                        fontFamily: AppFont.fontFamilysemi,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.5,
+                        color: const Color(0xFF0D0D0D),
+                      ),
                 ),
               ],
             ),
@@ -1042,23 +1044,24 @@ class HomeScreen extends GetView<HomeController> {
               TextWidget(
                 "Henry, Arthur",
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  fontSize: Responsive.sp(3.8, context),
-                  fontFamily: AppFont.fontFamilysemi,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 0.5,
-                  color: AppColors.darkPrimaryColor,
-                ),
+                      fontSize: Responsive.sp(3.8, context),
+                      fontFamily: AppFont.fontFamilysemi,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.5,
+                      color: AppColors.darkPrimaryColor,
+                    ),
               ),
             ],
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: SvgPicture.asset(
-                SvgIcon.chathome,
-                height: Responsive.height(2.5, context),
-              ),
-            )
+            IconButton(
+                onPressed: () {
+                  Get.to(ChatScreen());
+                },
+                icon: SvgPicture.asset(
+                  SvgIcon.chathome,
+                  height: Responsive.height(2.5, context),
+                ))
           ],
         ),
         body: Padding(

@@ -53,30 +53,184 @@ class EditProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 child: CircleAvatar(
                   maxRadius: Responsive.height(6, context),
-                  backgroundColor: AppColors.tilecolor,
+                  backgroundColor: AppColors.blue.withOpacity(0.1),
                   child: Icon(
                     Icons.person,
                     size: 40,
-                    color: AppColors.primaryColor,
+                    color: AppColors.blue.withOpacity(0.8),
                   ),
                 ),
               ),
+              SizedBox(
+                height: Responsive.height(4, context),
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextWidget(
+                    ConstString.name,
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.grey.withOpacity(0.9),
+                        fontSize: Responsive.sp(3.3, context),
+                        letterSpacing: 0.5,
+                        fontFamily: AppFont.fontFamilysemi),
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: TextFormField(
+                  cursorColor: AppColors.grey,
+                  decoration: InputDecoration(
+                    filled: true,
+                    enabled: true,
+                    suffixIcon: IconButton(
+                        onPressed: () {},
+                        icon: SvgPicture.asset(
+                          SvgIcon.pencil_simple,
+                          height: Responsive.height(2.2, context),
+                        )),
+                    fillColor: AppColors.searchbar.withOpacity(0.5),
+                    hintText: "Enter your name",
+                    hintStyle: Theme.of(context).textTheme.headlineSmall,
+                    border: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: Responsive.height(1, context),
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextWidget(
+                    ConstString.profession,
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.grey.withOpacity(0.9),
+                        fontSize: Responsive.sp(3.3, context),
+                        letterSpacing: 0.5,
+                        fontFamily: AppFont.fontFamilysemi),
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: TextFormField(
+                  cursorColor: AppColors.grey,
+                  decoration: InputDecoration(
+                    filled: true,
+                    enabled: true,
+                    fillColor: AppColors.searchbar.withOpacity(0.5),
+                    suffixIcon: IconButton(
+                        onPressed: () {},
+                        icon: SvgPicture.asset(
+                          SvgIcon.pencil_simple,
+                          height: Responsive.height(2.2, context),
+                        )),
+                    hintText: "Enter your profession",
+                    hintStyle: Theme.of(context).textTheme.headlineSmall,
+                    border: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: Responsive.height(4, context),
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    fixedSize: Size(Responsive.width(50, context), 45),
+                    backgroundColor: AppColors.black,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30))),
+                child: TextWidget(
+                  ConstString.save,
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayMedium!
+                      .copyWith(color: AppColors.buttontext),
+                ),
+              )
             ],
           ),
         ),
         Positioned(
-          top: 70,
-          right: 115,
-          child: Container(
-            height: 45,
-            width: 45,
-            decoration: BoxDecoration(
-                color: AppColors.blue, borderRadius: BorderRadius.circular(22.5)),
+          top: 75,
+          right: 120,
+          child: GestureDetector(
+            onTap: () {},
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                  color: AppColors.blue,
+                  borderRadius: BorderRadius.circular(21)),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SvgPicture.asset(
+                  SvgIcon.pencil,
+                  height: Responsive.height(2.5, context),
+                ),
+              ),
+            ),
           ),
-        )
+        ),
       ],
     );
   }

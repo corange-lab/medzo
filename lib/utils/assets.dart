@@ -18,6 +18,7 @@ class AppImages {
   static const String pillw = 'assets/images/pillwhite.png';
   static const String supplements = 'assets/images/supplements.svg';
   static const String splashback = 'assets/images/splash_background.png';
+  static const String chatback = 'assets/images/chat_back.png';
 }
 
 class SvgIcon {
@@ -44,7 +45,8 @@ class SvgIcon {
   static const String fillcheck = 'assets/icons/fillcheck.svg';
   static const String heartbeat = 'assets/icons/heartbeat_icon.svg';
   static const String home_medzo = 'assets/icons/home_medzo_icon.svg';
-  static const String key = 'assets/icons/masksad_icon.svg';
+  static const String key = 'assets/icons/key_icon.svg';
+  static const String more = 'assets/icons/more.svg';
   static const String pass_eye = 'assets/icons/pass_eye.svg';
   static const String password = 'assets/icons/password_icon.svg';
   static const String pen = 'assets/icons/pen_icon.svg';

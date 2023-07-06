@@ -44,6 +44,7 @@ class ConstString {
   static const String chat = "Chat";
   static const String follownow = "Follow Now";
   static const String editprofile = "Edit Profile";
+  static const String message = "Message";
   static const String back = "Back";
   static const String sendotp = "Send OTP";
   static const String writereview = "Write a Review";
@@ -198,6 +199,8 @@ class ConstString {
   static const String sigup = "Sign Up";
   static const String category = "Categories";
   static const String description = "Description";
+  static const String profession = "Profession";
+  static const String name = "Name";
   static const String uploadimage = "Upload Images";
   static const String uploadpost = "Upload Post";
   static const String newpost = "New Post";
