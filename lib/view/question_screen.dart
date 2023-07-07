@@ -48,7 +48,12 @@ class QuestionScreen extends GetView<Question_controller> {
                                 () => TextWidget(
                                   controller.QuestionTopic[
                                       controller.selectedPageIndex.value],
-                                  style: Theme.of(context).textTheme.labelLarge,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(
+                                          fontSize: Responsive.sp(4.3, context),
+                                          letterSpacing: 0),
                                 ),
                               ),
                               IconButton(
@@ -85,8 +90,8 @@ class QuestionScreen extends GetView<Question_controller> {
                                   },
                                   icon: SvgPicture.asset(
                                     SvgIcon.skip,
-                                    width: Responsive.width(5, context),
-                                    height: Responsive.height(3, context),
+                                    width: Responsive.width(10, context),
+                                    height: Responsive.height(10, context),
                                   )),
                             ],
                           ),
@@ -117,6 +122,143 @@ class QuestionScreen extends GetView<Question_controller> {
               Expanded(flex: 9, child: questionWidget(controller, context)),
             ],
           ),
+          bottomSheet: Container(
+            color: AppColors.white,
+            margin: EdgeInsets.only(bottom: 10),
+            child: Obx(
+                  () => controller.selectedPageIndex.value == 0
+                      ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
+                        child: ElevatedButton(
+                    onPressed: () async {
+                        if (controller.selectedPageIndex.value == 0) {
+                          controller.pageController.value.animateToPage(1,
+                              duration: const Duration(milliseconds: 10),
+                              curve: Curves.easeInOut);
+                        } else if (controller.selectedPageIndex.value == 1) {
+                          controller.pageController.value.animateToPage(2,
+                              duration: const Duration(milliseconds: 10),
+                              curve: Curves.easeInOut);
+                        } else if (controller.selectedPageIndex.value == 2) {
+                          controller.pageController.value.animateToPage(3,
+                              duration: const Duration(milliseconds: 10),
+                              curve: Curves.easeInOut);
+                        } else {
+                          Get.off(HomeScreen());
+                        }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        elevation: 0,
+                        fixedSize: Size(SizerUtil.width, 50),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50)),
+                    ),
+                    child: Text(
+                        ConstString.next,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                      )
+                      : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                    children: [
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (controller.selectedPageIndex.value == 1) {
+                                  controller.pageController.value.animateToPage(
+                                      0,
+                                      duration:
+                                      const Duration(milliseconds: 10),
+                                      curve: Curves.easeInOut);
+                                } else if (controller.selectedPageIndex.value == 2) {
+                                  controller.pageController.value.animateToPage(
+                                      1,
+                                      duration:
+                                      const Duration(milliseconds: 10),
+                                      curve: Curves.easeInOut);
+                                } else if (controller.selectedPageIndex.value == 3) {
+                                  controller.pageController.value.animateToPage(
+                                      2,
+                                      duration:
+                                      const Duration(milliseconds: 10),
+                                      curve: Curves.easeInOut);
+                                } else {
+                                  controller.pageController.value.animateToPage(
+                                      0,
+                                      duration:
+                                      const Duration(milliseconds: 10),
+                                      curve: Curves.easeInOut);
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.splashdetail,
+                                elevation: 0,
+                                fixedSize: Size(SizerUtil.width, 50),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50)),
+                              ),
+                              child: Text(
+                                ConstString.back,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (controller.selectedPageIndex.value == 0) {
+                                  controller.pageController.value.animateToPage(
+                                      1,
+                                      duration:
+                                      const Duration(milliseconds: 10),
+                                      curve: Curves.easeInOut);
+                                } else if (controller.selectedPageIndex.value == 1) {
+                                  controller.pageController.value.animateToPage(
+                                      2,
+                                      duration:
+                                      const Duration(milliseconds: 10),
+                                      curve: Curves.easeInOut);
+                                } else if (controller.selectedPageIndex.value == 2) {
+                                  controller.pageController.value.animateToPage(
+                                      3,
+                                      duration:
+                                      const Duration(milliseconds: 10),
+                                      curve: Curves.easeInOut);
+                                } else {
+                                  Get.off(HomeScreen());
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryColor,
+                                elevation: 0,
+                                fixedSize: Size(SizerUtil.width, 50),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50)),
+                              ),
+                              child: Text(
+                                controller.selectedPageIndex.value == 3
+                                    ? ConstString.savencontinue
+                                    : ConstString.next,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                      ),
+            ),
+          ),
         );
       },
     );
@@ -136,7 +278,7 @@ class QuestionScreen extends GetView<Question_controller> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-                flex: 12,
+                flex: 11,
                 child: Obx(
                   () => PageView.builder(
                     controller: ctrl.pageController.value,
@@ -207,7 +349,7 @@ class QuestionScreen extends GetView<Question_controller> {
                             ),
                           ),
                           SizedBox(
-                            height: Responsive.height(1, context),
+                            height: Responsive.height(1.5, context),
                           ),
                           Align(
                             alignment: Alignment.centerLeft,
@@ -218,7 +360,7 @@ class QuestionScreen extends GetView<Question_controller> {
                             ),
                           ),
                           SizedBox(
-                            height: Responsive.height(2, context),
+                            height: Responsive.height(1, context),
                           ),
                           ctrl.selectedPageIndex.value == 0 ||
                                   ctrl.selectedPageIndex.value == 1
@@ -227,7 +369,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                         color: AppColors.splashdetail,
                                         borderRadius:
                                             BorderRadius.circular(30)),
-                                    height: Responsive.height(5.5, context),
+                                    height: Responsive.height(6, context),
                                     width: SizerUtil.width,
                                     child: DropdownButton(
                                       underline: const SizedBox(),
@@ -243,7 +385,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                       },
                                       icon: Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 190),
+                                            const EdgeInsets.only(left: 180),
                                         child: Icon(
                                           Icons.keyboard_arrow_down,
                                           color: AppColors.grey,
@@ -251,7 +393,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                       ),
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleMedium,
+                                          .titleMedium!.copyWith(fontSize: Responsive.sp(3.5, context)),
                                       value: ctrl.healthDropdown.value,
                                       padding: const EdgeInsets.only(left: 15),
                                     ),
@@ -302,7 +444,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                         ),
                                         contentPadding:
                                             const EdgeInsets.symmetric(
-                                          horizontal: 10,
+                                          horizontal: 20,
                                           vertical: 10,
                                         ),
                                       ),
@@ -336,7 +478,8 @@ class QuestionScreen extends GetView<Question_controller> {
                                                                         .value ==
                                                                     ctrl.ageGroup[
                                                                         index]
-                                                                ? AppColors.tilecolor
+                                                                ? AppColors
+                                                                    .tilecolor
                                                                 : AppColors
                                                                     .splashdetail,
                                                             borderRadius:
@@ -352,13 +495,14 @@ class QuestionScreen extends GetView<Question_controller> {
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                             letterSpacing: 0.5,
-                                                            color: ctrl
-                                                                        .selectedAge
+                                                            color: ctrl.selectedAge
                                                                         .value ==
                                                                     ctrl.ageGroup[
                                                                         index]
-                                                                ? AppColors.primaryColor
-                                                                : AppColors.grey,
+                                                                ? AppColors
+                                                                    .primaryColor
+                                                                : AppColors
+                                                                    .grey,
                                                           ),
                                                         ),
                                                       ),
@@ -374,7 +518,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                         )
                                       : const SizedBox(),
                           SizedBox(
-                            height: Responsive.height(2, context),
+                            height: Responsive.height(2.5, context),
                           ),
                           ctrl.selectedPageIndex.value != 3
                               ? Align(
@@ -388,7 +532,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                   ))
                               : const SizedBox(),
                           SizedBox(
-                            height: Responsive.height(2, context),
+                            height: Responsive.height(1, context),
                           ),
                           ctrl.selectedPageIndex.value != 3
                               ? ctrl.selectedPageIndex.value == 0 ||
@@ -398,7 +542,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                             color: AppColors.splashdetail,
                                             borderRadius:
                                                 BorderRadius.circular(30)),
-                                        height: Responsive.height(5.5, context),
+                                        height: Responsive.height(6, context),
                                         width: SizerUtil.width,
                                         child: DropdownButton(
                                           underline: const SizedBox(),
@@ -413,7 +557,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                           },
                                           icon: Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 220),
+                                                left: 215),
                                             child: Icon(
                                               Icons.keyboard_arrow_down,
                                               color: AppColors.grey,
@@ -421,7 +565,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                           ),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .titleMedium,
+                                              .titleMedium!.copyWith(fontSize: Responsive.sp(3.5, context)),
                                           value: ctrl.yearDropdown.value,
                                           padding:
                                               const EdgeInsets.only(left: 15),
@@ -440,7 +584,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                             // fillColor: fnode1.hasFocus
                                             // ? AppColors.tilecolor
                                             //     : AppColors.splashdetail,
-                                            hintText: "Enter Allergies",
+                                            hintText: "Enter Description",
                                             hintStyle: Theme.of(context)
                                                 .textTheme
                                                 .headlineSmall,
@@ -474,8 +618,8 @@ class QuestionScreen extends GetView<Question_controller> {
                                             ),
                                             contentPadding:
                                                 const EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                              vertical: 10,
+                                              horizontal: 20,
+                                              vertical: 15,
                                             ),
                                           ),
                                         )
@@ -486,133 +630,7 @@ class QuestionScreen extends GetView<Question_controller> {
                     },
                   ),
                 )),
-            Obx(
-              () => Expanded(
-                flex: 1,
-                child: ctrl.selectedPageIndex.value == 0
-                    ? ElevatedButton(
-                        onPressed: () async {
-                          if (ctrl.selectedPageIndex.value == 0) {
-                            controller.pageController.value.animateToPage(1,
-                                duration: const Duration(milliseconds: 10),
-                                curve: Curves.easeInOut);
-                          } else if (ctrl.selectedPageIndex.value == 1) {
-                            controller.pageController.value.animateToPage(2,
-                                duration: const Duration(milliseconds: 10),
-                                curve: Curves.easeInOut);
-                          } else if (ctrl.selectedPageIndex.value == 2) {
-                            controller.pageController.value.animateToPage(3,
-                                duration: const Duration(milliseconds: 10),
-                                curve: Curves.easeInOut);
-                          } else {
-                            Get.off(HomeScreen());
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                          elevation: 0,
-                          fixedSize: Size(SizerUtil.width, 45),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
-                        ),
-                        child: Text(
-                          ConstString.next,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      )
-                    : Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                if (ctrl.selectedPageIndex.value == 1) {
-                                  controller.pageController.value.animateToPage(
-                                      0,
-                                      duration:
-                                          const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else if (ctrl.selectedPageIndex.value == 2) {
-                                  controller.pageController.value.animateToPage(
-                                      1,
-                                      duration:
-                                          const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else if (ctrl.selectedPageIndex.value == 3) {
-                                  controller.pageController.value.animateToPage(
-                                      2,
-                                      duration:
-                                          const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else {
-                                  controller.pageController.value.animateToPage(
-                                      0,
-                                      duration:
-                                          const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.splashdetail,
-                                elevation: 0,
-                                fixedSize: Size(SizerUtil.width, 45),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50)),
-                              ),
-                              child: Text(
-                                ConstString.back,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: Responsive.width(3, context),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                if (ctrl.selectedPageIndex.value == 0) {
-                                  controller.pageController.value.animateToPage(
-                                      1,
-                                      duration:
-                                          const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else if (ctrl.selectedPageIndex.value == 1) {
-                                  controller.pageController.value.animateToPage(
-                                      2,
-                                      duration:
-                                          const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else if (ctrl.selectedPageIndex.value == 2) {
-                                  controller.pageController.value.animateToPage(
-                                      3,
-                                      duration:
-                                          const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else {
-                                  Get.off(HomeScreen());
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryColor,
-                                elevation: 0,
-                                fixedSize: Size(SizerUtil.width, 45),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50)),
-                              ),
-                              child: Text(
-                                ctrl.selectedPageIndex.value == 3
-                                    ? ConstString.savencontinue
-                                    : ConstString.next,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-              ),
-            ),
+
           ],
         ),
       ),

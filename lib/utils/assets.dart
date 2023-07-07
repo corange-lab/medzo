@@ -61,6 +61,7 @@ class SvgIcon {
   static const String save = 'assets/icons/save_icon.svg';
   static const String send = 'assets/icons/send_icon.svg';
   static const String signout = 'assets/icons/signout_icon.svg';
+  static const String logoutdialogue = 'assets/icons/logout_dialogue.svg';
   static const String search = 'assets/icons/search.svg';
   static const String smiley = 'assets/icons/smiley_icon.svg';
   static const String snowflack = 'assets/icons/snowflack_icon.svg';

@@ -112,7 +112,7 @@ class ExpertProfileScreen extends StatelessWidget {
                   "Pharmacist @ CVS",
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: AppColors.dark,
-                      fontSize: Responsive.sp(3, context)),
+                      fontSize: Responsive.sp(2.6, context)),
                 ),
                 SizedBox(
                   width: Responsive.width(1, context),
@@ -120,7 +120,7 @@ class ExpertProfileScreen extends StatelessWidget {
                 SvgPicture.asset(
                   SvgIcon.verify,
                   color: AppColors.blue,
-                  height: Responsive.height(1.6, context),
+                  height: Responsive.height(1.4, context),
                 )
               ],
             ),
@@ -131,7 +131,7 @@ class ExpertProfileScreen extends StatelessWidget {
               "4 year member, 41, Caucasian Female",
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
                   color: AppColors.grey.withOpacity(0.8),
-                  fontSize: Responsive.sp(3, context)),
+                  fontSize: Responsive.sp(2.6, context)),
             ),
             SizedBox(
               height: Responsive.height(2.5, context),
@@ -145,12 +145,18 @@ class ExpertProfileScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 7),
                       child: ElevatedButton(
                         onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            fixedSize: Size(Responsive.width(30, context), 40),
+                            backgroundColor: AppColors.splashdetail,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
                               SvgIcon.chat,
-                              height: Responsive.height(2.6, context),
+                              height: Responsive.height(2, context),
                             ),
                             SizedBox(
                               width: Responsive.width(2, context),
@@ -162,18 +168,12 @@ class ExpertProfileScreen extends StatelessWidget {
                                   .displayMedium!
                                   .copyWith(
                                       color: AppColors.dark,
-                                      fontSize: Responsive.sp(3.5, context),
-                                      fontFamily: AppFont.fontFamilysemi,
+                                      fontSize: Responsive.sp(3.3, context),
+                                      fontFamily: AppFont.fontFamilysemi,letterSpacing: 0,
                                       fontWeight: FontWeight.w600),
                             ),
                           ],
                         ),
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            fixedSize: Size(Responsive.width(50, context), 45),
-                            backgroundColor: AppColors.splashdetail,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30))),
                       ),
                     ),
                   ),
@@ -182,6 +182,12 @@ class ExpertProfileScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 7),
                       child: ElevatedButton(
                         onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            fixedSize: Size(Responsive.width(50, context), 40),
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
                         child: TextWidget(
                           ConstString.follownow,
                           style: Theme.of(context)
@@ -189,16 +195,10 @@ class ExpertProfileScreen extends StatelessWidget {
                               .displayMedium!
                               .copyWith(
                                   color: AppColors.black,
-                                  fontSize: Responsive.sp(3.5, context),
-                                  fontFamily: AppFont.fontFamilysemi,
+                                  fontSize: Responsive.sp(3.3, context),
+                                  fontFamily: AppFont.fontFamilysemi,letterSpacing: 0,
                                   fontWeight: FontWeight.w600),
                         ),
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            fixedSize: Size(Responsive.width(50, context), 45),
-                            backgroundColor: AppColors.primaryColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30))),
                       ),
                     ),
                   ),
@@ -240,7 +240,8 @@ class ExpertProfileScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 3),
               child: Container(
-                height: Responsive.height(33, context),
+                margin: EdgeInsets.symmetric(horizontal: 15),
+                height: Responsive.height(35, context),
                 color: Colors.white,
                 child: Column(
                   children: [
@@ -337,6 +338,7 @@ class ExpertProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 1),
               child: Container(
                 height: Responsive.height(17, context),
+                margin: EdgeInsets.symmetric(horizontal: 15),
                 color: Colors.white,
                 child: Column(
                   children: [
@@ -410,6 +412,7 @@ class ExpertProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 1),
               child: Container(
                 height: Responsive.height(17, context),
+                margin: EdgeInsets.symmetric(horizontal: 15),
                 color: Colors.white,
                 child: Column(
                   children: [
@@ -483,6 +486,7 @@ class ExpertProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 1),
               child: Container(
                 height: Responsive.height(17, context),
+                margin: EdgeInsets.symmetric(horizontal: 15),
                 color: Colors.white,
                 child: Column(
                   children: [

@@ -10,7 +10,6 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
 import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/category_screen.dart';
-import 'package:medzo/view/chat_screen.dart';
 import 'package:medzo/view/message_screen.dart';
 import 'package:medzo/view/expert_profile.dart';
 import 'package:medzo/view/medicine_detail.dart';
@@ -1085,7 +1084,7 @@ class HomeScreen extends GetView<HomeController> {
                           height: Responsive.height(2, context),
                         ),
                       ),
-                      fillColor: AppColors.searchbar,
+                      fillColor: AppColors.splashdetail,
                       hintText: "Search Drugs, Reviews, and Ratings...",
                       hintStyle: Theme.of(context).textTheme.headlineSmall,
                       border: OutlineInputBorder(
@@ -1410,7 +1409,7 @@ class HomeScreen extends GetView<HomeController> {
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 5),
+                            vertical: 7, horizontal: 5),
                         child: Container(
                           height: Responsive.height(18.5, context),
                           decoration: BoxDecoration(

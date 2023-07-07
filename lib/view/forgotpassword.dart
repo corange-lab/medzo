@@ -38,7 +38,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.asset(AppImages.logo,
-                              height: Responsive.height(4, context)),
+                              height: Responsive.height(5, context)),
                           SizedBox(
                             width: Responsive.width(2, context),
                           ),
@@ -46,7 +46,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                             padding: const EdgeInsets.only(bottom: 5),
                             child: SvgPicture.asset(
                               AppImages.medzo,
-                              height: Responsive.height(3, context),
+                              height: Responsive.height(2.8, context),
                             ),
                           ),
                         ],
@@ -55,8 +55,12 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: TextWidget(
                           ConstString.exploreandknowaboutmedicine,
-                          style: Theme.of(context).textTheme.titleMedium!
-                              .copyWith(color: AppColors.white,fontWeight: FontWeight.w600),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  color: AppColors.white,
+                                  fontSize: Responsive.sp(4, context)),
                         ),
                       )
                     ],
@@ -86,13 +90,10 @@ class ForgotScreen extends GetView<Forgotcontroller> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                height: Responsive.height(0.5, context),
-              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.only(top: 20, bottom: 5),
                   child: TextWidget(
                     ConstString.forgotpassword,
                     style: Theme.of(context).textTheme.headlineLarge,
@@ -118,7 +119,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                         cursorColor: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(28),
                         showFieldAsBox: true,
-                        fieldWidth: 70,
+                        fieldWidth: 72,
                         borderColor: AppColors.primaryColor,
                         enabled: true,
                         filled: true,
@@ -179,14 +180,11 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 10,
-                            vertical: 10,
+                            vertical: 17,
                           ),
                         ),
                       ),
                     ),
-              SizedBox(
-                height: Responsive.height(1, context),
-              ),
               controller.pageStatus.value
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -204,16 +202,23 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                                 text: ConstString.didntreceivecode,
                                 style: Theme.of(context).textTheme.labelSmall),
                             TextSpan(
-                              text: ConstString.resendit,
-                              style: TextStyle(
-                                fontSize: 10,
-                                // 50
-                                fontFamily: AppFont.fontFamilysemi,
-                                letterSpacing: 0.6,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.blue,
-                              ),
-                            )
+                                text: ConstString.resendit,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall!
+                                    .copyWith(
+                                        fontFamily: AppFont.fontMedium,
+                                        color: AppColors.blue,
+                                        fontWeight: FontWeight.w600)
+                                // style: TextStyle(
+                                //   fontSize: Resp,
+                                //   // 50
+                                //   fontFamily: AppFont.fontFamilysemi,
+                                //   letterSpacing: 0.6,
+                                //   fontWeight: FontWeight.w600,
+                                //   color: AppColors.blue,
+                                // ),
+                                )
                           ])),
                         ),
                       ],
@@ -235,7 +240,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryColor,
                     elevation: 0,
-                    fixedSize: Size(SizerUtil.width, 45),
+                    fixedSize: Size(SizerUtil.width, 50),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)),
                   ),

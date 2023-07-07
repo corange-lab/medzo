@@ -5,6 +5,7 @@ import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/dialogue.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/editprofile_screen.dart';
@@ -42,7 +43,7 @@ class profile_screen extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () async {
-                    await controller.signOut();
+                    logoutDialogue(context,controller);
                   },
                   icon: SvgPicture.asset(
                     SvgIcon.signout,
@@ -120,7 +121,7 @@ class profile_screen extends StatelessWidget {
                     "Pharmacist @ CVS",
                     style: Theme.of(context).textTheme.labelSmall!.copyWith(
                         color: AppColors.dark,
-                        fontSize: Responsive.sp(3, context)),
+                        fontSize: Responsive.sp(2.6, context)),
                   ),
                   SizedBox(
                     width: Responsive.width(1, context),
@@ -128,7 +129,7 @@ class profile_screen extends StatelessWidget {
                   SvgPicture.asset(
                     SvgIcon.verify,
                     color: AppColors.blue,
-                    height: Responsive.height(1.6, context),
+                    height: Responsive.height(1.4, context),
                   )
                 ],
               ),
@@ -139,10 +140,10 @@ class profile_screen extends StatelessWidget {
                 "4 year member, 41, Caucasian Female",
                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
                     color: AppColors.grey.withOpacity(0.8),
-                    fontSize: Responsive.sp(3, context)),
+                    fontSize: Responsive.sp(2.6, context)),
               ),
               SizedBox(
-                height: Responsive.height(3, context),
+                height: Responsive.height(2, context),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -164,10 +165,10 @@ class profile_screen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30))),
               ),
               SizedBox(
-                height: Responsive.height(2.5, context),
+                height: Responsive.height(0.8, context),
               ),
               Container(
-                height: Responsive.height(16, context),
+                height: Responsive.height(14, context),
                 width: SizerUtil.width,
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(

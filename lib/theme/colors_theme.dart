@@ -4,7 +4,6 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/responsive.dart';
 
 class ThemeColor {
-
   static ThemeData mThemeData(BuildContext context, {bool isDark = false}) {
     return ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -48,9 +47,11 @@ class ThemeColor {
       timePickerTheme: TimePickerThemeData(
           backgroundColor: Colors.white,
           hourMinuteColor: MaterialStateColor.resolveWith((states) =>
-              states.contains(MaterialState.selected) ? AppColors.lightGrey : AppColors.lightGrey),
-          hourMinuteTextColor:
-              MaterialStateColor.resolveWith((states) => AppColors.primaryColor),
+              states.contains(MaterialState.selected)
+                  ? AppColors.lightGrey
+                  : AppColors.lightGrey),
+          hourMinuteTextColor: MaterialStateColor.resolveWith(
+              (states) => AppColors.primaryColor),
           dialHandColor: Colors.pink.shade200,
           dialBackgroundColor: AppColors.lightGrey,
           dayPeriodColor: AppColors.primaryColor,
@@ -192,13 +193,12 @@ class ThemeColor {
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       displayMedium: TextStyle(
-        fontSize: Responsive.sp(3.3, context),
+        fontSize: Responsive.sp(3.5, context),
         // 50
         color: isDark ? Colors.white : AppColors.extralightgrey,
-        fontWeight: FontWeight.w600,
-        letterSpacing: 0.5,
-        wordSpacing: 0.5,
-        fontFamily: AppFont.fontFamily,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0,
+        fontFamily: AppFont.fontMedium,
       ),
       displaySmall: TextStyle(
           fontSize: Responsive.sp(2.3, context),
@@ -208,11 +208,10 @@ class ThemeColor {
           height: 1.7,
           fontWeight: FontWeight.w500),
       headlineLarge: TextStyle(
-          fontSize: Responsive.sp(5, context),
-          fontFamily: AppFont.fontFamily,
-          letterSpacing: 0.5,
+          fontSize: Responsive.sp(5.5, context),
+          fontFamily: AppFont.fontMedium,
           color: AppColors.darkPrimaryColor,
-          fontWeight: FontWeight.w600),
+          fontWeight: FontWeight.w500),
       headlineMedium: TextStyle(
         fontSize: Responsive.sp(3.2, context),
         // 35
@@ -222,65 +221,61 @@ class ThemeColor {
         fontFamily: AppFont.fontFamily,
       ),
       headlineSmall: TextStyle(
-          fontSize: Responsive.sp(3.3, context),
-          fontFamily: AppFont.fontFamily,
-          letterSpacing: 0.6,
-          wordSpacing: 0.5,
+          fontSize: Responsive.sp(3.5, context),
+          fontFamily: AppFont.fontMedium,
+          letterSpacing: 0.4,
           height: 1.4,
           color: AppColors.grey,
-          fontWeight: FontWeight.w600),
+          fontWeight: FontWeight.w500),
       titleLarge: TextStyle(
-          fontSize: Responsive.sp(3.1, context),
-          fontFamily: AppFont.fontFamily,
-          letterSpacing: 0.3,
-          wordSpacing: 0.3,
+          fontSize: Responsive.sp(3.5, context),
+          fontFamily: AppFont.fontMedium,
           height: 1.4,
           color: AppColors.darkPrimaryColor,
-          fontWeight: FontWeight.w600),
+          fontWeight: FontWeight.w500),
       bodyLarge: TextStyle(
-        fontSize: 11,
+        fontSize: Responsive.sp(3.8, context),
         // 35
-        fontFamily: AppFont.fontFamily,
-        fontWeight: FontWeight.w700,
+        fontFamily: AppFont.fontMedium,
+        fontWeight: FontWeight.w500,
         letterSpacing: 0.5,
         color: isDark ? Colors.white : Color(0xFF474747),
       ),
       bodyMedium: TextStyle(
-        fontSize: 12,
+        fontSize: Responsive.sp(4, context),
         // 35
-        fontFamily: AppFont.fontFamily,
-        fontWeight: FontWeight.w600,
+        fontFamily: AppFont.fontMedium,
+        fontWeight: FontWeight.w500,
         letterSpacing: 0.5,
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       bodySmall: TextStyle(
-        fontSize: 10,
+        fontSize: Responsive.sp(3.5, context),
         // 35
-        fontFamily: AppFont.fontFamily,
-        fontWeight: FontWeight.w600,
+        fontFamily: AppFont.fontMedium,
+        fontWeight: FontWeight.w500,
         letterSpacing: 0.5,
         color: isDark ? Colors.white : AppColors.grey,
       ),
       titleMedium: TextStyle(
-        fontSize: Responsive.sp(3.2, context),
-        fontFamily: AppFont.fontFamilysemi,
-        fontWeight: FontWeight.w500,
+        fontFamily: AppFont.fontMedium,
+        fontWeight: FontWeight.w600,
+        fontSize: Responsive.sp(4, context),
         letterSpacing: 0.3,
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       titleSmall: TextStyle(
         fontSize: 10,
-        // 35
         fontFamily: AppFont.fontFamily,
         fontWeight: FontWeight.bold,
         letterSpacing: 0.5,
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       labelSmall: TextStyle(
-          fontSize: 10,
-          fontFamily: AppFont.fontFamily,
+          fontSize: Responsive.sp(3.5, context),
+          fontFamily: AppFont.fontMedium,
           fontWeight: FontWeight.w600,
-          letterSpacing: 0.5,
+          letterSpacing: 0.3,
           color: AppColors.grey),
       labelLarge: TextStyle(
         fontSize: Responsive.sp(3.8, context),
@@ -291,10 +286,10 @@ class ThemeColor {
         color: isDark ? Colors.white : Color(0xFF180E02),
       ),
       labelMedium: TextStyle(
-        fontSize: 10,
+        fontSize: Responsive.sp(3.5, context),
         // 50
-        fontFamily: AppFont.fontFamily,
-        letterSpacing: 0.5,
+        fontFamily: AppFont.fontMedium,
+        letterSpacing: 0.3,
         fontWeight: FontWeight.w600,
         color: isDark ? AppColors.darkPrimaryColor : AppColors.primaryColor,
       ),

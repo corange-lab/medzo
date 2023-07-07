@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/dialogue.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
@@ -57,7 +58,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: Responsive.height(3, context),
+                  height: Responsive.height(2, context),
                 ),
                 TextWidget(
                   ConstString.writereview,
@@ -68,7 +69,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       fontFamily: AppFont.fontFamilysemi),
                 ),
                 SizedBox(
-                  height: Responsive.height(2, context),
+                  height: Responsive.height(1, context),
                 ),
                 TextWidget(
                   ConstString.leavereview,
@@ -79,7 +80,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       fontWeight: FontWeight.w400),
                 ),
                 SizedBox(
-                  height: Responsive.height(3, context),
+                  height: Responsive.height(2, context),
                 ),
                 Image.asset(
                   AppImages.pillw,
@@ -97,7 +98,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       fontFamily: AppFont.fontFamilysemi),
                 ),
                 SizedBox(
-                  height: Responsive.height(4, context),
+                  height: Responsive.height(3, context),
                 ),
                 Align(
                   alignment: Alignment.topLeft,
@@ -105,8 +106,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ConstString.rateproduct,
                     style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         fontWeight: FontWeight.w500,
-                        fontSize: Responsive.sp(3.5, context),
-                        letterSpacing: 0.5,
+                        fontSize: Responsive.sp(3.3, context),
+                        letterSpacing: 0,
                         fontFamily: AppFont.fontFamilysemi),
                   ),
                 ),
@@ -123,7 +124,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   },
                   filledColor: AppColors.primaryColor,
                   emptyColor: AppColors.primaryColor,
-                  size: Responsive.height(3.4, context),
+                  size: Responsive.height(2.8, context),
                 ),
                 SizedBox(
                   height: Responsive.height(2, context),
@@ -137,21 +138,23 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           .headlineLarge!
                           .copyWith(
                               fontWeight: FontWeight.w500,
-                              fontSize: Responsive.sp(3.5, context),
-                              letterSpacing: 0.5,
+                              fontSize: Responsive.sp(3.3, context),
+                              letterSpacing: 0,
                               fontFamily: AppFont.fontFamilysemi),
                     ),
                     SizedBox(
                       width: Responsive.width(1, context),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 1),
-                      child: SvgPicture.asset(SvgIcon.info,height: Responsive.height(2.3, context),)
-                    ),
+                        padding: const EdgeInsets.only(bottom: 1),
+                        child: SvgPicture.asset(
+                          SvgIcon.info,
+                          height: Responsive.height(2, context),
+                        )),
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   child: TextFormField(
                     cursorColor: AppColors.grey,
                     decoration: InputDecoration(
@@ -200,7 +203,24 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   height: Responsive.height(10, context),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return successDialogue(
+                          titleText: "Successful",
+                          subtitle:
+                              "Your review has been summited \nsuccessfully.",
+                          iconDialogue: SvgIcon.check_circle,
+                          btntext: "Continue",
+                          onPressed: () {
+                            Get.back();
+                            Get.back();
+                          },
+                        );
+                      },
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                       fixedSize: Size(Responsive.width(50, context), 45),
                       backgroundColor: AppColors.black,

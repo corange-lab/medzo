@@ -5,6 +5,7 @@ import 'package:medzo/controller/auth_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/dialogue.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/question_screen.dart';
@@ -38,7 +39,7 @@ class NewPassword extends GetView {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.asset(AppImages.logo,
-                              height: Responsive.height(4, context)),
+                              height: Responsive.height(5, context)),
                           SizedBox(
                             width: Responsive.width(2, context),
                           ),
@@ -46,7 +47,7 @@ class NewPassword extends GetView {
                             padding: const EdgeInsets.only(bottom: 5),
                             child: SvgPicture.asset(
                               AppImages.medzo,
-                              height: Responsive.height(3, context),
+                              height: Responsive.height(2.8, context),
                             ),
                           ),
                         ],
@@ -55,8 +56,12 @@ class NewPassword extends GetView {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: TextWidget(
                           ConstString.exploreandknowaboutmedicine,
-                          style: Theme.of(context).textTheme.titleMedium!
-                              .copyWith(color: AppColors.white,fontWeight: FontWeight.w600),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  color: AppColors.white,
+                                  fontSize: Responsive.sp(4, context)),
                         ),
                       )
                     ],
@@ -85,13 +90,10 @@ class NewPassword extends GetView {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                height: Responsive.height(0.5, context),
-              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.only(top: 20, bottom: 5),
                   child: TextWidget(
                     ConstString.createnewpassword,
                     style: Theme.of(context).textTheme.headlineLarge,
@@ -107,10 +109,10 @@ class NewPassword extends GetView {
                 ),
               ),
               SizedBox(
-                height: Responsive.height(3, context),
+                height: Responsive.height(2, context),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(top: 10, bottom: 5),
                   child: Obx(
                     () => TextField(
                       autofocus: false,
@@ -171,7 +173,7 @@ class NewPassword extends GetView {
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           // horizontal: 10,
-                          vertical: 10,
+                          vertical: 17,
                         ),
                       ),
                     ),
@@ -215,7 +217,7 @@ class NewPassword extends GetView {
                         fillColor: fNode1.hasFocus
                             ? AppColors.tilecolor
                             : AppColors.splashdetail,
-                        hintText: "Enter Password",
+                        hintText: "Enter Confirm Password",
                         hintStyle: Theme.of(context).textTheme.headlineSmall,
                         border: OutlineInputBorder(
                           borderSide:
@@ -239,32 +241,31 @@ class NewPassword extends GetView {
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           // horizontal: 10,
-                          vertical: 10,
+                          vertical: 17,
                         ),
                       ),
                     ),
                   )),
               SizedBox(
-                height: Responsive.height(1.5, context),
+                height: Responsive.height(1, context),
               ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text.rich(TextSpan(children: [
                   TextSpan(
                       text: ConstString.passwordstrength,
-                      style: TextStyle(
-                          fontSize: 9,
-                          fontFamily: AppFont.fontFamily,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.5,
-                          color: AppColors.grey),),
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          fontSize: Responsive.sp(2.8, context),
+                          letterSpacing: 0,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: AppFont.fontMedium)),
                   TextSpan(
                     text: "Strong",
                     style: TextStyle(
                       fontSize: 9,
                       // 50
                       fontFamily: AppFont.fontFamily,
-                      letterSpacing: 0.5,
+                      letterSpacing: 0,
                       fontWeight: FontWeight.w600,
                       color: AppColors.lightgreen,
                     ),
@@ -272,14 +273,14 @@ class NewPassword extends GetView {
                 ])),
               ),
               SizedBox(
-                height: Responsive.height(4, context),
+                height: Responsive.height(3, context),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
                     SvgIcon.fillcheck,
-                    height: Responsive.height(2.5, context),
+                    height: Responsive.height(2.3, context),
                   ),
                   SizedBox(
                     width: Responsive.width(3, context),
@@ -301,7 +302,7 @@ class NewPassword extends GetView {
                 children: [
                   SvgPicture.asset(
                     SvgIcon.fillcheck,
-                    height: Responsive.height(2.5, context),
+                    height: Responsive.height(2.3, context),
                   ),
                   SizedBox(
                     width: Responsive.width(3, context),
@@ -323,7 +324,7 @@ class NewPassword extends GetView {
                 children: [
                   SvgPicture.asset(
                     SvgIcon.fillcheck,
-                    height: Responsive.height(2.5, context),
+                    height: Responsive.height(2.3, context),
                   ),
                   SizedBox(
                     width: Responsive.width(3, context),
@@ -342,12 +343,25 @@ class NewPassword extends GetView {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  Get.off(QuestionScreen());
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return successDialogue(
+                        titleText: "Change Password",
+                        subtitle: "Your password has been changed",
+                        iconDialogue: SvgIcon.key,
+                        btntext: "Done",
+                        onPressed: () {
+                          Get.off(QuestionScreen());
+                        },
+                      );
+                    },
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
                   elevation: 0,
-                  fixedSize: Size(SizerUtil.width, 45),
+                  fixedSize: Size(SizerUtil.width, 50),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50)),
                 ),

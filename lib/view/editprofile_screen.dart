@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/dialogue.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
@@ -78,14 +79,14 @@ class EditProfileScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: AppColors.grey.withOpacity(0.9),
                         fontSize: Responsive.sp(3.3, context),
-                        letterSpacing: 0.5,
+                        letterSpacing: 0,
                         fontFamily: AppFont.fontFamilysemi),
                   ),
                 ),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 child: TextFormField(
                   cursorColor: AppColors.grey,
                   decoration: InputDecoration(
@@ -128,7 +129,7 @@ class EditProfileScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: Responsive.height(1, context),
+                height: Responsive.height(1.5, context),
               ),
               Align(
                 alignment: Alignment.topLeft,
@@ -140,14 +141,14 @@ class EditProfileScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: AppColors.grey.withOpacity(0.9),
                         fontSize: Responsive.sp(3.3, context),
-                        letterSpacing: 0.5,
+                        letterSpacing: 0,
                         fontFamily: AppFont.fontFamilysemi),
                   ),
                 ),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 child: TextFormField(
                   cursorColor: AppColors.grey,
                   decoration: InputDecoration(
@@ -193,7 +194,23 @@ class EditProfileScreen extends StatelessWidget {
                 height: Responsive.height(4, context),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return successDialogue(
+                        titleText: "Successful Changed",
+                        subtitle: "Your profile has been changed successfully.",
+                        iconDialogue: SvgIcon.check_circle,
+                        btntext: "Done",
+                        onPressed: () {
+                          Get.back();
+                          Get.back();
+                        },
+                      );
+                    },
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                     fixedSize: Size(Responsive.width(50, context), 45),
                     backgroundColor: AppColors.black,

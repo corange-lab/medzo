@@ -24,6 +24,7 @@ class LoginScreen extends GetView<AuthController> {
         builder: (ctrl) {
           return Scaffold(
             backgroundColor: AppColors.primaryColor,
+            resizeToAvoidBottomInset: false,
             body: Column(
               children: [
                 Expanded(
@@ -39,7 +40,7 @@ class LoginScreen extends GetView<AuthController> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset(AppImages.logo,
-                                height: Responsive.height(4, context)),
+                                height: Responsive.height(5, context)),
                             SizedBox(
                               width: Responsive.width(2, context),
                             ),
@@ -47,7 +48,7 @@ class LoginScreen extends GetView<AuthController> {
                               padding: const EdgeInsets.only(bottom: 5),
                               child: SvgPicture.asset(
                                 AppImages.medzo,
-                                height: Responsive.height(3, context),
+                                height: Responsive.height(2.8, context),
                               ),
                             ),
                           ],
@@ -56,8 +57,12 @@ class LoginScreen extends GetView<AuthController> {
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: TextWidget(
                             ConstString.exploreandknowaboutmedicine,
-                            style: Theme.of(context).textTheme.titleMedium!
-                                .copyWith(color: AppColors.white,fontWeight: FontWeight.w600),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                    color: AppColors.white,
+                                    fontSize: Responsive.sp(4, context)),
                           ),
                         )
                       ],
@@ -85,13 +90,13 @@ class LoginScreen extends GetView<AuthController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                height: Responsive.height(0.5, context),
-              ),
+              // SizedBox(
+              //   height: Responsive.height(0.5, context),
+              // ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.only(top: 20, bottom: 2),
                   child: TextWidget(
                     ConstString.welcomeback,
                     style: Theme.of(context).textTheme.headlineLarge,
@@ -106,7 +111,7 @@ class LoginScreen extends GetView<AuthController> {
                 ),
               ),
               SizedBox(
-                height: Responsive.height(3, context),
+                height: Responsive.height(2, context),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7),
@@ -154,7 +159,7 @@ class LoginScreen extends GetView<AuthController> {
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 10,
-                      vertical: 10,
+                      vertical: 17,
                     ),
                   ),
                 ),
@@ -220,7 +225,7 @@ class LoginScreen extends GetView<AuthController> {
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           // horizontal: 10,
-                          vertical: 10,
+                          vertical: 17,
                         ),
                       ),
                     ),
@@ -233,15 +238,15 @@ class LoginScreen extends GetView<AuthController> {
                       Get.to(ForgotScreen());
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
+                      padding: const EdgeInsets.only(bottom: 22),
                       child: TextWidget(
                         ConstString.forgotpassword,
                         style: TextStyle(
-                            fontFamily: AppFont.fontFamily,
-                            fontSize: Responsive.sp(2.8, context),
+                            fontFamily: AppFont.fontMedium,
+                            fontSize: Responsive.sp(3.5, context),
                             color: AppColors.blue,
                             fontWeight: FontWeight.w600,
-                            letterSpacing: 0.3),
+                            letterSpacing: 0),
                       ),
                     )),
               ),
@@ -255,7 +260,7 @@ class LoginScreen extends GetView<AuthController> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
                   elevation: 0,
-                  fixedSize: Size(SizerUtil.width, 45),
+                  fixedSize: Size(SizerUtil.width, 50),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50)),
                 ),
@@ -322,13 +327,13 @@ class LoginScreen extends GetView<AuthController> {
                               borderRadius: BorderRadius.circular(30)),
                           elevation: 0,
                           backgroundColor: AppColors.splashdetail,
-                          fixedSize: Size(0, Responsive.height(5.5, context))),
+                          fixedSize: Size(0, Responsive.height(6.5, context))),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
                               AppImages.google,
-                              height: Responsive.height(2.2, context),
+                              height: Responsive.height(2.8, context),
                             ),
                             const SizedBox(
                               width: 5,
@@ -353,13 +358,13 @@ class LoginScreen extends GetView<AuthController> {
                               borderRadius: BorderRadius.circular(30)),
                           elevation: 0,
                           backgroundColor: AppColors.splashdetail,
-                          fixedSize: Size(0, Responsive.height(5.5, context))),
+                          fixedSize: Size(0, Responsive.height(6.5, context))),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
                               AppImages.apple,
-                              height: Responsive.height(2.2, context),
+                              height: Responsive.height(2.8, context),
                             ),
                             const SizedBox(
                               width: 5,
@@ -374,7 +379,7 @@ class LoginScreen extends GetView<AuthController> {
                 ],
               ),
               SizedBox(
-                height: Responsive.height(12, context),
+                height: Responsive.height(13, context),
               ),
               TextButton(
                 onPressed: () {

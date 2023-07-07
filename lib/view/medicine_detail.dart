@@ -65,7 +65,7 @@ class _MedicineDetailState extends State<MedicineDetail>
       bottomNavigationBar: Container(
         decoration: BoxDecoration(color: AppColors.white, boxShadow: const [
           BoxShadow(
-              blurRadius: 3,
+              blurRadius: 1,
               spreadRadius: 2,
               offset: Offset(0, 0),
               color: Colors.black12),
@@ -106,12 +106,12 @@ Container MedicineWidget(BuildContext context, TabController tabController,
             child: Container(
               height: Responsive.height(15, context),
               decoration: BoxDecoration(
-                  boxShadow: const [
+                  boxShadow:  [
                     BoxShadow(
-                        blurRadius: 2,
+                        blurRadius: 1,
                         spreadRadius: 1,
-                        offset: Offset(1, 1),
-                        color: Colors.black12)
+                        offset: Offset(0, 0),
+                        color: AppColors.grey.withOpacity(0.1))
                   ],
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(7)),
@@ -313,12 +313,12 @@ Container WarningWidget(context) {
   return Container(
     height: Responsive.height(30, context),
     margin: EdgeInsets.only(bottom: 180, left: 10, right: 10, top: 10),
-    decoration: BoxDecoration(boxShadow: const [
+    decoration: BoxDecoration(boxShadow:  [
       BoxShadow(
           blurRadius: 2,
           spreadRadius: 1,
-          offset: Offset(1, 1),
-          color: Colors.black12)
+          offset: Offset(0, 0),
+          color: AppColors.grey.withOpacity(0.1))
     ], color: AppColors.white, borderRadius: BorderRadius.circular(6)),
     child: Padding(
       padding: const EdgeInsets.all(10.0),
@@ -474,12 +474,12 @@ Container AboutWidget(context) {
   return Container(
     height: Responsive.height(30, context),
     margin: EdgeInsets.only(bottom: 50, left: 10, right: 10, top: 10),
-    decoration: BoxDecoration(boxShadow: const [
+    decoration: BoxDecoration(boxShadow:  [
       BoxShadow(
           blurRadius: 2,
           spreadRadius: 1,
-          offset: Offset(1, 1),
-          color: Colors.black12)
+          offset: Offset(0, 0),
+          color: AppColors.grey.withOpacity(0.1))
     ], color: AppColors.white, borderRadius: BorderRadius.circular(6)),
     child: Padding(
       padding: const EdgeInsets.all(10.0),
@@ -667,12 +667,12 @@ Container QAWidget(context, MedicineController controller) {
     padding: const EdgeInsets.all(8.0),
     child: Container(
       height: SizerUtil.height,
-      decoration: BoxDecoration(boxShadow: const [
+      decoration: BoxDecoration(boxShadow:  [
         BoxShadow(
             blurRadius: 2,
             spreadRadius: 1,
-            offset: Offset(1, 1),
-            color: Colors.black12)
+            offset: Offset(0, 0),
+            color: AppColors.grey.withOpacity(0.1))
       ], color: AppColors.white, borderRadius: BorderRadius.circular(6)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -1224,12 +1224,12 @@ Container ReviewWidget() {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             height: Responsive.height(48, context),
-            decoration: BoxDecoration(boxShadow: const [
+            decoration: BoxDecoration(boxShadow:  [
               BoxShadow(
                   blurRadius: 2,
                   spreadRadius: 1,
-                  offset: Offset(1, 1),
-                  color: Colors.black12)
+                  offset: Offset(0, 0),
+                  color: AppColors.grey.withOpacity(0.1))
             ], color: AppColors.white, borderRadius: BorderRadius.circular(6)),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),

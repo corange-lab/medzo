@@ -51,12 +51,12 @@ class BookmarkScreen extends StatelessWidget {
                 child: Container(
                   height: Responsive.height(22, context),
                   decoration: BoxDecoration(
-                      boxShadow: const [
+                      boxShadow:  [
                         BoxShadow(
                             blurRadius: 2,
                             spreadRadius: 1,
-                            offset: Offset(1, 1),
-                            color: Colors.black12)
+                            offset: Offset(0, 0),
+                            color: Colors.grey.withOpacity(0.2))
                       ],
                       color: AppColors.white,
                       borderRadius: BorderRadius.circular(5)),

@@ -46,47 +46,44 @@ class MessageScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         itemCount: 20,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
-            child: ListTile(
-              onTap: () {
-                Get.to(ChatScreen());
-              },
-              leading: CircleAvatar(
-                backgroundColor: index % 2 == 0
-                    ? AppColors.grey.withOpacity(0.2)
-                    : AppColors.tilecolor,
-                child: Icon(
-                  Icons.person,
-                  color: index % 2 == 0 ? Colors.black : AppColors.primaryColor,
-                ),
+          return ListTile(
+            onTap: () {
+              Get.to(ChatScreen());
+            },
+            leading: CircleAvatar(
+              backgroundColor: index % 2 == 0
+                  ? AppColors.grey.withOpacity(0.2)
+                  : AppColors.tilecolor,
+              child: Icon(
+                Icons.person,
+                color: index % 2 == 0 ? Colors.black : AppColors.primaryColor,
               ),
-              title: Align(
-                alignment: Alignment.topLeft,
-                child: TextWidget(
-                  index % 2 == 0 ? "Cameron Williamson" : "Dianne Russell",
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
+            ),
+            title: Align(
+              alignment: Alignment.topLeft,
+              child: TextWidget(
+                index % 2 == 0 ? "Cameron Williamson" : "Dianne Russell",
+                style: Theme.of(context).textTheme.labelLarge,
               ),
-              subtitle: Align(
-                alignment: Alignment.topLeft,
-                child: TextWidget(
-                  index % 2 == 0
-                      ? "Hello? interested in this loads?"
-                      : "It's really nice working with you",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: index % 2 == 0
-                          ? AppColors.dark.withOpacity(0.8)
-                          : AppColors.grey.withOpacity(0.5)),
-                ),
+            ),
+            subtitle: Align(
+              alignment: Alignment.topLeft,
+              child: TextWidget(
+                index % 2 == 0
+                    ? "Hello? interested in this loads?"
+                    : "It's really nice working with you",
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: index % 2 == 0
+                        ? AppColors.dark.withOpacity(0.8)
+                        : AppColors.grey.withOpacity(0.5)),
               ),
-              trailing: TextWidget(
-                index % 2 == 0 ? "10:32 pm" : "04:15 am",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: AppColors.darkGrey),
-              ),
+            ),
+            trailing: TextWidget(
+              index % 2 == 0 ? "10:32 pm" : "04:15 am",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: AppColors.darkGrey),
             ),
           );
         },

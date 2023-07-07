@@ -36,22 +36,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        enableLog: true,
-        initialRoute: '/',
-        useInheritedMediaQuery: true,
-        title: 'Medzo',
-        theme: ThemeColor.mThemeData(context),
-        darkTheme: ThemeColor.mThemeData(context, isDark: true),
-        initialBinding: GlobalBindings(),
-        defaultTransition: Transition.cupertino,
-        opaqueRoute: Get.isOpaqueRouteDefault,
-        popGesture: Get.isPopGestureEnable,
-        transitionDuration: const Duration(milliseconds: 500),
-        defaultGlobalState: true,
-        themeMode: ThemeMode.light,
-        home: const SplashScreen());
+    return GestureDetector(onTap: () {
+      FocusManager.instance.primaryFocus?.unfocus();
+    },
+      child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          enableLog: true,
+          initialRoute: '/',
+          useInheritedMediaQuery: true,
+          title: 'Medzo',
+          theme: ThemeColor.mThemeData(context),
+          darkTheme: ThemeColor.mThemeData(context, isDark: true),
+          initialBinding: GlobalBindings(),
+          defaultTransition: Transition.cupertino,
+          opaqueRoute: Get.isOpaqueRouteDefault,
+          popGesture: Get.isPopGestureEnable,
+          transitionDuration: const Duration(milliseconds: 500),
+          defaultGlobalState: true,
+          themeMode: ThemeMode.light,
+          home: const SplashScreen()),
+    );
   }
 }
 

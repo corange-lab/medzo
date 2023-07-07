@@ -85,7 +85,24 @@ flutter:
     - family: SemiMetropolis
       fonts:
         - asset: fonts/Metropolis-SemiBold.otf
-          weight: 700
+    - family: Black
+      fonts:
+        - asset: fonts/Metropolis-Black.otf
+    - family: ExtraBold
+      fonts:
+        - asset: fonts/Metropolis-ExtraBold.otf
+    - family: ExtraLight
+      fonts:
+        - asset: fonts/Metropolis-ExtraLight.otf
+    - family: Medium
+      fonts:
+        - asset: fonts/Metropolis-Medium.otf
+    - family: Thin
+      fonts:
+        - asset: fonts/Metropolis-Thin.otf
+    - family: Bold
+      fonts:
+        - asset: fonts/Metropolis-Bold.otf
 
 
   # To add assets to your application, add an assets section, like this:

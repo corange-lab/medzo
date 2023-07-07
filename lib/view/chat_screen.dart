@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/dialogue.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -54,7 +56,17 @@ class ChatScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(context: context, builder: (context) {
+                  return successDialogue(
+                      titleText: "Change Password",
+                      subtitle: "Your password has been changed",
+                      iconDialogue: SvgIcon.key,
+                      btntext: "Done",onPressed: () {
+                        Get.back();
+                      },);
+                },);
+              },
               icon: SvgPicture.asset(
                 SvgIcon.more,
                 height: Responsive.height(1.6, context),
@@ -62,8 +74,9 @@ class ChatScreen extends StatelessWidget {
         ],
       ),
       body: chatWidget(context),
-      bottomNavigationBar: Container(
+      bottomSheet: Container(
         height: Responsive.height(10, context),
+        width: SizerUtil.width,
         decoration: BoxDecoration(color: AppColors.white, boxShadow: [
           BoxShadow(
               blurRadius: 0,
@@ -74,7 +87,7 @@ class ChatScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              flex: 5,
+              flex: 8,
               child: TextFormField(
                 cursorColor: AppColors.grey,
                 decoration: InputDecoration(
@@ -97,9 +110,25 @@ class ChatScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Container(
-                height: 20,
-              ),
+              flex: 1,
+              child: IconButton(
+                  onPressed: () {},
+                  icon: SvgPicture.asset(
+                    SvgIcon.at_icon,
+                    height: Responsive.height(2.3, context),
+                  )),
+            ),
+            Expanded(
+              flex: 1,
+              child: IconButton(
+                  onPressed: () {},
+                  icon: SvgPicture.asset(
+                    SvgIcon.send,
+                    height: Responsive.height(2.3, context),
+                  )),
+            ),
+            SizedBox(
+              width: Responsive.width(4, context),
             )
           ],
         ),
@@ -113,7 +142,7 @@ class ChatScreen extends StatelessWidget {
       width: SizerUtil.width,
       decoration: BoxDecoration(
           image: const DecorationImage(
-              image: AssetImage(AppImages.chatback), fit: BoxFit.fill)),
+              image: AssetImage(AppImages.chatback), fit: BoxFit.cover)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: ListView(

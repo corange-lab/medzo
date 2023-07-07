@@ -56,7 +56,7 @@ class OTPScreenWidget extends GetView<OTPController> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(AppImages.logo,
-                          height: Responsive.height(4, context)),
+                          height: Responsive.height(5, context)),
                       SizedBox(
                         width: Responsive.width(2, context),
                       ),
@@ -64,7 +64,7 @@ class OTPScreenWidget extends GetView<OTPController> {
                         padding: const EdgeInsets.only(bottom: 5),
                         child: SvgPicture.asset(
                           AppImages.medzo,
-                          height: Responsive.height(3, context),
+                          height: Responsive.height(2.8, context),
                         ),
                       ),
                     ],
@@ -73,8 +73,12 @@ class OTPScreenWidget extends GetView<OTPController> {
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: TextWidget(
                       ConstString.exploreandknowaboutmedicine,
-                      style: Theme.of(context).textTheme.titleMedium!
-                          .copyWith(color: AppColors.white,fontWeight: FontWeight.w600),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(
+                          color: AppColors.white,
+                          fontSize: Responsive.sp(4, context)),
                     ),
                   )
                 ],
@@ -101,9 +105,6 @@ class OTPScreenWidget extends GetView<OTPController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                height: Responsive.height(0.5, context),
-              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
@@ -189,7 +190,7 @@ class OTPScreenWidget extends GetView<OTPController> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
                   elevation: 0,
-                  fixedSize: Size(SizerUtil.width, 45),
+                  fixedSize: Size(SizerUtil.width, 50),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50)),
                 ),

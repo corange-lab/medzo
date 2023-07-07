@@ -38,7 +38,7 @@ class SignUpScreen extends GetView<AuthController> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Image.asset(AppImages.logo,
-                                  height: Responsive.height(4, context)),
+                                  height: Responsive.height(5, context)),
                               SizedBox(
                                 width: Responsive.width(2, context),
                               ),
@@ -46,7 +46,7 @@ class SignUpScreen extends GetView<AuthController> {
                                 padding: const EdgeInsets.only(bottom: 5),
                                 child: SvgPicture.asset(
                                   AppImages.medzo,
-                                  height: Responsive.height(3, context),
+                                  height: Responsive.height(2.8, context),
                                 ),
                               ),
                             ],
@@ -58,7 +58,9 @@ class SignUpScreen extends GetView<AuthController> {
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium!
-                                  .copyWith(color: AppColors.white,fontWeight: FontWeight.w600),
+                                  .copyWith(
+                                  color: AppColors.white,
+                                  fontSize: Responsive.sp(4, context)),
                             ),
                           )
                         ],
@@ -87,13 +89,10 @@ class SignUpScreen extends GetView<AuthController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                height: Responsive.height(0.5, context),
-              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.only(top: 20, bottom: 5),
                   child: TextWidget(
                     ConstString.createaccount,
                     style: Theme.of(context).textTheme.headlineLarge,
@@ -108,7 +107,7 @@ class SignUpScreen extends GetView<AuthController> {
                 ),
               ),
               SizedBox(
-                height: Responsive.height(3, context),
+                height: Responsive.height(2, context),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7),
@@ -156,7 +155,7 @@ class SignUpScreen extends GetView<AuthController> {
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 10,
-                      vertical: 10,
+                      vertical: 17,
                     ),
                   ),
                 ),
@@ -222,7 +221,7 @@ class SignUpScreen extends GetView<AuthController> {
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           // horizontal: 10,
-                          vertical: 10,
+                          vertical: 17,
                         ),
                       ),
                     ),
@@ -239,7 +238,7 @@ class SignUpScreen extends GetView<AuthController> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
                   elevation: 0,
-                  fixedSize: Size(SizerUtil.width, 45),
+                  fixedSize: Size(SizerUtil.width, 50),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50)),
                 ),
@@ -306,13 +305,13 @@ class SignUpScreen extends GetView<AuthController> {
                               borderRadius: BorderRadius.circular(30)),
                           elevation: 0,
                           backgroundColor: AppColors.splashdetail,
-                          fixedSize: Size(0, Responsive.height(5.5, context))),
+                          fixedSize: Size(0, Responsive.height(6.5, context))),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
                               AppImages.google,
-                              height: Responsive.height(2.2, context),
+                              height: Responsive.height(2.8, context),
                             ),
                             const SizedBox(
                               width: 5,
@@ -337,13 +336,13 @@ class SignUpScreen extends GetView<AuthController> {
                               borderRadius: BorderRadius.circular(30)),
                           elevation: 0,
                           backgroundColor: AppColors.splashdetail,
-                          fixedSize: Size(0, Responsive.height(5.5, context))),
+                          fixedSize: Size(0, Responsive.height(6.5, context))),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
                               AppImages.apple,
-                              height: Responsive.height(2.2, context),
+                              height: Responsive.height(2.8, context),
                             ),
                             const SizedBox(
                               width: 5,
@@ -358,7 +357,7 @@ class SignUpScreen extends GetView<AuthController> {
                 ],
               ),
               SizedBox(
-                height: Responsive.height(12, context),
+                height: Responsive.height(13, context),
               ),
               TextButton(
                 onPressed: () {

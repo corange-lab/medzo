@@ -52,7 +52,7 @@ class ConstString {
   static const String savencontinue = "Save and Continue";
   static const String cancel = "Cancel";
   static const String delete = "Delete image";
-  static const String logout = "Logout";
+  static const String logout = "Log Out";
   static const String report = "Report";
   static const String deleteAccount = "Delete account";
   static const String saveChanges = "Save changes";
@@ -195,7 +195,7 @@ class ConstString {
   static const String welcomeback = "Welcome Back";
   static const String enterdetailstocontinue = "Enter your details to continue";
   static const String exploreandknowaboutmedicine = "Explore and know about your medicine...";
-  static const String forgotpassword = "Forgot Password";
+  static const String forgotpassword = "Forgot Password?";
   static const String login = "Log in";
   static const String sigup = "Sign Up";
   static const String category = "Categories";
