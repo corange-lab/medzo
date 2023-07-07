@@ -192,4 +192,84 @@ class NewUser extends GetConnectImpl {
       log("add fcm api $e");
     }
   }
+
+
+  Future<bool> sendOTP({required String email}) async {
+    try {
+
+      String url = APIRequest.otpSend;
+      Map<String, dynamic> params = {
+        "email": email,
+        "type": "REGISTER"
+      };
+
+      final response = await post(
+        url,
+        jsonEncode(params),
+        // headers: APIDefaults.defaultHeaders(idToken),
+      );
+      printApiLog(url, response);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> bodyMap = jsonDecode(response.bodyString ?? "{}");
+
+        if (!bodyMap.containsKey('data')) {
+          APIDefaults.showApiStatusMessage(response);
+          log('error while calling if no data object $url');
+          return Future.error("SOMETHING WENT WRONG");
+        }
+        if (bodyMap['data'] != null) {
+          return true;
+        }
+      } else {
+        log('error while calling else $url');
+        APIDefaults.showApiStatusMessage(response,
+            "Sorry, we couldn't retrieve the user details. Please try again later.");
+        return false;
+      }
+    } catch (e) {
+      log("fetch User error :: $e");
+      return false;
+    }
+    return false;
+  }
+
+  Future<bool> verifyOTP({required String email, required String otp}) async {
+    try {
+
+      String url = APIRequest.otpSend;
+      Map<String, dynamic> params = {
+        "email": email,
+        "otp": otp,
+        "type": "REGISTER"
+      };
+      final response = await post(
+        url,
+        jsonEncode(params),
+        // headers: APIDefaults.defaultHeaders(idToken),
+      );
+      printApiLog(url, response);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> bodyMap = jsonDecode(response.bodyString ?? "{}");
+
+        if (!bodyMap.containsKey('data')) {
+          APIDefaults.showApiStatusMessage(response);
+          log('error while calling if no data object $url');
+          return Future.error("SOMETHING WENT WRONG");
+        }
+        if (bodyMap['data'] != null) {
+          return true;
+        }
+      } else {
+        log('error while calling else $url');
+        APIDefaults.showApiStatusMessage(response,
+            "Sorry, we couldn't retrieve the user details. Please try again later.");
+        return false;
+      }
+    } catch (e) {
+      log("fetch User error :: $e");
+      return false;
+    }
+    return false;
+  }
+
 }

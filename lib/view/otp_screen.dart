@@ -184,7 +184,8 @@ class OTPScreenWidget extends GetView<OTPController> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  Get.off(QuestionScreen());
+                  await controller.verifyOtp(email: email);
+                  //Get.off(QuestionScreen());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,

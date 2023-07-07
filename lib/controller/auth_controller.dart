@@ -146,13 +146,20 @@ class AuthController extends GetxController {
 
       _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      print("Account created for user: " + (_authResult?.user?.email ?? ''));
-      _authResult?.user?.sendEmailVerification();
-      if (_authResult?.user!.emailVerified ?? false) {
-        navigateToHomeScreen();
-        showInSnackBar('SignUp successfully with $email mail address');
-      } else {
-        navigateVerificationFlow(email);
+      print("Account created for user: ${_authResult?.user?.email ?? ''}");
+      var sendOTPResponse = await NewUser.instance.sendOTP(email: email);
+      if (sendOTPResponse) {
+        if (_authResult?.user!.emailVerified ?? false) {
+          // TODO: create a new user
+          navigateToHomeScreen();
+          showInSnackBar('SignUp successfully with $email mail address');
+        } else {
+          navigateVerificationFlow(email);
+        }
+      }
+      else {
+        // TODO: show unable to send OTP
+        return;
       }
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');

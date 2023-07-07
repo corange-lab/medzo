@@ -161,7 +161,7 @@ class OTPController extends GetxController {
     }
   }*/
 
-  Future<void> verifyOtp(bool googleSignInBool, User? user) async {
+  Future<void> verifyOtp({required String email}) async {
     if (otp.value.isEmpty) {
       showInSnackBar(
         ConstString.enterOtp,
@@ -172,58 +172,32 @@ class OTPController extends GetxController {
     isLoading = true;
     update([ControllerIds.verifyButtonKey]);
     try {
-      final UserCredential result;
-      PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-          verificationId: verificationId, smsCode: otp.value);
-
-      if (googleSignInBool || user != null) {
-        if (user!.phoneNumber == null) {
-          result = await user.linkWithCredential(phoneAuthCredential);
-
-          log("------------link part---------$result");
-          if (result.user!.phoneNumber != null) {
-            showInSnackBar(ConstString.linkSuccess, isSuccess: true);
-          }
-          await createNewUserData(params: {
-            "email": result.user!.email,
-          });
-        } else {
-          result = await _auth.signInWithCredential(phoneAuthCredential);
-          log(ConstString.successLogin);
-        }
-        isLoading = false;
-        update([ControllerIds.verifyButtonKey]);
-      } else {
-        result = await _auth.signInWithCredential(phoneAuthCredential);
-        isLoading = false;
-        update([ControllerIds.verifyButtonKey]);
+      var verifyOTPResponse = await NewUser.instance.verifyOTP(email: email, otp: otp.value);
+      if (!verifyOTPResponse) {
+        // TODO: show unable to verify OTP
+        return;
       }
+
       isLoading = true;
       update([ControllerIds.verifyButtonKey]);
-      if (result.additionalUserInfo?.isNewUser ?? false) {
-        await createNewUserData(params: {
-          "email": result.user!.email,
-        });
-        var gotUser = await NewUser.instance
-            .fetchUser(id: result.user!.uid, ownProfile: true);
 
-        if (gotUser != null) {
-          await appStorage.setUserData(gotUser);
-          Get.offAll(() =>  HomeScreen());
-        }
-        isLoading = false;
-        update([ControllerIds.verifyButtonKey]);
-      } else {
-        var gotUser = await NewUser.instance
-            .fetchUser(id: result.user!.uid, ownProfile: true);
-        if (gotUser == null) {
-          return;
-        }
+      var gotNewUser = await createNewUserData(params: {
+        "email": email,
+      });
+
+      if (gotNewUser != null) {
+        Get.offAll(() =>  HomeScreen());
+      }
+      /*var gotUser = await NewUser.instance
+          .fetchUser(id: result.user!.uid, ownProfile: true);
+
+      if (gotUser != null) {
         await appStorage.setUserData(gotUser);
         Get.offAll(() =>  HomeScreen());
-        isLoading = false;
-        update([ControllerIds.verifyButtonKey]);
-      }
+      }*/
+      isLoading = false;
+      update([ControllerIds.verifyButtonKey]);
+
       isLoading = false;
       update([ControllerIds.verifyButtonKey]);
     } on FirebaseAuthException catch (e) {
@@ -258,13 +232,12 @@ class OTPController extends GetxController {
     }
   }
 
-  Future<void> createNewUserData({required Map<String, dynamic> params}) async {
+  Future<UserModel?> createNewUserData({required Map<String, dynamic> params}) async {
     try {
-      final UserModel? response =
-          await NewUser.instance.createUser(params: params);
-      log("$response", name: " param");
+      return await NewUser.instance.createUser(params: params);
     } catch (e) {
       log("$e", name: " error");
+      return null;
     }
   }
 

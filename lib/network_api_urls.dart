@@ -8,4 +8,5 @@ class APIRequest {
   static String deleteUserUrl(String id) => "${apiBaseUrl}user/$id";
   static String updateUserUrl = "${apiBaseUrl}user";
   static String addFcmToken = "${apiBaseUrl}fcm_token";
+  static String otpSend = "${apiBaseUrl}/auth/otp/send";
 }
