@@ -167,7 +167,7 @@ class NewUser extends GetConnectImpl {
     return null;
   }
 
-  Future<void> addFcmInUserData({required Map<String, dynamic> params}) async {
+  Future<bool> addFcmInUserData({required Map<String, dynamic> params}) async {
     String? idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
 
     try {
@@ -183,20 +183,31 @@ class NewUser extends GetConnectImpl {
           APIDefaults.showApiStatusMessage(response);
           return Future.error(ConstString.somethingWentWrong);
         }
-        if (bodyMap['data'] != null) {
-          log("$params  ${bodyMap['message']}", name: "add fcm api---");
-          return bodyMap['message'];
+        if (response.statusCode == 200) {
+          return true;
         }
+        else {
+          return false;
+        }
+        // if (bodyMap['data'] != null) {
+        //   log("$params  ${bodyMap['message']}", name: "add fcm api---");
+        //   return bodyMap['message'];
+        // }
+      }
+      else {
+        return false;
       }
     } catch (e) {
       log("add fcm api $e");
+      return false;
     }
   }
 
 
   Future<bool> sendOTP({required String email}) async {
     try {
-
+      // TODO: remove this
+      // return true;
       String url = APIRequest.otpSend;
       Map<String, dynamic> params = {
         "email": email,
@@ -236,6 +247,8 @@ class NewUser extends GetConnectImpl {
   Future<bool> verifyOTP({required String email, required String otp}) async {
     try {
 
+      // return true;
+      // TODO: remove this
       String url = APIRequest.otpSend;
       Map<String, dynamic> params = {
         "email": email,

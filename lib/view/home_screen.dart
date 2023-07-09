@@ -10,7 +10,6 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
 import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/category_screen.dart';
-import 'package:medzo/view/chat_screen.dart';
 import 'package:medzo/view/message_screen.dart';
 import 'package:medzo/view/expert_profile.dart';
 import 'package:medzo/view/medicine_detail.dart';

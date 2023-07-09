@@ -102,7 +102,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
-                  ConstString.otpdetails,
+                  ConstString.otpDetails(controller.emailTextController.text.trim()),
                   textAlign: TextAlign.left,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
@@ -140,7 +140,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                         focusNode: fNode,
                         cursorColor: AppColors.grey,
                         enabled: true,
-                        // controller: controller.emailTextController,
+                        controller: controller.emailTextController,
                         // style: Theme.of(context).textTheme.bodyMedium,
                         decoration: InputDecoration(
                           filled: true,

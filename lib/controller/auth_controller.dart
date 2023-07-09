@@ -16,7 +16,6 @@ import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/view/login_screen.dart';
 import 'package:medzo/view/otp_screen.dart';
 import 'package:medzo/view/signup_screen.dart';
-import 'package:otp_text_field/otp_text_field.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController {
@@ -30,7 +29,6 @@ class AuthController extends GetxController {
 
   bool socialSignInBool = false;
   RxBool isOtpSent = false.obs;
-  OtpFieldController otpFieldController = OtpFieldController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -488,51 +486,49 @@ class AuthController extends GetxController {
   //   return true;
   // }
 
-  Future<void> addFcmToken({required String fcmToken}) async {
+  Future<bool> addFcmToken({required String fcmToken}) async {
     log(fcmToken, name: "fcm addd----");
     try {
       var params = {
         "fcmToken": fcmToken,
       };
-      await NewUser.instance.addFcmInUserData(params: params);
+      return await NewUser.instance.addFcmInUserData(params: params);
     } catch (e) {
       log('$e');
+      return false;
     }
   }
 
   void authException(FirebaseAuthException e) {
     isLoading = false;
     update([ControllerIds.verifyButtonKey]);
-    if (e.code == ConstString.invalidEmail) {
-      showInSnackBar(ConstString.invalidEmailMessage);
-    } else if (e.code == ConstString.wrongPassword) {
-      showInSnackBar(ConstString.wrongPasswordMessage);
-    } else if (e.code == ConstString.userNotFound) {
-      showInSnackBar(ConstString.userNotFoundMessage);
-    } else if (e.code == ConstString.tooManyRequests) {
-      showInSnackBar(ConstString.tooManyRequestsMessage);
-    } else if (e.code == ConstString.operationNotAllowed) {
-      showInSnackBar(ConstString.operationNotAllowedMessage);
-    } else if (e.code == ConstString.emailAlreadyInUse) {
-      showInSnackBar(ConstString.emailAlreadyInUseMessage);
-    } else if (e.code == ConstString.invalidVerificationCode) {
-      showInSnackBar(ConstString.invalidVerificationMessage);
-      isLoading = false;
-      update([ControllerIds.verifyButtonKey]);
-    } else if (e.code == ConstString.networkRequestFailed) {
-      showInSnackBar(ConstString.checkNetworkConnection);
-    } else if (e.code == ConstString.userDisabled) {
-      showInSnackBar(ConstString.accountDisabled);
-    } else if (e.code == ConstString.sessionExpired) {
-      showInSnackBar(ConstString.sessionExpiredMessage);
-    } else if (e.code == ConstString.quotaExceed) {
-      showInSnackBar(ConstString.quotaExceedMessage);
-    } else if (e.code == ConstString.tooManyRequest) {
-      showInSnackBar(ConstString.tooManyRequestMessage);
-    } else if (e.code == ConstString.captchaCheckFailed) {
-      showInSnackBar(ConstString.captchaFailedMessage);
-    } else {
-      showInSnackBar(e.message);
+    switch (e.code) {
+      case ConstString.invalidEmail:
+        return showInSnackBar(ConstString.invalidEmailMessage);
+      case ConstString.wrongPassword:
+        return showInSnackBar(ConstString.wrongPasswordMessage);
+      case ConstString.userNotFound:
+        return showInSnackBar(ConstString.userNotFoundMessage);
+      case ConstString.tooManyRequests:
+        return showInSnackBar(ConstString.tooManyRequestsMessage);
+      case ConstString.operationNotAllowed:
+        return showInSnackBar(ConstString.operationNotAllowedMessage);
+      case ConstString.emailAlreadyInUse:
+        return showInSnackBar(ConstString.emailAlreadyInUseMessage);
+      case ConstString.invalidVerificationCode:
+        return showInSnackBar(ConstString.invalidVerificationMessage);
+      case ConstString.networkRequestFailed:
+        return showInSnackBar(ConstString.checkNetworkConnection);
+      case ConstString.userDisabled:
+        return showInSnackBar(ConstString.accountDisabled);
+      case ConstString.sessionExpired:
+        return showInSnackBar(ConstString.sessionExpiredMessage);
+      case ConstString.quotaExceed:
+        return showInSnackBar(ConstString.quotaExceedMessage);
+      case ConstString.captchaCheckFailed:
+        return showInSnackBar(ConstString.captchaFailedMessage);
+      default:
+        return showInSnackBar(e.message);
     }
   }
 }

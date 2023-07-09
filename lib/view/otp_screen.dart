@@ -8,7 +8,6 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
-import 'package:medzo/view/question_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -117,7 +116,7 @@ class OTPScreenWidget extends GetView<OTPController> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
-                  ConstString.otpdetails,
+                  ConstString.otpDetails(email),
                   textAlign: TextAlign.left,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
@@ -133,6 +132,11 @@ class OTPScreenWidget extends GetView<OTPController> {
                   borderRadius: BorderRadius.circular(28),
                   showFieldAsBox: true,
                   fieldWidth: 70,
+                  onCodeChanged: (String code) {
+                    controller.otp.value = code;
+                  },
+                  onSubmit: (String code) => controller.verifyOtp(email: email),
+                  showCursor: false,
                   borderColor: AppColors.primaryColor,
                   enabled: true,
                   filled: true,
@@ -152,30 +156,44 @@ class OTPScreenWidget extends GetView<OTPController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextWidget(
-                    "00 : 29 Sec",
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // ctrl.navigateToSignUp();
-                    },
-                    child: Text.rich(TextSpan(children: [
-                      TextSpan(
-                          text: ConstString.didntreceivecode,
-                          style: Theme.of(context).textTheme.labelSmall),
-                      TextSpan(
-                        text: ConstString.resendit,
-                        style: TextStyle(
-                          fontSize: 10,
-                          // 50
-                          fontFamily: AppFont.fontFamily,
-                          letterSpacing: 0.5,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.blue,
-                        ),
-                      )
-                    ])),
+                  // TextWidget(
+                  //   "${controller.start.value} Sec",
+                  //   style: Theme.of(context).textTheme.titleSmall,
+                  // ),
+
+                  Obx(
+                        () => controller.start.value != 0
+                        ? Text(
+                      "${controller.start.value}${controller.start.value == 1 ? '' : 's'} Sec",
+                            style: Theme.of(context).textTheme.titleSmall,
+                    )
+                        : GetBuilder<OTPController>(
+                        id: OTPController.continueButtonId,
+                        builder: (ctrl) {
+                          return TextButton(
+                            onPressed: () async {
+                              // if (!controller.isLoading) {
+                                await controller.sendOTP(email: email);
+                              // }
+                              // TODO: send otp again
+                            },
+                            child: Text.rich(TextSpan(children: [
+                              TextSpan(
+                                  text: ConstString.didntreceivecode,
+                                  style: Theme.of(context).textTheme.labelSmall),
+                              TextSpan(
+                                text: ConstString.resendit,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: AppFont.fontFamily,
+                                  letterSpacing: 0.5,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.blue,
+                                ),
+                              )
+                            ])),
+                          );
+                        }),
                   ),
                 ],
               ),
