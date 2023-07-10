@@ -59,5 +59,6 @@ class AppColors {
   static Color lightpurple = const Color(0xffCE9FFC);
   static Color darkpurple = const Color(0xff7367F0);
   static Color purple = const Color(0xff5D5DFF);
+  static Color lightprimary = const Color(0xffF8C890);
 
 }

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/theme/colors.dart';
+import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
@@ -115,7 +116,7 @@ class SearchScreen extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium!
-                                .copyWith(color: AppColors.darkPrimaryColor),
+                                .copyWith(color: AppColors.darkPrimaryColor,fontFamily: AppFont.fontFamilysemi,letterSpacing: 0),
                           ),
                           trailing: Icon(
                             Icons.arrow_forward_ios_rounded,
@@ -130,7 +131,9 @@ class SearchScreen extends StatelessWidget {
                                 .headlineSmall!
                                 .copyWith(
                                   color: AppColors.grey,
-                                  fontSize: Responsive.sp(2.5, context),
+                                  fontFamily: AppFont.fontMedium,
+                                  letterSpacing: 0,
+                                  fontSize: Responsive.sp(2.8, context),
                                 ),
                           ),
                         );

@@ -76,10 +76,14 @@ class CategoryScreen extends StatelessWidget {
                     ),
                     TextWidget(
                       controller.categoryName[index],
-                      style: TextStyle(
-                          fontSize: Responsive.sp(2.4, context),
-                          fontFamily: AppFont.fontFamily,
-
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall!
+                          .copyWith(
+                          fontSize:
+                          Responsive.sp(2.6, context),
+                          fontFamily: AppFont.fontMedium,
+                          letterSpacing: 0,
                           color: AppColors.grey),
                     )
                   ],

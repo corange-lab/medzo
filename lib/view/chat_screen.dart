@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/dialogue.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -38,35 +36,25 @@ class ChatScreen extends StatelessWidget {
             TextWidget(
               "Cameron Williamson",
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    fontSize: Responsive.sp(3.8, context),
-                    fontFamily: AppFont.fontFamilysemi,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.5,
+                    fontSize: Responsive.sp(3.5, context),
+                    fontFamily: AppFont.fontBold,
+                    letterSpacing: 0,
                     color: AppColors.darkPrimaryColor,
                   ),
             ),
             SizedBox(
-              height: Responsive.height(1, context),
+              height: Responsive.height(0.7, context),
             ),
             TextWidget(
               "Pharmacist",
-              style: Theme.of(context).textTheme.labelSmall,
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                  letterSpacing: 0, fontSize: Responsive.sp(3.1, context)),
             ),
           ],
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                showDialog(context: context, builder: (context) {
-                  return successDialogue(
-                      titleText: "Change Password",
-                      subtitle: "Your password has been changed",
-                      iconDialogue: SvgIcon.key,
-                      btntext: "Done",onPressed: () {
-                        Get.back();
-                      },);
-                },);
-              },
+              onPressed: () {},
               icon: SvgPicture.asset(
                 SvgIcon.more,
                 height: Responsive.height(1.6, context),
@@ -173,7 +161,9 @@ class ChatScreen extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
-                                  .copyWith(color: AppColors.black)),
+                                  .copyWith(
+                                      color: AppColors.black,
+                                      fontSize: Responsive.sp(3.2, context))),
                         ),
                       ),
                       Align(
@@ -220,7 +210,9 @@ class ChatScreen extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
-                                  .copyWith(color: AppColors.black)),
+                                  .copyWith(
+                                      color: AppColors.black,
+                                      fontSize: Responsive.sp(3.2, context))),
                         ),
                       ),
                       Align(
@@ -286,8 +278,8 @@ class ChatScreen extends StatelessWidget {
                                         .copyWith(
                                             fontSize: Responsive.sp(3, context),
                                             color: AppColors.black,
-                                            fontWeight: FontWeight.w800,
-                                            fontFamily: AppFont.fontFamilysemi),
+                                            fontFamily: AppFont.fontBold,
+                                            letterSpacing: 0),
                                   ),
                                   SizedBox(
                                     width: 8,
@@ -298,10 +290,11 @@ class ChatScreen extends StatelessWidget {
                                         .textTheme
                                         .labelSmall!
                                         .copyWith(
-                                          fontSize: Responsive.sp(2.5, context),
-                                          color: AppColors.chatgrey
-                                              .withOpacity(0.7),
-                                        ),
+                                            fontSize:
+                                                Responsive.sp(2.5, context),
+                                            color: AppColors.chatgrey
+                                                .withOpacity(0.7),
+                                            letterSpacing: 0),
                                   ),
                                 ],
                               ),
@@ -314,7 +307,10 @@ class ChatScreen extends StatelessWidget {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
-                                        .copyWith(color: AppColors.black)),
+                                        .copyWith(
+                                            color: AppColors.black,
+                                            fontSize:
+                                                Responsive.sp(3.2, context))),
                               ),
                             ),
                             Align(
@@ -366,7 +362,9 @@ class ChatScreen extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
-                                  .copyWith(color: AppColors.black)),
+                                  .copyWith(
+                                      color: AppColors.black,
+                                      fontSize: Responsive.sp(3.2, context))),
                         ),
                       ),
                       Align(

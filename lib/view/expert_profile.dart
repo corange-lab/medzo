@@ -30,19 +30,17 @@ class ExpertProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.only(right: 10),
           child: TextWidget(
             ConstString.profile,
-            style: TextStyle(
-              fontSize: Responsive.sp(4, context),
-              fontFamily: AppFont.fontFamilysemi,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
-              color: const Color(0xFF0D0D0D),
-            ),
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: Responsive.sp(4.5, context),
+                fontFamily: AppFont.fontBold,
+                letterSpacing: 0,
+                color: AppColors.black),
           ),
         ),
         elevation: 2,
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Center(
@@ -63,10 +61,9 @@ class ExpertProfileScreen extends StatelessWidget {
               "Melissa Jones",
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     fontSize: Responsive.sp(3.8, context),
-                    fontFamily: AppFont.fontFamilysemi,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.5,
-                    color: const Color(0xFF0D0D0D),
+                    fontFamily: AppFont.fontBold,
+                    letterSpacing: 0,
+                    color: AppColors.darkPrimaryColor,
                   ),
             ),
             SizedBox(
@@ -77,10 +74,10 @@ class ExpertProfileScreen extends StatelessWidget {
               children: [
                 TextWidget(
                   "893 Followers",
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelSmall!
-                      .copyWith(color: AppColors.sky),
+                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                      color: AppColors.sky,
+                      letterSpacing: 0,
+                      fontSize: Responsive.sp(3.3, context)),
                 ),
                 SizedBox(
                   width: Responsive.width(1, context),
@@ -95,10 +92,10 @@ class ExpertProfileScreen extends StatelessWidget {
                 ),
                 TextWidget(
                   "101 Following",
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelSmall!
-                      .copyWith(color: AppColors.sky),
+                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                      color: AppColors.sky,
+                      letterSpacing: 0,
+                      fontSize: Responsive.sp(3.3, context)),
                 ),
               ],
             ),
@@ -112,7 +109,7 @@ class ExpertProfileScreen extends StatelessWidget {
                   "Pharmacist @ CVS",
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: AppColors.dark,
-                      fontSize: Responsive.sp(2.6, context)),
+                      fontSize: Responsive.sp(2.8, context),letterSpacing: 0),
                 ),
                 SizedBox(
                   width: Responsive.width(1, context),
@@ -130,8 +127,8 @@ class ExpertProfileScreen extends StatelessWidget {
             TextWidget(
               "4 year member, 41, Caucasian Female",
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                  color: AppColors.grey.withOpacity(0.8),
-                  fontSize: Responsive.sp(2.6, context)),
+                  color: AppColors.grey.withOpacity(0.8),letterSpacing: 0,
+                  fontSize: Responsive.sp(2.8, context)),
             ),
             SizedBox(
               height: Responsive.height(2.5, context),
@@ -169,7 +166,8 @@ class ExpertProfileScreen extends StatelessWidget {
                                   .copyWith(
                                       color: AppColors.dark,
                                       fontSize: Responsive.sp(3.3, context),
-                                      fontFamily: AppFont.fontFamilysemi,letterSpacing: 0,
+                                      fontFamily: AppFont.fontBold,
+                                      letterSpacing: 0,
                                       fontWeight: FontWeight.w600),
                             ),
                           ],
@@ -196,7 +194,8 @@ class ExpertProfileScreen extends StatelessWidget {
                               .copyWith(
                                   color: AppColors.black,
                                   fontSize: Responsive.sp(3.3, context),
-                                  fontFamily: AppFont.fontFamilysemi,letterSpacing: 0,
+                                  fontFamily: AppFont.fontBold,
+                                  letterSpacing: 0,
                                   fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -215,13 +214,12 @@ class ExpertProfileScreen extends StatelessWidget {
                 children: [
                   TextWidget(
                     ConstString.allpost,
-                    style: TextStyle(
-                        fontSize: Responsive.sp(4, context),
-                        // 35
-                        fontFamily: AppFont.fontFamilysemi,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
-                        color: AppColors.darkPrimaryColor),
+                    style:
+                    Theme.of(context).textTheme.displayMedium!.copyWith(
+                      color: AppColors.darkPrimaryColor,
+                      fontFamily: AppFont.fontBold,
+                      fontSize: Responsive.sp(3.5, context),
+                    ),
                   ),
                   TextButton(
                       onPressed: () {},
@@ -240,8 +238,8 @@ class ExpertProfileScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 3),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 15),
-                height: Responsive.height(35, context),
+                margin: const EdgeInsets.symmetric(horizontal: 15),
+                height: Responsive.height(32, context),
                 color: Colors.white,
                 child: Column(
                   children: [
@@ -257,7 +255,10 @@ class ExpertProfileScreen extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: TextWidget(
                           "Ralph Edwards",
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(fontFamily: AppFont.fontBold),
                         ),
                       ),
                       subtitle: Align(
@@ -270,14 +271,17 @@ class ExpertProfileScreen extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
-                                      color: AppColors.grey.withOpacity(0.5),fontSize: Responsive.sp(2.5, context)),
+                                  color: AppColors.grey.withOpacity(0.8),
+                                  fontSize: Responsive.sp(3.3, context)),
                             ),
                             TextSpan(
                               text: "• Updated ✔",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
-                                  .copyWith(color: AppColors.grey,fontSize: Responsive.sp(2.5, context)),
+                                  .copyWith(
+                                      color: AppColors.grey,
+                                      fontSize: Responsive.sp(3.3, context)),
                             ),
                           ]))),
                       trailing: Container(
@@ -301,8 +305,12 @@ class ExpertProfileScreen extends StatelessWidget {
                       child: TextWidget(
                         "Turns out avocados make the best supplements, an article on Vox claimed them to be the best providers for Vitamin C, start bulking up on them! Who cares how expensive they are!?",
                         textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: AppColors.dark.withOpacity(0.5),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(
+                            fontSize: Responsive.sp(3, context),
+                            color: AppColors.dark.withOpacity(0.9),
                             height: 1.5),
                       ),
                     ),
@@ -315,7 +323,7 @@ class ExpertProfileScreen extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  height: Responsive.height(15, context),
+                                  height: Responsive.height(12, context),
                                   color: Colors.black12,
                                 ),
                               )),
@@ -323,7 +331,7 @@ class ExpertProfileScreen extends StatelessWidget {
                               child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              height: Responsive.height(15, context),
+                              height: Responsive.height(12, context),
                               color: Colors.black12,
                             ),
                           )),
@@ -338,7 +346,7 @@ class ExpertProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 1),
               child: Container(
                 height: Responsive.height(17, context),
-                margin: EdgeInsets.symmetric(horizontal: 15),
+                margin: const EdgeInsets.symmetric(horizontal: 15),
                 color: Colors.white,
                 child: Column(
                   children: [
@@ -354,29 +362,35 @@ class ExpertProfileScreen extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: TextWidget(
                           "Courtney Henry",
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(fontFamily: AppFont.fontBold),
                         ),
                       ),
                       subtitle: Align(
                         alignment: Alignment.topLeft,
                         child: RichText(
                             text: TextSpan(children: [
-                              TextSpan(
-                                text: "12hr",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                    color: AppColors.grey.withOpacity(0.5),fontSize: Responsive.sp(2.5, context)),
-                              ),
-                              TextSpan(
-                                text: "• Updated ✔",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: AppColors.grey,fontSize: Responsive.sp(2.5, context)),
-                              ),
-                            ])),
+                          TextSpan(
+                            text: "12hr",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                color: AppColors.grey.withOpacity(0.8),
+                                fontSize: Responsive.sp(3.3, context)),
+                          ),
+                          TextSpan(
+                            text: "• Updated ✔",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    color: AppColors.grey,
+                                    fontSize: Responsive.sp(3.3, context)),
+                          ),
+                        ])),
                       ),
                       trailing: Container(
                         height: 30,
@@ -399,8 +413,12 @@ class ExpertProfileScreen extends StatelessWidget {
                       child: TextWidget(
                         "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                         textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: AppColors.dark.withOpacity(0.5),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(
+                            fontSize: Responsive.sp(3, context),
+                            color: AppColors.dark.withOpacity(0.9),
                             height: 1.5),
                       ),
                     ),
@@ -412,7 +430,7 @@ class ExpertProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 1),
               child: Container(
                 height: Responsive.height(17, context),
-                margin: EdgeInsets.symmetric(horizontal: 15),
+                margin: const EdgeInsets.symmetric(horizontal: 15),
                 color: Colors.white,
                 child: Column(
                   children: [
@@ -428,29 +446,35 @@ class ExpertProfileScreen extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: TextWidget(
                           "Kristin Watson",
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(fontFamily: AppFont.fontBold),
                         ),
                       ),
                       subtitle: Align(
                         alignment: Alignment.topLeft,
                         child: RichText(
                             text: TextSpan(children: [
-                              TextSpan(
-                                text: "12hr",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                    color: AppColors.grey.withOpacity(0.5),fontSize: Responsive.sp(2.5, context)),
-                              ),
-                              TextSpan(
-                                text: "• Updated ✔",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: AppColors.grey,fontSize: Responsive.sp(2.5, context)),
-                              ),
-                            ])),
+                          TextSpan(
+                            text: "12hr",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                color: AppColors.grey.withOpacity(0.8),
+                                fontSize: Responsive.sp(3.3, context)),
+                          ),
+                          TextSpan(
+                            text: "• Updated ✔",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    color: AppColors.grey,
+                                    fontSize: Responsive.sp(3.3, context)),
+                          ),
+                        ])),
                       ),
                       trailing: Container(
                         height: 30,
@@ -473,8 +497,12 @@ class ExpertProfileScreen extends StatelessWidget {
                       child: TextWidget(
                         "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                         textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: AppColors.dark.withOpacity(0.5),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(
+                            fontSize: Responsive.sp(3, context),
+                            color: AppColors.dark.withOpacity(0.9),
                             height: 1.5),
                       ),
                     ),
@@ -486,7 +514,7 @@ class ExpertProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 1),
               child: Container(
                 height: Responsive.height(17, context),
-                margin: EdgeInsets.symmetric(horizontal: 15),
+                margin: const EdgeInsets.symmetric(horizontal: 15),
                 color: Colors.white,
                 child: Column(
                   children: [
@@ -502,29 +530,35 @@ class ExpertProfileScreen extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: TextWidget(
                           "Leslie Alexander",
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(fontFamily: AppFont.fontBold),
                         ),
                       ),
                       subtitle: Align(
                         alignment: Alignment.topLeft,
                         child: RichText(
                             text: TextSpan(children: [
-                              TextSpan(
-                                text: "12hr",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                    color: AppColors.grey.withOpacity(0.5),fontSize: Responsive.sp(2.5, context)),
-                              ),
-                              TextSpan(
-                                text: "• Updated ✔",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: AppColors.grey,fontSize: Responsive.sp(2.5, context)),
-                              ),
-                            ])),
+                          TextSpan(
+                            text: "12hr",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                color: AppColors.grey.withOpacity(0.8),
+                                fontSize: Responsive.sp(3.3, context)),
+                          ),
+                          TextSpan(
+                            text: "• Updated ✔",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    color: AppColors.grey,
+                                    fontSize: Responsive.sp(3.3, context)),
+                          ),
+                        ])),
                       ),
                       trailing: Container(
                         height: 30,
@@ -547,8 +581,12 @@ class ExpertProfileScreen extends StatelessWidget {
                       child: TextWidget(
                         "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                         textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: AppColors.dark.withOpacity(0.5),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(
+                            fontSize: Responsive.sp(3, context),
+                            color: AppColors.dark.withOpacity(0.9),
                             height: 1.5),
                       ),
                     ),

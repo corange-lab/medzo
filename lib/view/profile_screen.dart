@@ -12,8 +12,8 @@ import 'package:medzo/view/editprofile_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
-class profile_screen extends StatelessWidget {
-  const profile_screen({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +30,11 @@ class profile_screen extends StatelessWidget {
               padding: const EdgeInsets.all(15),
               child: TextWidget(
                 ConstString.profile,
-                style: TextStyle(
-                  fontSize: Responsive.sp(4.5, context),
-                  fontFamily: AppFont.fontFamilysemi,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
-                  color: const Color(0xFF0D0D0D),
-                ),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontSize: Responsive.sp(4.5, context),
+                    fontFamily: AppFont.fontBold,
+                    letterSpacing: 0,
+                    color: AppColors.black),
               ),
             ),
             elevation: 2,
@@ -71,25 +69,24 @@ class profile_screen extends StatelessWidget {
               TextWidget(
                 "Melissa Jones",
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      fontSize: Responsive.sp(3.8, context),
-                      fontFamily: AppFont.fontFamilysemi,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.7,
-                      color: const Color(0xFF0D0D0D),
-                    ),
+                  fontSize: Responsive.sp(3.8, context),
+                  fontFamily: AppFont.fontBold,
+                  letterSpacing: 0,
+                  color: AppColors.darkPrimaryColor,
+                ),
               ),
               SizedBox(
-                height: Responsive.height(1.5, context),
+                height: Responsive.height(1.2, context),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextWidget(
                     "893 Followers",
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall!
-                        .copyWith(color: AppColors.sky),
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: AppColors.sky,
+                        letterSpacing: 0,
+                        fontSize: Responsive.sp(3.3, context)),
                   ),
                   SizedBox(
                     width: Responsive.width(2, context),
@@ -104,10 +101,10 @@ class profile_screen extends StatelessWidget {
                   ),
                   TextWidget(
                     "101 Following",
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall!
-                        .copyWith(color: AppColors.sky),
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: AppColors.sky,
+                        letterSpacing: 0,
+                        fontSize: Responsive.sp(3.3, context)),
                   ),
                 ],
               ),
@@ -121,7 +118,7 @@ class profile_screen extends StatelessWidget {
                     "Pharmacist @ CVS",
                     style: Theme.of(context).textTheme.labelSmall!.copyWith(
                         color: AppColors.dark,
-                        fontSize: Responsive.sp(2.6, context)),
+                        fontSize: Responsive.sp(2.8, context),letterSpacing: 0),
                   ),
                   SizedBox(
                     width: Responsive.width(1, context),
@@ -139,30 +136,29 @@ class profile_screen extends StatelessWidget {
               TextWidget(
                 "4 year member, 41, Caucasian Female",
                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: AppColors.grey.withOpacity(0.8),
-                    fontSize: Responsive.sp(2.6, context)),
+                    color: AppColors.grey.withOpacity(0.8),letterSpacing: 0,
+                    fontSize: Responsive.sp(2.8, context)),
               ),
               SizedBox(
                 height: Responsive.height(2, context),
               ),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(EditProfileScreen());
+                  Get.to(const EditProfileScreen());
                 },
-                child: TextWidget(
-                  ConstString.editprofile,
-                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                      color: AppColors.black,
-                      fontSize: Responsive.sp(3.5, context),
-                      fontFamily: AppFont.fontFamilysemi,
-                      fontWeight: FontWeight.w600),
-                ),
                 style: ElevatedButton.styleFrom(
                     elevation: 0,
                     fixedSize: Size(Responsive.width(40, context), 40),
                     backgroundColor: AppColors.primaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30))),
+                child: TextWidget(
+                  ConstString.editprofile,
+                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                      color: AppColors.black,
+                      fontSize: Responsive.sp(3.5, context),
+                      fontFamily: AppFont.fontFamilysemi,),
+                ),
               ),
               SizedBox(
                 height: Responsive.height(0.8, context),
@@ -170,14 +166,14 @@ class profile_screen extends StatelessWidget {
               Container(
                 height: Responsive.height(14, context),
                 width: SizerUtil.width,
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: GradientThemeColors.purpleGradient,
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight),
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Color(0x330064B2),
                       blurRadius: 24,
@@ -190,28 +186,24 @@ class profile_screen extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 4,
-                      child: Container(
-                        child: SvgPicture.asset(
-                          AppImages.mobile_image,
-                          height: Responsive.height(9, context),
-                        ),
+                      child: SvgPicture.asset(
+                        AppImages.mobile_image,
+                        height: Responsive.height(9, context),
                       ),
                     ),
                     Expanded(
                       flex: 5,
-                      child: Container(
-                        child: TextWidget(
-                          ConstString.profilesentance,
-                          textAlign: TextAlign.start,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(
-                                  color: AppColors.white,
-                                  fontSize: Responsive.sp(3.3, context),
-                                  height: 1.7,
-                                  letterSpacing: 0.7,wordSpacing: 0.5),
-                        ),
+                      child: TextWidget(
+                        ConstString.profilesentance,
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelLarge!
+                            .copyWith(
+                                color: AppColors.white,
+                                fontSize: Responsive.sp(3.3, context),
+                                height: 1.7,
+                                letterSpacing: 0.7,wordSpacing: 0.5),
                       ),
                     )
                   ],

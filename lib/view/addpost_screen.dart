@@ -25,13 +25,11 @@ class AddpostScreen extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           child: TextWidget(
             ConstString.newpost,
-            style: TextStyle(
-              fontSize: Responsive.sp(4, context),
-              fontFamily: AppFont.fontFamilysemi,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
-              color: const Color(0xFF0D0D0D),
-            ),
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: Responsive.sp(4, context),
+                fontFamily: AppFont.fontBold,
+                letterSpacing: 0,
+                color: AppColors.black),
           ),
         ),
         elevation: 2,
@@ -65,10 +63,8 @@ class AddpostScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30))),
           child: TextWidget(
             ConstString.uploadpost,
-            style: Theme.of(context)
-                .textTheme
-                .displayMedium!
-                .copyWith(color: AppColors.buttontext),
+            style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                color: AppColors.buttontext, fontFamily: AppFont.fontMedium),
           ),
         ),
       ),
@@ -104,7 +100,8 @@ class AddpostScreen extends StatelessWidget {
                     ConstString.uploadimage,
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
                         color: AppColors.darkyellow.withOpacity(0.9),
-                        fontSize: Responsive.sp(3.5, context)),
+                        fontFamily: AppFont.fontBold,
+                        fontSize: Responsive.sp(3.3, context)),
                   )
                 ],
               ),
@@ -122,7 +119,7 @@ class AddpostScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontWeight: FontWeight.w500,
                     fontSize: Responsive.sp(3.3, context),
-                    letterSpacing: 0.1,
+                    letterSpacing: 0,
                     fontFamily: AppFont.fontFamilysemi),
               ),
             ),
@@ -136,7 +133,7 @@ class AddpostScreen extends StatelessWidget {
                 enabled: true,
                 fillColor: AppColors.searchbar.withOpacity(0.5),
                 hintText: "Add Description",
-                hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: Responsive.sp(3, context)),
+                hintStyle: Theme.of(context).textTheme.headlineSmall,
                 border: OutlineInputBorder(
                   borderSide:
                       BorderSide(color: AppColors.whitehome, width: 0.5),

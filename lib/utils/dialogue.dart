@@ -8,7 +8,7 @@ import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
-Future logoutDialogue(context,controller) {
+Future logoutDialogue(context, controller) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -21,18 +21,6 @@ Future logoutDialogue(context,controller) {
         alignment: Alignment.center,
         title: Column(
           children: [
-            // Align(
-            //   alignment: Alignment.topRight,
-            //   child: SizedBox(
-            //     height: 15,
-            //     child: Padding(
-            //       padding: const EdgeInsets.only(bottom: 20,left: 50),
-            //       child: IconButton(onPressed: () {
-            //
-            //       }, icon: Icon(Icons.close,color: Colors.grey,size: 15,)),
-            //     ),
-            //   ),
-            // ),
             SvgPicture.asset(
               SvgIcon.logoutdialogue,
               height: Responsive.height(3.3, context),
@@ -41,19 +29,24 @@ Future logoutDialogue(context,controller) {
             Text(
               ConstString.logout,
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: AppColors.darkPrimaryColor,
-                  fontFamily: AppFont.fontFamilysemi,
-                  fontSize: Responsive.sp(4, context),
-                  fontWeight: FontWeight.w800),
+                    color: AppColors.darkPrimaryColor,
+                    fontFamily: AppFont.fontBold,
+                    fontSize: Responsive.sp(4.5, context),
+                  ),
             ),
             SizedBox(height: Responsive.height(1.3, context)),
-            Text(
-              "Are you sure you want to sign out?",
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                  color: AppColors.grey.withOpacity(0.9),
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: TextWidget(
+                "Are you sure you want to sign out?",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                  fontSize: Responsive.sp(3.5, context),
+                    color: AppColors.grey.withOpacity(0.9),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: AppFont.fontMedium,
+                    letterSpacing: 0),
+              ),
             ),
             SizedBox(height: Responsive.height(2.5, context)),
             Row(
@@ -122,11 +115,12 @@ class successDialogue extends AlertDialog {
   final String btntext;
   final void Function()? onPressed;
 
-  successDialogue(
+  const successDialogue(
       {required this.titleText,
       required this.subtitle,
       required this.iconDialogue,
-      required this.btntext,this.onPressed});
+      required this.btntext,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -140,18 +134,6 @@ class successDialogue extends AlertDialog {
       alignment: Alignment.center,
       title: Column(
         children: [
-          // Align(
-          //   alignment: Alignment.topRight,
-          //   child: SizedBox(
-          //     height: 15,
-          //     child: Padding(
-          //       padding: const EdgeInsets.only(bottom: 20,left: 50),
-          //       child: IconButton(onPressed: () {
-          //
-          //       }, icon: Icon(Icons.close,color: Colors.grey,size: 15,)),
-          //     ),
-          //   ),
-          // ),
           SvgPicture.asset(
             iconDialogue,
             height: Responsive.height(4.5, context),
@@ -161,28 +143,29 @@ class successDialogue extends AlertDialog {
             titleText,
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
                 color: AppColors.darkPrimaryColor,
-                fontFamily: AppFont.fontMedium,
-                fontSize: Responsive.sp(4, context),
-                fontWeight: FontWeight.w800
-            ),
+                fontFamily: AppFont.fontBold,
+                fontSize: Responsive.sp(4.5, context),),
           ),
-          SizedBox(height: Responsive.height(1.3, context)),
+          SizedBox(height: Responsive.height(0.5, context)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: TextWidget(
               subtitle,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                fontSize: Responsive.sp(3.5, context),
                   color: AppColors.grey.withOpacity(0.9),
                   fontWeight: FontWeight.w500,
-                  letterSpacing: 0,wordSpacing: 0.5),
+                  letterSpacing: 0,
+                  height: 1.5,
+                  wordSpacing: 0.5),
             ),
           ),
           SizedBox(height: Responsive.height(2.5, context)),
           ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
-                fixedSize: Size(Responsive.width(35, context), 45),
+                fixedSize: Size(Responsive.width(45, context), 45),
                 backgroundColor: AppColors.black,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
@@ -192,7 +175,8 @@ class successDialogue extends AlertDialog {
               style: Theme.of(context).textTheme.displayMedium!.copyWith(
                   color: AppColors.buttontext,
                   fontWeight: FontWeight.w500,
-                  fontSize: Responsive.sp(3.8, context)),
+                  fontFamily: AppFont.fontMedium,
+                  fontSize: Responsive.sp(4, context)),
             ),
           ),
         ],

@@ -111,7 +111,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                                   3
                                               ? 1
                                               : 1,
-                              backgroundColor: Color(0xffF8C890),
+                              backgroundColor: AppColors.lightprimary,
                               progressBarColor: AppColors.white,
                             ))
                       ],
@@ -124,7 +124,7 @@ class QuestionScreen extends GetView<Question_controller> {
           ),
           bottomSheet: Container(
             color: AppColors.white,
-            margin: EdgeInsets.only(bottom: 10),
+            margin: const EdgeInsets.only(bottom: 10),
             child: Obx(
                   () => controller.selectedPageIndex.value == 0
                       ? Padding(
@@ -450,7 +450,7 @@ class QuestionScreen extends GetView<Question_controller> {
                                       ),
                                     )
                                   : ctrl.selectedPageIndex.value == 3
-                                      ? Container(
+                                      ? SizedBox(
                                           height:
                                               Responsive.height(10, context),
                                           child: Padding(

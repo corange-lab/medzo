@@ -36,26 +36,24 @@ class BookmarkScreen extends StatelessWidget {
         elevation: 2,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         child: ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           shrinkWrap: true,
           itemCount: 5,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () {
-              },
+              onTap: () {},
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 7, horizontal: 5),
+                padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 5),
                 child: Container(
                   height: Responsive.height(22, context),
                   decoration: BoxDecoration(
-                      boxShadow:  [
+                      boxShadow: [
                         BoxShadow(
                             blurRadius: 2,
                             spreadRadius: 1,
-                            offset: Offset(0, 0),
+                            offset: const Offset(0, 0),
                             color: Colors.grey.withOpacity(0.2))
                       ],
                       color: AppColors.white,
@@ -70,8 +68,7 @@ class BookmarkScreen extends StatelessWidget {
                           width: Responsive.width(3, context),
                         ),
                         Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: SizedBox(
                             height: Responsive.height(6, context),
                             child: Image.asset(AppImages.pill),
@@ -81,90 +78,84 @@ class BookmarkScreen extends StatelessWidget {
                           width: Responsive.width(1, context),
                         ),
                         Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               TextWidget(
                                 "Azithromycin",
-                                style: TextStyle(
-                                    fontSize:
-                                    Responsive.sp(3.5, context),
-                                    fontFamily: AppFont.fontFamilysemi,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 0.5),
-                              ),
-                              SizedBox(
-                                height: Responsive.height(0.7, context),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall!
+                                    .copyWith(
+                                        fontSize: Responsive.sp(3.8, context),
+                                        color: AppColors.darkPrimaryColor,
+                                        fontFamily: AppFont.fontBold,
+                                        letterSpacing: 0),
                               ),
                               TextWidget(
                                 "A fast acting antibiotic.\nTackles infections effectively",
                                 textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize:
-                                    Responsive.sp(2.8, context),
-                                    fontFamily: AppFont.fontFamily,
-                                    height: 1.8,
-                                    color: AppColors.grey.withOpacity(0.7)),
-                              ),
-                              SizedBox(
-                                height: Responsive.height(1, context),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                        height: 1.5,
+                                        color: AppColors.grey.withOpacity(0.5),
+                                        fontFamily: AppFont.fontFamily,
+                                        fontSize: Responsive.sp(2.8, context)),
                               ),
                               Row(
                                 children: [
                                   Icon(
                                     Icons.star_rounded,
                                     color: AppColors.primaryColor,
-                                    size: Responsive.height(2.2, context),
+                                    size: Responsive.height(2.5, context),
                                   ),
                                   Icon(
                                     Icons.star_rounded,
                                     color: AppColors.primaryColor,
-                                    size: Responsive.height(2.2, context),
+                                    size: Responsive.height(2.5, context),
                                   ),
                                   Icon(
                                     Icons.star_rounded,
                                     color: AppColors.primaryColor,
-                                    size: Responsive.height(2.2, context),
+                                    size: Responsive.height(2.5, context),
                                   ),
                                   Icon(
                                     Icons.star_rounded,
                                     color: AppColors.primaryColor,
-                                    size: Responsive.height(2.2, context),
+                                    size: Responsive.height(2.5, context),
                                   ),
                                   Icon(
                                     Icons.star_outline_rounded,
                                     color: AppColors.primaryColor,
-                                    size: Responsive.height(2.2, context),
+                                    size: Responsive.height(2.5, context),
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                height: Responsive.height(1, context),
-                              ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SvgPicture.asset(
                                     SvgIcon.pill,
                                     color: AppColors.primaryColor,
-                                    height:
-                                    Responsive.height(1.8, context),
+                                    height: Responsive.height(1.9, context),
                                   ),
                                   SizedBox(
                                     width: Responsive.width(1, context),
                                   ),
                                   TextWidget(
                                     ConstString.antibiotic,
-                                    style: TextStyle(
-                                        fontSize:
-                                        Responsive.sp(2.7, context),
-                                        color: AppColors.primaryColor,
-                                        fontFamily: AppFont.fontFamily),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                          color: AppColors.primaryColor,
+                                          fontSize: Responsive.sp(2.8, context),
+                                        ),
                                   ),
                                   SizedBox(
                                     width: Responsive.width(2, context),
@@ -172,69 +163,65 @@ class BookmarkScreen extends StatelessWidget {
                                   SvgPicture.asset(
                                     SvgIcon.Rx,
                                     color: AppColors.primaryColor,
-                                    height:
-                                    Responsive.height(1.5, context),
+                                    height: Responsive.height(1.7, context),
                                   ),
                                   SizedBox(
                                     width: Responsive.width(1, context),
                                   ),
                                   TextWidget(
                                     ConstString.prescribed,
-                                    style: TextStyle(
-                                        fontSize:
-                                        Responsive.sp(2.7, context),
-                                        color: AppColors.primaryColor,
-                                        fontFamily: AppFont.fontFamily),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                          color: AppColors.primaryColor,
+                                          fontSize: Responsive.sp(2.8, context),
+                                        ),
                                   ),
                                 ],
-                              ),
-                              SizedBox(
-                                height: Responsive.height(1, context),
                               ),
                               SizedBox(
                                 height: Responsive.height(4, context),
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      Get.to(MedicineDetail());
+                                      Get.to(const MedicineDetail());
                                     },
                                     style: ElevatedButton.styleFrom(
                                         elevation: 0,
-                                        backgroundColor:
-                                        AppColors.splashdetail,
+                                        backgroundColor: AppColors.splashdetail
+                                            .withOpacity(0.7),
                                         fixedSize: Size(
-                                            Responsive.width(
-                                                40, context),
-                                            0),
+                                            Responsive.width(40, context), 0),
                                         shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: AppColors.grey
+                                                    .withOpacity(0.1),
+                                                width: 0.5),
                                             borderRadius:
-                                            BorderRadius.circular(
-                                                30))),
+                                                BorderRadius.circular(30))),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceEvenly,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         TextWidget(
                                           ConstString.viewmoredetails,
-                                          style: TextStyle(
-                                              fontSize: Responsive.sp(
-                                                  2.5, context),
-                                              color: const Color(
-                                                  0xff474747),
-                                              fontFamily:
-                                              AppFont.fontFamily),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall!
+                                              .copyWith(
+                                                  color: AppColors.dark,
+                                                  fontFamily:
+                                                      AppFont.fontFamily),
                                         ),
                                         SizedBox(
-                                          width: Responsive.width(
-                                              1, context),
+                                          width: Responsive.width(1, context),
                                         ),
                                         Icon(
                                           Icons.arrow_forward_rounded,
-                                          size: Responsive.height(
-                                              1.8, context),
-                                          color:
-                                          const Color(0xff474747),
+                                          size: Responsive.height(1.8, context),
+                                          color: const Color(0xff474747),
                                         )
                                       ],
                                     )),
@@ -244,8 +231,7 @@ class BookmarkScreen extends StatelessWidget {
                         ),
                         const Spacer(),
                         Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Container(
                             height: 30,
                             width: 30,

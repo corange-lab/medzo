@@ -189,108 +189,105 @@ class ThemeColor {
     return TextTheme(
       displayLarge: TextStyle(
         fontSize: 30, // 75
-        fontFamily: AppFont.fontFamily,
+        fontFamily: AppFont.fontFamily, letterSpacing: 0,
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       displayMedium: TextStyle(
-        fontSize: Responsive.sp(3.5, context),
-        // 50
-        color: isDark ? Colors.white : AppColors.extralightgrey,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 0,
-        fontFamily: AppFont.fontMedium,
-      ),
+          fontSize: Responsive.sp(3.5, context),
+          // 50
+          color: isDark ? Colors.white : AppColors.extralightgrey,
+          fontWeight: FontWeight.w500,
+          fontFamily: AppFont.fontMedium,
+          letterSpacing: 0),
       displaySmall: TextStyle(
           fontSize: Responsive.sp(2.3, context),
           fontFamily: AppFont.fontFamily,
           color: AppColors.splashdetail,
-          letterSpacing: 0.5,
+          letterSpacing: 0,
           height: 1.7,
           fontWeight: FontWeight.w500),
       headlineLarge: TextStyle(
           fontSize: Responsive.sp(5.5, context),
           fontFamily: AppFont.fontMedium,
           color: AppColors.darkPrimaryColor,
+          letterSpacing: 0,
           fontWeight: FontWeight.w500),
       headlineMedium: TextStyle(
         fontSize: Responsive.sp(3.2, context),
         // 35
         color: isDark ? AppColors.darkPrimaryColor : AppColors.white,
         fontWeight: FontWeight.w600,
-        letterSpacing: 0.6,
         fontFamily: AppFont.fontFamily,
       ),
       headlineSmall: TextStyle(
           fontSize: Responsive.sp(3.5, context),
           fontFamily: AppFont.fontMedium,
-          letterSpacing: 0.4,
           height: 1.4,
+          letterSpacing: 0,
           color: AppColors.grey,
           fontWeight: FontWeight.w500),
       titleLarge: TextStyle(
           fontSize: Responsive.sp(3.5, context),
           fontFamily: AppFont.fontMedium,
           height: 1.4,
+          letterSpacing: 0,
           color: AppColors.darkPrimaryColor,
           fontWeight: FontWeight.w500),
       bodyLarge: TextStyle(
         fontSize: Responsive.sp(3.8, context),
-        // 35
         fontFamily: AppFont.fontMedium,
+        letterSpacing: 0,
         fontWeight: FontWeight.w500,
-        letterSpacing: 0.5,
-        color: isDark ? Colors.white : Color(0xFF474747),
+        color: isDark ? Colors.white : AppColors.dark,
       ),
       bodyMedium: TextStyle(
         fontSize: Responsive.sp(4, context),
-        // 35
         fontFamily: AppFont.fontMedium,
+        letterSpacing: 0,
         fontWeight: FontWeight.w500,
-        letterSpacing: 0.5,
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       bodySmall: TextStyle(
         fontSize: Responsive.sp(3.5, context),
-        // 35
         fontFamily: AppFont.fontMedium,
+        letterSpacing: 0,
         fontWeight: FontWeight.w500,
-        letterSpacing: 0.5,
         color: isDark ? Colors.white : AppColors.grey,
       ),
       titleMedium: TextStyle(
         fontFamily: AppFont.fontMedium,
         fontWeight: FontWeight.w600,
+        letterSpacing: 0,
         fontSize: Responsive.sp(4, context),
-        letterSpacing: 0.3,
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       titleSmall: TextStyle(
         fontSize: 10,
         fontFamily: AppFont.fontFamily,
         fontWeight: FontWeight.bold,
-        letterSpacing: 0.5,
+        letterSpacing: 0,
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       labelSmall: TextStyle(
           fontSize: Responsive.sp(3.5, context),
           fontFamily: AppFont.fontMedium,
           fontWeight: FontWeight.w600,
-          letterSpacing: 0.3,
+          letterSpacing: 0,
           color: AppColors.grey),
       labelLarge: TextStyle(
         fontSize: Responsive.sp(3.8, context),
         // 35
         fontFamily: AppFont.fontFamily,
         fontWeight: FontWeight.w600,
-        letterSpacing: 0.5,
-        color: isDark ? Colors.white : Color(0xFF180E02),
+        letterSpacing: 0,
+        color: isDark ? Colors.white : AppColors.black,
       ),
       labelMedium: TextStyle(
         fontSize: Responsive.sp(3.5, context),
         // 50
         fontFamily: AppFont.fontMedium,
-        letterSpacing: 0.3,
         fontWeight: FontWeight.w600,
+        letterSpacing: 0,
         color: isDark ? AppColors.darkPrimaryColor : AppColors.primaryColor,
       ),
       //caption: TextStyle(color: Colors.white),

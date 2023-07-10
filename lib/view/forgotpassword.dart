@@ -67,7 +67,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                   ),
                 ),
               ),
-              Expanded(flex: 9, child: ForgotWidget(controller, context)),
+              Expanded(flex: 9, child: forgotWidget(controller, context)),
             ],
           ),
         );
@@ -75,7 +75,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
     );
   }
 
-  Container ForgotWidget(Forgotcontroller controller, BuildContext context) {
+  Container forgotWidget(Forgotcontroller controller, BuildContext context) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -223,7 +223,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                         ),
                       ],
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               SizedBox(
                 height: Responsive.height(3, context),
               ),

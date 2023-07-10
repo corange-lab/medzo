@@ -27,18 +27,13 @@ class EditProfileScreen extends StatelessWidget {
               SvgIcon.backarrow,
               height: Responsive.height(1.6, context),
             )),
-        title: Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: TextWidget(
-            ConstString.editprofile,
-            style: TextStyle(
+        title: TextWidget(
+          ConstString.editprofile,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
               fontSize: Responsive.sp(4, context),
-              fontFamily: AppFont.fontFamilysemi,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
-              color: const Color(0xFF0D0D0D),
-            ),
-          ),
+              fontFamily: AppFont.fontBold,
+              letterSpacing: 0,
+              color: AppColors.black),
         ),
         elevation: 2,
       ),
@@ -221,7 +216,7 @@ class EditProfileScreen extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .displayMedium!
-                      .copyWith(color: AppColors.buttontext),
+                      .copyWith(color: AppColors.buttontext,fontSize: Responsive.sp(3.5, context)),
                 ),
               )
             ],
