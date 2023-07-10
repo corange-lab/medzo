@@ -10,9 +10,9 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
 import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/category_screen.dart';
-import 'package:medzo/view/message_screen.dart';
 import 'package:medzo/view/expert_profile.dart';
 import 'package:medzo/view/medicine_detail.dart';
+import 'package:medzo/view/message_screen.dart';
 import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/view/search_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
@@ -194,7 +194,7 @@ class HomeScreen extends GetView<HomeController> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      height: Responsive.height(15, context),
+                                      height: Responsive.height(12, context),
                                       color: Colors.black12,
                                     ),
                                   )),
@@ -202,7 +202,7 @@ class HomeScreen extends GetView<HomeController> {
                                   child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  height: Responsive.height(15, context),
+                                  height: Responsive.height(12, context),
                                   color: Colors.black12,
                                 ),
                               )),
@@ -1012,9 +1012,11 @@ class HomeScreen extends GetView<HomeController> {
       child: Scaffold(
         backgroundColor: AppColors.whitehome,
         appBar: AppBar(
+          titleSpacing: 7,
           toolbarHeight: Responsive.height(7, context),
           backgroundColor: AppColors.white,
-          elevation: 3,
+          elevation: 1,
+          scrolledUnderElevation: 3,
           leading: const Padding(
             padding: EdgeInsets.only(left: 20, top: 5, bottom: 5),
             child: CircleAvatar(
@@ -1031,7 +1033,10 @@ class HomeScreen extends GetView<HomeController> {
             children: [
               TextWidget(
                 "Hellow🖐",
-                style: Theme.of(context).textTheme.labelSmall,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelSmall!
+                    .copyWith(fontSize: Responsive.sp(3.2, context)),
               ),
               SizedBox(
                 height: Responsive.height(0.3, context),
@@ -1040,9 +1045,8 @@ class HomeScreen extends GetView<HomeController> {
                 "Henry, Arthur",
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                       fontSize: Responsive.sp(3.8, context),
-                      fontFamily: AppFont.fontFamilysemi,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.5,
+                      fontFamily: AppFont.fontBold,
+                      letterSpacing: 0,
                       color: AppColors.darkPrimaryColor,
                     ),
               ),
@@ -1060,7 +1064,7 @@ class HomeScreen extends GetView<HomeController> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(
@@ -1086,7 +1090,7 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                       fillColor: AppColors.splashdetail,
                       hintText: "Search Drugs, Reviews, and Ratings...",
-                      hintStyle: Theme.of(context).textTheme.headlineSmall,
+                      hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(fontFamily: AppFont.fontMedium),
                       border: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: AppColors.whitehome, width: 0.5),
@@ -1124,9 +1128,9 @@ class HomeScreen extends GetView<HomeController> {
                         style: TextStyle(
                             fontSize: Responsive.sp(3.4, context),
                             // 35
-                            fontFamily: AppFont.fontFamilysemi,
+                            fontFamily: AppFont.fontBold,
                             fontWeight: FontWeight.w800,
-                            letterSpacing: 0.5,
+                            letterSpacing: 0,
                             color: AppColors.darkPrimaryColor),
                       ),
                       TextButton(
@@ -1140,7 +1144,6 @@ class HomeScreen extends GetView<HomeController> {
                                 .titleLarge!
                                 .copyWith(
                                   color: AppColors.primaryColor,
-                                  height: 1.4,
                                   fontWeight: FontWeight.w600,
                                 ),
                           ))
@@ -1179,8 +1182,9 @@ class HomeScreen extends GetView<HomeController> {
                                     TextWidget(
                                       ConstString.painkillar,
                                       style: TextStyle(
-                                          fontSize: Responsive.sp(2.3, context),
-                                          fontFamily: AppFont.fontFamily,
+                                          fontSize: Responsive.sp(2.6, context),
+                                          fontFamily: AppFont.fontMedium,
+                                          letterSpacing: 0,
                                           color: AppColors.grey),
                                     )
                                   ],
@@ -1207,8 +1211,9 @@ class HomeScreen extends GetView<HomeController> {
                                     TextWidget(
                                       ConstString.antidepresant,
                                       style: TextStyle(
-                                          fontSize: Responsive.sp(2.3, context),
-                                          fontFamily: AppFont.fontFamily,
+                                          fontSize: Responsive.sp(2.6, context),
+                                          fontFamily: AppFont.fontMedium,
+                                          letterSpacing: 0,
                                           color: AppColors.grey),
                                     )
                                   ],
@@ -1235,8 +1240,9 @@ class HomeScreen extends GetView<HomeController> {
                                     TextWidget(
                                       ConstString.antibiotic,
                                       style: TextStyle(
-                                          fontSize: Responsive.sp(2.3, context),
-                                          fontFamily: AppFont.fontFamily,
+                                          fontSize: Responsive.sp(2.6, context),
+                                          fontFamily: AppFont.fontMedium,
+                                          letterSpacing: 0,
                                           color: AppColors.grey),
                                     )
                                   ],
@@ -1269,8 +1275,9 @@ class HomeScreen extends GetView<HomeController> {
                                     TextWidget(
                                       ConstString.cardiovascular,
                                       style: TextStyle(
-                                          fontSize: Responsive.sp(2.3, context),
-                                          fontFamily: AppFont.fontFamily,
+                                          fontSize: Responsive.sp(2.6, context),
+                                          fontFamily: AppFont.fontMedium,
+                                          letterSpacing: 0,
                                           color: AppColors.grey),
                                     )
                                   ],
@@ -1297,8 +1304,9 @@ class HomeScreen extends GetView<HomeController> {
                                     TextWidget(
                                       ConstString.supplements,
                                       style: TextStyle(
-                                          fontSize: Responsive.sp(2.3, context),
-                                          fontFamily: AppFont.fontFamily,
+                                          fontSize: Responsive.sp(2.6, context),
+                                          fontFamily: AppFont.fontMedium,
+                                          letterSpacing: 0,
                                           color: AppColors.grey),
                                     )
                                   ],
@@ -1325,8 +1333,9 @@ class HomeScreen extends GetView<HomeController> {
                                     TextWidget(
                                       ConstString.allergies,
                                       style: TextStyle(
-                                          fontSize: Responsive.sp(2.3, context),
-                                          fontFamily: AppFont.fontFamily,
+                                          fontSize: Responsive.sp(2.6, context),
+                                          fontFamily: AppFont.fontMedium,
+                                          letterSpacing: 0,
                                           color: AppColors.grey),
                                     )
                                   ],
