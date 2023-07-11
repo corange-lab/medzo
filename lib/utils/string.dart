@@ -213,7 +213,7 @@ class ConstString {
   static const String mostrecent = "Most Recent";
   static const String viewreply = "View Replied";
   static const String ask = "Ask Real Time Q&A";
-  static const String viewall = "View All >";
+  static const String viewall = "View All";
   static const String viewall1 = "View All";
   static const String verifyotp = "Verify OTP";
   static const String orloginwith = "or log in with";

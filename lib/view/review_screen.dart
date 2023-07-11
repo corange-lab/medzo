@@ -38,14 +38,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
         title: TextWidget(
           ConstString.addreview,
           style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              fontSize: Responsive.sp(4, context),
+              fontSize: Responsive.sp(4.5, context),
               fontFamily: AppFont.fontBold,
               letterSpacing: 0,
               color: AppColors.black),
         ),
-        elevation: 2,
+        elevation: 3,
+        shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -57,7 +59,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               TextWidget(
                 ConstString.writereview,
                 style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                    fontSize: Responsive.sp(5.3, context),
+                    fontSize: Responsive.sp(6, context),
                     letterSpacing: 0,
                     fontFamily: AppFont.fontBold),
               ),
@@ -67,13 +69,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
               TextWidget(
                 ConstString.leavereview,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontSize: Responsive.sp(3.3, context),
+                    fontSize: Responsive.sp(3.5, context),
                     letterSpacing: 0,
                     color: AppColors.grey.withOpacity(0.8),
                     fontWeight: FontWeight.w400),
               ),
               SizedBox(
-                height: Responsive.height(2, context),
+                height: Responsive.height(3, context),
               ),
               Image.asset(
                 AppImages.pillw,
@@ -85,10 +87,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
               TextWidget(
                 "Azithromycin",
                 style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: Responsive.sp(4, context),
+                    fontSize: Responsive.sp(4.5, context),
                     letterSpacing: 0,
-                    fontFamily: AppFont.fontFamilysemi),
+                    color: AppColors.darkPrimaryColor,
+                    fontFamily: AppFont.fontBold),
               ),
               SizedBox(
                 height: Responsive.height(3, context),
@@ -98,14 +100,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 child: TextWidget(
                   ConstString.rateproduct,
                   style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: Responsive.sp(3.3, context),
+                      fontSize: Responsive.sp(4, context),
                       letterSpacing: 0,
-                      fontFamily: AppFont.fontFamilysemi),
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.darkPrimaryColor,
+                      fontFamily: AppFont.fontMedium),
                 ),
               ),
               SizedBox(
-                height: Responsive.height(0.5, context),
+                height: Responsive.height(1, context),
               ),
               RatingBar(
                 filledIcon: Icons.star_rounded,
@@ -117,7 +120,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 },
                 filledColor: AppColors.primaryColor,
                 emptyColor: AppColors.primaryColor,
-                size: Responsive.height(2.8, context),
+                size: Responsive.height(3.2, context),
               ),
               SizedBox(
                 height: Responsive.height(2, context),
@@ -131,9 +134,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         .headlineLarge!
                         .copyWith(
                             fontWeight: FontWeight.w500,
-                            fontSize: Responsive.sp(3.3, context),
+                            fontSize: Responsive.sp(4, context),
                             letterSpacing: 0,
-                            fontFamily: AppFont.fontFamilysemi),
+                            fontFamily: AppFont.fontMedium),
                   ),
                   SizedBox(
                     width: Responsive.width(1, context),
@@ -155,7 +158,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     enabled: true,
                     fillColor: AppColors.searchbar.withOpacity(0.5),
                     hintText: "Write a review",
-                    hintStyle: Theme.of(context).textTheme.headlineSmall,
+                    hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: Responsive.sp(4, context)),
                     border: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
@@ -177,8 +180,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 10,
+                      horizontal: 18,
+                      vertical: 18,
                     ),
                   ),
                 ),
@@ -189,7 +192,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   "210 character required",
                   style: Theme.of(context).textTheme.displaySmall!.copyWith(
                       color: AppColors.icongrey,
-                      fontSize: Responsive.sp(2.5, context)),
+                      fontSize: Responsive.sp(3.2, context)),
                 ),
               ),
               SizedBox(
@@ -215,7 +218,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(Responsive.width(50, context), 45),
+                    fixedSize: Size(Responsive.width(50, context), 55),
                     backgroundColor: AppColors.black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30))),
@@ -223,8 +226,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ConstString.submit,
                   style: Theme.of(context).textTheme.displayMedium!.copyWith(
                       color: AppColors.buttontext,
-                      fontSize: Responsive.sp(3.5, context),
-                      fontFamily: AppFont.fontFamilysemi),
+                      fontSize: Responsive.sp(4.2, context),
+                      fontFamily: AppFont.fontMedium),
                 ),
               )
             ],

@@ -4,4 +4,5 @@ class AppFont {
   static String fontMedium = 'Medium';
   static String fontBold = 'Bold';
   static String fontExtraBold = 'ExtraBold';
+  static String fontThin = 'Thin';
 }

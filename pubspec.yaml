@@ -97,12 +97,12 @@ flutter:
     - family: Medium
       fonts:
         - asset: fonts/Metropolis-Medium.otf
-    - family: Thin
-      fonts:
-        - asset: fonts/Metropolis-Thin.otf
     - family: Bold
       fonts:
         - asset: fonts/Metropolis-Bold.otf
+    - family: Thin
+      fonts:
+        - asset: fonts/Metropolis-Thin.otf
 
 
   # To add assets to your application, add an assets section, like this:

@@ -146,7 +146,7 @@ class AuthController extends GetxController {
 
       _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      print("Account created for user: " + (_authResult?.user?.email ?? ''));
+      print("Account created for user: ${_authResult?.user?.email ?? ''}");
       _authResult?.user?.sendEmailVerification();
       if (_authResult?.user!.emailVerified ?? false) {
         navigateToHomeScreen();

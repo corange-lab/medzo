@@ -51,32 +51,34 @@ class _MedicineDetailState extends State<MedicineDetail>
           child: TextWidget(
             "Azithromycin",
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: Responsive.sp(3.6, context),
+                fontSize: Responsive.sp(4.5, context),
                 fontFamily: AppFont.fontBold,
                 letterSpacing: 0,
                 color: AppColors.black),
           ),
         ),
-        elevation: 2,
+        elevation: 3,
+        shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
       body: medicineWidget(context, tabController, controller),
       bottomNavigationBar: Container(
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(color: AppColors.white, boxShadow: const [
           BoxShadow(
-              blurRadius: 1,
-              spreadRadius: 2,
-              offset: Offset(0, 0),
-              color: Colors.black12),
+            color: Color(0x0C000000),
+            blurRadius: 20,
+            offset: Offset(0, -2),
+            spreadRadius: 0,),
         ]),
         height: Responsive.height(10, context),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 80),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 90),
           child: ElevatedButton(
               onPressed: () {
                 Get.to(const ReviewScreen());
               },
               style: ElevatedButton.styleFrom(
-                elevation: 0,
+                  elevation: 0,
                   backgroundColor: AppColors.black,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30))),
@@ -84,7 +86,8 @@ class _MedicineDetailState extends State<MedicineDetail>
                 ConstString.writereview,
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                     color: AppColors.buttontext,
-                    fontSize: Responsive.sp(3.5, context),
+                    fontSize: Responsive.sp(3.8, context),
+                    letterSpacing: 0.3,
                     fontFamily: AppFont.fontMedium),
               )),
         ),
@@ -103,19 +106,13 @@ Container medicineWidget(BuildContext context, TabController tabController,
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             child: Container(
-              height: Responsive.height(15, context),
+              height: Responsive.height(17, context),
               decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                        offset: const Offset(0, 0),
-                        color: AppColors.grey.withOpacity(0.1))
-                  ],
+                  border: Border.all(width: 1, color: AppColors.splashdetail),
                   color: AppColors.white,
-                  borderRadius: BorderRadius.circular(7)),
+                  borderRadius: BorderRadius.circular(8)),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 14),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,9 +121,9 @@ Container medicineWidget(BuildContext context, TabController tabController,
                       width: Responsive.width(3, context),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.only(right: 8),
                       child: SizedBox(
-                        height: Responsive.height(6, context),
+                        height: Responsive.height(7, context),
                         child: Image.asset(AppImages.pill),
                       ),
                     ),
@@ -145,13 +142,10 @@ Container medicineWidget(BuildContext context, TabController tabController,
                                 .textTheme
                                 .labelSmall!
                                 .copyWith(
-                                fontSize:
-                                Responsive.sp(3.5, context),
-                                color:
-                                AppColors.darkPrimaryColor,
-                                fontFamily:
-                                AppFont.fontFamilysemi,
-                                letterSpacing: 0),
+                                    fontSize: Responsive.sp(4, context),
+                                    color: AppColors.darkPrimaryColor,
+                                    fontFamily: AppFont.fontBold,
+                                    letterSpacing: 0),
                           ),
                           SizedBox(
                             height: Responsive.height(0.3, context),
@@ -163,47 +157,41 @@ Container medicineWidget(BuildContext context, TabController tabController,
                                 .textTheme
                                 .titleSmall!
                                 .copyWith(
-                                height: 1.5,
-                                color: AppColors.grey
-                                    .withOpacity(0.9),
-                                fontFamily: AppFont.fontFamily,
-                                fontSize: Responsive.sp(
-                                    2.8, context)),
+                                    height: 1.5,
+                                    color: AppColors.grey,
+                                    fontFamily: AppFont.fontFamily,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: Responsive.sp(3.2, context)),
                           ),
                           SizedBox(
-                            height: Responsive.height(0.7, context),
+                            height: Responsive.height(0.5, context),
                           ),
                           Row(
                             children: [
                               Icon(
                                 Icons.star_rounded,
                                 color: AppColors.primaryColor,
-                                size:
-                                Responsive.height(2.2, context),
+                                size: Responsive.height(2.8, context),
                               ),
                               Icon(
                                 Icons.star_rounded,
                                 color: AppColors.primaryColor,
-                                size:
-                                Responsive.height(2.2, context),
+                                size: Responsive.height(2.8, context),
                               ),
                               Icon(
                                 Icons.star_rounded,
                                 color: AppColors.primaryColor,
-                                size:
-                                Responsive.height(2.2, context),
+                                size: Responsive.height(2.8, context),
                               ),
                               Icon(
                                 Icons.star_rounded,
                                 color: AppColors.primaryColor,
-                                size:
-                                Responsive.height(2.2, context),
+                                size: Responsive.height(2.8, context),
                               ),
                               Icon(
                                 Icons.star_outline_rounded,
                                 color: AppColors.primaryColor,
-                                size:
-                                Responsive.height(2.2, context),
+                                size: Responsive.height(2.8, context),
                               ),
                             ],
                           ),
@@ -211,17 +199,15 @@ Container medicineWidget(BuildContext context, TabController tabController,
                             height: Responsive.height(1, context),
                           ),
                           Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               SvgPicture.asset(
                                 SvgIcon.pill,
                                 color: AppColors.primaryColor,
-                                height:
-                                Responsive.height(1.5, context),
+                                height: Responsive.height(1.8, context),
                               ),
                               SizedBox(
-                                width: Responsive.width(1, context),
+                                width: Responsive.width(1.5, context),
                               ),
                               TextWidget(
                                 ConstString.antibiotic,
@@ -229,22 +215,23 @@ Container medicineWidget(BuildContext context, TabController tabController,
                                     .textTheme
                                     .titleSmall!
                                     .copyWith(
-                                  color: AppColors.primaryColor,
-                                  fontSize: Responsive.sp(
-                                      2.8, context),
-                                ),
+                                      color: AppColors.primaryColor,
+                                      fontFamily: AppFont.fontFamily,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 0.2,
+                                      fontSize: Responsive.sp(3.2, context),
+                                    ),
                               ),
                               SizedBox(
-                                width: Responsive.width(2, context),
+                                width: Responsive.width(3, context),
                               ),
                               SvgPicture.asset(
                                 SvgIcon.Rx,
                                 color: AppColors.primaryColor,
-                                height:
-                                Responsive.height(1.4, context),
+                                height: Responsive.height(1.6, context),
                               ),
                               SizedBox(
-                                width: Responsive.width(1, context),
+                                width: Responsive.width(1.5, context),
                               ),
                               TextWidget(
                                 ConstString.prescribed,
@@ -252,10 +239,11 @@ Container medicineWidget(BuildContext context, TabController tabController,
                                     .textTheme
                                     .titleSmall!
                                     .copyWith(
-                                  color: AppColors.primaryColor,
-                                  fontSize: Responsive.sp(
-                                      2.8, context),
-                                ),
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 0.2,
+                                      fontSize: Responsive.sp(3.2, context),
+                                    ),
                               ),
                             ],
                           ),
@@ -264,15 +252,15 @@ Container medicineWidget(BuildContext context, TabController tabController,
                     ),
                     const Spacer(),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: Container(
-                        height: 30,
-                        width: 30,
+                        height: 38,
+                        width: 38,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: AppColors.splashdetail),
                         child: Padding(
-                          padding: const EdgeInsets.all(7.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: SvgPicture.asset(
                             SvgIcon.bookmark,
                             height: Responsive.height(2, context),
@@ -280,6 +268,9 @@ Container medicineWidget(BuildContext context, TabController tabController,
                           ),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      width: Responsive.width(1, context),
                     )
                   ],
                 ),
@@ -293,14 +284,16 @@ Container medicineWidget(BuildContext context, TabController tabController,
             child: TabBar(
               controller: tabController,
               physics: const BouncingScrollPhysics(),
-              // isScrollable: true,
-              // labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-              labelColor: AppColors.white,
+              labelColor: AppColors.primaryColor,
+              // labelStyle: TextStyle(color: AppColors.primaryColor,fontSize: 30),
               indicatorSize: TabBarIndicatorSize.tab,
               indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 color: AppColors.tilecolor,
               ),
+              onTap: (value) {
+                print(value);
+              },
               unselectedLabelColor: Colors.black54,
               indicatorColor: Colors.transparent,
               tabs: [
@@ -317,7 +310,10 @@ Container medicineWidget(BuildContext context, TabController tabController,
           Container(
             width: SizerUtil.width,
             color: AppColors.grey.withOpacity(0.3),
-            height: 1,
+            height: 0.5,
+          ),
+          SizedBox(
+            height: Responsive.height(0.7, context),
           ),
           Expanded(
             child: SizedBox(
@@ -338,25 +334,24 @@ Container medicineWidget(BuildContext context, TabController tabController,
 Container warningWidget(context) {
   return Container(
     height: Responsive.height(30, context),
-    margin: const EdgeInsets.only(bottom: 180, left: 10, right: 10, top: 10),
-    decoration: BoxDecoration(boxShadow: [
-      BoxShadow(
-          blurRadius: 2,
-          spreadRadius: 1,
-          offset: const Offset(0, 0),
-          color: AppColors.grey.withOpacity(0.1))
-    ], color: AppColors.white, borderRadius: BorderRadius.circular(6)),
+    margin: const EdgeInsets.only(bottom: 150, left: 10, right: 10, top: 10),
+    decoration: BoxDecoration(
+        border: Border.all(width: 1, color: AppColors.splashdetail),
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(6)),
     child: Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             child: TextWidget(
               "Cetirizine, in general, has a low potential for interactions with other drugs. However, certain substances could potentially interact with cetirizine, including",
               style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                    fontSize: Responsive.sp(3.2, context),
+                    fontSize: Responsive.sp(3.6, context),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: AppFont.fontMedium,
                     height: 1.6,
                     color: AppColors.dark,
                   ),
@@ -386,7 +381,7 @@ Container warningWidget(context) {
                                 .displayMedium!
                                 .copyWith(
                                     color: AppColors.grey,
-                                    fontSize: Responsive.sp(2.8, context)),
+                                    fontSize: Responsive.sp(3.1, context)),
                           )
                         ],
                       ),
@@ -415,7 +410,7 @@ Container warningWidget(context) {
                                 .displayMedium!
                                 .copyWith(
                                     color: AppColors.grey,
-                                    fontSize: Responsive.sp(2.7, context)),
+                                    fontSize: Responsive.sp(3.1, context)),
                           )
                         ],
                       ),
@@ -427,7 +422,7 @@ Container warningWidget(context) {
                 child: GestureDetector(
                   onTap: () {},
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
                     child: SizedBox(
                       height: Responsive.height(9, context),
                       child: Column(
@@ -444,7 +439,7 @@ Container warningWidget(context) {
                                 .displayMedium!
                                 .copyWith(
                                     color: AppColors.grey,
-                                    fontSize: Responsive.sp(2.7, context)),
+                                    fontSize: Responsive.sp(3, context)),
                           )
                         ],
                       ),
@@ -474,7 +469,7 @@ Container warningWidget(context) {
                                 .displayMedium!
                                 .copyWith(
                                     color: AppColors.grey,
-                                    fontSize: Responsive.sp(2.7, context)),
+                                    fontSize: Responsive.sp(3.1, context)),
                           )
                         ],
                       ),
@@ -489,7 +484,7 @@ Container warningWidget(context) {
             style: Theme.of(context).textTheme.displayMedium!.copyWith(
                   height: 1.5,
                   fontFamily: AppFont.fontFamilysemi,
-                  fontSize: Responsive.sp(2.8, context),
+                  fontSize: Responsive.sp(3.6, context),
                   color: AppColors.orange,
                 ),
             textAlign: TextAlign.start,
@@ -502,191 +497,196 @@ Container warningWidget(context) {
 
 Container aboutWidget(context) {
   return Container(
-    height: Responsive.height(30, context),
-    margin: const EdgeInsets.only(bottom: 50, left: 10, right: 10, top: 10),
-    decoration: BoxDecoration(boxShadow: [
-      BoxShadow(
-          blurRadius: 2,
-          spreadRadius: 1,
-          offset: const Offset(0, 0),
-          color: AppColors.grey.withOpacity(0.1))
-    ], color: AppColors.white, borderRadius: BorderRadius.circular(6)),
+    height: Responsive.height(55, context),
+    margin: const EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 10),
+    decoration: BoxDecoration(
+        border: Border.all(width: 1, color: AppColors.splashdetail),
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(6)),
     child: Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: TextWidget(
-              "Cetirizine is an over-the-counter antihistamine used to relieve allergy symptoms such as runny nose, sneezing, itching, watery eyes, and itching of the nose or throat. It also can help relieve itching and swelling caused by chronic urticaria (hives). Cetirizine works by blocking the effects of histamine, a substance in the body that causes allergy symptoms.",
-              style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                    fontSize: Responsive.sp(3.2, context),
-                    height: 1.6,
-                    color: AppColors.dark,
-                  ),
-              textAlign: TextAlign.start,
-            ),
-          ),
-          SizedBox(
-            height: Responsive.height(1, context),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: TextWidget(
-              "Although Cetirizine is generally considered safe for use, the manufacturers often list several",
-              style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                    fontSize: Responsive.sp(3.2, context),
-                    height: 1.5,
-                    color: AppColors.dark,
-                  ),
-              textAlign: TextAlign.start,
-            ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               child: TextWidget(
-                "potential warnings and precautions",
+                "Cetirizine is an over-the-counter antihistamine used to relieve allergy symptoms such as runny nose, sneezing, itching, watery eyes, and itching of the nose or throat. It also can help relieve itching and swelling caused by chronic urticaria (hives). Cetirizine works by blocking the effects of histamine, a substance in the body that causes allergy symptoms.",
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                      fontSize: Responsive.sp(3.2, context),
-                      height: 1.5,
-                      color: AppColors.primaryColor,
+                      fontSize: Responsive.sp(3.6, context),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: AppFont.fontMedium,
+                      height: 1.6,
+                      color: AppColors.dark,
                     ),
                 textAlign: TextAlign.start,
               ),
             ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: SizedBox(
-                      height: Responsive.height(9, context),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SvgPicture.asset(
-                            SvgIcon.pass_eye,
-                            height: Responsive.height(3.2, context),
-                          ),
-                          TextWidget(
-                            ConstString.drowsiness,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: Responsive.sp(2.8, context)),
-                          )
-                        ],
+            SizedBox(
+              height: Responsive.height(1.5, context),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: TextWidget(
+                "Although Cetirizine is generally considered safe for use, the manufacturers often list several",
+                style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                      fontSize: Responsive.sp(3.5, context),
+                      height: 1.5,
+                      color: AppColors.dark,
+                    ),
+                textAlign: TextAlign.start,
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: TextWidget(
+                  "potential warnings and precautions",
+                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                        fontSize: Responsive.sp(3.6, context),
+                        height: 1.5,
+                        color: AppColors.primaryColor,
+                      ),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: SizedBox(
+                        height: Responsive.height(9, context),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SvgPicture.asset(
+                              SvgIcon.pass_eye,
+                              height: Responsive.height(3.2, context),
+                            ),
+                            TextWidget(
+                              ConstString.drowsiness,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                      color: AppColors.grey,
+                                      fontSize: Responsive.sp(3.2, context)),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: SizedBox(
-                      height: Responsive.height(9, context),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SvgPicture.asset(
-                            SvgIcon.baby,
-                            height: Responsive.height(3.3, context),
-                          ),
-                          TextWidget(
-                            ConstString.pregnancy,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: Responsive.sp(2.8, context)),
-                          )
-                        ],
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: SizedBox(
+                        height: Responsive.height(9, context),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SvgPicture.asset(
+                              SvgIcon.baby,
+                              height: Responsive.height(3.3, context),
+                            ),
+                            TextWidget(
+                              ConstString.pregnancy,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                      color: AppColors.grey,
+                                      fontSize: Responsive.sp(3.2, context)),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: SizedBox(
-                      height: Responsive.height(9, context),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SvgPicture.asset(
-                            SvgIcon.pill,
-                            height: Responsive.height(3.1, context),
-                          ),
-                          TextWidget(
-                            ConstString.allergy,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: Responsive.sp(2.8, context)),
-                          )
-                        ],
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: SizedBox(
+                        height: Responsive.height(9, context),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SvgPicture.asset(
+                              SvgIcon.pill,
+                              height: Responsive.height(3.1, context),
+                            ),
+                            TextWidget(
+                              ConstString.allergy,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                      color: AppColors.grey,
+                                      fontSize: Responsive.sp(3.2, context)),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: SizedBox(
-                      height: Responsive.height(9, context),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SvgPicture.asset(SvgIcon.masksad,
-                              height: Responsive.height(3.2, context)),
-                          TextWidget(
-                            ConstString.olderage,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: Responsive.sp(2.8, context)),
-                          )
-                        ],
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: SizedBox(
+                        height: Responsive.height(9, context),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SvgPicture.asset(SvgIcon.masksad,
+                                height: Responsive.height(3.2, context)),
+                            TextWidget(
+                              ConstString.olderage,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                      color: AppColors.grey,
+                                      fontSize: Responsive.sp(3.2, context)),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          TextWidget(
-            ConstString.clickicon,
-            style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                  height: 1.5,
-                  fontSize: Responsive.sp(2.8, context),
-                  fontFamily: AppFont.fontFamilysemi,
-                  color: AppColors.orange,
-                ),
-            textAlign: TextAlign.start,
-          ),
-        ],
+              ],
+            ),
+            SizedBox(
+              height: Responsive.height(1, context),
+            ),
+            TextWidget(
+              ConstString.clickicon,
+              style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                    height: 1.5,
+                    fontSize: Responsive.sp(3.6, context),
+                    fontFamily: AppFont.fontFamilysemi,
+                    color: AppColors.orange,
+                  ),
+              textAlign: TextAlign.start,
+            ),
+          ],
+        ),
       ),
     ),
   );
@@ -698,13 +698,10 @@ Container questionWidget(context, MedicineController controller) {
     padding: const EdgeInsets.all(8.0),
     child: Container(
       height: SizerUtil.height,
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-            blurRadius: 2,
-            spreadRadius: 1,
-            offset: const Offset(0, 0),
-            color: AppColors.grey.withOpacity(0.1))
-      ], color: AppColors.white, borderRadius: BorderRadius.circular(6)),
+      decoration: BoxDecoration(
+          border: Border.all(width: 1, color: AppColors.splashdetail),
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(6)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         child: SingleChildScrollView(
@@ -722,7 +719,11 @@ Container questionWidget(context, MedicineController controller) {
                   children: [
                     TextWidget(
                       ConstString.ask,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          fontSize: Responsive.sp(3.2, context),
+                          letterSpacing: 0.2,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: AppFont.fontMedium),
                     ),
                     SizedBox(
                       width: Responsive.width(0.5, context),
@@ -730,7 +731,7 @@ Container questionWidget(context, MedicineController controller) {
                     SvgPicture.asset(
                       SvgIcon.verify,
                       color: AppColors.sky,
-                      height: 12,
+                      height: 13,
                     )
                   ],
                 ),
@@ -738,7 +739,7 @@ Container questionWidget(context, MedicineController controller) {
                   height: Responsive.height(1.5, context),
                 ),
                 SizedBox(
-                  height: Responsive.height(5.5, context),
+                  height: Responsive.height(6.5, context),
                   child: TextFormField(
                     cursorColor: AppColors.grey,
                     decoration: InputDecoration(
@@ -746,6 +747,7 @@ Container questionWidget(context, MedicineController controller) {
                       enabled: true,
                       suffixIcon: SizedBox(
                         height: Responsive.height(3, context),
+                        width: Responsive.width(23, context),
                         child: Padding(
                           padding: const EdgeInsets.only(
                               top: 8, bottom: 8, right: 8),
@@ -756,16 +758,17 @@ Container questionWidget(context, MedicineController controller) {
                                     borderRadius: BorderRadius.circular(30)),
                                 elevation: 0,
                                 backgroundColor: AppColors.primaryColor,
-                                fixedSize: const Size(40, 5)),
+                                fixedSize: const Size(60, 5)),
                             child: Text(
                               ConstString.submit,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                      fontSize: Responsive.sp(2.3, context),
-                                      fontFamily: AppFont.fontFamilysemi,
-                                      fontWeight: FontWeight.w800),
+                                      letterSpacing: 0.2,
+                                      fontSize: Responsive.sp(3.2, context),
+                                      fontFamily: AppFont.fontFamily,
+                                      fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),
@@ -774,23 +777,23 @@ Container questionWidget(context, MedicineController controller) {
                       hintText: "Write a question...",
                       hintStyle: Theme.of(context).textTheme.headlineSmall,
                       border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColors.whitehome, width: 0.5),
+                        borderSide: BorderSide(
+                            color: AppColors.grey.withOpacity(0.1), width: 0.5),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColors.whitehome, width: 0.5),
+                        borderSide: BorderSide(
+                            color: AppColors.grey.withOpacity(0.1), width: 0.5),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       disabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColors.whitehome, width: 0.5),
+                        borderSide: BorderSide(
+                            color: AppColors.grey.withOpacity(0.1), width: 0.5),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColors.whitehome, width: 0.5),
+                        borderSide: BorderSide(
+                            color: AppColors.grey.withOpacity(0.1), width: 0.5),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
@@ -801,20 +804,20 @@ Container questionWidget(context, MedicineController controller) {
                   ),
                 ),
                 SizedBox(
-                  height: Responsive.height(2, context),
+                  height: Responsive.height(3, context),
                 ),
                 Container(
                   height: 1,
                   color: AppColors.grey.withOpacity(0.1),
                 ),
                 SizedBox(
-                  height: Responsive.height(1.5, context),
+                  height: Responsive.height(2, context),
                 ),
                 Row(
                   children: [
                     SvgPicture.asset(
                       SvgIcon.chat2,
-                      height: Responsive.height(2.1, context),
+                      height: Responsive.height(2.5, context),
                     ),
                     SizedBox(
                       width: Responsive.width(2, context),
@@ -823,13 +826,14 @@ Container questionWidget(context, MedicineController controller) {
                       ConstString.popularquestions,
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(
                           color: AppColors.blacktxt,
-                          fontSize: Responsive.sp(3.5, context),
-                          letterSpacing: 0.3),
+                          fontSize: Responsive.sp(4.3, context),
+                          fontFamily: AppFont.fontFamilysemi,
+                          letterSpacing: 0),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: Responsive.height(2.5, context),
+                  height: Responsive.height(3.5, context),
                 ),
                 Row(
                   children: [
@@ -845,7 +849,7 @@ Container questionWidget(context, MedicineController controller) {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Container(
                             alignment: Alignment.center,
-                            height: Responsive.height(4.5, context),
+                            height: Responsive.height(5, context),
                             decoration: BoxDecoration(
                                 color: AppColors.tilecolor,
                                 // color: controller.tabSelect.value == "All"
@@ -861,7 +865,7 @@ Container questionWidget(context, MedicineController controller) {
                                       // color: controller.tabSelect.value == "All"
                                       //     ? AppColors.primaryColor
                                       //     : AppColors.grey,
-                                      fontSize: Responsive.sp(3.3, context)),
+                                      fontSize: Responsive.sp(3.5, context)),
                             ),
                           ),
                         ),
@@ -883,12 +887,12 @@ Container questionWidget(context, MedicineController controller) {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30)),
                             child: TextWidget(
-                              "My Question",
+                              "My Questions",
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium!
                                   .copyWith(
-                                      fontSize: Responsive.sp(3.3, context),
+                                      fontSize: Responsive.sp(3.5, context),
                                       color: AppColors.grey),
                             ),
                           ),
@@ -915,7 +919,7 @@ Container questionWidget(context, MedicineController controller) {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Container(
                           alignment: Alignment.center,
-                          height: Responsive.height(47, context),
+                          height: Responsive.height(45, context),
                           decoration: BoxDecoration(
                               color: AppColors.splashdetail.withOpacity(0.5),
                               borderRadius: BorderRadius.circular(7),
@@ -955,14 +959,14 @@ Container questionWidget(context, MedicineController controller) {
                                                 .labelLarge!
                                                 .copyWith(
                                                   fontSize: Responsive.sp(
-                                                      3.4, context),
+                                                      3.8, context),
                                                   fontFamily: AppFont.fontBold,
                                                 ),
                                           ),
                                         ),
                                         SizedBox(
                                           height:
-                                              Responsive.height(0.7, context),
+                                              Responsive.height(0.8, context),
                                         ),
                                         Align(
                                           alignment: Alignment.topLeft,
@@ -973,27 +977,31 @@ Container questionWidget(context, MedicineController controller) {
                                                 .labelSmall!
                                                 .copyWith(
                                                     fontSize: Responsive.sp(
-                                                        2.8, context),
+                                                        3, context),
                                                     letterSpacing: 0),
                                           ),
                                         )
                                       ],
                                     ),
                                     const Spacer(),
-                                    SvgPicture.asset(
-                                      SvgIcon.arrowup,
-                                      height: Responsive.height(2.2, context),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SvgPicture.asset(
+                                        SvgIcon.arrowup,
+                                        height: Responsive.height(2.2, context),
+                                      ),
                                     )
                                   ],
                                 ),
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     flex: 8,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 18, vertical: 5),
+                                          horizontal: 10),
                                       child: TextWidget(
                                         "How much does should my 7 years old son take ?",
                                         textAlign: TextAlign.start,
@@ -1001,33 +1009,43 @@ Container questionWidget(context, MedicineController controller) {
                                             .textTheme
                                             .titleMedium!
                                             .copyWith(
-                                                height: 1.3,
+                                                height: 1.5,
+                                                letterSpacing: 0.3,
                                                 fontFamily:
                                                     AppFont.fontFamilysemi,
                                                 fontSize: Responsive.sp(
-                                                    3.3, context)),
+                                                    3.7, context)),
                                       ),
                                     ),
                                   ),
                                   Expanded(
                                     flex: 1,
-                                    child: SvgPicture.asset(
-                                      SvgIcon.pen,
-                                      height: Responsive.height(2, context),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: SvgPicture.asset(
+                                        SvgIcon.pen,
+                                        height: Responsive.height(2.5, context),
+                                      ),
                                     ),
                                   ),
                                   Expanded(
                                     flex: 1,
-                                    child: SvgPicture.asset(
-                                      SvgIcon.delete,
-                                      height: Responsive.height(1.8, context),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: SvgPicture.asset(
+                                        SvgIcon.delete,
+                                        height: Responsive.height(2.2, context),
+                                      ),
                                     ),
                                   ),
+                                  SizedBox(
+                                    width: Responsive.width(1, context),
+                                  )
                                 ],
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 4),
+                                    horizontal: 8, vertical: 5),
                                 child: Container(
                                   height: Responsive.height(14.5, context),
                                   decoration: BoxDecoration(
@@ -1047,11 +1065,13 @@ Container questionWidget(context, MedicineController controller) {
                                               padding:
                                                   const EdgeInsets.only(top: 4),
                                               child: CircleAvatar(
+                                                maxRadius: 16,
                                                 backgroundColor: AppColors
                                                     .purple
                                                     .withOpacity(0.1),
                                                 child: Icon(
                                                   Icons.person,
+                                                  size: 18,
                                                   color: AppColors.purple
                                                       .withOpacity(0.8),
                                                 ),
@@ -1077,9 +1097,11 @@ Container questionWidget(context, MedicineController controller) {
                                                           .copyWith(
                                                             fontFamily: AppFont
                                                                 .fontFamilysemi,
+                                                            letterSpacing: 0.2,
                                                             fontSize:
                                                                 Responsive.sp(
-                                                                    3, context),
+                                                                    3.8,
+                                                                    context),
                                                           ),
                                                     ),
                                                     SizedBox(
@@ -1090,13 +1112,13 @@ Container questionWidget(context, MedicineController controller) {
                                                       SvgIcon.verify,
                                                       color: AppColors.purple,
                                                       height: Responsive.height(
-                                                          1.4, context),
+                                                          1.5, context),
                                                     )
                                                   ],
                                                 ),
                                                 SizedBox(
                                                   height: Responsive.height(
-                                                      1, context),
+                                                      0.7, context),
                                                 ),
                                                 TextWidget(
                                                   "2 Days Ago",
@@ -1107,7 +1129,7 @@ Container questionWidget(context, MedicineController controller) {
                                                           letterSpacing: 0,
                                                           fontSize:
                                                               Responsive.sp(
-                                                                  2.4, context),
+                                                                  2.8, context),
                                                           color: AppColors.grey
                                                               .withOpacity(
                                                                   0.5)),
@@ -1127,7 +1149,7 @@ Container questionWidget(context, MedicineController controller) {
                                                 .bodySmall!
                                                 .copyWith(
                                                     fontSize: Responsive.sp(
-                                                        3, context),
+                                                        3.5, context),
                                                     height: 1.6,
                                                     color: AppColors.dark),
                                           ),
@@ -1159,11 +1181,13 @@ Container questionWidget(context, MedicineController controller) {
                                               padding:
                                                   const EdgeInsets.only(top: 4),
                                               child: CircleAvatar(
+                                                maxRadius: 16,
                                                 backgroundColor: AppColors
                                                     .purple
                                                     .withOpacity(0.1),
                                                 child: Icon(
                                                   Icons.person,
+                                                  size: 18,
                                                   color: AppColors.purple
                                                       .withOpacity(0.8),
                                                 ),
@@ -1189,9 +1213,11 @@ Container questionWidget(context, MedicineController controller) {
                                                           .copyWith(
                                                             fontFamily: AppFont
                                                                 .fontFamilysemi,
+                                                            letterSpacing: 0.2,
                                                             fontSize:
                                                                 Responsive.sp(
-                                                                    3, context),
+                                                                    3.8,
+                                                                    context),
                                                           ),
                                                     ),
                                                     SizedBox(
@@ -1202,13 +1228,13 @@ Container questionWidget(context, MedicineController controller) {
                                                       SvgIcon.verify,
                                                       color: AppColors.purple,
                                                       height: Responsive.height(
-                                                          1.4, context),
+                                                          1.5, context),
                                                     )
                                                   ],
                                                 ),
                                                 SizedBox(
                                                   height: Responsive.height(
-                                                      1, context),
+                                                      0.7, context),
                                                 ),
                                                 TextWidget(
                                                   "2 Days Ago",
@@ -1219,7 +1245,7 @@ Container questionWidget(context, MedicineController controller) {
                                                           letterSpacing: 0,
                                                           fontSize:
                                                               Responsive.sp(
-                                                                  2.4, context),
+                                                                  2.8, context),
                                                           color: AppColors.grey
                                                               .withOpacity(
                                                                   0.5)),
@@ -1239,7 +1265,7 @@ Container questionWidget(context, MedicineController controller) {
                                                 .bodySmall!
                                                 .copyWith(
                                                     fontSize: Responsive.sp(
-                                                        3, context),
+                                                        3.5, context),
                                                     height: 1.6,
                                                     color: AppColors.dark),
                                           ),
@@ -1271,34 +1297,50 @@ Container reviewWidget() {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            height: Responsive.height(48.5, context),
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                  blurRadius: 2,
-                  spreadRadius: 1,
-                  offset: const Offset(0, 0),
-                  color: AppColors.grey.withOpacity(0.1))
-            ], color: AppColors.white, borderRadius: BorderRadius.circular(6)),
+            height: Responsive.height(61, context),
+            decoration: BoxDecoration(
+                border: Border.all(width: 1, color: AppColors.splashdetail),
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(10)),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextWidget(ConstString.mostrecent,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(color: AppColors.grey)),
+                      Row(
+                        children: [
+                          TextWidget(ConstString.mostrecent,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                      color: AppColors.grey,
+                                      fontFamily: AppFont.fontMedium,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: Responsive.sp(3.5, context),
+                                      letterSpacing: 0.3)),
+                          SizedBox(
+                            width: Responsive.width(1.5, context),
+                          ),
+                          SvgPicture.asset(
+                            SvgIcon.arrowdown,
+                            height: Responsive.height(2, context),
+                          )
+                        ],
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.star_rounded,
                             color: AppColors.primaryColor,
-                            size: Responsive.height(2.5, context),
+                            size: Responsive.height(3, context),
+                          ),
+                          SizedBox(
+                            width: Responsive.width(1.5, context),
                           ),
                           TextWidget(
                             "3.9/5",
@@ -1306,7 +1348,7 @@ Container reviewWidget() {
                                 .textTheme
                                 .labelMedium!
                                 .copyWith(
-                                    fontSize: Responsive.sp(3.8, context),
+                                    fontSize: Responsive.sp(4.8, context),
                                     fontFamily: AppFont.fontFamilysemi),
                           )
                         ],
@@ -1314,22 +1356,22 @@ Container reviewWidget() {
                     ],
                   ),
                   SizedBox(
-                    height: Responsive.height(1.5, context),
+                    height: Responsive.height(1, context),
                   ),
                   Container(
                     height: 1,
                     color: AppColors.grey.withOpacity(0.1),
                   ),
                   SizedBox(
-                    height: Responsive.height(1.5, context),
+                    height: Responsive.height(2, context),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CircleAvatar(
-                          maxRadius: 20,
+                          maxRadius: 22,
                           backgroundColor: AppColors.tilecolor,
                           child: Icon(
                             Icons.person,
@@ -1340,6 +1382,7 @@ Container reviewWidget() {
                           width: Responsive.width(4, context),
                         ),
                         Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextWidget(
@@ -1348,11 +1391,11 @@ Container reviewWidget() {
                                   .textTheme
                                   .labelLarge!
                                   .copyWith(
-                                      fontFamily: AppFont.fontFamilysemi,
-                                      fontSize: Responsive.sp(3.5, context)),
+                                      fontFamily: AppFont.fontBold,
+                                      fontSize: Responsive.sp(3.8, context)),
                             ),
                             SizedBox(
-                              height: Responsive.height(0.2, context),
+                              height: Responsive.height(0.5, context),
                             ),
                             TextWidget(
                               "Closest Match • Caucasian Male, 61",
@@ -1361,8 +1404,9 @@ Container reviewWidget() {
                                   .titleSmall!
                                   .copyWith(
                                       color: AppColors.grey,
-                                      fontFamily: AppFont.fontFamily,
-                                      fontSize: Responsive.sp(2.4, context)),
+                                      fontFamily: AppFont.fontMedium,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: Responsive.sp(3, context)),
                             ),
                             SizedBox(
                               height: Responsive.height(0.5, context),
@@ -1372,27 +1416,27 @@ Container reviewWidget() {
                                 Icon(
                                   Icons.star_rounded,
                                   color: AppColors.primaryColor,
-                                  size: Responsive.height(1.8, context),
+                                  size: Responsive.height(2.5, context),
                                 ),
                                 Icon(
                                   Icons.star_rounded,
                                   color: AppColors.primaryColor,
-                                  size: Responsive.height(1.8, context),
+                                  size: Responsive.height(2.5, context),
                                 ),
                                 Icon(
                                   Icons.star_rounded,
                                   color: AppColors.primaryColor,
-                                  size: Responsive.height(1.8, context),
+                                  size: Responsive.height(2.5, context),
                                 ),
                                 Icon(
                                   Icons.star_rounded,
                                   color: AppColors.primaryColor,
-                                  size: Responsive.height(1.8, context),
+                                  size: Responsive.height(2.5, context),
                                 ),
                                 Icon(
                                   Icons.star_outline_rounded,
                                   color: AppColors.primaryColor,
-                                  size: Responsive.height(1.8, context),
+                                  size: Responsive.height(2.5, context),
                                 ),
                               ],
                             ),
@@ -1405,32 +1449,33 @@ Container reviewWidget() {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: TextWidget(
                       "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          height: 1.5,
-                          fontSize: Responsive.sp(2.8, context),
-                          fontFamily: AppFont.fontFamily,
-                          color: AppColors.grey),
+                          height: 1.7,
+                          fontSize: Responsive.sp(3.4, context),
+                          fontFamily: AppFont.fontMedium,
+                          letterSpacing: 0.3,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.dark),
                       textAlign: TextAlign.start,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: TextButton(
-                          onPressed: () {},
-                          child: TextWidget(
-                            ConstString.viewreply,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium!
-                                .copyWith(
-                                    fontSize: Responsive.sp(2.6, context)),
-                          )),
-                    ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: TextButton(
+                        onPressed: () {},
+                        child: TextWidget(
+                          ConstString.viewreply,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .copyWith(
+                                  fontSize: Responsive.sp(3.5, context),
+                                  fontFamily: AppFont.fontFamilysemi,
+                                  letterSpacing: 0.2),
+                        )),
                   ),
                   Align(
                     alignment: Alignment.topRight,
@@ -1444,12 +1489,12 @@ Container reviewWidget() {
                     height: Responsive.height(1.5, context),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CircleAvatar(
-                          maxRadius: 20,
+                          maxRadius: 22,
                           backgroundColor: AppColors.tilecolor,
                           child: Icon(
                             Icons.person,
@@ -1460,6 +1505,7 @@ Container reviewWidget() {
                           width: Responsive.width(4, context),
                         ),
                         Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextWidget(
@@ -1468,11 +1514,11 @@ Container reviewWidget() {
                                   .textTheme
                                   .labelLarge!
                                   .copyWith(
-                                      fontFamily: AppFont.fontFamilysemi,
-                                      fontSize: Responsive.sp(3.5, context)),
+                                      fontFamily: AppFont.fontBold,
+                                      fontSize: Responsive.sp(3.8, context)),
                             ),
                             SizedBox(
-                              height: Responsive.height(0.2, context),
+                              height: Responsive.height(0.5, context),
                             ),
                             TextWidget(
                               "Closest Match • Caucasian Male, 61",
@@ -1481,8 +1527,9 @@ Container reviewWidget() {
                                   .titleSmall!
                                   .copyWith(
                                       color: AppColors.grey,
-                                      fontFamily: AppFont.fontFamily,
-                                      fontSize: Responsive.sp(2.4, context)),
+                                      fontFamily: AppFont.fontMedium,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: Responsive.sp(3, context)),
                             ),
                             SizedBox(
                               height: Responsive.height(0.5, context),
@@ -1492,27 +1539,27 @@ Container reviewWidget() {
                                 Icon(
                                   Icons.star_rounded,
                                   color: AppColors.primaryColor,
-                                  size: Responsive.height(1.8, context),
+                                  size: Responsive.height(2.5, context),
                                 ),
                                 Icon(
                                   Icons.star_rounded,
                                   color: AppColors.primaryColor,
-                                  size: Responsive.height(1.8, context),
+                                  size: Responsive.height(2.5, context),
                                 ),
                                 Icon(
                                   Icons.star_rounded,
                                   color: AppColors.primaryColor,
-                                  size: Responsive.height(1.8, context),
+                                  size: Responsive.height(2.5, context),
                                 ),
                                 Icon(
                                   Icons.star_rounded,
                                   color: AppColors.primaryColor,
-                                  size: Responsive.height(1.8, context),
+                                  size: Responsive.height(2.5, context),
                                 ),
                                 Icon(
                                   Icons.star_outline_rounded,
                                   color: AppColors.primaryColor,
-                                  size: Responsive.height(1.8, context),
+                                  size: Responsive.height(2.5, context),
                                 ),
                               ],
                             ),
@@ -1525,32 +1572,33 @@ Container reviewWidget() {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: TextWidget(
                       "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          height: 1.5,
-                          fontSize: Responsive.sp(2.8, context),
-                          fontFamily: AppFont.fontFamily,
-                          color: AppColors.grey),
+                          height: 1.7,
+                          fontSize: Responsive.sp(3.4, context),
+                          fontFamily: AppFont.fontMedium,
+                          letterSpacing: 0.3,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.dark),
                       textAlign: TextAlign.start,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: TextButton(
-                          onPressed: () {},
-                          child: TextWidget(
-                            ConstString.viewreply,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium!
-                                .copyWith(
-                                    fontSize: Responsive.sp(2.6, context)),
-                          )),
-                    ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: TextButton(
+                        onPressed: () {},
+                        child: TextWidget(
+                          ConstString.viewreply,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .copyWith(
+                                  fontSize: Responsive.sp(3.5, context),
+                                  fontFamily: AppFont.fontFamilysemi,
+                                  letterSpacing: 0.2),
+                        )),
                   ),
                 ],
               ),
@@ -1580,8 +1628,10 @@ Widget tabContainer(context, index, {required String text}) {
                   color: tabList[index] == index
                       ? AppColors.primaryColor
                       : AppColors.grey,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: AppFont.fontFamilysemi)),
+                  fontSize: Responsive.sp(3.2, context),
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.3,
+                  fontFamily: AppFont.fontFamily)),
         ),
       ),
     ),
