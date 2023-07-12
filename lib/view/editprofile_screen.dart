@@ -25,17 +25,21 @@ class EditProfileScreen extends StatelessWidget {
             },
             icon: SvgPicture.asset(
               SvgIcon.backarrow,
-              height: Responsive.height(1.6, context),
+              height: Responsive.height(2, context),
             )),
-        title: TextWidget(
-          ConstString.editprofile,
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              fontSize: Responsive.sp(4, context),
-              fontFamily: AppFont.fontBold,
-              letterSpacing: 0,
-              color: AppColors.black),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            ConstString.editprofile,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: Responsive.sp(4.8, context),
+                fontFamily: AppFont.fontBold,
+                letterSpacing: 0,
+                color: AppColors.black),
+          ),
         ),
-        elevation: 2,
+        elevation: 3,
+        shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
       body: editProfileWidget(context),
     );
@@ -52,13 +56,9 @@ class EditProfileScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 child: CircleAvatar(
-                  maxRadius: Responsive.height(6, context),
+                  maxRadius: Responsive.height(7, context),
                   backgroundColor: AppColors.blue.withOpacity(0.1),
-                  child: Icon(
-                    Icons.person,
-                    size: 40,
-                    color: AppColors.blue.withOpacity(0.8),
-                  ),
+                  backgroundImage: AssetImage("assets/profile.jpg"),
                 ),
               ),
               SizedBox(
@@ -67,35 +67,38 @@ class EditProfileScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.only(left: 15),
                   child: TextWidget(
                     ConstString.name,
                     style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppColors.grey.withOpacity(0.9),
-                        fontSize: Responsive.sp(3.3, context),
+                        fontSize: Responsive.sp(4, context),
                         letterSpacing: 0,
-                        fontFamily: AppFont.fontFamilysemi),
+                        fontFamily: AppFont.fontMedium),
                   ),
                 ),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    const EdgeInsets.only(top: 8,bottom: 8,right: 25,left: 15),
                 child: TextFormField(
                   cursorColor: AppColors.grey,
                   decoration: InputDecoration(
                     filled: true,
                     enabled: true,
-                    suffixIcon: IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset(
-                          SvgIcon.pencil_simple,
-                          height: Responsive.height(2.2, context),
-                        )),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset(
+                            SvgIcon.pencil_simple,
+                            height: Responsive.height(2.8, context),
+                          )),
+                    ),
                     fillColor: AppColors.searchbar.withOpacity(0.5),
                     hintText: "Enter your name",
-                    hintStyle: Theme.of(context).textTheme.headlineSmall,
+                    hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: Responsive.sp(3.8, context)),
                     border: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
@@ -117,8 +120,8 @@ class EditProfileScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 10,
+                      horizontal: 18,
+                      vertical: 18,
                     ),
                   ),
                 ),
@@ -129,35 +132,38 @@ class EditProfileScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.only(left: 15),
                   child: TextWidget(
                     ConstString.profession,
                     style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppColors.grey.withOpacity(0.9),
-                        fontSize: Responsive.sp(3.3, context),
+                        fontSize: Responsive.sp(4, context),
                         letterSpacing: 0,
-                        fontFamily: AppFont.fontFamilysemi),
+                        fontFamily: AppFont.fontMedium),
                   ),
                 ),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    const EdgeInsets.only(top: 8,bottom: 8,right: 25,left: 15),
                 child: TextFormField(
                   cursorColor: AppColors.grey,
                   decoration: InputDecoration(
                     filled: true,
                     enabled: true,
                     fillColor: AppColors.searchbar.withOpacity(0.5),
-                    suffixIcon: IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset(
-                          SvgIcon.pencil_simple,
-                          height: Responsive.height(2.2, context),
-                        )),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset(
+                            SvgIcon.pencil_simple,
+                            height: Responsive.height(2.8, context),
+                          )),
+                    ),
                     hintText: "Enter your profession",
-                    hintStyle: Theme.of(context).textTheme.headlineSmall,
+                    hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: Responsive.sp(3.8, context)),
                     border: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
@@ -179,14 +185,14 @@ class EditProfileScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 10,
+                      horizontal: 18,
+                      vertical: 18,
                     ),
                   ),
                 ),
               ),
               SizedBox(
-                height: Responsive.height(4, context),
+                height: Responsive.height(5, context),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -207,7 +213,7 @@ class EditProfileScreen extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(Responsive.width(50, context), 45),
+                    fixedSize: Size(Responsive.width(50, context), Responsive.height(7, context)),
                     backgroundColor: AppColors.black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30))),
@@ -216,28 +222,29 @@ class EditProfileScreen extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .displayMedium!
-                      .copyWith(color: AppColors.buttontext,fontSize: Responsive.sp(3.5, context)),
+                      .copyWith(color: AppColors.buttontext,fontSize: Responsive.sp(4.2, context)),
                 ),
               )
             ],
           ),
         ),
         Positioned(
-          top: 75,
+          top: 85,
           right: 120,
           child: GestureDetector(
             onTap: () {},
-            child: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                  color: AppColors.blue,
-                  borderRadius: BorderRadius.circular(21)),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SvgPicture.asset(
-                  SvgIcon.pencil,
-                  height: Responsive.height(2.5, context),
+            child: ClipOval(
+              child: Container(
+                height: 45,
+                width: 45,
+                decoration: BoxDecoration(
+                    color: AppColors.blue,),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SvgPicture.asset(
+                    SvgIcon.pencil,
+                    height: Responsive.height(2.5, context),
+                  ),
                 ),
               ),
             ),

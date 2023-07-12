@@ -6,6 +6,8 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/view/chat_screen.dart';
+import 'package:medzo/view/post_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
 class ExpertProfileScreen extends StatelessWidget {
@@ -24,20 +26,24 @@ class ExpertProfileScreen extends StatelessWidget {
             },
             icon: SvgPicture.asset(
               SvgIcon.backarrow,
-              height: Responsive.height(1.6, context),
+              height: Responsive.height(2, context),
             )),
-        title: Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: TextWidget(
-            ConstString.profile,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: Responsive.sp(4.5, context),
-                fontFamily: AppFont.fontBold,
-                letterSpacing: 0,
-                color: AppColors.black),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: TextWidget(
+              ConstString.profile,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontSize: Responsive.sp(4.8, context),
+                  fontFamily: AppFont.fontBold,
+                  letterSpacing: 0,
+                  color: AppColors.black),
+            ),
           ),
         ),
-        elevation: 2,
+        elevation: 3,
+        shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -47,27 +53,23 @@ class ExpertProfileScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: CircleAvatar(
-                  maxRadius: Responsive.height(6, context),
+                  maxRadius: Responsive.height(7, context),
                   backgroundColor: AppColors.tilecolor,
-                  child: Icon(
-                    Icons.person,
-                    size: 40,
-                    color: AppColors.primaryColor,
-                  ),
+                  backgroundImage: const AssetImage("assets/profile.jpg"),
                 ),
               ),
             ),
             TextWidget(
               "Melissa Jones",
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    fontSize: Responsive.sp(3.8, context),
+                    fontSize: Responsive.sp(4.5, context),
                     fontFamily: AppFont.fontBold,
                     letterSpacing: 0,
                     color: AppColors.darkPrimaryColor,
                   ),
             ),
             SizedBox(
-              height: Responsive.height(1, context),
+              height: Responsive.height(2, context),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -77,10 +79,10 @@ class ExpertProfileScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: AppColors.sky,
                       letterSpacing: 0,
-                      fontSize: Responsive.sp(3.3, context)),
+                      fontSize: Responsive.sp(3.8, context)),
                 ),
                 SizedBox(
-                  width: Responsive.width(1, context),
+                  width: Responsive.width(2, context),
                 ),
                 Container(
                   height: 15,
@@ -88,28 +90,30 @@ class ExpertProfileScreen extends StatelessWidget {
                   color: AppColors.grey.withOpacity(0.2),
                 ),
                 SizedBox(
-                  width: Responsive.width(1, context),
+                  width: Responsive.width(2, context),
                 ),
                 TextWidget(
                   "101 Following",
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: AppColors.sky,
                       letterSpacing: 0,
-                      fontSize: Responsive.sp(3.3, context)),
+                      fontSize: Responsive.sp(3.8, context)),
                 ),
               ],
             ),
             SizedBox(
-              height: Responsive.height(1, context),
+              height: Responsive.height(2, context),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextWidget(
                   "Pharmacist @ CVS",
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: AppColors.dark,
-                      fontSize: Responsive.sp(2.8, context),letterSpacing: 0),
+                      fontSize: Responsive.sp(3.5, context),
+                      letterSpacing: 0),
                 ),
                 SizedBox(
                   width: Responsive.width(1, context),
@@ -117,18 +121,19 @@ class ExpertProfileScreen extends StatelessWidget {
                 SvgPicture.asset(
                   SvgIcon.verify,
                   color: AppColors.blue,
-                  height: Responsive.height(1.4, context),
+                  height: Responsive.height(1.8, context),
                 )
               ],
             ),
             SizedBox(
-              height: Responsive.height(1, context),
+              height: Responsive.height(2, context),
             ),
             TextWidget(
               "4 year member, 41, Caucasian Female",
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                  color: AppColors.grey.withOpacity(0.8),letterSpacing: 0,
-                  fontSize: Responsive.sp(2.8, context)),
+                  color: AppColors.grey,
+                  letterSpacing: 0,
+                  fontSize: Responsive.sp(3.5, context)),
             ),
             SizedBox(
               height: Responsive.height(2.5, context),
@@ -141,10 +146,12 @@ class ExpertProfileScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 7),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(const ChatScreen());
+                        },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
-                            fixedSize: Size(Responsive.width(30, context), 40),
+                            fixedSize: Size(Responsive.width(30, context), 48),
                             backgroundColor: AppColors.splashdetail,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30))),
@@ -153,7 +160,7 @@ class ExpertProfileScreen extends StatelessWidget {
                           children: [
                             SvgPicture.asset(
                               SvgIcon.chat,
-                              height: Responsive.height(2, context),
+                              height: Responsive.height(2.8, context),
                             ),
                             SizedBox(
                               width: Responsive.width(2, context),
@@ -165,8 +172,8 @@ class ExpertProfileScreen extends StatelessWidget {
                                   .displayMedium!
                                   .copyWith(
                                       color: AppColors.dark,
-                                      fontSize: Responsive.sp(3.3, context),
-                                      fontFamily: AppFont.fontBold,
+                                      fontSize: Responsive.sp(4, context),
+                                      fontFamily: AppFont.fontFamilysemi,
                                       letterSpacing: 0,
                                       fontWeight: FontWeight.w600),
                             ),
@@ -182,7 +189,7 @@ class ExpertProfileScreen extends StatelessWidget {
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
-                            fixedSize: Size(Responsive.width(50, context), 40),
+                            fixedSize: Size(Responsive.width(50, context), 48),
                             backgroundColor: AppColors.primaryColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30))),
@@ -193,8 +200,8 @@ class ExpertProfileScreen extends StatelessWidget {
                               .displayMedium!
                               .copyWith(
                                   color: AppColors.black,
-                                  fontSize: Responsive.sp(3.3, context),
-                                  fontFamily: AppFont.fontBold,
+                                  fontSize: Responsive.sp(4, context),
+                                  fontFamily: AppFont.fontFamilysemi,
                                   letterSpacing: 0,
                                   fontWeight: FontWeight.w600),
                         ),
@@ -214,23 +221,39 @@ class ExpertProfileScreen extends StatelessWidget {
                 children: [
                   TextWidget(
                     ConstString.allpost,
-                    style:
-                    Theme.of(context).textTheme.displayMedium!.copyWith(
-                      color: AppColors.darkPrimaryColor,
-                      fontFamily: AppFont.fontBold,
-                      fontSize: Responsive.sp(3.5, context),
-                    ),
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                          color: AppColors.darkPrimaryColor,
+                          fontFamily: AppFont.fontFamily,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                          fontSize: Responsive.sp(4.2, context),
+                        ),
                   ),
                   TextButton(
-                      onPressed: () {},
-                      child: TextWidget(
-                        ConstString.viewall,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: AppColors.primaryColor,
-                              fontSize: Responsive.sp(3.2, context),
-                              height: 1,
-                              fontWeight: FontWeight.w600,
+                      onPressed: () {
+                        Get.to(const PostScreen());
+                      },
+                      child: Row(
+                        children: [
+                          TextWidget(
+                            ConstString.viewall,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                color: AppColors.primaryColor,
+                                height: 1.4,
+                                fontWeight: FontWeight.w600,
+                                fontSize: Responsive.sp(3.8, context)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: SvgPicture.asset(
+                              SvgIcon.arrowright,
+                              height: Responsive.height(2.2, context),
                             ),
+                          )
+                        ],
                       ))
                 ],
               ),
@@ -239,18 +262,29 @@ class ExpertProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 3),
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 15),
-                height: Responsive.height(32, context),
+                height: Responsive.height(35, context),
                 color: Colors.white,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: AppColors.tilecolor,
-                        child: Icon(
-                          Icons.person,
-                          color: AppColors.primaryColor,
+                      horizontalTitleGap: 10,
+                      leading: ClipOval(
+                        child: SizedBox(
+                          height: 45,
+                          width: 45,
+                          child: Image.asset("assets/user1.jpg"),
+                          // child: SvgPicture.asset("assets/user.svg",height: 50,),
                         ),
                       ),
+                      // CircleAvatar(
+                      //   maxRadius: 22,
+                      //   backgroundColor: AppColors.tilecolor,
+                      //   child: Icon(
+                      //     Icons.person,
+                      //     color: AppColors.primaryColor,
+                      //   ),
+                      // ),
                       title: Align(
                         alignment: Alignment.topLeft,
                         child: TextWidget(
@@ -258,40 +292,45 @@ class ExpertProfileScreen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge!
-                              .copyWith(fontFamily: AppFont.fontBold),
+                              .copyWith(
+                              fontFamily: AppFont.fontFamilysemi,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.3,
+                              fontSize: Responsive.sp(4.2, context)),
                         ),
                       ),
                       subtitle: Align(
                           alignment: Alignment.topLeft,
                           child: RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                              text: "12hr",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                  color: AppColors.grey.withOpacity(0.8),
-                                  fontSize: Responsive.sp(3.3, context)),
-                            ),
-                            TextSpan(
-                              text: "• Updated ✔",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
+                                TextSpan(
+                                  text: "12hr",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                      color: AppColors.grey.withOpacity(0.8),
+                                      fontSize: Responsive.sp(3.3, context)),
+                                ),
+                                TextSpan(
+                                  text: "• Updated ✔",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
                                       color: AppColors.grey,
                                       fontSize: Responsive.sp(3.3, context)),
-                            ),
-                          ]))),
+                                ),
+                              ]))),
                       trailing: Container(
-                        height: 30,
-                        width: 30,
+                        height: 38,
+                        width: 38,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: AppColors.splashdetail),
                         child: Padding(
-                          padding: const EdgeInsets.all(7.0),
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 7),
                           child: SvgPicture.asset(
                             SvgIcon.bookmark,
                             height: Responsive.height(2, context),
@@ -309,7 +348,9 @@ class ExpertProfileScreen extends StatelessWidget {
                             .textTheme
                             .bodySmall!
                             .copyWith(
-                            fontSize: Responsive.sp(3, context),
+                            fontSize: Responsive.sp(3.5, context),
+                            fontFamily: AppFont.fontFamily,
+                            fontWeight: FontWeight.w400,
                             color: AppColors.dark.withOpacity(0.9),
                             height: 1.5),
                       ),
@@ -319,22 +360,31 @@ class ExpertProfileScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                              flex: 2,
+                              flex: 7,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  height: Responsive.height(12, context),
+                                  height: Responsive.height(14, context),
                                   color: Colors.black12,
+                                  child: Image.asset(
+                                    "assets/frame1.jpg",
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                               )),
                           Expanded(
+                              flex: 4,
                               child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: Responsive.height(12, context),
-                              color: Colors.black12,
-                            ),
-                          )),
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: Responsive.height(14, context),
+                                  color: Colors.black12,
+                                  child: Image.asset(
+                                    "assets/frame2.jpg",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )),
                         ],
                       ),
                     )
@@ -343,21 +393,29 @@ class ExpertProfileScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 1),
+              padding: const EdgeInsets.only(bottom: 3),
               child: Container(
-                height: Responsive.height(17, context),
                 margin: const EdgeInsets.symmetric(horizontal: 15),
+                height: Responsive.height(19, context),
                 color: Colors.white,
                 child: Column(
                   children: [
                     ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: AppColors.purple.withOpacity(0.2),
-                        child: Icon(
-                          Icons.person,
-                          color: AppColors.purple.withOpacity(0.7),
+                      leading: ClipOval(
+                        child: SizedBox(
+                          height: 45,
+                          width: 45,
+                          child: Image.asset("assets/user2.jpg"),
+                          // child: SvgPicture.asset("assets/user.svg",height: 50,),
                         ),
                       ),
+                      // CircleAvatar(
+                      //   backgroundColor: AppColors.purple.withOpacity(0.2),
+                      //   child: Icon(
+                      //     Icons.person,
+                      //     color: AppColors.purple.withOpacity(0.7),
+                      //   ),
+                      // ),
                       title: Align(
                         alignment: Alignment.topLeft,
                         child: TextWidget(
@@ -365,36 +423,37 @@ class ExpertProfileScreen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge!
-                              .copyWith(fontFamily: AppFont.fontBold),
+                              .copyWith(
+                              fontFamily: AppFont.fontBold,
+                              fontSize: Responsive.sp(4.2, context)),
                         ),
                       ),
                       subtitle: Align(
-                        alignment: Alignment.topLeft,
-                        child: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                            text: "12hr",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                color: AppColors.grey.withOpacity(0.8),
-                                fontSize: Responsive.sp(3.3, context)),
-                          ),
-                          TextSpan(
-                            text: "• Updated ✔",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: Responsive.sp(3.3, context)),
-                          ),
-                        ])),
-                      ),
+                          alignment: Alignment.topLeft,
+                          child: RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: "12hr",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                      color: AppColors.grey.withOpacity(0.8),
+                                      fontSize: Responsive.sp(3.3, context)),
+                                ),
+                                TextSpan(
+                                  text: "• Updated ✔",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                      color: AppColors.grey,
+                                      fontSize: Responsive.sp(3.3, context)),
+                                ),
+                              ]))),
                       trailing: Container(
-                        height: 30,
-                        width: 30,
+                        height: 38,
+                        width: 38,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: AppColors.splashdetail),
@@ -417,7 +476,9 @@ class ExpertProfileScreen extends StatelessWidget {
                             .textTheme
                             .bodySmall!
                             .copyWith(
-                            fontSize: Responsive.sp(3, context),
+                            fontSize: Responsive.sp(3.5, context),
+                            fontFamily: AppFont.fontFamily,
+                            fontWeight: FontWeight.w400,
                             color: AppColors.dark.withOpacity(0.9),
                             height: 1.5),
                       ),
@@ -427,21 +488,29 @@ class ExpertProfileScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 1),
+              padding: const EdgeInsets.only(bottom: 3),
               child: Container(
-                height: Responsive.height(17, context),
                 margin: const EdgeInsets.symmetric(horizontal: 15),
+                height: Responsive.height(19, context),
                 color: Colors.white,
                 child: Column(
                   children: [
                     ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: AppColors.tilecolor,
-                        child: Icon(
-                          Icons.person,
-                          color: AppColors.primaryColor,
+                      leading: ClipOval(
+                        child: SizedBox(
+                          height: 45,
+                          width: 45,
+                          child: Image.asset("assets/user3.jpg"),
+                          // child: SvgPicture.asset("assets/user.svg",height: 50,),
                         ),
                       ),
+                      // CircleAvatar(
+                      //   backgroundColor: AppColors.tilecolor,
+                      //   child: Icon(
+                      //     Icons.person,
+                      //     color: AppColors.primaryColor,
+                      //   ),
+                      // ),
                       title: Align(
                         alignment: Alignment.topLeft,
                         child: TextWidget(
@@ -449,36 +518,37 @@ class ExpertProfileScreen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge!
-                              .copyWith(fontFamily: AppFont.fontBold),
+                              .copyWith(
+                              fontFamily: AppFont.fontBold,
+                              fontSize: Responsive.sp(4.2, context)),
                         ),
                       ),
                       subtitle: Align(
-                        alignment: Alignment.topLeft,
-                        child: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                            text: "12hr",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                color: AppColors.grey.withOpacity(0.8),
-                                fontSize: Responsive.sp(3.3, context)),
-                          ),
-                          TextSpan(
-                            text: "• Updated ✔",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: Responsive.sp(3.3, context)),
-                          ),
-                        ])),
-                      ),
+                          alignment: Alignment.topLeft,
+                          child: RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: "12hr",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                      color: AppColors.grey.withOpacity(0.8),
+                                      fontSize: Responsive.sp(3.3, context)),
+                                ),
+                                TextSpan(
+                                  text: "• Updated ✔",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                      color: AppColors.grey,
+                                      fontSize: Responsive.sp(3.3, context)),
+                                ),
+                              ]))),
                       trailing: Container(
-                        height: 30,
-                        width: 30,
+                        height: 38,
+                        width: 38,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: AppColors.splashdetail),
@@ -501,7 +571,9 @@ class ExpertProfileScreen extends StatelessWidget {
                             .textTheme
                             .bodySmall!
                             .copyWith(
-                            fontSize: Responsive.sp(3, context),
+                            fontSize: Responsive.sp(3.5, context),
+                            fontFamily: AppFont.fontFamily,
+                            fontWeight: FontWeight.w400,
                             color: AppColors.dark.withOpacity(0.9),
                             height: 1.5),
                       ),
@@ -513,19 +585,27 @@ class ExpertProfileScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 1),
               child: Container(
-                height: Responsive.height(17, context),
                 margin: const EdgeInsets.symmetric(horizontal: 15),
+                height: Responsive.height(19, context),
                 color: Colors.white,
                 child: Column(
                   children: [
                     ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: AppColors.purple.withOpacity(0.2),
-                        child: Icon(
-                          Icons.person,
-                          color: AppColors.purple.withOpacity(0.7),
+                      leading: ClipOval(
+                        child: SizedBox(
+                          height: 45,
+                          width: 45,
+                          child: Image.asset("assets/user4.jpg"),
+                          // child: SvgPicture.asset("assets/user.svg",height: 50,),
                         ),
                       ),
+                      // CircleAvatar(
+                      //   backgroundColor: AppColors.purple.withOpacity(0.2),
+                      //   child: Icon(
+                      //     Icons.person,
+                      //     color: AppColors.purple.withOpacity(0.7),
+                      //   ),
+                      // ),
                       title: Align(
                         alignment: Alignment.topLeft,
                         child: TextWidget(
@@ -533,36 +613,37 @@ class ExpertProfileScreen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge!
-                              .copyWith(fontFamily: AppFont.fontBold),
+                              .copyWith(
+                              fontFamily: AppFont.fontBold,
+                              fontSize: Responsive.sp(4.2, context)),
                         ),
                       ),
                       subtitle: Align(
-                        alignment: Alignment.topLeft,
-                        child: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                            text: "12hr",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                color: AppColors.grey.withOpacity(0.8),
-                                fontSize: Responsive.sp(3.3, context)),
-                          ),
-                          TextSpan(
-                            text: "• Updated ✔",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: Responsive.sp(3.3, context)),
-                          ),
-                        ])),
-                      ),
+                          alignment: Alignment.topLeft,
+                          child: RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: "12hr",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                      color: AppColors.grey.withOpacity(0.8),
+                                      fontSize: Responsive.sp(3.3, context)),
+                                ),
+                                TextSpan(
+                                  text: "• Updated ✔",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                      color: AppColors.grey,
+                                      fontSize: Responsive.sp(3.3, context)),
+                                ),
+                              ]))),
                       trailing: Container(
-                        height: 30,
-                        width: 30,
+                        height: 38,
+                        width: 38,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: AppColors.splashdetail),
@@ -585,7 +666,9 @@ class ExpertProfileScreen extends StatelessWidget {
                             .textTheme
                             .bodySmall!
                             .copyWith(
-                            fontSize: Responsive.sp(3, context),
+                            fontSize: Responsive.sp(3.5, context),
+                            fontFamily: AppFont.fontFamily,
+                            fontWeight: FontWeight.w400,
                             color: AppColors.dark.withOpacity(0.9),
                             height: 1.5),
                       ),
@@ -600,3 +683,5 @@ class ExpertProfileScreen extends StatelessWidget {
     );
   }
 }
+
+

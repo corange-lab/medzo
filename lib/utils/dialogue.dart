@@ -23,15 +23,16 @@ Future logoutDialogue(context, controller) {
           children: [
             SvgPicture.asset(
               SvgIcon.logoutdialogue,
-              height: Responsive.height(3.3, context),
+              height: Responsive.height(3.8, context),
             ),
             SizedBox(height: Responsive.height(3, context)),
             Text(
               ConstString.logout,
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     color: AppColors.darkPrimaryColor,
-                    fontFamily: AppFont.fontBold,
-                    fontSize: Responsive.sp(4.5, context),
+                    fontFamily: AppFont.fontFamilysemi,
+                    fontWeight: FontWeight.w600,
+                    fontSize: Responsive.sp(5, context),
                   ),
             ),
             SizedBox(height: Responsive.height(1.3, context)),
@@ -41,14 +42,14 @@ Future logoutDialogue(context, controller) {
                 "Are you sure you want to sign out?",
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                  fontSize: Responsive.sp(3.5, context),
+                    fontSize: Responsive.sp(3.8, context),
                     color: AppColors.grey.withOpacity(0.9),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: AppFont.fontMedium,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: AppFont.fontFamily,
                     letterSpacing: 0),
               ),
             ),
-            SizedBox(height: Responsive.height(2.5, context)),
+            SizedBox(height: Responsive.height(3, context)),
             Row(
               children: [
                 Expanded(
@@ -57,7 +58,7 @@ Future logoutDialogue(context, controller) {
                       await controller.signOut();
                     },
                     style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(20, 45),
+                        fixedSize: Size(20, Responsive.height(7, context)),
                         backgroundColor: AppColors.black,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
@@ -70,7 +71,8 @@ Future logoutDialogue(context, controller) {
                           .copyWith(
                               color: AppColors.buttontext,
                               fontWeight: FontWeight.w500,
-                              fontSize: Responsive.sp(3.5, context)),
+                              fontFamily: AppFont.fontMedium,
+                              fontSize: Responsive.sp(4, context)),
                     ),
                   ),
                 ),
@@ -83,7 +85,7 @@ Future logoutDialogue(context, controller) {
                       Get.back();
                     },
                     style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(20, 45),
+                        fixedSize: Size(20, Responsive.height(7, context)),
                         backgroundColor: AppColors.splashdetail,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
@@ -95,7 +97,9 @@ Future logoutDialogue(context, controller) {
                           .displayMedium!
                           .copyWith(
                               color: AppColors.dark,
-                              fontSize: Responsive.sp(3.5, context)),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: AppFont.fontMedium,
+                              fontSize: Responsive.sp(4, context)),
                     ),
                   ),
                 ),
@@ -136,36 +140,35 @@ class successDialogue extends AlertDialog {
         children: [
           SvgPicture.asset(
             iconDialogue,
-            height: Responsive.height(4.5, context),
+            height: Responsive.height(5.5, context),
           ),
-          SizedBox(height: Responsive.height(2.3, context)),
+          SizedBox(height: Responsive.height(2.5, context)),
           Text(
             titleText,
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                color: AppColors.darkPrimaryColor,
-                fontFamily: AppFont.fontBold,
-                fontSize: Responsive.sp(4.5, context),),
+                  color: AppColors.darkPrimaryColor,
+                  fontFamily: AppFont.fontFamilysemi,
+                  fontWeight: FontWeight.w600,
+                  fontSize: Responsive.sp(5, context),
+                ),
           ),
           SizedBox(height: Responsive.height(0.5, context)),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: TextWidget(
-              subtitle,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                fontSize: Responsive.sp(3.5, context),
-                  color: AppColors.grey.withOpacity(0.9),
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0,
-                  height: 1.5,
-                  wordSpacing: 0.5),
-            ),
+          TextWidget(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                fontSize: Responsive.sp(3.7, context),
+                color: AppColors.grey.withOpacity(0.9),
+                fontWeight: FontWeight.w500,
+                fontFamily: AppFont.fontFamily,
+                letterSpacing: 0,
+                height: 1.5,),
           ),
           SizedBox(height: Responsive.height(2.5, context)),
           ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
-                fixedSize: Size(Responsive.width(45, context), 45),
+                fixedSize: Size(Responsive.width(55, context), Responsive.height(7, context)),
                 backgroundColor: AppColors.black,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
@@ -176,7 +179,7 @@ class successDialogue extends AlertDialog {
                   color: AppColors.buttontext,
                   fontWeight: FontWeight.w500,
                   fontFamily: AppFont.fontMedium,
-                  fontSize: Responsive.sp(4, context)),
+                  fontSize: Responsive.sp(4.2, context)),
             ),
           ),
         ],

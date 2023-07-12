@@ -25,33 +25,36 @@ class MessageScreen extends StatelessWidget {
             },
             icon: SvgPicture.asset(
               SvgIcon.backarrow,
-              height: Responsive.height(1.6, context),
+              height: Responsive.height(2, context),
             )),
-        title: TextWidget(
-          ConstString.message,
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              fontSize: Responsive.sp(4, context),
-              fontFamily: AppFont.fontBold,
-              letterSpacing: 0,
-              color: AppColors.black),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            ConstString.message,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: Responsive.sp(4.8, context),
+                fontFamily: AppFont.fontBold,
+                letterSpacing: 0,
+                color: AppColors.black),
+          ),
         ),
-        elevation: 2,
+          elevation: 3,
+          shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
       body: ListView.builder(
         physics: const BouncingScrollPhysics(),
         itemCount: 20,
         itemBuilder: (context, index) {
-          return ListTile(
+          return ListTile( horizontalTitleGap: 10,
             onTap: () {
               Get.to(ChatScreen());
             },
-            leading: CircleAvatar(
-              backgroundColor: index % 2 == 0
-                  ? AppColors.grey.withOpacity(0.2)
-                  : AppColors.tilecolor,
-              child: Icon(
-                Icons.person,
-                color: index % 2 == 0 ? Colors.black : AppColors.primaryColor,
+            leading: ClipOval(
+              child: Container(
+                height: 50,
+                width: 50,
+                child: index%2==0 ? Image.asset("assets/user2.jpg") : Image.asset("assets/user4.jpg"),
+                // child: SvgPicture.asset("assets/user.svg",height: 50,),
               ),
             ),
             title: Align(
@@ -60,7 +63,7 @@ class MessageScreen extends StatelessWidget {
                 index % 2 == 0 ? "Cameron Williamson" : "Dianne Russell",
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     fontFamily: AppFont.fontBold,
-                    fontSize: Responsive.sp(3.5, context)),
+                    fontSize: Responsive.sp(4.2, context)),
               ),
             ),
             subtitle: Align(
@@ -70,11 +73,13 @@ class MessageScreen extends StatelessWidget {
                     ? "Hello? interested in this loads?"
                     : "It's really nice working with you",
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  fontFamily: AppFont.fontFamilysemi,
-                  fontSize: Responsive.sp(3.2, context),
+                  fontFamily: index % 2 == 0 ? AppFont.fontFamilysemi : AppFont.fontMedium,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.3,
+                  fontSize: Responsive.sp(3.5, context),
                     color: index % 2 == 0
-                        ? AppColors.dark.withOpacity(0.8)
-                        : AppColors.grey.withOpacity(0.5)),
+                        ? AppColors.dark
+                        : AppColors.grey.withOpacity(0.7)),
               ),
             ),
             trailing: TextWidget(
@@ -82,7 +87,7 @@ class MessageScreen extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodySmall!
-                  .copyWith(color: AppColors.darkGrey,fontSize: Responsive.sp(2.7, context)),
+                  .copyWith(color: AppColors.darkGrey,fontSize: Responsive.sp(3, context)),
             ),
           );
         },

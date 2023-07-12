@@ -28,17 +28,21 @@ class CategoryScreen extends StatelessWidget {
                 },
                 icon: SvgPicture.asset(
                   SvgIcon.backarrow,
-                  height: Responsive.height(1.6, context),
+                  height: Responsive.height(2, context),
                 )),
-            title: TextWidget(
-              ConstString.allcategory,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontSize: Responsive.sp(4, context),
-                  fontFamily: AppFont.fontBold,
-                  letterSpacing: 0,
-                  color: AppColors.black),
+            title: Align(
+              alignment: Alignment.centerLeft,
+              child: TextWidget(
+                ConstString.allcategory,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontSize: Responsive.sp(4.8, context),
+                    fontFamily: AppFont.fontBold,
+                    letterSpacing: 0,
+                    color: AppColors.black),
+              ),
             ),
-            elevation: 2,
+            elevation: 3,
+            shadowColor: AppColors.splashdetail.withOpacity(0.1),
           ),
           body: Center(child: categoryWidget(controller, context)),
         );
@@ -52,20 +56,20 @@ class CategoryScreen extends StatelessWidget {
         padding: EdgeInsets.zero,physics: const NeverScrollableScrollPhysics(),
         itemCount: controller.categoryImage.length,
         gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,childAspectRatio: 1.6),
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,childAspectRatio: 1.4),
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
 
             },
             child: Padding(
-              padding: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.only(top: 13),
               child: Container(
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(controller.categoryImage[index],height: Responsive.height(4.5, context),),
+                    SvgPicture.asset(controller.categoryImage[index],height: Responsive.height(5, context),),
                     SizedBox(
                       height: Responsive.height(1.5, context),
                     ),
@@ -76,7 +80,7 @@ class CategoryScreen extends StatelessWidget {
                           .labelSmall!
                           .copyWith(
                           fontSize:
-                          Responsive.sp(2.6, context),
+                          Responsive.sp(3.2, context),
                           fontFamily: AppFont.fontMedium,
                           letterSpacing: 0,
                           color: AppColors.grey),

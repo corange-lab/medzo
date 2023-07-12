@@ -33,15 +33,18 @@ class _ReviewScreenState extends State<ReviewScreen> {
             },
             icon: SvgPicture.asset(
               SvgIcon.backarrow,
-              height: Responsive.height(1.6, context),
+              height: Responsive.height(2, context),
             )),
-        title: TextWidget(
-          ConstString.addreview,
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              fontSize: Responsive.sp(4.5, context),
-              fontFamily: AppFont.fontBold,
-              letterSpacing: 0,
-              color: AppColors.black),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            ConstString.addreview,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: Responsive.sp(4.5, context),
+                fontFamily: AppFont.fontBold,
+                letterSpacing: 0,
+                color: AppColors.black),
+          ),
         ),
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
@@ -75,7 +78,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     fontWeight: FontWeight.w400),
               ),
               SizedBox(
-                height: Responsive.height(3, context),
+                height: Responsive.height(2, context),
               ),
               Image.asset(
                 AppImages.pillw,
@@ -120,7 +123,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 },
                 filledColor: AppColors.primaryColor,
                 emptyColor: AppColors.primaryColor,
-                size: Responsive.height(3.2, context),
+                size: Responsive.height(3.8, context),
               ),
               SizedBox(
                 height: Responsive.height(2, context),
@@ -152,6 +155,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: TextFormField(
+                  maxLines: 5,
                   cursorColor: AppColors.grey,
                   decoration: InputDecoration(
                     filled: true,
@@ -162,22 +166,22 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     border: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     disabledBorder: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 18,
@@ -218,7 +222,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(Responsive.width(50, context), 55),
+                  elevation: 0,
+                    fixedSize: Size(Responsive.width(50, context), Responsive.height(7, context)),
                     backgroundColor: AppColors.black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30))),
