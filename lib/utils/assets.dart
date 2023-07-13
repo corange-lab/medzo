@@ -37,6 +37,10 @@ class SvgIcon {
   static const String chat2 = 'assets/icons/chat2.svg';
   static const String chathome = 'assets/icons/chathome.svg';
   static const String skip = 'assets/icons/skip.svg';
+  static const String camera = 'assets/icons/camera.svg';
+  static const String camerapng = 'assets/icons/camera.png';
+  static const String gallery = 'assets/icons/gallery.svg';
+  static const String gallerypng = 'assets/icons/gallery.png';
   static const String check_circle = 'assets/icons/check_circle_icon.svg';
   static const String delete = 'assets/icons/delete_icon.svg';
   static const String email = 'assets/icons/email_icon.svg';

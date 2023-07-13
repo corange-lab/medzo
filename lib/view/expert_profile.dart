@@ -469,30 +469,36 @@ class ExpertProfileScreen extends StatelessWidget {
                                       fontSize: Responsive.sp(3.3, context)),
                             ),
                           ]))),
-                      trailing: GestureDetector(
-                        onTap: () {
-                          if (homeController.isSaveExpert[1]) {
-                            homeController.isSaveExpert[1] = false;
-                          } else {
-                            homeController.isSaveExpert[1] = true;
-                          }
-                        },
-                        child: Container(
-                          height: 38,
-                          width: 38,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: AppColors.splashdetail),
-                          child: Padding(
-                            padding: homeController.isSaveExpert[1] ?  EdgeInsets.all(7.0) : EdgeInsets.all(9.0),
-                            child: SvgPicture.asset(
-                              homeController.isSaveExpert[1] ? SvgIcon.bookmark : SvgIcon.fillbookmark,
-                              height: Responsive.height(2, context),
-                              color: homeController.isSaveExpert[1] ? Colors.black : AppColors.primaryColor,
+                      trailing: Obx(() => GestureDetector(
+                            onTap: () {
+                              if (homeController.isSaveExpert[1]) {
+                                homeController.isSaveExpert[1] = false;
+                              } else {
+                                homeController.isSaveExpert[1] = true;
+                              }
+                            },
+                            child: Container(
+                              height: 38,
+                              width: 38,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: AppColors.splashdetail),
+                              child: Padding(
+                                padding: homeController.isSaveExpert[1]
+                                    ? EdgeInsets.all(7.0)
+                                    : EdgeInsets.all(9.0),
+                                child: SvgPicture.asset(
+                                  homeController.isSaveExpert[1]
+                                      ? SvgIcon.bookmark
+                                      : SvgIcon.fillbookmark,
+                                  height: Responsive.height(2, context),
+                                  color: homeController.isSaveExpert[1]
+                                      ? Colors.black
+                                      : AppColors.primaryColor,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
+                          )),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -520,72 +526,88 @@ class ExpertProfileScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     ListTile(
-                      leading: ClipOval(
-                        child: SizedBox(
-                          height: 45,
-                          width: 45,
-                          child: Image.asset("assets/user3.jpg"),
-                          // child: SvgPicture.asset("assets/user.svg",height: 50,),
-                        ),
-                      ),
-                      // CircleAvatar(
-                      //   backgroundColor: AppColors.tilecolor,
-                      //   child: Icon(
-                      //     Icons.person,
-                      //     color: AppColors.primaryColor,
-                      //   ),
-                      // ),
-                      title: Align(
-                        alignment: Alignment.topLeft,
-                        child: TextWidget(
-                          "Kristin Watson",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(
-                                  fontFamily: AppFont.fontBold,
-                                  fontSize: Responsive.sp(4.2, context)),
-                        ),
-                      ),
-                      subtitle: Align(
-                          alignment: Alignment.topLeft,
-                          child: RichText(
-                              text: TextSpan(children: [
-                            TextSpan(
-                              text: "12hr",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      color: AppColors.grey.withOpacity(0.8),
-                                      fontSize: Responsive.sp(3.3, context)),
-                            ),
-                            TextSpan(
-                              text: "• Updated ✔",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      color: AppColors.grey,
-                                      fontSize: Responsive.sp(3.3, context)),
-                            ),
-                          ]))),
-                      trailing: Container(
-                        height: 38,
-                        width: 38,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: AppColors.splashdetail),
-                        child: Padding(
-                          padding: const EdgeInsets.all(7.0),
-                          child: SvgPicture.asset(
-                            SvgIcon.bookmark,
-                            height: Responsive.height(2, context),
-                            color: Colors.black,
+                        leading: ClipOval(
+                          child: SizedBox(
+                            height: 45,
+                            width: 45,
+                            child: Image.asset("assets/user3.jpg"),
+                            // child: SvgPicture.asset("assets/user.svg",height: 50,),
                           ),
                         ),
-                      ),
-                    ),
+                        // CircleAvatar(
+                        //   backgroundColor: AppColors.tilecolor,
+                        //   child: Icon(
+                        //     Icons.person,
+                        //     color: AppColors.primaryColor,
+                        //   ),
+                        // ),
+                        title: Align(
+                          alignment: Alignment.topLeft,
+                          child: TextWidget(
+                            "Kristin Watson",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(
+                                    fontFamily: AppFont.fontBold,
+                                    fontSize: Responsive.sp(4.2, context)),
+                          ),
+                        ),
+                        subtitle: Align(
+                            alignment: Alignment.topLeft,
+                            child: RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                text: "12hr",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                        color: AppColors.grey.withOpacity(0.8),
+                                        fontSize: Responsive.sp(3.3, context)),
+                              ),
+                              TextSpan(
+                                text: "• Updated ✔",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                        color: AppColors.grey,
+                                        fontSize: Responsive.sp(3.3, context)),
+                              ),
+                            ]))),
+                        trailing: Obx(
+                          () => GestureDetector(
+                            onTap: () {
+                              if (homeController.isSaveExpert[2]) {
+                                homeController.isSaveExpert[2] = false;
+                              } else {
+                                homeController.isSaveExpert[2] = true;
+                              }
+                            },
+                            child: Container(
+                              height: 38,
+                              width: 38,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: AppColors.splashdetail),
+                              child: Padding(
+                                padding: homeController.isSaveExpert[2]
+                                    ? EdgeInsets.all(7.0)
+                                    : EdgeInsets.all(9.0),
+                                child: SvgPicture.asset(
+                                  homeController.isSaveExpert[2]
+                                      ? SvgIcon.bookmark
+                                      : SvgIcon.fillbookmark,
+                                  height: Responsive.height(2, context),
+                                  color: homeController.isSaveExpert[2]
+                                      ? Colors.black
+                                      : AppColors.primaryColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: TextWidget(
@@ -662,21 +684,36 @@ class ExpertProfileScreen extends StatelessWidget {
                                       fontSize: Responsive.sp(3.3, context)),
                             ),
                           ]))),
-                      trailing: Container(
-                        height: 38,
-                        width: 38,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: AppColors.splashdetail),
-                        child: Padding(
-                          padding: const EdgeInsets.all(7.0),
-                          child: SvgPicture.asset(
-                            SvgIcon.bookmark,
-                            height: Responsive.height(2, context),
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
+                      trailing: Obx(() => GestureDetector(
+                            onTap: () {
+                              if (homeController.isSaveExpert[3]) {
+                                homeController.isSaveExpert[3] = false;
+                              } else {
+                                homeController.isSaveExpert[3] = true;
+                              }
+                            },
+                            child: Container(
+                              height: 38,
+                              width: 38,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: AppColors.splashdetail),
+                              child: Padding(
+                                padding: homeController.isSaveExpert[3]
+                                    ? EdgeInsets.all(7.0)
+                                    : EdgeInsets.all(9.0),
+                                child: SvgPicture.asset(
+                                  homeController.isSaveExpert[3]
+                                      ? SvgIcon.bookmark
+                                      : SvgIcon.fillbookmark,
+                                  height: Responsive.height(2, context),
+                                  color: homeController.isSaveExpert[3]
+                                      ? Colors.black
+                                      : AppColors.primaryColor,
+                                ),
+                              ),
+                            ),
+                          )),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),

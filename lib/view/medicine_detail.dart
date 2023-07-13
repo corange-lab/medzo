@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/home_controller.dart';
-import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -26,7 +25,6 @@ class _MedicineDetailState extends State<MedicineDetail>
   late TabController tabController;
   late TabController tabQuestionController;
 
-  MedicineController controller = Get.put(MedicineController());
   HomeController homecontroller = Get.put(HomeController());
 
   @override
@@ -69,50 +67,14 @@ class _MedicineDetailState extends State<MedicineDetail>
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      body: medicineWidget(context, tabController, tabQuestionController,
-          controller, homecontroller),
-      bottomNavigationBar: Container(
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(color: AppColors.white, boxShadow: const [
-          BoxShadow(
-            color: Color(0x0C000000),
-            blurRadius: 20,
-            offset: Offset(0, -2),
-            spreadRadius: 0,
-          ),
-        ]),
-        height: Responsive.height(9, context),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 90),
-          child: ElevatedButton(
-              onPressed: () {
-                Get.to(const ReviewScreen());
-              },
-              style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  backgroundColor: AppColors.black,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30))),
-              child: TextWidget(
-                ConstString.writereview,
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: AppColors.buttontext,
-                    fontSize: Responsive.sp(3.8, context),
-                    letterSpacing: 0.3,
-                    fontFamily: AppFont.fontMedium),
-              )),
-        ),
-      ),
+      body: medicineWidget(
+          context, tabController, tabQuestionController, homecontroller),
     );
   }
 }
 
-Container medicineWidget(
-    BuildContext context,
-    TabController tabController,
-    TabController tabQuestionController,
-    MedicineController controller,
-    HomeController homeController) {
+Container medicineWidget(BuildContext context, TabController tabController,
+    TabController tabQuestionController, HomeController homeController) {
   return Container(
     child: Padding(
       padding: const EdgeInsets.all(10.0),
@@ -312,29 +274,52 @@ Container medicineWidget(
           SizedBox(
             height: Responsive.height(2, context),
           ),
-          Container(
-            child: TabBar(
-              controller: tabController,
-              physics: const BouncingScrollPhysics(),
-              labelColor: AppColors.primaryColor,
-              // labelStyle: TextStyle(color: AppColors.primaryColor,fontSize: 30),
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: AppColors.tilecolor,
-              ),
-              onTap: (value) {
-                print(value);
-              },
-              unselectedLabelColor: Colors.black54,
-              indicatorColor: Colors.transparent,
-              tabs: [
-                tabContainer(context, 0, text: "Review"),
-                tabContainer(context, 1, text: "Q&A"),
-                tabContainer(context, 2, text: "About"),
-                tabContainer(context, 3, text: "Warning"),
-              ],
+          TabBar(
+            labelPadding: EdgeInsets.all(3),
+            controller: tabController,
+            physics: const BouncingScrollPhysics(),
+            labelColor: AppColors.primaryColor,
+            labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
+                fontSize: Responsive.sp(3.4, context),
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.3,
+                fontFamily: AppFont.fontFamily),
+            indicatorSize: TabBarIndicatorSize.tab,
+            unselectedLabelStyle: Theme.of(context)
+                .textTheme
+                .titleSmall!
+                .copyWith(
+                    fontSize: Responsive.sp(3.4, context),
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.3,
+                    fontFamily: AppFont.fontFamily),
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: AppColors.tilecolor,
             ),
+            onTap: (value) {
+              tabController.index = value;
+            },
+            unselectedLabelColor: Colors.black54,
+            indicatorColor: Colors.transparent,
+            tabs: [
+              Tab(
+                text: "Review",
+                height: Responsive.height(4, context),
+              ),
+              Tab(
+                text: "Q&A",
+                height: Responsive.height(4, context),
+              ),
+              Tab(
+                text: "About",
+                height: Responsive.height(4, context),
+              ),
+              Tab(
+                text: "Warning",
+                height: Responsive.height(4, context),
+              ),
+            ],
           ),
           SizedBox(
             height: Responsive.height(1, context),
@@ -351,8 +336,8 @@ Container medicineWidget(
             child: SizedBox(
                 height: Responsive.height(60, context),
                 child: TabBarView(controller: tabController, children: [
-                  reviewWidget(),
-                  questionWidget(context, controller, tabQuestionController),
+                  reviewWidget(context),
+                  questionWidget(context, tabQuestionController),
                   aboutWidget(context),
                   warningWidget(context),
                 ])),
@@ -724,8 +709,7 @@ Container aboutWidget(context) {
   );
 }
 
-Container questionWidget(context, MedicineController controller,
-    TabController tabQuestionController) {
+Container questionWidget(context, TabController tabQuestionController) {
   return Container(
       child: Padding(
     padding: const EdgeInsets.all(8.0),
@@ -868,24 +852,41 @@ Container questionWidget(context, MedicineController controller,
                 SizedBox(
                   height: Responsive.height(3.5, context),
                 ),
-                Container(
-                  child: TabBar(
-                    controller: tabQuestionController,
-                    physics: const BouncingScrollPhysics(),
-                    labelColor: AppColors.primaryColor,
-                    // labelStyle: TextStyle(color: AppColors.primaryColor,fontSize: 30),
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: AppColors.tilecolor,
-                    ),
-                    unselectedLabelColor: Colors.black54,
-                    indicatorColor: Colors.transparent,
-                    tabs: [
-                      tabContainer2(context, 0, text: "All"),
-                      tabContainer2(context, 1, text: "My Questions"),
-                    ],
+                TabBar(
+                  controller: tabQuestionController,
+                  physics: const BouncingScrollPhysics(),
+                  labelColor: AppColors.primaryColor,
+                  labelPadding: EdgeInsets.all(5),
+                  labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontSize: Responsive.sp(3.5, context),
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.3,
+                      fontFamily: AppFont.fontMedium),
+                  unselectedLabelStyle: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .copyWith(
+                          fontSize: Responsive.sp(3.5, context),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.3,
+                          fontFamily: AppFont.fontMedium),
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: AppColors.tilecolor,
                   ),
+                  unselectedLabelColor: Colors.black54,
+                  indicatorColor: Colors.transparent,
+                  tabs: [
+                    Tab(
+                      text: "All",
+                      height: Responsive.height(4, context),
+                    ),
+                    Tab(
+                      text: "My Questions",
+                      height: Responsive.height(4, context),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: Responsive.height(1.5, context),
@@ -1249,825 +1250,376 @@ Container popularQuestionWidget(context) {
   );
 }
 
-Container reviewWidget() {
+Container reviewWidget(context) {
   return Container(
-    child: ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: Responsive.height(61, context),
-            decoration: BoxDecoration(
-                border: Border.all(width: 1, color: AppColors.splashdetail),
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(10)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    child: Stack(
+      children: [
+        ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: Responsive.height(61, context),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: AppColors.splashdetail),
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextWidget(ConstString.mostrecent,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      color: AppColors.grey,
-                                      fontFamily: AppFont.fontMedium,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: Responsive.sp(3.5, context),
-                                      letterSpacing: 0.3)),
-                          SizedBox(
-                            width: Responsive.width(1.5, context),
+                          Row(
+                            children: [
+                              TextWidget(ConstString.mostrecent,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          color: AppColors.grey,
+                                          fontFamily: AppFont.fontMedium,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: Responsive.sp(3.5, context),
+                                          letterSpacing: 0.3)),
+                              SizedBox(
+                                width: Responsive.width(1.5, context),
+                              ),
+                              SvgPicture.asset(
+                                SvgIcon.arrowdown,
+                                height: Responsive.height(2, context),
+                              )
+                            ],
                           ),
-                          SvgPicture.asset(
-                            SvgIcon.arrowdown,
-                            height: Responsive.height(2, context),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.star_rounded,
+                                color: AppColors.primaryColor,
+                                size: Responsive.height(3, context),
+                              ),
+                              SizedBox(
+                                width: Responsive.width(1.5, context),
+                              ),
+                              TextWidget(
+                                "3.9/5",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium!
+                                    .copyWith(
+                                        fontSize: Responsive.sp(4.8, context),
+                                        fontFamily: AppFont.fontFamilysemi),
+                              )
+                            ],
                           )
                         ],
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.star_rounded,
-                            color: AppColors.primaryColor,
-                            size: Responsive.height(3, context),
-                          ),
-                          SizedBox(
-                            width: Responsive.width(1.5, context),
-                          ),
-                          TextWidget(
-                            "3.9/5",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium!
-                                .copyWith(
-                                    fontSize: Responsive.sp(4.8, context),
-                                    fontFamily: AppFont.fontFamilysemi),
-                          )
-                        ],
-                      )
+                      SizedBox(
+                        height: Responsive.height(1, context),
+                      ),
+                      Container(
+                        height: 1,
+                        color: AppColors.grey.withOpacity(0.1),
+                      ),
+                      SizedBox(
+                        height: Responsive.height(2, context),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 22,
+                              backgroundColor: AppColors.tilecolor,
+                              child: Icon(
+                                Icons.person,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                            SizedBox(
+                              width: Responsive.width(4, context),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextWidget(
+                                  "John Doe",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(
+                                          fontFamily: AppFont.fontBold,
+                                          fontSize:
+                                              Responsive.sp(3.8, context)),
+                                ),
+                                SizedBox(
+                                  height: Responsive.height(0.5, context),
+                                ),
+                                TextWidget(
+                                  "Closest Match • Caucasian Male, 61",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          color: AppColors.grey,
+                                          fontFamily: AppFont.fontMedium,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: Responsive.sp(3, context)),
+                                ),
+                                SizedBox(
+                                  height: Responsive.height(0.5, context),
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: Responsive.height(2.5, context),
+                                    ),
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: Responsive.height(2.5, context),
+                                    ),
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: Responsive.height(2.5, context),
+                                    ),
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: Responsive.height(2.5, context),
+                                    ),
+                                    Icon(
+                                      Icons.star_outline_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: Responsive.height(2.5, context),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: Responsive.height(0.8, context),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: TextWidget(
+                          "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  height: 1.7,
+                                  fontSize: Responsive.sp(3.4, context),
+                                  fontFamily: AppFont.fontMedium,
+                                  letterSpacing: 0.3,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.dark),
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: TextButton(
+                            onPressed: () {},
+                            child: TextWidget(
+                              ConstString.viewreply,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                      fontSize: Responsive.sp(3.5, context),
+                                      fontFamily: AppFont.fontFamilysemi,
+                                      letterSpacing: 0.2),
+                            )),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          height: 1,
+                          width: Responsive.width(60, context),
+                          color: AppColors.grey.withOpacity(0.1),
+                        ),
+                      ),
+                      SizedBox(
+                        height: Responsive.height(1.5, context),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 22,
+                              backgroundColor: AppColors.tilecolor,
+                              child: Icon(
+                                Icons.person,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                            SizedBox(
+                              width: Responsive.width(4, context),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextWidget(
+                                  "John Doe",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(
+                                          fontFamily: AppFont.fontBold,
+                                          fontSize:
+                                              Responsive.sp(3.8, context)),
+                                ),
+                                SizedBox(
+                                  height: Responsive.height(0.5, context),
+                                ),
+                                TextWidget(
+                                  "Closest Match • Caucasian Male, 61",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          color: AppColors.grey,
+                                          fontFamily: AppFont.fontMedium,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: Responsive.sp(3, context)),
+                                ),
+                                SizedBox(
+                                  height: Responsive.height(0.5, context),
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: Responsive.height(2.5, context),
+                                    ),
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: Responsive.height(2.5, context),
+                                    ),
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: Responsive.height(2.5, context),
+                                    ),
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: Responsive.height(2.5, context),
+                                    ),
+                                    Icon(
+                                      Icons.star_outline_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: Responsive.height(2.5, context),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: Responsive.height(0.8, context),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: TextWidget(
+                          "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  height: 1.7,
+                                  fontSize: Responsive.sp(3.4, context),
+                                  fontFamily: AppFont.fontMedium,
+                                  letterSpacing: 0.3,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.dark),
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: TextButton(
+                            onPressed: () {},
+                            child: TextWidget(
+                              ConstString.viewreply,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                      fontSize: Responsive.sp(3.5, context),
+                                      fontFamily: AppFont.fontFamilysemi,
+                                      letterSpacing: 0.2),
+                            )),
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: Responsive.height(1, context),
-                  ),
-                  Container(
-                    height: 1,
-                    color: AppColors.grey.withOpacity(0.1),
-                  ),
-                  SizedBox(
-                    height: Responsive.height(2, context),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          maxRadius: 22,
-                          backgroundColor: AppColors.tilecolor,
-                          child: Icon(
-                            Icons.person,
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                        SizedBox(
-                          width: Responsive.width(4, context),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextWidget(
-                              "John Doe",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(
-                                      fontFamily: AppFont.fontBold,
-                                      fontSize: Responsive.sp(3.8, context)),
-                            ),
-                            SizedBox(
-                              height: Responsive.height(0.5, context),
-                            ),
-                            TextWidget(
-                              "Closest Match • Caucasian Male, 61",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      color: AppColors.grey,
-                                      fontFamily: AppFont.fontMedium,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: Responsive.sp(3, context)),
-                            ),
-                            SizedBox(
-                              height: Responsive.height(0.5, context),
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.star_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: Responsive.height(2.5, context),
-                                ),
-                                Icon(
-                                  Icons.star_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: Responsive.height(2.5, context),
-                                ),
-                                Icon(
-                                  Icons.star_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: Responsive.height(2.5, context),
-                                ),
-                                Icon(
-                                  Icons.star_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: Responsive.height(2.5, context),
-                                ),
-                                Icon(
-                                  Icons.star_outline_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: Responsive.height(2.5, context),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: Responsive.height(0.8, context),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: TextWidget(
-                      "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          height: 1.7,
-                          fontSize: Responsive.sp(3.4, context),
-                          fontFamily: AppFont.fontMedium,
-                          letterSpacing: 0.3,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.dark),
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextButton(
-                        onPressed: () {},
-                        child: TextWidget(
-                          ConstString.viewreply,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium!
-                              .copyWith(
-                                  fontSize: Responsive.sp(3.5, context),
-                                  fontFamily: AppFont.fontFamilysemi,
-                                  letterSpacing: 0.2),
-                        )),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Container(
-                      height: 1,
-                      width: Responsive.width(60, context),
-                      color: AppColors.grey.withOpacity(0.1),
-                    ),
-                  ),
-                  SizedBox(
-                    height: Responsive.height(1.5, context),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          maxRadius: 22,
-                          backgroundColor: AppColors.tilecolor,
-                          child: Icon(
-                            Icons.person,
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                        SizedBox(
-                          width: Responsive.width(4, context),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextWidget(
-                              "John Doe",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(
-                                      fontFamily: AppFont.fontBold,
-                                      fontSize: Responsive.sp(3.8, context)),
-                            ),
-                            SizedBox(
-                              height: Responsive.height(0.5, context),
-                            ),
-                            TextWidget(
-                              "Closest Match • Caucasian Male, 61",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      color: AppColors.grey,
-                                      fontFamily: AppFont.fontMedium,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: Responsive.sp(3, context)),
-                            ),
-                            SizedBox(
-                              height: Responsive.height(0.5, context),
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.star_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: Responsive.height(2.5, context),
-                                ),
-                                Icon(
-                                  Icons.star_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: Responsive.height(2.5, context),
-                                ),
-                                Icon(
-                                  Icons.star_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: Responsive.height(2.5, context),
-                                ),
-                                Icon(
-                                  Icons.star_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: Responsive.height(2.5, context),
-                                ),
-                                Icon(
-                                  Icons.star_outline_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: Responsive.height(2.5, context),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: Responsive.height(0.8, context),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: TextWidget(
-                      "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          height: 1.7,
-                          fontSize: Responsive.sp(3.4, context),
-                          fontFamily: AppFont.fontMedium,
-                          letterSpacing: 0.3,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.dark),
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextButton(
-                        onPressed: () {},
-                        child: TextWidget(
-                          ConstString.viewreply,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium!
-                              .copyWith(
-                                  fontSize: Responsive.sp(3.5, context),
-                                  fontFamily: AppFont.fontFamilysemi,
-                                  letterSpacing: 0.2),
-                        )),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+        Positioned(
+            bottom: 0,
+            child: Container(
+              alignment: Alignment.center,
+              decoration:
+                  BoxDecoration(color: AppColors.white, boxShadow: const [
+                BoxShadow(
+                  color: Color(0x0C000000),
+                  blurRadius: 20,
+                  offset: Offset(0, -2),
+                  spreadRadius: 0,
+                ),
+              ]),
+              height: Responsive.height(9, context),
+              width: SizerUtil.width,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 18,top: 10),
+                child: ElevatedButton(
+                    onPressed: () {
+                      Get.to(const ReviewScreen());
+                    },
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: AppColors.black,
+                        fixedSize: Size(Responsive.width(55, context), Responsive.height(7, context)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30))),
+                    child: TextWidget(
+                      ConstString.writereview,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(
+                              color: AppColors.buttontext,
+                              fontSize: Responsive.sp(3.8, context),
+                              letterSpacing: 0.3,
+                              fontFamily: AppFont.fontMedium),
+                    )),
+              ),
+            ))
+      ],
     ),
   );
 }
-
-List tabList = ["Review", "Q&A", "About", "Warning"];
-
-Widget tabContainer(context, index, {required String text}) {
-  return SizedBox(
-    height: Responsive.height(4, context),
-    // width: Responsive.width(25, context),
-    child: Tab(
-      child: Container(
-        decoration: BoxDecoration(
-          // color: tabList[index] == index ? AppColors.primaryColor : AppColors.grey,
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: Align(
-          child: Text(text,
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  color: tabList[index] == index
-                      ? AppColors.primaryColor
-                      : AppColors.grey,
-                  fontSize: Responsive.sp(3.2, context),
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.3,
-                  fontFamily: AppFont.fontFamily)),
-        ),
-      ),
-    ),
-  );
-}
-
-Widget tabContainer2(context, index, {required String text}) {
-  return SizedBox(
-    height: Responsive.height(5, context),
-    // width: Responsive.width(25, context),
-    child: Tab(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: Align(
-          child: Text(text,
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  color: tabList[index] == index
-                      ? AppColors.primaryColor
-                      : AppColors.grey,
-                  fontSize: Responsive.sp(3.5, context),
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.3,
-                  fontFamily: AppFont.fontMedium)),
-        ),
-      ),
-    ),
-  );
-}
-// """Row(
-//                   children: [
-//                     Expanded(
-//                       child: GestureDetector(
-//                         onTap: () {
-//                           if (controller.tabSelect == 'My Question') {
-//                             controller.tabSelect.value = "All";
-//                           }
-//                           // print(controller.tabSelect);
-//                         },
-//                         child: Padding(
-//                           padding: const EdgeInsets.symmetric(horizontal: 10),
-//                           child: Container(
-//                             alignment: Alignment.center,
-//                             height: Responsive.height(5, context),
-//                             decoration: BoxDecoration(
-//                                 color: AppColors.tilecolor,
-//                                 // color: controller.tabSelect.value == "All"
-//                                 //     ? AppColors.tilecolor
-//                                 //     : Colors.transparent,
-//                                 borderRadius: BorderRadius.circular(30)),
-//                             child: TextWidget(
-//                               "All",
-//                               style: Theme.of(context)
-//                                   .textTheme
-//                                   .labelMedium!
-//                                   .copyWith(
-//                                       // color: controller.tabSelect.value == "All"
-//                                       //     ? AppColors.primaryColor
-//                                       //     : AppColors.grey,
-//                                       fontSize: Responsive.sp(3.5, context)),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                     Expanded(
-//                       child: GestureDetector(
-//                         onTap: () {
-//                           if (controller.tabSelect == "All") {
-//                             controller.tabSelect.value = "My Question";
-//                           }
-//                           // print(controller.tabSelect);
-//                         },
-//                         child: Padding(
-//                           padding: const EdgeInsets.symmetric(horizontal: 10),
-//                           child: Container(
-//                             alignment: Alignment.center,
-//                             height: Responsive.height(4.5, context),
-//                             decoration: BoxDecoration(
-//                                 borderRadius: BorderRadius.circular(30)),
-//                             child: TextWidget(
-//                               "My Questions",
-//                               style: Theme.of(context)
-//                                   .textTheme
-//                                   .labelMedium!
-//                                   .copyWith(
-//                                       fontSize: Responsive.sp(3.5, context),
-//                                       color: AppColors.grey),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//                 SizedBox(
-//                   height: Responsive.height(1.5, context),
-//                 ),
-//                 Container(
-//                   height: 1,
-//                   color: AppColors.grey.withOpacity(0.1),
-//                 ),
-//                 SizedBox(
-//                   height: Responsive.height(250, context),
-//                   child: ListView.builder(
-//                     itemCount: 5,
-//                     shrinkWrap: true,
-//                     physics: const NeverScrollableScrollPhysics(),
-//                     itemBuilder: (context, index) {
-//                       return Padding(
-//                         padding: const EdgeInsets.symmetric(vertical: 10),
-//                         child: Container(
-//                           alignment: Alignment.center,
-//                           height: Responsive.height(46, context),
-//                           decoration: BoxDecoration(
-//                               color: AppColors.splashdetail.withOpacity(0.5),
-//                               borderRadius: BorderRadius.circular(7),
-//                               border: Border.all(
-//                                   width: 1,
-//                                   color: AppColors.lightGrey.withOpacity(0.1))),
-//                           child: Column(
-//                             children: [
-//                               Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Row(
-//                                   children: [
-//                                     Padding(
-//                                       padding: const EdgeInsets.only(top: 4),
-//                                       child: CircleAvatar(
-//                                         backgroundColor:
-//                                             AppColors.grey.withOpacity(0.3),
-//                                         child: Icon(
-//                                           Icons.person,
-//                                           color: AppColors.grey,
-//                                         ),
-//                                       ),
-//                                     ),
-//                                     SizedBox(
-//                                       width: Responsive.width(3, context),
-//                                     ),
-//                                     Column(
-//                                       mainAxisAlignment:
-//                                           MainAxisAlignment.center,
-//                                       children: [
-//                                         Align(
-//                                           alignment: Alignment.topLeft,
-//                                           child: TextWidget(
-//                                             "John Doe",
-//                                             style: Theme.of(context)
-//                                                 .textTheme
-//                                                 .labelLarge!
-//                                                 .copyWith(
-//                                                   fontSize: Responsive.sp(
-//                                                       3.8, context),
-//                                                   fontFamily: AppFont.fontBold,
-//                                                 ),
-//                                           ),
-//                                         ),
-//                                         SizedBox(
-//                                           height:
-//                                               Responsive.height(0.8, context),
-//                                         ),
-//                                         Align(
-//                                           alignment: Alignment.topLeft,
-//                                           child: TextWidget(
-//                                             "2 Days Ago",
-//                                             style: Theme.of(context)
-//                                                 .textTheme
-//                                                 .labelSmall!
-//                                                 .copyWith(
-//                                                     fontSize: Responsive.sp(
-//                                                         3, context),
-//                                                     letterSpacing: 0),
-//                                           ),
-//                                         )
-//                                       ],
-//                                     ),
-//                                     const Spacer(),
-//                                     Padding(
-//                                       padding: const EdgeInsets.all(8.0),
-//                                       child: SvgPicture.asset(
-//                                         SvgIcon.arrowup,
-//                                         height: Responsive.height(2.2, context),
-//                                       ),
-//                                     )
-//                                   ],
-//                                 ),
-//                               ),
-//                               Row(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: [
-//                                   Expanded(
-//                                     flex: 8,
-//                                     child: Padding(
-//                                       padding: const EdgeInsets.symmetric(
-//                                           horizontal: 10),
-//                                       child: TextWidget(
-//                                         "How much does should my 7 years old son take ?",
-//                                         textAlign: TextAlign.start,
-//                                         style: Theme.of(context)
-//                                             .textTheme
-//                                             .titleMedium!
-//                                             .copyWith(
-//                                                 height: 1.5,
-//                                                 letterSpacing: 0.3,
-//                                                 fontFamily:
-//                                                     AppFont.fontFamilysemi,
-//                                                 fontSize: Responsive.sp(
-//                                                     3.7, context)),
-//                                       ),
-//                                     ),
-//                                   ),
-//                                   Expanded(
-//                                     flex: 1,
-//                                     child: Padding(
-//                                       padding: const EdgeInsets.all(5.0),
-//                                       child: SvgPicture.asset(
-//                                         SvgIcon.pen,
-//                                         height: Responsive.height(2.5, context),
-//                                       ),
-//                                     ),
-//                                   ),
-//                                   Expanded(
-//                                     flex: 1,
-//                                     child: Padding(
-//                                       padding: const EdgeInsets.all(5.0),
-//                                       child: SvgPicture.asset(
-//                                         SvgIcon.delete,
-//                                         height: Responsive.height(2.2, context),
-//                                       ),
-//                                     ),
-//                                   ),
-//                                   SizedBox(
-//                                     width: Responsive.width(1, context),
-//                                   )
-//                                 ],
-//                               ),
-//                               SizedBox(height: Responsive.height(1, context),),
-//                               Padding(
-//                                 padding: const EdgeInsets.symmetric(
-//                                     horizontal: 8, vertical: 5),
-//                                 child: Container(
-//                                   height: Responsive.height(14.5, context),
-//                                   decoration: BoxDecoration(
-//                                       border: Border.all(
-//                                           width: 1,
-//                                           color: AppColors.lightGrey
-//                                               .withOpacity(0.2)),
-//                                       color: AppColors.white,
-//                                       borderRadius: BorderRadius.circular(5)),
-//                                   child: Padding(
-//                                     padding: const EdgeInsets.all(10.0),
-//                                     child: Column(
-//                                       children: [
-//                                         Row(
-//                                           crossAxisAlignment: CrossAxisAlignment.center,
-//                                           children: [
-//                                             Padding(
-//                                               padding:
-//                                                   const EdgeInsets.only(top: 4),
-//                                               child: CircleAvatar(
-//                                                 maxRadius: 16,
-//                                                 backgroundColor: AppColors
-//                                                     .purple
-//                                                     .withOpacity(0.1),
-//                                                 child: Icon(
-//                                                   Icons.person,
-//                                                   size: 18,
-//                                                   color: AppColors.purple
-//                                                       .withOpacity(0.8),
-//                                                 ),
-//                                               ),
-//                                             ),
-//                                             SizedBox(
-//                                               width:
-//                                                   Responsive.width(3, context),
-//                                             ),
-//                                             Column(
-//                                               crossAxisAlignment:
-//                                                   CrossAxisAlignment.start,
-//                                               mainAxisAlignment:
-//                                                   MainAxisAlignment.center,
-//                                               children: [
-//                                                 Row(
-//                                                   children: [
-//                                                     TextWidget(
-//                                                       "Flores, Juanita",
-//                                                       style: Theme.of(context)
-//                                                           .textTheme
-//                                                           .labelLarge!
-//                                                           .copyWith(
-//                                                             fontFamily: AppFont
-//                                                                 .fontFamilysemi,
-//                                                             letterSpacing: 0.2,
-//                                                             fontSize:
-//                                                                 Responsive.sp(
-//                                                                     3.4,
-//                                                                     context),
-//                                                           ),
-//                                                     ),
-//                                                     SizedBox(
-//                                                       width: Responsive.width(
-//                                                           1, context),
-//                                                     ),
-//                                                     SvgPicture.asset(
-//                                                       SvgIcon.verify,
-//                                                       color: AppColors.purple,
-//                                                       height: Responsive.height(
-//                                                           1.5, context),
-//                                                     )
-//                                                   ],
-//                                                 ),
-//                                                 SizedBox(
-//                                                   height: Responsive.height(
-//                                                       0.7, context),
-//                                                 ),
-//                                                 TextWidget(
-//                                                   "2 Days Ago",
-//                                                   style: Theme.of(context)
-//                                                       .textTheme
-//                                                       .labelSmall!
-//                                                       .copyWith(
-//                                                           letterSpacing: 0,
-//                                                           fontSize:
-//                                                               Responsive.sp(
-//                                                                   2.8, context),
-//                                                           color: AppColors.grey
-//                                                               .withOpacity(
-//                                                                   0.5)),
-//                                                 )
-//                                               ],
-//                                             ),
-//                                           ],
-//                                         ),
-//                                         Padding(
-//                                           padding: const EdgeInsets.only(
-//                                               right: 15, top: 10),
-//                                           child: TextWidget(
-//                                             "Yes, that is completely fine, make sure to take right dosages.",
-//                                             textAlign: TextAlign.start,
-//                                             style: Theme.of(context)
-//                                                 .textTheme
-//                                                 .bodySmall!
-//                                                 .copyWith(
-//                                                     fontSize: Responsive.sp(
-//                                                         3.3, context),
-//                                                     height: 1.6,
-//                                                     color: AppColors.dark),
-//                                           ),
-//                                         )
-//                                       ],
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                               Padding(
-//                                 padding: const EdgeInsets.symmetric(
-//                                     horizontal: 8, vertical: 4),
-//                                 child: Container(
-//                                   height: Responsive.height(14.5, context),
-//                                   decoration: BoxDecoration(
-//                                       border: Border.all(
-//                                           width: 1,
-//                                           color: AppColors.lightGrey
-//                                               .withOpacity(0.2)),
-//                                       color: AppColors.white,
-//                                       borderRadius: BorderRadius.circular(5)),
-//                                   child: Padding(
-//                                     padding: const EdgeInsets.all(10.0),
-//                                     child: Column(
-//                                       children: [
-//                                         Row(
-//                                           children: [
-//                                             Padding(
-//                                               padding:
-//                                                   const EdgeInsets.only(top: 4),
-//                                               child: CircleAvatar(
-//                                                 maxRadius: 16,
-//                                                 backgroundColor: AppColors
-//                                                     .purple
-//                                                     .withOpacity(0.1),
-//                                                 child: Icon(
-//                                                   Icons.person,
-//                                                   size: 18,
-//                                                   color: AppColors.purple
-//                                                       .withOpacity(0.8),
-//                                                 ),
-//                                               ),
-//                                             ),
-//                                             SizedBox(
-//                                               width:
-//                                                   Responsive.width(3, context),
-//                                             ),
-//                                             Column(
-//                                               crossAxisAlignment:
-//                                                   CrossAxisAlignment.start,
-//                                               mainAxisAlignment:
-//                                                   MainAxisAlignment.center,
-//                                               children: [
-//                                                 Row(
-//                                                   children: [
-//                                                     TextWidget(
-//                                                       "Cooper, Kristin",
-//                                                       style: Theme.of(context)
-//                                                           .textTheme
-//                                                           .labelLarge!
-//                                                           .copyWith(
-//                                                             fontFamily: AppFont
-//                                                                 .fontFamilysemi,
-//                                                             letterSpacing: 0.2,
-//                                                             fontSize:
-//                                                                 Responsive.sp(
-//                                                                     3.4,
-//                                                                     context),
-//                                                           ),
-//                                                     ),
-//                                                     SizedBox(
-//                                                       width: Responsive.width(
-//                                                           1, context),
-//                                                     ),
-//                                                     SvgPicture.asset(
-//                                                       SvgIcon.verify,
-//                                                       color: AppColors.purple,
-//                                                       height: Responsive.height(
-//                                                           1.5, context),
-//                                                     )
-//                                                   ],
-//                                                 ),
-//                                                 SizedBox(
-//                                                   height: Responsive.height(
-//                                                       0.7, context),
-//                                                 ),
-//                                                 TextWidget(
-//                                                   "2 Days Ago",
-//                                                   style: Theme.of(context)
-//                                                       .textTheme
-//                                                       .labelSmall!
-//                                                       .copyWith(
-//                                                           letterSpacing: 0,
-//                                                           fontSize:
-//                                                               Responsive.sp(
-//                                                                   2.8, context),
-//                                                           color: AppColors.grey
-//                                                               .withOpacity(
-//                                                                   0.5)),
-//                                                 )
-//                                               ],
-//                                             ),
-//                                           ],
-//                                         ),
-//                                         Padding(
-//                                           padding: const EdgeInsets.only(
-//                                               right: 15, top: 10),
-//                                           child: TextWidget(
-//                                             "Yes, that is completely fine, make sure to take right dosages.",
-//                                             textAlign: TextAlign.start,
-//                                             style: Theme.of(context)
-//                                                 .textTheme
-//                                                 .bodySmall!
-//                                                 .copyWith(
-//                                                     fontSize: Responsive.sp(
-//                                                         3.3, context),
-//                                                     height: 1.6,
-//                                                     color: AppColors.dark),
-//                                           ),
-//                                         )
-//                                       ],
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       );
-//                     },
-//                   ),
-//                 )"""

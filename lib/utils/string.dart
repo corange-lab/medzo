@@ -256,7 +256,7 @@ class ConstString {
   static const String drugs = "Drugs";
 
 
-
+  static const String selectchoice = "Select Your Choice";
 
 // ---------------------------- Social Media ---------------------------- //
 

@@ -1,19 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/dialogue.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/dialogue.dart';
+import 'package:medzo/widgets/pick_image.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    pickImageController pickController = Get.put(pickImageController());
+
     return Scaffold(
       backgroundColor: AppColors.whitehome,
       appBar: AppBar(
@@ -41,24 +46,38 @@ class EditProfileScreen extends StatelessWidget {
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      body: editProfileWidget(context),
+      body: editProfileWidget(context, pickController),
     );
   }
 
-  Stack editProfileWidget(BuildContext context) {
+  Stack editProfileWidget(
+      BuildContext context, pickImageController pickController) {
     return Stack(
       children: [
         Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                child: CircleAvatar(
-                  maxRadius: Responsive.height(7, context),
-                  backgroundColor: AppColors.blue.withOpacity(0.1),
-                  backgroundImage: AssetImage("assets/profile.jpg"),
+              Obx(
+                () => Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  child: pickController.selectedImage.isEmpty
+                      ? CircleAvatar(
+                          maxRadius: Responsive.height(7, context),
+                          backgroundColor: AppColors.blue.withOpacity(0.1),
+                          backgroundImage: AssetImage("assets/profile.jpg"),
+                        )
+                      : ClipOval(
+                          child: Container(
+                            height: 105,
+                            width: 105,
+                            child: Image.file(
+                              File(pickController.selectedImage),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                 ),
               ),
               SizedBox(
@@ -80,8 +99,8 @@ class EditProfileScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(top: 8,bottom: 8,right: 25,left: 15),
+                padding: const EdgeInsets.only(
+                    top: 8, bottom: 8, right: 25, left: 15),
                 child: TextFormField(
                   cursorColor: AppColors.grey,
                   decoration: InputDecoration(
@@ -98,7 +117,10 @@ class EditProfileScreen extends StatelessWidget {
                     ),
                     fillColor: AppColors.searchbar.withOpacity(0.5),
                     hintText: "Enter your name",
-                    hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: Responsive.sp(3.8, context)),
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(fontSize: Responsive.sp(3.8, context)),
                     border: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
@@ -145,8 +167,8 @@ class EditProfileScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(top: 8,bottom: 8,right: 25,left: 15),
+                padding: const EdgeInsets.only(
+                    top: 8, bottom: 8, right: 25, left: 15),
                 child: TextFormField(
                   cursorColor: AppColors.grey,
                   decoration: InputDecoration(
@@ -163,7 +185,10 @@ class EditProfileScreen extends StatelessWidget {
                           )),
                     ),
                     hintText: "Enter your profession",
-                    hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: Responsive.sp(3.8, context)),
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(fontSize: Responsive.sp(3.8, context)),
                     border: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
@@ -213,16 +238,16 @@ class EditProfileScreen extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(Responsive.width(50, context), Responsive.height(7, context)),
+                    fixedSize: Size(Responsive.width(50, context),
+                        Responsive.height(7, context)),
                     backgroundColor: AppColors.black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30))),
                 child: TextWidget(
                   ConstString.save,
-                  style: Theme.of(context)
-                      .textTheme
-                      .displayMedium!
-                      .copyWith(color: AppColors.buttontext,fontSize: Responsive.sp(4.2, context)),
+                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                      color: AppColors.buttontext,
+                      fontSize: Responsive.sp(4.2, context)),
                 ),
               )
             ],
@@ -232,13 +257,16 @@ class EditProfileScreen extends StatelessWidget {
           top: 85,
           right: 120,
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              pickController.pickImage(context);
+            },
             child: ClipOval(
               child: Container(
                 height: 45,
                 width: 45,
                 decoration: BoxDecoration(
-                    color: AppColors.blue,),
+                  color: AppColors.blue,
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: SvgPicture.asset(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -15,46 +16,55 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
-        titleSpacing: 10,
+        titleSpacing:-12,
         toolbarHeight: Responsive.height(7, context),
         backgroundColor: AppColors.white,
         elevation: 3,
-        leadingWidth: 55,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
-        leading: ClipOval(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 10,
-            ),
-            child: SizedBox(
-              height: 45,
-              width: 45,
-              child: Image.asset("assets/user2.jpg"),
-            ),
-          ),
-        ),
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: SvgPicture.asset(
+              SvgIcon.backarrow,
+              height: Responsive.height(2, context),
+            )),
         title: Align(
           alignment: Alignment.centerLeft,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              TextWidget(
-                "Cameron Williamson",
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      fontSize: Responsive.sp(4.5, context),
-                      fontFamily: AppFont.fontBold,
-                      letterSpacing: 0,
-                      color: AppColors.darkPrimaryColor,
-                    ),
+              ClipOval(
+                child: SizedBox(
+                  height: 45,
+                  width: 45,
+                  child: Image.asset("assets/user2.jpg"),
+                ),
               ),
               SizedBox(
-                height: Responsive.height(1, context),
+                width: Responsive.width(1.5, context),
               ),
-              TextWidget(
-                "Pharmacist",
-                style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    letterSpacing: 0, fontSize: Responsive.sp(3.5, context)),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextWidget(
+                    "Cameron Williamson",
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          fontSize: Responsive.sp(4.5, context),
+                          fontFamily: AppFont.fontBold,
+                          letterSpacing: 0,
+                          color: AppColors.darkPrimaryColor,
+                        ),
+                  ),
+                  SizedBox(
+                    height: Responsive.height(1, context),
+                  ),
+                  TextWidget(
+                    "Pharmacist",
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        letterSpacing: 0, fontSize: Responsive.sp(3.5, context)),
+                  ),
+                ],
               ),
             ],
           ),
@@ -88,15 +98,15 @@ class ChatScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   filled: true,
                   enabled: true,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset(
-                          SvgIcon.smiley,
-                          height: Responsive.height(3.2, context),
-                        )),
-                  ),
+                  // prefixIcon: Padding(
+                  //   padding: const EdgeInsets.only(top: 2),
+                  //   child: IconButton(
+                  //       onPressed: () {},
+                  //       icon: SvgPicture.asset(
+                  //         SvgIcon.smiley,
+                  //         height: Responsive.height(3.2, context),
+                  //       )),
+                  // ),
                   fillColor: AppColors.white,
                   hintText: "Start typing...",
                   hintStyle: Theme.of(context)

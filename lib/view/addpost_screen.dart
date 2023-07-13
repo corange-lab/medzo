@@ -4,10 +4,11 @@ import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/dialogue.dart';
+import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/pick_image.dart';
 import 'package:sizer/sizer.dart';
 
 class AddpostScreen extends StatelessWidget {
@@ -15,6 +16,7 @@ class AddpostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    pickImageController pickController = Get.put(pickImageController());
     return Scaffold(
       backgroundColor: AppColors.whitehome,
       appBar: AppBar(
@@ -43,7 +45,7 @@ class AddpostScreen extends StatelessWidget {
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      body: addpostWidget(context),
+      body: addpostWidget(context,pickController),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
         child: ElevatedButton(
@@ -81,12 +83,14 @@ class AddpostScreen extends StatelessWidget {
     );
   }
 
-  SingleChildScrollView addpostWidget(BuildContext context) {
+  SingleChildScrollView addpostWidget(BuildContext context,pickImageController pickController) {
     return SingleChildScrollView(
       child: Column(
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              pickController.pickImage(context);
+            },
             child: Container(
               margin: const EdgeInsets.all(20),
               width: SizerUtil.width,
