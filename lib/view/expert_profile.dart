@@ -1,6 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -15,6 +18,8 @@ class ExpertProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HomeController homeController = Get.put(HomeController());
+
     return Scaffold(
       backgroundColor: AppColors.whitehome,
       appBar: AppBar(
@@ -241,10 +246,10 @@ class ExpertProfileScreen extends StatelessWidget {
                                 .textTheme
                                 .titleLarge!
                                 .copyWith(
-                                color: AppColors.primaryColor,
-                                height: 1.4,
-                                fontWeight: FontWeight.w600,
-                                fontSize: Responsive.sp(3.8, context)),
+                                    color: AppColors.primaryColor,
+                                    height: 1.4,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: Responsive.sp(3.8, context)),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 2),
@@ -293,48 +298,64 @@ class ExpertProfileScreen extends StatelessWidget {
                               .textTheme
                               .labelLarge!
                               .copyWith(
-                              fontFamily: AppFont.fontFamilysemi,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.3,
-                              fontSize: Responsive.sp(4.2, context)),
+                                  fontFamily: AppFont.fontFamilysemi,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.3,
+                                  fontSize: Responsive.sp(4.2, context)),
                         ),
                       ),
                       subtitle: Align(
                           alignment: Alignment.topLeft,
                           child: RichText(
                               text: TextSpan(children: [
-                                TextSpan(
-                                  text: "12hr",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
+                            TextSpan(
+                              text: "12hr",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
                                       color: AppColors.grey.withOpacity(0.8),
                                       fontSize: Responsive.sp(3.3, context)),
-                                ),
-                                TextSpan(
-                                  text: "• Updated ✔",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
+                            ),
+                            TextSpan(
+                              text: "• Updated ✔",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
                                       color: AppColors.grey,
                                       fontSize: Responsive.sp(3.3, context)),
-                                ),
-                              ]))),
-                      trailing: Container(
-                        height: 38,
-                        width: 38,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: AppColors.splashdetail),
-                        child: Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 7),
-                          child: SvgPicture.asset(
-                            SvgIcon.bookmark,
-                            height: Responsive.height(2, context),
-                            color: Colors.black,
+                            ),
+                          ]))),
+                      trailing: Obx(
+                        () => GestureDetector(
+                          onTap: () {
+                            if (homeController.isSaveExpert[0]) {
+                              homeController.isSaveExpert[0] = false;
+                            } else {
+                              homeController.isSaveExpert[0] = true;
+                            }
+                          },
+                          child: Container(
+                            height: 38,
+                            width: 38,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: AppColors.splashdetail),
+                            child: Padding(
+                              padding: homeController.isSaveExpert[0]
+                                  ? EdgeInsets.all(7)
+                                  : EdgeInsets.all(9),
+                              child: SvgPicture.asset(
+                                homeController.isSaveExpert[0]
+                                    ? SvgIcon.bookmark
+                                    : SvgIcon.fillbookmark,
+                                height: Responsive.height(2, context),
+                                color: homeController.isSaveExpert[0]
+                                    ? Colors.black
+                                    : AppColors.primaryColor,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -344,10 +365,7 @@ class ExpertProfileScreen extends StatelessWidget {
                       child: TextWidget(
                         "Turns out avocados make the best supplements, an article on Vox claimed them to be the best providers for Vitamin C, start bulking up on them! Who cares how expensive they are!?",
                         textAlign: TextAlign.start,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: Responsive.sp(3.5, context),
                             fontFamily: AppFont.fontFamily,
                             fontWeight: FontWeight.w400,
@@ -424,45 +442,54 @@ class ExpertProfileScreen extends StatelessWidget {
                               .textTheme
                               .labelLarge!
                               .copyWith(
-                              fontFamily: AppFont.fontBold,
-                              fontSize: Responsive.sp(4.2, context)),
+                                  fontFamily: AppFont.fontBold,
+                                  fontSize: Responsive.sp(4.2, context)),
                         ),
                       ),
                       subtitle: Align(
                           alignment: Alignment.topLeft,
                           child: RichText(
                               text: TextSpan(children: [
-                                TextSpan(
-                                  text: "12hr",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
+                            TextSpan(
+                              text: "12hr",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
                                       color: AppColors.grey.withOpacity(0.8),
                                       fontSize: Responsive.sp(3.3, context)),
-                                ),
-                                TextSpan(
-                                  text: "• Updated ✔",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
+                            ),
+                            TextSpan(
+                              text: "• Updated ✔",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
                                       color: AppColors.grey,
                                       fontSize: Responsive.sp(3.3, context)),
-                                ),
-                              ]))),
-                      trailing: Container(
-                        height: 38,
-                        width: 38,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: AppColors.splashdetail),
-                        child: Padding(
-                          padding: const EdgeInsets.all(7.0),
-                          child: SvgPicture.asset(
-                            SvgIcon.bookmark,
-                            height: Responsive.height(2, context),
-                            color: Colors.black,
+                            ),
+                          ]))),
+                      trailing: GestureDetector(
+                        onTap: () {
+                          if (homeController.isSaveExpert[1]) {
+                            homeController.isSaveExpert[1] = false;
+                          } else {
+                            homeController.isSaveExpert[1] = true;
+                          }
+                        },
+                        child: Container(
+                          height: 38,
+                          width: 38,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: AppColors.splashdetail),
+                          child: Padding(
+                            padding: homeController.isSaveExpert[1] ?  EdgeInsets.all(7.0) : EdgeInsets.all(9.0),
+                            child: SvgPicture.asset(
+                              homeController.isSaveExpert[1] ? SvgIcon.bookmark : SvgIcon.fillbookmark,
+                              height: Responsive.height(2, context),
+                              color: homeController.isSaveExpert[1] ? Colors.black : AppColors.primaryColor,
+                            ),
                           ),
                         ),
                       ),
@@ -472,10 +499,7 @@ class ExpertProfileScreen extends StatelessWidget {
                       child: TextWidget(
                         "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                         textAlign: TextAlign.start,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: Responsive.sp(3.5, context),
                             fontFamily: AppFont.fontFamily,
                             fontWeight: FontWeight.w400,
@@ -519,33 +543,33 @@ class ExpertProfileScreen extends StatelessWidget {
                               .textTheme
                               .labelLarge!
                               .copyWith(
-                              fontFamily: AppFont.fontBold,
-                              fontSize: Responsive.sp(4.2, context)),
+                                  fontFamily: AppFont.fontBold,
+                                  fontSize: Responsive.sp(4.2, context)),
                         ),
                       ),
                       subtitle: Align(
                           alignment: Alignment.topLeft,
                           child: RichText(
                               text: TextSpan(children: [
-                                TextSpan(
-                                  text: "12hr",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
+                            TextSpan(
+                              text: "12hr",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
                                       color: AppColors.grey.withOpacity(0.8),
                                       fontSize: Responsive.sp(3.3, context)),
-                                ),
-                                TextSpan(
-                                  text: "• Updated ✔",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
+                            ),
+                            TextSpan(
+                              text: "• Updated ✔",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
                                       color: AppColors.grey,
                                       fontSize: Responsive.sp(3.3, context)),
-                                ),
-                              ]))),
+                            ),
+                          ]))),
                       trailing: Container(
                         height: 38,
                         width: 38,
@@ -567,10 +591,7 @@ class ExpertProfileScreen extends StatelessWidget {
                       child: TextWidget(
                         "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                         textAlign: TextAlign.start,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: Responsive.sp(3.5, context),
                             fontFamily: AppFont.fontFamily,
                             fontWeight: FontWeight.w400,
@@ -614,33 +635,33 @@ class ExpertProfileScreen extends StatelessWidget {
                               .textTheme
                               .labelLarge!
                               .copyWith(
-                              fontFamily: AppFont.fontBold,
-                              fontSize: Responsive.sp(4.2, context)),
+                                  fontFamily: AppFont.fontBold,
+                                  fontSize: Responsive.sp(4.2, context)),
                         ),
                       ),
                       subtitle: Align(
                           alignment: Alignment.topLeft,
                           child: RichText(
                               text: TextSpan(children: [
-                                TextSpan(
-                                  text: "12hr",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
+                            TextSpan(
+                              text: "12hr",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
                                       color: AppColors.grey.withOpacity(0.8),
                                       fontSize: Responsive.sp(3.3, context)),
-                                ),
-                                TextSpan(
-                                  text: "• Updated ✔",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
+                            ),
+                            TextSpan(
+                              text: "• Updated ✔",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
                                       color: AppColors.grey,
                                       fontSize: Responsive.sp(3.3, context)),
-                                ),
-                              ]))),
+                            ),
+                          ]))),
                       trailing: Container(
                         height: 38,
                         width: 38,
@@ -662,10 +683,7 @@ class ExpertProfileScreen extends StatelessWidget {
                       child: TextWidget(
                         "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                         textAlign: TextAlign.start,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: Responsive.sp(3.5, context),
                             fontFamily: AppFont.fontFamily,
                             fontWeight: FontWeight.w400,
@@ -683,5 +701,3 @@ class ExpertProfileScreen extends StatelessWidget {
     );
   }
 }
-
-

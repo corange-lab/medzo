@@ -1,6 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -24,6 +27,7 @@ class _MedicineDetailState extends State<MedicineDetail>
   late TabController tabQuestionController;
 
   MedicineController controller = Get.put(MedicineController());
+  HomeController homecontroller = Get.put(HomeController());
 
   @override
   void initState() {
@@ -65,8 +69,8 @@ class _MedicineDetailState extends State<MedicineDetail>
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      body: medicineWidget(
-          context, tabController, tabQuestionController, controller),
+      body: medicineWidget(context, tabController, tabQuestionController,
+          controller, homecontroller),
       bottomNavigationBar: Container(
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(color: AppColors.white, boxShadow: const [
@@ -103,8 +107,12 @@ class _MedicineDetailState extends State<MedicineDetail>
   }
 }
 
-Container medicineWidget(BuildContext context, TabController tabController,
-    TabController tabQuestionController, MedicineController controller) {
+Container medicineWidget(
+    BuildContext context,
+    TabController tabController,
+    TabController tabQuestionController,
+    MedicineController controller,
+    HomeController homeController) {
   return Container(
     child: Padding(
       padding: const EdgeInsets.all(10.0),
@@ -258,20 +266,37 @@ Container medicineWidget(BuildContext context, TabController tabController,
                       ),
                     ),
                     const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Container(
-                        height: 38,
-                        width: 38,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: AppColors.splashdetail),
+                    Obx(
+                      () => GestureDetector(
+                        onTap: () {
+                          if (homeController.isSaveMedicine[0]) {
+                            homeController.isSaveMedicine[0] = false;
+                          } else {
+                            homeController.isSaveMedicine[0] = true;
+                          }
+                        },
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset(
-                            SvgIcon.bookmark,
-                            height: Responsive.height(2, context),
-                            color: Colors.black,
+                          padding: EdgeInsets.symmetric(horizontal: 6),
+                          child: Container(
+                            height: 38,
+                            width: 38,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: AppColors.splashdetail),
+                            child: Padding(
+                              padding: homeController.isSaveMedicine[0]
+                                  ? EdgeInsets.all(8.0)
+                                  : EdgeInsets.all(10),
+                              child: SvgPicture.asset(
+                                homeController.isSaveMedicine[0]
+                                    ? SvgIcon.bookmark
+                                    : SvgIcon.fillbookmark,
+                                height: Responsive.height(2, context),
+                                color: homeController.isSaveMedicine[0]
+                                    ? Colors.black
+                                    : AppColors.primaryColor,
+                              ),
+                            ),
                           ),
                         ),
                       ),

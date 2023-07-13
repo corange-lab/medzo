@@ -18,6 +18,9 @@ class HomeController extends GetxController {
 
   RxBool isChanged = false.obs;
 
+  RxList<bool> isSaveMedicine = List.filled(5, false).obs;
+  RxList<bool> isSaveExpert = List.filled(4, false).obs;
+
   var selectedPageIndex = 0.obs;
   var pageController = PageController().obs;
 
