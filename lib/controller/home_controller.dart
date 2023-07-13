@@ -16,8 +16,9 @@ class HomeController extends GetxController {
 
   TextEditingController searchController = TextEditingController();
 
-  var selectedPageIndex = 0.obs;
+  RxBool isChanged = false.obs;
 
+  var selectedPageIndex = 0.obs;
   var pageController = PageController().obs;
 
   List categoryImage = [

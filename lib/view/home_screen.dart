@@ -1,6 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -765,25 +768,29 @@ class HomeScreen extends GetView<HomeController> {
                                   ),
                                 ),
                                 const Spacer(),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 38,
-                                    width: 38,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: AppColors.splashdetail),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.asset(
-                                        SvgIcon.bookmark,
-                                        height: Responsive.height(2, context),
-                                        color: Colors.black,
+                                Obx(() => GestureDetector(onTap: () {
+                                  controller.isChanged.value = !controller.isChanged.value;
+                                },
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                    child: Container(
+                                      height: 38,
+                                      width: 38,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: AppColors.splashdetail),
+                                      child: Padding(
+                                        padding: controller.isChanged.value ?  EdgeInsets.all(8.0) : EdgeInsets.all(10),
+                                        child: SvgPicture.asset(
+                                          controller.isChanged.value ? SvgIcon.bookmark : SvgIcon.fillbookmark,
+                                          height: Responsive.height(2, context),
+                                          color: controller.isChanged.value ? Colors.black : AppColors.primaryColor,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
+                                ),),
                                 SizedBox(
                                   width: Responsive.width(1, context),
                                 )
