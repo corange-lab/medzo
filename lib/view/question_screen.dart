@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -35,9 +36,10 @@ class QuestionScreen extends GetView<Question_controller> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      // mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        SizedBox(height: Responsive.height(7, context),),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Row(
@@ -56,46 +58,62 @@ class QuestionScreen extends GetView<Question_controller> {
                                           letterSpacing: 0),
                                 ),
                               ),
-                              IconButton(
-                                  onPressed: () async {
-                                    if (controller.selectedPageIndex.value ==
-                                        0) {
-                                      controller.pageController.value
-                                          .animateToPage(
-                                              1,
-                                              duration: const Duration(
-                                                  milliseconds: 10),
-                                              curve: Curves.easeInOut);
-                                    } else if (controller
-                                            .selectedPageIndex.value ==
-                                        1) {
-                                      controller.pageController.value
-                                          .animateToPage(
-                                              2,
-                                              duration: const Duration(
-                                                  milliseconds: 10),
-                                              curve: Curves.easeInOut);
-                                    } else if (controller
-                                            .selectedPageIndex.value ==
-                                        2) {
-                                      controller.pageController.value
-                                          .animateToPage(
-                                              3,
-                                              duration: const Duration(
-                                                  milliseconds: 10),
-                                              curve: Curves.easeInOut);
-                                    } else {
-                                      Get.off(HomeScreen());
-                                    }
-                                  },
-                                  icon: SvgPicture.asset(
-                                    SvgIcon.skip,
-                                    width: Responsive.width(10, context),
-                                    height: Responsive.height(10, context),
-                                  )),
+                              GestureDetector(onTap: ()  {
+                                if (controller.selectedPageIndex.value ==
+                                    0) {
+                                  controller.pageController.value
+                                      .animateToPage(
+                                      1,
+                                      duration: const Duration(
+                                          milliseconds: 10),
+                                      curve: Curves.easeInOut);
+                                } else if (controller
+                                    .selectedPageIndex.value ==
+                                    1) {
+                                  controller.pageController.value
+                                      .animateToPage(
+                                      2,
+                                      duration: const Duration(
+                                          milliseconds: 10),
+                                      curve: Curves.easeInOut);
+                                } else if (controller
+                                    .selectedPageIndex.value ==
+                                    2) {
+                                  controller.pageController.value
+                                      .animateToPage(
+                                      3,
+                                      duration: const Duration(
+                                          milliseconds: 10),
+                                      curve: Curves.easeInOut);
+                                } else {
+                                  Get.off(HomeScreen());
+                                }
+                              },
+                                child: Row(
+                                  children: [
+                                    TextWidget(
+                                      ConstString.skipButton,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .copyWith(
+                                              color: AppColors.darkyellow,
+                                              fontSize:
+                                                  Responsive.sp(3.8, context)),
+                                    ),
+                                    Icon(
+                                      CupertinoIcons.right_chevron,
+                                      size: Responsive.height(2, context),
+                                      color: AppColors.darkyellow,
+                                    )
+                                  ],
+                                ),
+                              ),
+
                             ],
                           ),
                         ),
+                        SizedBox(height: Responsive.height(3, context),),
                         Obx(() => GFProgressBar(
                               lineHeight: 6,
                               width: Responsive.width(86, context),
@@ -126,137 +144,148 @@ class QuestionScreen extends GetView<Question_controller> {
             color: AppColors.white,
             margin: const EdgeInsets.only(bottom: 10),
             child: Obx(
-                  () => controller.selectedPageIndex.value == 0
-                      ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
-                        child: ElevatedButton(
-                    onPressed: () async {
-                        if (controller.selectedPageIndex.value == 0) {
-                          controller.pageController.value.animateToPage(1,
-                              duration: const Duration(milliseconds: 10),
-                              curve: Curves.easeInOut);
-                        } else if (controller.selectedPageIndex.value == 1) {
-                          controller.pageController.value.animateToPage(2,
-                              duration: const Duration(milliseconds: 10),
-                              curve: Curves.easeInOut);
-                        } else if (controller.selectedPageIndex.value == 2) {
-                          controller.pageController.value.animateToPage(3,
-                              duration: const Duration(milliseconds: 10),
-                              curve: Curves.easeInOut);
-                        } else {
-                          Get.off(HomeScreen());
-                        }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        elevation: 0,
-                        fixedSize: Size(SizerUtil.width, 50),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
-                    ),
-                    child: Text(
-                        ConstString.next,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                      )
-                      : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                    children: [
-                        Expanded(
-                          flex: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                if (controller.selectedPageIndex.value == 1) {
-                                  controller.pageController.value.animateToPage(
-                                      0,
-                                      duration:
-                                      const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else if (controller.selectedPageIndex.value == 2) {
-                                  controller.pageController.value.animateToPage(
-                                      1,
-                                      duration:
-                                      const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else if (controller.selectedPageIndex.value == 3) {
-                                  controller.pageController.value.animateToPage(
-                                      2,
-                                      duration:
-                                      const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else {
-                                  controller.pageController.value.animateToPage(
-                                      0,
-                                      duration:
-                                      const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.splashdetail,
-                                elevation: 0,
-                                fixedSize: Size(SizerUtil.width, 50),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50)),
-                              ),
-                              child: Text(
-                                ConstString.back,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ),
-                          ),
+              () => controller.selectedPageIndex.value == 0
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 25, vertical: 10),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (controller.selectedPageIndex.value == 0) {
+                            controller.pageController.value.animateToPage(1,
+                                duration: const Duration(milliseconds: 10),
+                                curve: Curves.easeInOut);
+                          } else if (controller.selectedPageIndex.value == 1) {
+                            controller.pageController.value.animateToPage(2,
+                                duration: const Duration(milliseconds: 10),
+                                curve: Curves.easeInOut);
+                          } else if (controller.selectedPageIndex.value == 2) {
+                            controller.pageController.value.animateToPage(3,
+                                duration: const Duration(milliseconds: 10),
+                                curve: Curves.easeInOut);
+                          } else {
+                            Get.off(HomeScreen());
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryColor,
+                          elevation: 0,
+                          fixedSize: Size(SizerUtil.width, 50),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
                         ),
-                        Expanded(
-                          flex: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                if (controller.selectedPageIndex.value == 0) {
-                                  controller.pageController.value.animateToPage(
-                                      1,
-                                      duration:
-                                      const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else if (controller.selectedPageIndex.value == 1) {
-                                  controller.pageController.value.animateToPage(
-                                      2,
-                                      duration:
-                                      const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else if (controller.selectedPageIndex.value == 2) {
-                                  controller.pageController.value.animateToPage(
-                                      3,
-                                      duration:
-                                      const Duration(milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else {
-                                  Get.off(HomeScreen());
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryColor,
-                                elevation: 0,
-                                fixedSize: Size(SizerUtil.width, 50),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50)),
-                              ),
-                              child: Text(
-                                controller.selectedPageIndex.value == 3
-                                    ? ConstString.savencontinue
-                                    : ConstString.next,
-                                style: Theme.of(context).textTheme.bodyMedium,
+                        child: Text(
+                          ConstString.next,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 10),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  if (controller.selectedPageIndex.value == 1) {
+                                    controller.pageController.value
+                                        .animateToPage(0,
+                                            duration: const Duration(
+                                                milliseconds: 10),
+                                            curve: Curves.easeInOut);
+                                  } else if (controller
+                                          .selectedPageIndex.value ==
+                                      2) {
+                                    controller.pageController.value
+                                        .animateToPage(1,
+                                            duration: const Duration(
+                                                milliseconds: 10),
+                                            curve: Curves.easeInOut);
+                                  } else if (controller
+                                          .selectedPageIndex.value ==
+                                      3) {
+                                    controller.pageController.value
+                                        .animateToPage(2,
+                                            duration: const Duration(
+                                                milliseconds: 10),
+                                            curve: Curves.easeInOut);
+                                  } else {
+                                    controller.pageController.value
+                                        .animateToPage(0,
+                                            duration: const Duration(
+                                                milliseconds: 10),
+                                            curve: Curves.easeInOut);
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.splashdetail,
+                                  elevation: 0,
+                                  fixedSize: Size(SizerUtil.width, 50),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50)),
+                                ),
+                                child: Text(
+                                  ConstString.back,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
                               ),
                             ),
                           ),
-                        )
-                    ],
-                  ),
+                          Expanded(
+                            flex: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 10),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  if (controller.selectedPageIndex.value == 0) {
+                                    controller.pageController.value
+                                        .animateToPage(1,
+                                            duration: const Duration(
+                                                milliseconds: 10),
+                                            curve: Curves.easeInOut);
+                                  } else if (controller
+                                          .selectedPageIndex.value ==
+                                      1) {
+                                    controller.pageController.value
+                                        .animateToPage(2,
+                                            duration: const Duration(
+                                                milliseconds: 10),
+                                            curve: Curves.easeInOut);
+                                  } else if (controller
+                                          .selectedPageIndex.value ==
+                                      2) {
+                                    controller.pageController.value
+                                        .animateToPage(3,
+                                            duration: const Duration(
+                                                milliseconds: 10),
+                                            curve: Curves.easeInOut);
+                                  } else {
+                                    Get.off(HomeScreen());
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primaryColor,
+                                  elevation: 0,
+                                  fixedSize: Size(SizerUtil.width, 50),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50)),
+                                ),
+                                child: Text(
+                                  controller.selectedPageIndex.value == 3
+                                      ? ConstString.savencontinue
+                                      : ConstString.next,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
+                    ),
             ),
           ),
         );
@@ -377,7 +406,16 @@ class QuestionScreen extends GetView<Question_controller> {
                                           .map((String items) {
                                         return DropdownMenuItem<String>(
                                           value: items,
-                                          child: Text(items),
+                                          child: TextWidget(
+                                            items,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelSmall!
+                                                .copyWith(
+                                                    fontSize: Responsive.sp(
+                                                        3.8, context),
+                                                    color: AppColors.black),
+                                          ),
                                         );
                                       }).toList(),
                                       onChanged: (value) {
@@ -393,7 +431,10 @@ class QuestionScreen extends GetView<Question_controller> {
                                       ),
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleMedium!.copyWith(fontSize: Responsive.sp(3.5, context)),
+                                          .titleMedium!
+                                          .copyWith(
+                                              fontSize:
+                                                  Responsive.sp(3.5, context)),
                                       value: ctrl.healthDropdown.value,
                                       padding: const EdgeInsets.only(left: 15),
                                     ),
@@ -549,7 +590,16 @@ class QuestionScreen extends GetView<Question_controller> {
                                           items: ctrl.year.map((String items) {
                                             return DropdownMenuItem<String>(
                                               value: items,
-                                              child: Text(items),
+                                              child: TextWidget(
+                                                items,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelSmall!
+                                                    .copyWith(
+                                                        fontSize: Responsive.sp(
+                                                            3.8, context),
+                                                        color: AppColors.black),
+                                              ),
                                             );
                                           }).toList(),
                                           onChanged: (value) {
@@ -565,7 +615,10 @@ class QuestionScreen extends GetView<Question_controller> {
                                           ),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .titleMedium!.copyWith(fontSize: Responsive.sp(3.5, context)),
+                                              .titleMedium!
+                                              .copyWith(
+                                                  fontSize: Responsive.sp(
+                                                      3.5, context)),
                                           value: ctrl.yearDropdown.value,
                                           padding:
                                               const EdgeInsets.only(left: 15),
@@ -630,7 +683,6 @@ class QuestionScreen extends GetView<Question_controller> {
                     },
                   ),
                 )),
-
           ],
         ),
       ),

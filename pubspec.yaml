@@ -43,7 +43,7 @@ dependencies:
   sign_in_with_apple:
   otp_text_field:
   image_picker:
-  firebase_messaging:
+#  firebase_messaging:
   sizer:
   flutter_otp_text_field:
   getwidget:

@@ -122,6 +122,23 @@ class AddpostScreen extends StatelessWidget {
               ),
             ),
           ),
+          Obx(
+                () => pickController.selectedImage.isNotEmpty
+                ? Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20,bottom: 20),
+                child: Text(
+                  "Uploaded : ${pickController.selectedImage.split("/").last}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelMedium!
+                      .copyWith(fontSize: Responsive.sp(3.3, context)),
+                ),
+              ),
+            )
+                : SizedBox(),
+          ),
           SizedBox(
             height: Responsive.height(1, context),
           ),
