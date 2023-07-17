@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 
 import 'package:get/get.dart';
@@ -122,6 +126,31 @@ class Utils {
       ),
     );
   }
+
+  static Future<bool> hasInternetConnection() async {
+    bool isOffline;
+    try {
+      ConnectivityResult connectivityResult =
+      await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.mobile) {
+        return true;
+      } else if (connectivityResult == ConnectivityResult.wifi) {
+        return true;
+      } else {
+        return false;
+      }
+    } on PlatformException catch (_) {
+      isOffline = false;
+      return isOffline;
+    } on TimeoutException catch (_) {
+      isOffline = false;
+      return isOffline;
+    } on SocketException catch (_) {
+      isOffline = false;
+      return isOffline;
+    }
+  }
+
 }
 
 void unFocus() {

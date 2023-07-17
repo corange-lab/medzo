@@ -88,12 +88,12 @@ class NewUser extends GetConnectImpl {
     return null;
   }
 
-  Future<UserModel?> updateUser({required Map<String, dynamic> params}) async {
+  /*Future<UserModel?> updateUser({required Map<String, dynamic> params}) async {
     String? idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
     if (idToken == null) {
       return null;
     }
-    String url = APIRequest.updateUserUrl;
+    String url = APIRequest.updateUserUrl();
     try {
       final response =
           await put(url, params, headers: APIDefaults.defaultHeaders(idToken));
@@ -128,7 +128,7 @@ class NewUser extends GetConnectImpl {
       log("update user api $e");
     }
     return null;
-  }
+  }*/
 
   Future<String?> deleteUser(String id) async {
     String? idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
@@ -208,7 +208,7 @@ class NewUser extends GetConnectImpl {
     try {
       // TODO: remove this
       // return true;
-      String url = APIRequest.otpSend;
+      String url = APIRequest.sendOTPUrl;
       Map<String, dynamic> params = {
         "email": email,
         "type": "REGISTER"
@@ -249,7 +249,7 @@ class NewUser extends GetConnectImpl {
 
       // return true;
       // TODO: remove this
-      String url = APIRequest.otpSend;
+      String url = APIRequest.verifyOTPUrl;
       Map<String, dynamic> params = {
         "email": email,
         "otp": otp,

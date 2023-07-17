@@ -6,8 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:medzo/api/auth_api.dart';
 import 'package:medzo/api/create_user_api.dart';
+import 'package:medzo/controller/user_repository.dart';
+import 'package:medzo/model/general_response.dart';
 import 'package:medzo/model/user_model.dart';
+import 'package:medzo/service/notification/notification_service.dart';
 import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/utils/controller_ids.dart';
 import 'package:medzo/utils/string.dart';
@@ -16,6 +20,7 @@ import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/view/login_screen.dart';
 import 'package:medzo/view/otp_screen.dart';
 import 'package:medzo/view/signup_screen.dart';
+import 'package:otp_text_field/otp_text_field.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController {
@@ -29,6 +34,7 @@ class AuthController extends GetxController {
 
   bool socialSignInBool = false;
   RxBool isOtpSent = false.obs;
+  OtpFieldController otpFieldController = OtpFieldController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -38,7 +44,6 @@ class AuthController extends GetxController {
   Timer? timer;
   RxInt start = 30.obs;
   RxBool resendButton = true.obs;
-  // TextEditingController phoneNumberController = TextEditingController();
   TextEditingController otpController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
   TextEditingController supemailTextController = TextEditingController();
@@ -46,7 +51,6 @@ class AuthController extends GetxController {
   TextEditingController suppasswordTextController = TextEditingController();
 
   bool socialButtonVisible = true;
-  // FocusNode phoneNumberTextField = FocusNode();
   AppStorage appStorage = AppStorage();
 
   static const socialButtonId = 'socialButtonId';
@@ -55,6 +59,8 @@ class AuthController extends GetxController {
   late Rx<User?> firebaseUser;
 
   UserCredential? _authResult;
+
+  AuthApi authApi = AuthApi.instance;
 
   @override
   void onReady() {
@@ -113,7 +119,6 @@ class AuthController extends GetxController {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       print('Signed in with uid: ${userCredential.user!.uid}');
-      userCredential.user!.emailVerified;
       // TODO: Vijay check and handle verification screen for not verified user userCredential.user!.emailVerified
       if (userCredential.user != null) {
         if (userCredential.user!.emailVerified) {
@@ -145,19 +150,12 @@ class AuthController extends GetxController {
       _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       print("Account created for user: ${_authResult?.user?.email ?? ''}");
-      var sendOTPResponse = await NewUser.instance.sendOTP(email: email);
-      if (sendOTPResponse) {
-        if (_authResult?.user!.emailVerified ?? false) {
-          // TODO: create a new user
-          navigateToHomeScreen();
-          showInSnackBar('SignUp successfully with $email mail address');
-        } else {
-          navigateVerificationFlow(email);
-        }
-      }
-      else {
-        // TODO: show unable to send OTP
-        return;
+
+      if (_authResult?.user!.emailVerified ?? false) {
+        navigateToHomeScreen();
+        showInSnackBar('SignUp successfully with $email mail address');
+      } else {
+        navigateVerificationFlow(email);
       }
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');
@@ -382,68 +380,6 @@ class AuthController extends GetxController {
     }
   }
 
-  /*Future<void> verifyPhoneNumber({bool second = false}) async {
-    bool isValid = validateData();
-    if (isValid) {
-      isOtpSent = true.obs;
-      update([continueButtonId]);
-      try {
-        await _auth.verifyPhoneNumber(
-          phoneNumber: '+${getPhoneNumber()}',
-          verificationCompleted: (PhoneAuthCredential credential) async {
-            isOtpSent = false.obs;
-            update([continueButtonId]);
-            _auth.signInWithCredential(credential).then((value) {
-              showInSnackBar(ConstString.successLogin, isSuccess: true);
-              return;
-            });
-          },
-          verificationFailed: (FirebaseAuthException exception) {
-            isOtpSent = false.obs;
-            update([continueButtonId]);
-
-            log("Verification error${exception.message}");
-            isLoading = false;
-            update([ControllerIds.verifyButtonKey]);
-            authException(exception);
-          },
-          codeSent:
-              (String currentVerificationId, int? forceResendingToken) async {
-            verificationId.value = currentVerificationId;
-            isOtpSent = false.obs;
-            update([continueButtonId]);
-            log("$verificationId otp is sent ");
-
-            showInSnackBar(ConstString.otpSent, isSuccess: true);
-
-            start.value = 30;
-            if (timer?.isActive != null) {
-              if (timer!.isActive) {
-              } else {
-                startTimer();
-              }
-            } else {
-              startTimer();
-            }
-            if (second == true) {
-              otpController.clear();
-            } else {
-              Get.to(() => OTPScreen(email: email, verificationId: verificationId));
-            }
-          },
-          codeAutoRetrievalTimeout: (String verificationId) {
-            isOtpSent = false.obs;
-            update([continueButtonId]);
-
-            this.verificationId.value = verificationId;
-          },
-        );
-      } catch (e) {
-        log("------verifi number with otp sent-----$e");
-      }
-    }
-  }*/
-
   Future<void> createNewUserData({required Map<String, dynamic> params}) async {
     try {
       final UserModel? response =
@@ -486,49 +422,360 @@ class AuthController extends GetxController {
   //   return true;
   // }
 
-  Future<bool> addFcmToken({required String fcmToken}) async {
+  Future<void> addFcmToken({required String fcmToken}) async {
     log(fcmToken, name: "fcm addd----");
     try {
       var params = {
         "fcmToken": fcmToken,
       };
-      return await NewUser.instance.addFcmInUserData(params: params);
+      await NewUser.instance.addFcmInUserData(params: params);
     } catch (e) {
       log('$e');
-      return false;
     }
   }
 
-  void authException(FirebaseAuthException e) {
+  String authException(FirebaseAuthException e) {
     isLoading = false;
     update([ControllerIds.verifyButtonKey]);
+    String snackBarMessage;
+
     switch (e.code) {
       case ConstString.invalidEmail:
-        return showInSnackBar(ConstString.invalidEmailMessage);
+        snackBarMessage = ConstString.invalidEmailMessage;
+        break;
       case ConstString.wrongPassword:
-        return showInSnackBar(ConstString.wrongPasswordMessage);
+        snackBarMessage = ConstString.wrongPasswordMessage;
+        break;
       case ConstString.userNotFound:
-        return showInSnackBar(ConstString.userNotFoundMessage);
+        snackBarMessage = ConstString.userNotFoundMessage;
+        break;
       case ConstString.tooManyRequests:
-        return showInSnackBar(ConstString.tooManyRequestsMessage);
+        snackBarMessage = ConstString.tooManyRequestsMessage;
+        break;
       case ConstString.operationNotAllowed:
-        return showInSnackBar(ConstString.operationNotAllowedMessage);
+        snackBarMessage = ConstString.operationNotAllowedMessage;
+        break;
       case ConstString.emailAlreadyInUse:
-        return showInSnackBar(ConstString.emailAlreadyInUseMessage);
+        snackBarMessage = ConstString.emailAlreadyInUseMessage;
+        break;
       case ConstString.invalidVerificationCode:
-        return showInSnackBar(ConstString.invalidVerificationMessage);
+        snackBarMessage = ConstString.invalidVerificationMessage;
+        break;
       case ConstString.networkRequestFailed:
-        return showInSnackBar(ConstString.checkNetworkConnection);
+        snackBarMessage = ConstString.checkNetworkConnection;
+        break;
       case ConstString.userDisabled:
-        return showInSnackBar(ConstString.accountDisabled);
+        snackBarMessage = ConstString.accountDisabled;
+        break;
       case ConstString.sessionExpired:
-        return showInSnackBar(ConstString.sessionExpiredMessage);
+        snackBarMessage = ConstString.sessionExpiredMessage;
+        break;
       case ConstString.quotaExceed:
-        return showInSnackBar(ConstString.quotaExceedMessage);
+        snackBarMessage = ConstString.quotaExceedMessage;
+        break;
       case ConstString.captchaCheckFailed:
-        return showInSnackBar(ConstString.captchaFailedMessage);
+        snackBarMessage = ConstString.captchaFailedMessage;
+        break;
       default:
-        return showInSnackBar(e.message);
+        snackBarMessage = e.message ?? ConstString.somethingWentWrong;
+    }
+
+    showInSnackBar(snackBarMessage);
+
+    return snackBarMessage;
+  }
+
+
+  Future<AuthResponse> forgotPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      // String? verificationKey;
+      // var value = await authApi.sendEmailVerification(email: email);
+      // if (value != null && value is GeneralResponse) {
+      //   verificationKey = value.details;
+      // }
+      return AuthResponse(
+        success: true,
+        // verificationKey: verificationKey
+      );
+    } catch (e) {
+      return AuthResponse(
+        errorMsg: "Hooman Doesn't exists",
+        success: false,
+      );
     }
   }
+
+  // static String? currentUserId() => FirebaseAuth.instance.currentUser?.uid;
+  String? currentUserId() {
+    UserModel? userData = AppStorage().getUserData();
+    return userData?.id;
+  }
+
+  Future<AuthResponse> signInWithEmailPassword(
+      String email, String password) async {
+    AuthResponse result;
+    try {
+      final credentials = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      if (!(credentials.user?.emailVerified ?? true)) {
+        result = AuthResponse(
+            errorMsg: ConstString.verifyEmail,
+            success: false,
+            isVerified: false);
+      } else {
+        UserModel? user;
+        // final user =
+        //     await UserRepository.getInstance().getUserByEmail(email.trim());
+        if (credentials.user != null) {
+          user = await authApi.getUserDetails(
+              userId: credentials.user!.uid, isLogin: true);
+
+          ///
+          if (user != null) {
+            UserRepository.getInstance().updateUser(
+              user.copyWith(
+                fcmToken: NotificationService.instance.deviceToken,
+              ),
+            );
+            authApi.updateUserDetails(userId: user.id!, params: {
+              'fcmToken': NotificationService.instance.deviceToken,
+            });
+          }
+        }
+        result = AuthResponse(success: true, user: user, isVerified: true);
+        log("$result", name: "fcm token login");
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMsg = authException(e);
+      result = AuthResponse(
+        errorMsg: errorMsg,
+        success: false,
+      );
+    } on Exception {
+      result = AuthResponse(
+        errorMsg: ConstString.somethingWentWrong,
+        success: false,
+      );
+    }
+    return result;
+  }
+
+  Future<AuthResponse> signUpWithEmailPassword(
+      String email,
+      String password, {
+        String? displayName,
+        UserModel? user,
+      }) async {
+    AuthResponse result;
+    UserModel? user;
+    try {
+      String? verificationKey;
+      if (password.isNotEmpty) {
+        final credentials = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+
+        List<String> name = getFirstLastName(credentials);
+        user = await _createUserInUserCollection(
+          credentials,
+        );
+        await credentials.user!
+            .updateDisplayName(displayName ?? ('${name.first} ${name[1]}'));
+        // await credentials.user!.sendEmailVerification();
+        dynamic value = await authApi.sendEmailVerification(email: email);
+        if (value != null && value is GeneralResponse) {
+          verificationKey = value.details;
+        }
+      } else {
+        user = await _createUserInUserModelCollection(user!,
+            displayName: displayName);
+      }
+
+      result = AuthResponse(
+          success: true, user: user, verificationKey: verificationKey);
+      // await FirebaseAuth.instance.signOut();
+      // await FirebaseAuth.instance.signInWithCustomToken(_user!.fcmToken!);
+    } on FirebaseAuthException catch (e) {
+      String errorMsg = authException(e);
+      result = AuthResponse(errorMsg: errorMsg, success: false, user: user);
+    } on Exception {
+      result = AuthResponse(
+        errorMsg: ConstString.somethingWentWrong,
+        success: false,
+      );
+    }
+    return result;
+  }
+
+  Future _createUserInUserCollection(
+      UserCredential credentials, {
+        String? displayName,
+      }) async {
+    List<String> name = getFirstLastName(credentials);
+    UserModel userModel = UserModel(
+        id: credentials.user!.uid,
+        email: credentials.user!.email,
+        name: (displayName ?? ('${name.first} ${name[1]}')),
+        profilePicture: credentials.user!.photoURL,
+        fcmToken: NotificationService.instance.deviceToken);
+    await UserRepository.getInstance().createNewUser(userModel);
+    return userModel;
+  }
+
+  List<String> getFirstLastName(UserCredential credentials) {
+    if (credentials.user!.displayName == null) {
+      return ['Unknown', 'User'];
+    } else {
+      try {
+        List<String> splitedString = credentials.user!.displayName!.split(' ');
+        if (splitedString.isNotEmpty) {
+          return [splitedString[0], splitedString[1]];
+        } else {
+          return [credentials.user!.displayName!, '-'];
+        }
+      } catch (e) {
+        return [credentials.user!.displayName!, '-'];
+      }
+    }
+  }
+
+  Future _createUserInUserModelCollection(
+      UserModel user, {
+        String? displayName,
+      }) async {
+    user = user.copyWith(
+      name: displayName ?? user.name,
+      profilePicture: user.profilePicture,
+      fcmToken: NotificationService.instance.deviceToken,
+    );
+    await UserRepository.getInstance().updateUser(user);
+    return user;
+  }
+
+  Future resetPassword(String newPassword) async {
+    AuthResponse result;
+    try {
+      await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
+      result = AuthResponse(
+        success: true,
+      );
+    } on FirebaseAuthException catch (e) {
+      String errorMsg = e.message!;
+      if (errorMsg.contains('Unable to resolve host')) {
+        errorMsg = ConstString.noInternet;
+      }
+      result = AuthResponse(
+        errorMsg: errorMsg,
+        success: false,
+      );
+    } on Exception {
+      result = AuthResponse(
+        errorMsg: ConstString.somethingWentWrong,
+        success: false,
+      );
+    }
+    return result;
+  }
+
+  Future<bool> updateUsername(String displayName, Map<String, dynamic> latitude,
+      String? gender, String location) async {
+    await FirebaseAuth.instance.currentUser!.updateDisplayName(displayName);
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    Map<String, dynamic> params = {
+      'name': displayName,
+      "address": location,
+      "gender": gender,
+      'latitude': latitude['lat'],
+      'longitude': latitude['lng'],
+      'preferences': [
+        {"size": "small", "likes": true},
+        {"size": "medium", "likes": true},
+        {"size": "large", "likes": true},
+        {"size": "giant", "likes": true},
+        {"size": "teacup", "likes": true},
+        {"size": "toy", "likes": true}
+      ]
+    };
+    dynamic hasUpdatedUser = await authApi
+        .updateUserDetails(params: params, userId: userId)
+        .onError((error, stackTrace) {
+      return false;
+    });
+    return hasUpdatedUser != null;
+  }
+
+  Future<bool> updateUserProfilePic(String profilePicture) async {
+    await FirebaseAuth.instance.currentUser!.updatePhotoURL(profilePicture);
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    Map<String, dynamic> params = {'profilePicture': profilePicture};
+
+    dynamic hasUpdatedUser = await authApi
+        .updateUserDetails(params: params, userId: userId)
+        .onError((error, stackTrace) {
+      return false;
+    });
+    return hasUpdatedUser != null;
+  }
+
+  Future<void> userLogout() async {
+    //get user data
+    AppStorage appStorage = AppStorage();
+    UserModel? userData = appStorage.getUserData();
+    //user data remove
+
+    try {
+      if (userData != null) {
+        Map params = {UserModelField.fcmToken: null};
+        await AuthApi.instance
+            .updateUserDetails(params: params, userId: userData.id!);
+        await authApi.updateUserDetails(userId: userData.id!, params: {
+          'fcmToken': null,
+        });
+      }
+    } catch (e) {
+      log("User log out $e");
+    }
+    await FirebaseAuth.instance.signOut();
+    await appStorage.appLogout();
+  }
+
+  Future<bool> checkCurrentPassword(String email, String password) async {
+    try {
+      final credentials = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      if (!credentials.user!.emailVerified) {
+        showInSnackBar(ConstString.verifyEmail);
+        return false;
+      } else {
+        return true;
+      }
+    } on FirebaseAuthException catch (e) {
+      authException(e);
+      return false;
+    } on Exception {
+      showInSnackBar(ConstString.somethingWentWrong);
+      return false;
+    }
+  }
+}
+
+class AuthResponse {
+  final bool? success;
+  final bool? isVerified;
+  final String? verificationKey;
+  final String? errorMsg;
+  final String? token;
+  final bool aborted;
+  final UserModel? user;
+
+  AuthResponse({
+    this.success,
+    this.isVerified,
+    this.verificationKey,
+    this.errorMsg,
+    this.token,
+    this.aborted = false,
+    this.user,
+  });
 }

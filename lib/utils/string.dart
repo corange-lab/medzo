@@ -60,6 +60,8 @@ class ConstString {
   static const String save = "Save";
   static const String viewmoredetails = "View More Details";
 
+  static const String verifyEmail = "please verify your email first";
+
 // ---------------------------- AuthController Strings ----------------------------//
 
   static const String fetchGoogle =
