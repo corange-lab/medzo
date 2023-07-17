@@ -1,5 +1,7 @@
+import 'dart:ui';
+
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/splash_screen_controller.dart';
 import 'package:medzo/theme/colors.dart';
@@ -9,8 +11,6 @@ import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class SplashScreen extends GetWidget<SplashScreenController> {
-  const SplashScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Sizer(
@@ -19,9 +19,9 @@ class SplashScreen extends GetWidget<SplashScreenController> {
           init: SplashScreenController(),
           builder: (controller) {
             return Scaffold(
-                body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+                body: Stack(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   height: SizerUtil.height,
@@ -37,43 +37,53 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      Column(
                         children: [
-                          Image.asset(AppImages.logo,
-                              height: Responsive.height(8, context)),
-                          SizedBox(
-                            width: Responsive.width(3.5, context),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: SvgPicture.asset(
-                              AppImages.medzo,
-                              height: Responsive.height(5, context),
+                          BounceInDown(
+                            child: Image.asset(
+                              AppImages.medicineBox1,
+                              height: Responsive.height(20, context),
                             ),
+                            duration: Duration(seconds: 2),
+                            delay: Duration(seconds: 2),
+                          ),
+                          SizedBox(
+                            height: Responsive.height(1, context),
+                          ),
+                          ZoomIn(
+                            child: Image.asset(
+                              AppImages.medzoLineLogo1,
+                              height: Responsive.height(10, context),
+                            ),
+                            duration: Duration(seconds: 1),
                           ),
                         ],
                       ),
-                      SizedBox(height: Responsive.height(30, context),),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 30),
-                        child: TextWidget(
-                          "Disclaimer: The reviews and ratings on this app are solely the opinions of the users and are not intended to replace professional medical advice. The information provided on this app should not be used for diagnosis or treatment of any health problem or disease. Please consult your healthcare provider before taking any medication.",
-                          style: Theme.of(context).textTheme.displaySmall,
-                          // style: TextStyle(
-                          //     fontSize: Responsive.sp(2.3, context),
-                          //     fontFamily: AppFont.fontFamily,
-                          //     color: AppColors.splashdetail,
-                          //     letterSpacing: 0.5,
-                          //     height: 1.7,
-                          //     fontWeight: FontWeight.w500),
-                          textAlign: TextAlign.center,
+                      SizedBox(
+                        height: Responsive.height(15, context),
+                      ),
+                      Container(
+                        height: Responsive.height(15, context),
+                        child: FadeIn(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 15),
+                            child: TextWidget(
+                              "Disclaimer: The reviews and ratings on this app are solely the opinions of the users and are not intended to replace professional medical advice. The information provided on this app should not be used for diagnosis or treatment of any health problem or disease. Please consult your healthcare provider before taking any medication.",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall!
+                                  .copyWith(
+                                      fontSize: Responsive.sp(2.3, context)),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          delay: Duration(seconds: 4),
                         ),
                       )
                     ],
                   ),
-                )
+                ),
               ],
             ));
           },

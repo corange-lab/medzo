@@ -8,6 +8,18 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "animate_do",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/animate_do-3.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "animated_text_kit",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/animated_text_kit-4.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "archive",
       "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.3.7",
       "packageUri": "lib/",
@@ -54,6 +66,24 @@
       "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/clock-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "cloud_firestore",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore-4.8.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "cloud_firestore_platform_interface",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_platform_interface-5.15.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "cloud_firestore_web",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_web-3.6.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "collection",
@@ -590,7 +620,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-07-14T12:21:11.802737Z",
+  "generated": "2023-07-17T12:14:05.321063Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

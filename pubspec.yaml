@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   get:
   get_storage:
+  cloud_firestore:
   flutter_svg:
   firebase_auth:
   google_sign_in:
@@ -48,6 +49,8 @@ dependencies:
   flutter_otp_text_field:
   getwidget:
   custom_rating_bar:
+  animate_do:
+  animated_text_kit:
 
 
 dev_dependencies:

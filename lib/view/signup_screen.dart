@@ -187,11 +187,11 @@ class SignUpScreen extends GetView<AuthController> {
                             icon: ctrl.hidepass.value
                                 ? SvgPicture.asset(
                                     SvgIcon.pass_eye,
-                                    height: Responsive.height(2, context),
+                                    height:Responsive.height(2.5, context),
                                   )
-                                : const Icon(
+                                :  Icon(
                                     Icons.visibility_off_outlined,
-                                    size: 15,
+                                    size: Responsive.height(2.5, context),
                                     color: Colors.black38,
                                   )),
                         fillColor: fNode1.hasFocus

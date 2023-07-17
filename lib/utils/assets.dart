@@ -19,6 +19,10 @@ class AppImages {
   static const String supplements = 'assets/images/supplements.svg';
   static const String splashback = 'assets/images/splash_background.png';
   static const String chatback = 'assets/images/chat_back.png';
+  static const String medicineBox = 'assets/images/medicine_box.svg';
+  static const String medicineBox1 = 'assets/images/medicine_box.png';
+  static const String medzoLineLogo = 'assets/images/medzo_linelogo.svg';
+  static const String medzoLineLogo1 = 'assets/images/medzo_linelogo.png';
 }
 
 class SvgIcon {

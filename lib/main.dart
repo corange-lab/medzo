@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
           transitionDuration: const Duration(milliseconds: 500),
           defaultGlobalState: true,
           themeMode: ThemeMode.light,
-          home: const SplashScreen()),
+          home:  SplashScreen()),
     );
   }
 }

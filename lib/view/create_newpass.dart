@@ -139,11 +139,11 @@ class NewPassword extends GetView {
                             icon: controller.hidepass.value
                                 ? SvgPicture.asset(
                                     SvgIcon.pass_eye,
-                                    height: Responsive.height(2, context),
+                                    height: Responsive.height(2.5, context),
                                   )
-                                : const Icon(
+                                :  Icon(
                                     Icons.visibility_off_outlined,
-                                    size: 15,
+                                    size: Responsive.height(2.5, context),
                                     color: Colors.black38,
                                   )),
                         fillColor: fNode.hasFocus
@@ -207,11 +207,11 @@ class NewPassword extends GetView {
                             icon: controller.hidepass2.value
                                 ? SvgPicture.asset(
                                     SvgIcon.pass_eye,
-                                    height: Responsive.height(2, context),
+                                    height: Responsive.height(2.5, context),
                                   )
-                                : const Icon(
+                                :  Icon(
                                     Icons.visibility_off_outlined,
-                                    size: 15,
+                                    size: Responsive.height(2.5, context),
                                     color: Colors.black38,
                                   )),
                         fillColor: fNode1.hasFocus
@@ -261,14 +261,7 @@ class NewPassword extends GetView {
                           fontFamily: AppFont.fontMedium)),
                   TextSpan(
                     text: "Strong",
-                    style: TextStyle(
-                      fontSize: 9,
-                      // 50
-                      fontFamily: AppFont.fontFamily,
-                      letterSpacing: 0,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.lightgreen,
-                    ),
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColors.lightgreen,)
                   )
                 ])),
               ),

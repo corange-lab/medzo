@@ -7,6 +7,7 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/view/crud_operation.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -157,7 +158,9 @@ class SearchScreen extends StatelessWidget {
                   ),
                   SizedBox(),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(CrudOperation());
+                      },
                       child: TextWidget(
                         ConstString.viewall1,
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
