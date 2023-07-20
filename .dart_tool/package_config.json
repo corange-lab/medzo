@@ -9,19 +9,19 @@
     },
     {
       "name": "animate_do",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/animate_do-3.0.2",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/animate_do-3.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "animated_text_kit",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/animated_text_kit-4.2.2",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/animated_text_kit-4.2.2",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "archive",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.3.7",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/archive-3.3.7",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -69,13 +69,13 @@
     },
     {
       "name": "checked_yaml",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/checked_yaml-2.0.3",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/checked_yaml-2.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "cli_util",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/cli_util-0.4.0",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/cli_util-0.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -86,14 +86,26 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "collection",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/collection-1.17.1",
+      "name": "cloud_firestore",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.3",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
-      "name": "convert",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/convert-3.1.1",
+      "name": "cloud_firestore_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-5.15.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "cloud_firestore_web",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.6.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "collection",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/collection-1.17.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -110,10 +122,22 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "convert",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/convert-3.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "cross_file",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/cross_file-0.3.3+4",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "crypto",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/crypto-3.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "cupertino_icons",
@@ -147,9 +171,9 @@
     },
     {
       "name": "file",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/file-6.1.4",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/file-7.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "file_selector_linux",
@@ -159,7 +183,7 @@
     },
     {
       "name": "file_selector_macos",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/file_selector_macos-0.9.3",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/file_selector_macos-0.9.3+1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -177,19 +201,19 @@
     },
     {
       "name": "firebase_auth",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_auth-4.6.3",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_auth-4.7.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_auth_platform_interface",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-6.15.3",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-6.16.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_auth_web",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_auth_web-5.5.3",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_auth_web-5.6.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -231,19 +255,37 @@
     },
     {
       "name": "firebase_messaging",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging-14.6.4",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_messaging-14.6.5",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_messaging_platform_interface",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging_platform_interface-4.5.3",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.5.4",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_messaging_web",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_messaging_web-3.5.3",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_messaging_web-3.5.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_storage",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_storage-11.2.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_storage_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_storage_platform_interface-4.4.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_storage_web",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_storage_web-3.6.5",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -254,10 +296,64 @@
       "languageVersion": "3.0"
     },
     {
-      "name": "flutter_lints",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.1",
+      "name": "flutter_blurhash",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_blurhash-0.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "flutter_cache_manager",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_cache_manager-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_image_compress",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_image_compress-2.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_image_compress_common",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_image_compress_common-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_image_compress_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_image_compress_platform_interface-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_image_compress_web",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_image_compress_web-0.1.3+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.13.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "flutter_local_notifications",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_local_notifications-15.1.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_local_notifications_linux",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_local_notifications_linux-4.0.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_local_notifications_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_local_notifications_platform_interface-7.0.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "flutter_otp_text_field",
@@ -321,7 +417,7 @@
     },
     {
       "name": "google_sign_in_android",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.16",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.18",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -357,19 +453,19 @@
     },
     {
       "name": "image",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/image-4.0.17",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image-4.0.17",
       "packageUri": "lib/",
       "languageVersion": "2.15"
     },
     {
       "name": "image_picker",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_picker-1.0.0",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_picker-1.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "image_picker_android",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_picker_android-0.8.7+3",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_picker_android-0.8.7+4",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -399,7 +495,7 @@
     },
     {
       "name": "image_picker_platform_interface",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_picker_platform_interface-2.8.0",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_picker_platform_interface-2.9.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -422,8 +518,8 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "lints",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/lints-2.1.1",
+      "name": "json_annotation",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/json_annotation-4.8.1",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -495,7 +591,7 @@
     },
     {
       "name": "path_provider_foundation",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.3",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.4",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -537,13 +633,7 @@
     },
     {
       "name": "pointycastle",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/pointycastle-3.7.3",
-      "packageUri": "lib/",
-      "languageVersion": "2.14"
-    },
-    {
-      "name": "process",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/process-4.2.4",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/pointycastle-3.7.3",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -705,9 +795,9 @@
     },
     {
       "name": "xdg_directories",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/xdg_directories-1.0.0",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/xdg_directories-1.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.18"
     },
     {
       "name": "xml",
@@ -717,7 +807,7 @@
     },
     {
       "name": "yaml",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/yaml-3.1.2",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/yaml-3.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -728,7 +818,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-07-05T11:34:02.293319Z",
+  "generated": "2023-07-20T10:24:23.228906Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }
