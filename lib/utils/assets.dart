@@ -19,6 +19,16 @@ class AppImages {
   static const String supplements = 'assets/images/supplements.svg';
   static const String splashback = 'assets/images/splash_background.png';
   static const String chatback = 'assets/images/chat_back.png';
+
+  // TODO: add asses
+  static const String errorImage = 'assets/error_image.png';
+  static const String cameraIcon =
+      'assets/signin_signup_screen/camera_icon.png';
+  static const String unselectedPic = 'assets/photounselect.png';
+  static const String crossIcon = 'assets/cross_icon.png';
+  static const String group = 'assets/group.png';
+  static const String gallaryIcon = 'assets/gallary_icon.png';
+  static const String addEventsIcon = 'assets/add events.png';
 }
 
 class SvgIcon {

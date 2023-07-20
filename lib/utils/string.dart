@@ -196,7 +196,8 @@ class ConstString {
   static const String weeklyleaderboard = "Weekly Leaderboard";
   static const String welcomeback = "Welcome Back";
   static const String enterdetailstocontinue = "Enter your details to continue";
-  static const String exploreandknowaboutmedicine = "Explore and know about your medicine...";
+  static const String exploreandknowaboutmedicine =
+      "Explore and know about your medicine...";
   static const String forgotpassword = "Forgot Password";
   static const String login = "Log in";
   static const String sigup = "Sign Up";
@@ -230,10 +231,13 @@ class ConstString {
   static const String passrule2 = "At least 8 characters";
   static const String passrule3 = "Contain a symbol or a number";
   static const String clickicon = "Click icons for more informations";
-  static const String newpassworddetail = "Your new password must be different from previously used password.";
+  static const String newpassworddetail =
+      "Your new password must be different from previously used password.";
   static const String verificationotp = "Verification OTP";
-  static const String profilesentance = "Find your closest \nmatches for the best \nand most important \nreviews!";
-  static String otpDetails(String email) => "Please enter 4 Digit OTP sent on your email address us ${extractDomainFromEmail(email)}";
+  static const String profilesentance =
+      "Find your closest \nmatches for the best \nand most important \nreviews!";
+  static String otpDetails(String email) =>
+      "Please enter 4 Digit OTP sent on your email address us ${extractDomainFromEmail(email)}";
 
   static String extractDomainFromEmail(String email) {
     // show only first and last char of email(till @) then replace all other char with *
@@ -263,9 +267,6 @@ class ConstString {
   static const String therphy = "Theophylline";
   static const String drugs = "Drugs";
 
-
-
-
 // ---------------------------- Social Media ---------------------------- //
 
   static const String apple = "Apple";
@@ -292,12 +293,16 @@ class ConstString {
 
 // ---------------------------- Questions ---------------------------- //
 
-  static const String question1 = "Do you currently have any health conditions?";
+  static const String question1 =
+      "Do you currently have any health conditions?";
   static const String question2 = "Specify the health conditions you have";
-  static const String question3 = "How long have you been dealing with your current health condition?";
+  static const String question3 =
+      "How long have you been dealing with your current health condition?";
   static const String question4 = "Are you currently taking any medications?";
-  static const String question5 = "Please list the medications you are currently taking";
-  static const String question6 = "How long have you been taking these medications?";
+  static const String question5 =
+      "Please list the medications you are currently taking";
+  static const String question6 =
+      "How long have you been taking these medications?";
   static const String question7 = "Do you have any allergies?";
   static const String question8 = "Please specify the allergies you have.";
   static const String question9 = "How severe are your allergies?";
@@ -312,4 +317,7 @@ class ConstString {
     "Intersex",
     "Indeterminate",
   ];
+
+  static const String ERROR_WHILE_UPLODING_PICTURE =
+      "Error while uploading picture";
 }

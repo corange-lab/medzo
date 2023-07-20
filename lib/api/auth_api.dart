@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:medzo/api/api_defaults.dart';
 import 'package:medzo/model/general_response.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/model/user_response.dart';
+import 'package:medzo/model/users_response.dart';
 import 'package:medzo/network_api_urls.dart';
 import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/utils/get_connect.dart';
@@ -45,7 +47,7 @@ class AuthApi extends GetConnectImpl {
     }
   }
 
-  /*Future<AllUsersResponse?> fetchAllUsers(
+  Future<AllUsersResponse?> fetchAllUsers(
       {String? keyword, int? pageNumber, int? pageSize}) async {
     bool hasInternet = await Utils.hasInternetConnection();
     if (!hasInternet) {
@@ -53,6 +55,7 @@ class AuthApi extends GetConnectImpl {
     } else {
       String? idToken = await firebaseIdToken();
 
+      log(idToken.toString());
       Map<String, dynamic> query = {
         'pageNumber': pageNumber?.toString() ?? '1',
         'pageSize': pageSize?.toString() ?? '10',
@@ -79,7 +82,8 @@ class AuthApi extends GetConnectImpl {
         }
       }
     }
-  }*/
+    return null;
+  }
 
   Future<dynamic> verifyOTP({required Map params}) async {
     bool hasInternet = await Utils.hasInternetConnection();
