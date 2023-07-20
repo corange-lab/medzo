@@ -13,7 +13,7 @@ import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
-class QuestionScreen extends GetView<Question_controller> {
+class QuestionScreen extends GetView<QuestionController> {
   final FocusNode fNode = FocusNode();
   final FocusNode fNode1 = FocusNode();
 
@@ -21,8 +21,8 @@ class QuestionScreen extends GetView<Question_controller> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<Question_controller>(
-      init: Question_controller(),
+    return GetBuilder<QuestionController>(
+      init: QuestionController(),
       builder: (controller) {
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
@@ -293,7 +293,7 @@ class QuestionScreen extends GetView<Question_controller> {
     );
   }
 
-  Container questionWidget(Question_controller ctrl, BuildContext context) {
+  Container questionWidget(QuestionController ctrl, BuildContext context) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -689,7 +689,7 @@ class QuestionScreen extends GetView<Question_controller> {
     );
   }
 
-  void onPageChanged(Question_controller controller, int? value) {
+  void onPageChanged(QuestionController controller, int? value) {
     controller.selectedPageIndex.value = value ?? 0;
     // print('value $value');
     // if (controller.selectedPageIndex.value == 3) {

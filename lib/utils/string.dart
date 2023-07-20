@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:math';
 
 class ConstString {
   static const String apiTimeOut =
@@ -59,6 +60,8 @@ class ConstString {
   static const String save = "Save";
   static const String viewmoredetails = "View More Details";
 
+  static const String verifyEmail = "please verify your email first";
+
 // ---------------------------- AuthController Strings ----------------------------//
 
   static const String fetchGoogle =
@@ -92,12 +95,11 @@ class ConstString {
   static const String alreadyInUse = 'credential-already-in-use';
   static const String sessionExpired = "session-expired";
   static const String quotaExceed = "quota-exceeded";
-  static const String tooManyRequest = "too-many-requests";
   static const String captchaCheckFailed = 'captcha-check-failed';
 
 // ---------------------------- Authentication Error Messages ---------------------------- //
-  static const String tooManyRequestMessage =
-      "To ensure the safety of your account, we've temporarily disabled access from this device due to suspicious activity. Please try again later.";
+//   static const String tooManyRequestMessage =
+//       "To ensure the safety of your account, we've temporarily disabled access from this device due to suspicious activity. Please try again later.";
   static const String captchaFailedMessage =
       "Unable to verify Captcha. Please try again later.";
   static const String quotaExceedMessage =
@@ -228,10 +230,19 @@ class ConstString {
   static const String passrule2 = "At least 8 characters";
   static const String passrule3 = "Contain a symbol or a number";
   static const String clickicon = "Click icons for more informations";
-  static const String newpassworddetail = "Your new password must be different from previously used password.";
+  static const String newpassworddetail =
+      "Your new password must be different from previously used password.";
   static const String verificationotp = "Verification OTP";
-  static const String profilesentance = "Find your closest \nmatches for the best \nand most important \nreviews!";
-  static const String otpdetails = "Please enter 4 Digit OTP sent on your email address us...23@gmail.com";
+  static const String profilesentance =
+      "Find your closest \nmatches for the best \nand most important \nreviews!";
+  static String otpDetails(String email) =>
+      "Please enter 4 Digit OTP sent on your email address us ${extractDomainFromEmail(email)}";
+
+  static String extractDomainFromEmail(String email) {
+    // show only first and last char of email(till @) then replace all other char with *
+    var dum = (email.indexOf('@') - Random().nextInt(email.indexOf('@')));
+    return email.replaceRange(1, email.indexOf('@'), '**' * dum);
+  }
 
 // ---------------------------- category ---------------------------- //
 
@@ -284,12 +295,16 @@ class ConstString {
 
 // ---------------------------- Questions ---------------------------- //
 
-  static const String question1 = "Do you currently have any health conditions?";
+  static const String question1 =
+      "Do you currently have any health conditions?";
   static const String question2 = "Specify the health conditions you have";
-  static const String question3 = "How long have you been dealing with your current health condition?";
+  static const String question3 =
+      "How long have you been dealing with your current health condition?";
   static const String question4 = "Are you currently taking any medications?";
-  static const String question5 = "Please list the medications you are currently taking";
-  static const String question6 = "How long have you been taking these medications?";
+  static const String question5 =
+      "Please list the medications you are currently taking";
+  static const String question6 =
+      "How long have you been taking these medications?";
   static const String question7 = "Do you have any allergies?";
   static const String question8 = "Please specify the allergies you have.";
   static const String question9 = "How severe are your allergies?";
@@ -304,4 +319,7 @@ class ConstString {
     "Intersex",
     "Indeterminate",
   ];
+
+  static const String ERROR_WHILE_UPLODING_PICTURE =
+      "Error while uploading picture";
 }

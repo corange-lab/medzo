@@ -28,6 +28,7 @@ class AppColors {
   static Color textBody = const Color(0xffF0F0F0);
   static Color notificationOff = const Color.fromARGB(186, 255, 0, 0);
 
+  static Color darkBlue = const Color(0xff09262D);
   static Color splashdetail = const Color(0xFFF2F2F2);
   static Color searchbar = const Color(0xFFE7E7E7);
   static Color txtborder = const Color(0xFFF29D38);
@@ -61,4 +62,12 @@ class AppColors {
   static Color purple = const Color(0xff5D5DFF);
   static Color lightprimary = const Color(0xffF8C890);
 
+  static Color graniteGray = const Color(0xff5F646C);
+  static Color textFieldBorderColor = const Color(0xffE5E8E9);
+  static Color lightButtonBackground = const Color(0xffEBF9F6);
+  static Color chatBackgroundColor = const Color(0xffFFFFFF);
+  static Color alertBoxTextColot = const Color(0xff007AFF);
+  static Color textBlue = const Color(0xFF347CF6);
+  static Color searchfieldColor = const Color(0xffF8F8F9);
+  static Color brightGrey = const Color(0xFFE6E6E6);
 }

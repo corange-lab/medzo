@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/chat/view/chat_list_page/chat_list_page.dart';
 import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -11,6 +12,10 @@ import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/category_screen.dart';
+import 'package:medzo/view/expert_profile.dart';
+import 'package:medzo/view/chat_screen.dart';
+import 'package:medzo/view/message_screen.dart';
+import 'package:medzo/view/expert_profile.dart';
 import 'package:medzo/view/medicine_detail.dart';
 import 'package:medzo/view/message_screen.dart';
 import 'package:medzo/view/post_screen.dart';

@@ -23,6 +23,18 @@ class AppImages {
   static const String medicineBox1 = 'assets/images/medicine_box.png';
   static const String medzoLineLogo = 'assets/images/medzo_linelogo.svg';
   static const String medzoLineLogo1 = 'assets/images/medzo_linelogo.png';
+
+
+  // TODO: add asses
+  static const String errorImage = 'assets/error_image.png';
+  static const String cameraIcon =
+      'assets/signin_signup_screen/camera_icon.png';
+  static const String unselectedPic = 'assets/photounselect.png';
+  static const String crossIcon = 'assets/cross_icon.png';
+  static const String group = 'assets/group.png';
+  static const String gallaryIcon = 'assets/gallary_icon.png';
+  static const String addEventsIcon = 'assets/add events.png';
+
 }
 
 class SvgIcon {

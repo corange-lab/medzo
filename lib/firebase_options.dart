@@ -50,20 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDgl8br4f36xp-c8Dz7JTg-9gB9bVhad7g',
-    appId: '1:429541735617:android:f6faa8e2c253af150f2840',
-    messagingSenderId: '429541735617',
-    projectId: 'medzo-2687b',
-    storageBucket: 'medzo-2687b.appspot.com',
+    apiKey: 'AIzaSyB8n6lo9xWbroYTo0T6AoS4aggcNQyYUBg',
+    appId: '1:129258897545:android:b704a5ad45853d16998658',
+    messagingSenderId: '129258897545',
+    projectId: 'medzo-18785',
+    storageBucket: 'medzo-18785.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDBTLWVDdc48ZjW7kkDV0q_phNd9hUCbB4',
-    appId: '1:429541735617:ios:6546a6138c8aac120f2840',
-    messagingSenderId: '429541735617',
-    projectId: 'medzo-2687b',
-    storageBucket: 'medzo-2687b.appspot.com',
-    iosClientId: '429541735617-remi8ephhapcp5jjktfq3l9ko2aosvlo.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAuB5VhIVwvDN_u_8Fi3Te5N8QSG37Jje0',
+    appId: '1:129258897545:ios:66f2028dc373a609998658',
+    messagingSenderId: '129258897545',
+    projectId: 'medzo-18785',
+    storageBucket: 'medzo-18785.appspot.com',
+    androidClientId: '129258897545-n4lbioqk0lbofvet1jpprb1s7eu2ou21.apps.googleusercontent.com',
+    iosClientId: '129258897545-806hv1i52hgkbmjn58tev9gm0i4noltd.apps.googleusercontent.com',
     iosBundleId: 'com.corange.medzo',
   );
 }

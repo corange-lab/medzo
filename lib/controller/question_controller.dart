@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medzo/utils/string.dart';
 
-class Question_controller extends GetxController {
+class QuestionController extends GetxController {
   RxString healthAns = "No".obs;
   RxString medicineAns = "No".obs;
   RxString allergyAns = "No".obs;

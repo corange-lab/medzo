@@ -255,7 +255,10 @@ class LoginScreen extends GetView<AuthController> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  await ctrl.signInWithEmailAndPassword();
+                  // await ctrl.signInWithEmailAndPassword();
+                  String email = ctrl.emailTextController.text.trim();
+                  String password = ctrl.passwordTextController.text;
+                  await ctrl.signUpWithEmailPassword(email, password);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,

@@ -5,24 +5,24 @@ import 'package:medzo/model/health_condition.dart';
 
 class UserModel {
   final String? id;
-  final String? firstName;
-  final String? lastName;
+  final String? name;
   final String? email;
   final String? fcmToken;
   final String? gender;
   final String? age;
+  final String? profilePicture;
   final bool? enablePushNotification;
   final HealthCondition? healthCondition;
   final CurrentMedication? currentMedication;
 
   UserModel({
     this.id,
-    this.firstName,
-    this.lastName,
+    this.name,
     this.email,
     this.fcmToken,
     this.gender,
     this.age,
+    this.profilePicture,
     this.enablePushNotification,
     this.healthCondition,
     this.currentMedication,
@@ -30,26 +30,26 @@ class UserModel {
 
   UserModel copyWith({
     String? id,
-    String? firstName,
-    String? lastName,
+    String? name,
     String? phoneNumber,
     String? email,
     String? country,
     String? fcmToken,
     String? gender,
     String? age,
+    String? profilePicture,
     bool? enablePushNotification,
     HealthCondition? healthCondition,
     CurrentMedication? currentMedication,
   }) {
     return UserModel(
       id: id ?? this.id,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
+      name: name ?? this.name,
       email: email ?? this.email,
       fcmToken: fcmToken ?? this.fcmToken,
       gender: gender ?? this.gender,
       age: age ?? this.age,
+      profilePicture: profilePicture ?? this.profilePicture,
       enablePushNotification:
           enablePushNotification ?? this.enablePushNotification,
       healthCondition: healthCondition ?? this.healthCondition,
@@ -60,11 +60,11 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'firstName': firstName,
-      'lastName': lastName,
+      'name': name,
       'email': email,
       'fcmToken': fcmToken,
       'gender': gender,
+      'profile_picture': profilePicture,
       'age': age,
       'enablePushNotification': enablePushNotification,
       'health_condition': healthCondition?.toMap(),
@@ -75,11 +75,11 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['id'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
+      name: map['name'],
       email: map['email'],
       fcmToken: map['fcmToken'],
       gender: map['gender'],
+      profilePicture: map['profile_picture'],
       age: map['age'],
       enablePushNotification: map['enablePushNotification'],
       healthCondition: map['health_condition'] == null ? null : HealthCondition.fromMap(map['health_condition']),
@@ -91,4 +91,22 @@ class UserModel {
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source));
+}
+
+
+class UserModelField {
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String email = 'email';
+  static const String role = 'role';
+  static const String profilePicture = 'profilePicture';
+  static const String bio = 'bio';
+  static const String birthdate = 'birthdate';
+  static const String createdAt = 'createdAt';
+  static const String updatedAt = 'updatedAt';
+  static const String fcmToken = 'fcmToken';
+  static const String status = 'status';
+  static const String location = 'address';
+  static const String latitude = 'latitude';
+  static const String longitude = 'longitude';
 }
