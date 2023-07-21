@@ -193,7 +193,7 @@ class LoginScreen extends GetView<AuthController> {
                                     SvgIcon.pass_eye,
                                     height: Responsive.height(2.5, context),
                                   )
-                                :  Icon(
+                                : Icon(
                                     Icons.visibility_off_outlined,
                                     size: Responsive.height(2.5, context),
                                     color: Colors.black38,
@@ -255,10 +255,10 @@ class LoginScreen extends GetView<AuthController> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  // await ctrl.signInWithEmailAndPassword();
-                  String email = ctrl.emailTextController.text.trim();
-                  String password = ctrl.passwordTextController.text;
-                  await ctrl.signUpWithEmailPassword(email, password);
+                  await ctrl.signInWithEmailAndPassword();
+                  // String email = ctrl.emailTextController.text.trim();
+                  // String password = ctrl.passwordTextController.text;
+                  // await ctrl.signUpWithEmailPassword(email, password);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,

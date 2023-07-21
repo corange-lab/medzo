@@ -8,18 +8,17 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
-import 'package:medzo/view/create_newpass.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
-class ForgotScreen extends GetView<Forgotcontroller> {
+class ForgotScreen extends GetView<ForgotController> {
   final FocusNode fNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return GetBuilder<Forgotcontroller>(
-      init: Forgotcontroller(),
+    return GetBuilder<ForgotController>(
+      init: ForgotController(),
       builder: (controller) {
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
@@ -75,7 +74,7 @@ class ForgotScreen extends GetView<Forgotcontroller> {
     );
   }
 
-  Container forgotWidget(Forgotcontroller controller, BuildContext context) {
+  Container forgotWidget(ForgotController controller, BuildContext context) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -103,7 +102,8 @@ class ForgotScreen extends GetView<Forgotcontroller> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
-                  ConstString.otpDetails(controller.emailTextController.text.trim()),
+                  ConstString.otpDetails(
+                      controller.emailTextController.text.trim()),
                   textAlign: TextAlign.left,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
@@ -234,7 +234,9 @@ class ForgotScreen extends GetView<Forgotcontroller> {
                     controller.btnClick++;
                     print(controller.btnClick);
                     if (controller.btnClick == 2) {
-                      Get.off(NewPassword());
+                      // Get.off(NewPassword());
+                      controller.forgetPassword(
+                          controller.emailTextController.text.trim());
                     }
                   },
                   style: ElevatedButton.styleFrom(

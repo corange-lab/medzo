@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medzo/api/auth_api.dart';
 import 'package:medzo/api/create_user_api.dart';
+import 'package:medzo/controller/question_controller.dart';
 import 'package:medzo/controller/user_repository.dart';
 import 'package:medzo/model/general_response.dart';
 import 'package:medzo/model/user_model.dart';
@@ -18,7 +19,6 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/view/login_screen.dart';
-import 'package:medzo/view/otp_screen.dart';
 import 'package:medzo/view/signup_screen.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -85,14 +85,20 @@ class AuthController extends GetxController {
   }
 
   void navigateToHomeScreen() {
-    Get.offAll(() =>  HomeScreen());
+    Get.offAll(() => HomeScreen());
     return;
   }
 
-  void navigateVerificationFlow(String email) {
-    Get.to(() => OTPScreen(
-          email: email, /*verificationId: verificationId.value*/
-        ));
+  void navigateVerificationFlow(String email, AuthResponse? newUser) {
+    if (newUser?.user?.currentMedication == null) {
+      Get.to(() => QuestionController());
+    }
+
+    Get.to(() => QuestionController());
+    // TODO: uncomment below code
+    // Get.to(() => OTPScreen(
+    //       email: email, /*verificationId: verificationId.value*/
+    //     ));
     return;
   }
 
@@ -119,12 +125,14 @@ class AuthController extends GetxController {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       print('Signed in with uid: ${userCredential.user!.uid}');
+      AuthResponse newUser = await signUpWithEmailPassword(email, password,
+          credentials: userCredential);
       // TODO: Vijay check and handle verification screen for not verified user userCredential.user!.emailVerified
       if (userCredential.user != null) {
         if (userCredential.user!.emailVerified) {
           navigateToHomeScreen();
         } else {
-          navigateVerificationFlow(email);
+          navigateVerificationFlow(email, newUser);
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -146,16 +154,20 @@ class AuthController extends GetxController {
     try {
       String email = supemailTextController.text.trim();
       String password = suppasswordTextController.text;
-
+      AuthResponse? newUser;
       _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      if (_authResult != null) {
+        newUser = await signUpWithEmailPassword(email, password,
+            credentials: _authResult!);
+      }
       print("Account created for user: ${_authResult?.user?.email ?? ''}");
 
       if (_authResult?.user!.emailVerified ?? false) {
         navigateToHomeScreen();
         showInSnackBar('SignUp successfully with $email mail address');
       } else {
-        navigateVerificationFlow(email);
+        navigateVerificationFlow(email, newUser);
       }
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');
@@ -180,7 +192,7 @@ class AuthController extends GetxController {
     update([ControllerIds.verifyButtonKey]);
     if (gotUser != null) {
       await appStorage.setUserData(gotUser);
-      Get.offAll(() =>  HomeScreen());
+      Get.offAll(() => HomeScreen());
     }
   }
 
@@ -246,7 +258,7 @@ class AuthController extends GetxController {
             await NewUser.instance.fetchUser(id: useruid, ownProfile: true);
         if (currentUser != null) {
           await appStorage.setUserData(currentUser);
-          Get.offAll(() =>  HomeScreen());
+          Get.offAll(() => HomeScreen());
         } else {
           showInSnackBar(
               "Sorry, we couldn't retrieve the user details. Please try again later.");
@@ -312,7 +324,11 @@ class AuthController extends GetxController {
             if (userCredential.user!.emailVerified) {
               navigateToHomeScreen();
             } else {
-              navigateVerificationFlow(userCredential.user!.email!);
+              // AuthResponse newUser = await signUpWithEmailPassword(email, password,
+              //     credentials: userCredential);
+              //
+              // TODO:
+              // navigateVerificationFlow(userCredential.user!.email!);
             }
           }
         }
@@ -356,7 +372,12 @@ class AuthController extends GetxController {
             if (userCredential.user!.emailVerified) {
               navigateToHomeScreen();
             } else {
-              navigateVerificationFlow(guser.email);
+              AuthResponse newUser = await signUpWithEmailPassword(
+                  user!.email!, '',
+                  credentials: userCredential);
+              navigateVerificationFlow(guser.email, newUser);
+
+              // TODO: handle different flow for social login
             }
           }
         } else {
@@ -485,7 +506,6 @@ class AuthController extends GetxController {
     return snackBarMessage;
   }
 
-
   Future<AuthResponse> forgotPassword(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
@@ -562,19 +582,17 @@ class AuthController extends GetxController {
   }
 
   Future<AuthResponse> signUpWithEmailPassword(
-      String email,
-      String password, {
-        String? displayName,
-        UserModel? user,
-      }) async {
+    String email,
+    String password, {
+    String? displayName,
+    UserModel? user,
+    required UserCredential credentials,
+  }) async {
     AuthResponse result;
     UserModel? user;
     try {
       String? verificationKey;
       if (password.isNotEmpty) {
-        final credentials = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
-
         List<String> name = getFirstLastName(credentials);
         user = await _createUserInUserCollection(
           credentials,
@@ -608,9 +626,9 @@ class AuthController extends GetxController {
   }
 
   Future _createUserInUserCollection(
-      UserCredential credentials, {
-        String? displayName,
-      }) async {
+    UserCredential credentials, {
+    String? displayName,
+  }) async {
     List<String> name = getFirstLastName(credentials);
     UserModel userModel = UserModel(
         id: credentials.user!.uid,
@@ -640,9 +658,9 @@ class AuthController extends GetxController {
   }
 
   Future _createUserInUserModelCollection(
-      UserModel user, {
-        String? displayName,
-      }) async {
+    UserModel user, {
+    String? displayName,
+  }) async {
     user = user.copyWith(
       name: displayName ?? user.name,
       profilePicture: user.profilePicture,
