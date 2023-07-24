@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:medzo/model/age_group.dart';
+import 'package:medzo/model/allergies.dart';
 import 'package:medzo/model/current_medication.dart';
 import 'package:medzo/model/health_condition.dart';
 
@@ -14,6 +16,8 @@ class UserModel {
   final bool? enablePushNotification;
   final HealthCondition? healthCondition;
   final CurrentMedication? currentMedication;
+  final Allergies? allergies;
+  final AgeGroup? ageGroup;
 
   UserModel({
     this.id,
@@ -26,6 +30,8 @@ class UserModel {
     this.enablePushNotification,
     this.healthCondition,
     this.currentMedication,
+    this.allergies,
+    this.ageGroup
   });
 
   UserModel copyWith({
@@ -41,6 +47,8 @@ class UserModel {
     bool? enablePushNotification,
     HealthCondition? healthCondition,
     CurrentMedication? currentMedication,
+    AgeGroup? ageGroup,
+    Allergies? allergies,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -54,6 +62,8 @@ class UserModel {
           enablePushNotification ?? this.enablePushNotification,
       healthCondition: healthCondition ?? this.healthCondition,
       currentMedication: currentMedication ?? this.currentMedication,
+      ageGroup: ageGroup ?? this.ageGroup,
+      allergies: allergies ?? this.allergies,
     );
   }
 
@@ -69,6 +79,8 @@ class UserModel {
       'enablePushNotification': enablePushNotification,
       'health_condition': healthCondition?.toMap(),
       'current_medication': currentMedication?.toMap(),
+      'age_group': ageGroup?.toMap(),
+      'allergies': allergies?.toMap(),
     };
   }
 
@@ -84,6 +96,8 @@ class UserModel {
       enablePushNotification: map['enablePushNotification'],
       healthCondition: map['health_condition'] == null ? null : HealthCondition.fromMap(map['health_condition']),
       currentMedication: map['current_medication'] == null ? null : CurrentMedication.fromMap(map['current_medication']),
+      ageGroup: map['age_group'] == null ? null : AgeGroup.fromMap(map['age_group']),
+      allergies: map['allergies'] == null ? null : Allergies.fromMap(map['allergies']),
     );
   }
 

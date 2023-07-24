@@ -7,7 +7,6 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
-import 'package:medzo/view/crud_operation.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -70,23 +69,23 @@ class SearchScreen extends StatelessWidget {
                             .headlineSmall!
                             .copyWith(fontSize: Responsive.sp(4, context)),
                         border: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: AppColors.whitehome, width: 0.5),
+                          borderSide: BorderSide(
+                              color: AppColors.whitehome, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: AppColors.whitehome, width: 0.5),
+                          borderSide: BorderSide(
+                              color: AppColors.whitehome, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         disabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: AppColors.whitehome, width: 0.5),
+                          borderSide: BorderSide(
+                              color: AppColors.whitehome, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: AppColors.whitehome, width: 0.5),
+                          borderSide: BorderSide(
+                              color: AppColors.whitehome, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -158,18 +157,15 @@ class SearchScreen extends StatelessWidget {
                   ),
                   SizedBox(),
                   TextButton(
-                      onPressed: () {
-                        Get.to(CrudOperation());
-                      },
+                      onPressed: () {},
                       child: TextWidget(
                         ConstString.viewall1,
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: AppColors.primaryColor,
-                              height: 2,
-                              fontSize: Responsive.sp(4, context),
-                              fontWeight: FontWeight.w600,
-                          fontFamily: AppFont.fontFamilysemi
-                            ),
+                            color: AppColors.primaryColor,
+                            height: 2,
+                            fontSize: Responsive.sp(4, context),
+                            fontWeight: FontWeight.w600,
+                            fontFamily: AppFont.fontFamilysemi),
                       ))
                 ],
               ),

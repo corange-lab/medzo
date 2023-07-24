@@ -241,7 +241,7 @@ class ConstString {
   static String extractDomainFromEmail(String email) {
     // show only first and last char of email(till @) then replace all other char with *
     var dum = (email.indexOf('@') - Random().nextInt(email.indexOf('@')));
-    return email.replaceRange(1, email.indexOf('@'), '**' * dum);
+    return email.replaceRange(2, email.indexOf('@'), '**' * dum);
   }
 
 // ---------------------------- category ---------------------------- //

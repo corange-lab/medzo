@@ -61,8 +61,8 @@ class LoginScreen extends GetView<AuthController> {
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                                    color: AppColors.white,
-                                    fontSize: Responsive.sp(4, context)),
+                                color: AppColors.white,
+                                fontSize: Responsive.sp(4, context)),
                           ),
                         )
                       ],
@@ -139,22 +139,22 @@ class LoginScreen extends GetView<AuthController> {
                     hintStyle: Theme.of(context).textTheme.headlineSmall,
                     border: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: AppColors.white, width: 0.5),
+                      BorderSide(color: AppColors.white, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: AppColors.txtborder, width: 0.5),
+                      BorderSide(color: AppColors.txtborder, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     disabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: AppColors.white, width: 0.5),
+                      BorderSide(color: AppColors.white, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: AppColors.white, width: 0.5),
+                      BorderSide(color: AppColors.white, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -167,7 +167,7 @@ class LoginScreen extends GetView<AuthController> {
               Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Obx(
-                    () => TextField(
+                        () => TextField(
                       autofocus: false,
                       obscureText: ctrl.hidepass.value,
                       focusNode: fNode1,
@@ -190,14 +190,14 @@ class LoginScreen extends GetView<AuthController> {
                             },
                             icon: ctrl.hidepass.value
                                 ? SvgPicture.asset(
-                                    SvgIcon.pass_eye,
-                                    height: Responsive.height(2.5, context),
-                                  )
+                              SvgIcon.pass_eye,
+                              height: Responsive.height(2.5, context),
+                            )
                                 : Icon(
-                                    Icons.visibility_off_outlined,
-                                    size: Responsive.height(2.5, context),
-                                    color: Colors.black38,
-                                  )),
+                              Icons.visibility_off_outlined,
+                              size: Responsive.height(2.5, context),
+                              color: Colors.black38,
+                            )),
                         fillColor: fNode1.hasFocus
                             ? AppColors.tilecolor
                             : AppColors.splashdetail,
@@ -205,7 +205,7 @@ class LoginScreen extends GetView<AuthController> {
                         hintStyle: Theme.of(context).textTheme.headlineSmall,
                         border: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: AppColors.white, width: 0.5),
+                          BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -215,12 +215,12 @@ class LoginScreen extends GetView<AuthController> {
                         ),
                         disabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: AppColors.white, width: 0.5),
+                          BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: AppColors.white, width: 0.5),
+                          BorderSide(color: AppColors.white, width: 0.5),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         contentPadding: const EdgeInsets.symmetric(

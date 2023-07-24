@@ -24,6 +24,7 @@ class NewPassword extends GetView {
       builder: (controller) {
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
+          resizeToAvoidBottomInset: false,
           body: Column(
             children: [
               Expanded(

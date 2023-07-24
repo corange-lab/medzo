@@ -19,6 +19,7 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/view/login_screen.dart';
+import 'package:medzo/view/question_screen.dart';
 import 'package:medzo/view/signup_screen.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -91,10 +92,9 @@ class AuthController extends GetxController {
 
   void navigateVerificationFlow(String email, AuthResponse? newUser) {
     if (newUser?.user?.currentMedication == null) {
-      Get.to(() => QuestionController());
+      Get.to(() => QuestionScreen());
     }
-
-    Get.to(() => QuestionController());
+    Get.to(() => QuestionScreen());
     // TODO: uncomment below code
     // Get.to(() => OTPScreen(
     //       email: email, /*verificationId: verificationId.value*/
@@ -162,6 +162,7 @@ class AuthController extends GetxController {
             credentials: _authResult!);
       }
       print("Account created for user: ${_authResult?.user?.email ?? ''}");
+
 
       if (_authResult?.user!.emailVerified ?? false) {
         navigateToHomeScreen();
@@ -255,7 +256,7 @@ class AuthController extends GetxController {
     if (useremail != null && useremail.isNotEmpty) {
       if (userphone != null && userphone.isNotEmpty) {
         UserModel? currentUser =
-            await NewUser.instance.fetchUser(id: useruid, ownProfile: true);
+        await NewUser.instance.fetchUser(id: useruid, ownProfile: true);
         if (currentUser != null) {
           await appStorage.setUserData(currentUser);
           Get.offAll(() => HomeScreen());
@@ -280,7 +281,7 @@ class AuthController extends GetxController {
     const oneSec = Duration(seconds: 1);
     timer = Timer.periodic(
       oneSec,
-      (Timer timer) {
+          (Timer timer) {
         if (start.value == 0) {
           timer.cancel();
           resendButton = false.obs;
@@ -314,7 +315,7 @@ class AuthController extends GetxController {
         );
 
         UserCredential? userCredential =
-            await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+        await FirebaseAuth.instance.signInWithCredential(oauthCredential);
         if (userCredential.user != null) {
           user = userCredential.user!;
           showInSnackBar(ConstString.fetchApple, isSuccess: true);
@@ -362,7 +363,7 @@ class AuthController extends GetxController {
         final credential = GoogleAuthProvider.credential(
             accessToken: gauth.accessToken, idToken: gauth.idToken);
         UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithCredential(credential);
+        await FirebaseAuth.instance.signInWithCredential(credential);
         if (userCredential.user != null) {
           user = userCredential.user!;
 
@@ -404,7 +405,7 @@ class AuthController extends GetxController {
   Future<void> createNewUserData({required Map<String, dynamic> params}) async {
     try {
       final UserModel? response =
-          await NewUser.instance.createUser(params: params);
+      await NewUser.instance.createUser(params: params);
       log("$response", name: " param");
     } catch (e) {
       log("$e", name: " error");
@@ -582,12 +583,12 @@ class AuthController extends GetxController {
   }
 
   Future<AuthResponse> signUpWithEmailPassword(
-    String email,
-    String password, {
-    String? displayName,
-    UserModel? user,
-    required UserCredential credentials,
-  }) async {
+      String email,
+      String password, {
+        String? displayName,
+        UserModel? user,
+        required UserCredential credentials,
+      }) async {
     AuthResponse result;
     UserModel? user;
     try {
@@ -626,9 +627,9 @@ class AuthController extends GetxController {
   }
 
   Future _createUserInUserCollection(
-    UserCredential credentials, {
-    String? displayName,
-  }) async {
+      UserCredential credentials, {
+        String? displayName,
+      }) async {
     List<String> name = getFirstLastName(credentials);
     UserModel userModel = UserModel(
         id: credentials.user!.uid,
@@ -658,9 +659,9 @@ class AuthController extends GetxController {
   }
 
   Future _createUserInUserModelCollection(
-    UserModel user, {
-    String? displayName,
-  }) async {
+      UserModel user, {
+        String? displayName,
+      }) async {
     user = user.copyWith(
       name: displayName ?? user.name,
       profilePicture: user.profilePicture,

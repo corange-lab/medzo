@@ -23,7 +23,7 @@ class ForgotController extends GetxController {
       );
     } catch (e) {
       return AuthResponse(
-        errorMsg: "Hooman Doesn't exists",
+        errorMsg: "Human Doesn't exists",
         success: false,
       );
     }

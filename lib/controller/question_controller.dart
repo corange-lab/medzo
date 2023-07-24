@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/auth_controller.dart';
+import 'package:medzo/model/current_medication.dart';
+import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/string.dart';
 
 class QuestionController extends GetxController {
@@ -13,6 +17,32 @@ class QuestionController extends GetxController {
   RxString yearDropdown = "1 Years".obs;
 
   RxString selectedAge = "".obs;
+
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+
+  UserModel userModel = UserModel();
+
+  // Future<AuthResponse> QuestionCheck() async {
+  //   try {
+  //     AuthResponse newUser = AuthResponse();
+  //     setData(userModel);
+  //     return AuthResponse(success: true);
+  //   } catch (e) {
+  //     return AuthResponse(success: false);
+  //   }
+  // }
+
+  Future<UserModel> setData(UserModel userModel) async {
+    final newDocRef = userCollection.doc(userModel.id);
+    UserModel newUser = userModel.copyWith(
+        id: newDocRef.id,
+        currentMedication:
+            CurrentMedication(id: 123, title: "Medicine", desc: "Pill"));
+    print("Set Data");
+    await newDocRef.set(newUser.toMap());
+    return newUser;
+  }
 
   List<String> healthCondition = [
     "Ashthma",

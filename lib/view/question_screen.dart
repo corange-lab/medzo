@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
 import 'package:medzo/controller/question_controller.dart';
+import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -26,6 +27,7 @@ class QuestionScreen extends GetView<QuestionController> {
       builder: (controller) {
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
+          resizeToAvoidBottomInset: false,
           body: Column(
             children: [
               Expanded(
@@ -59,35 +61,41 @@ class QuestionScreen extends GetView<QuestionController> {
                                 ),
                               ),
                               GestureDetector(onTap: ()  {
-                                if (controller.selectedPageIndex.value ==
-                                    0) {
-                                  controller.pageController.value
-                                      .animateToPage(
-                                      1,
-                                      duration: const Duration(
-                                          milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else if (controller
-                                    .selectedPageIndex.value ==
-                                    1) {
-                                  controller.pageController.value
-                                      .animateToPage(
-                                      2,
-                                      duration: const Duration(
-                                          milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else if (controller
-                                    .selectedPageIndex.value ==
-                                    2) {
-                                  controller.pageController.value
-                                      .animateToPage(
-                                      3,
-                                      duration: const Duration(
-                                          milliseconds: 10),
-                                      curve: Curves.easeInOut);
-                                } else {
-                                  Get.off(HomeScreen());
-                                }
+                                // if (controller.selectedPageIndex.value ==
+                                //     0) {
+                                //   controller.pageController.value
+                                //       .animateToPage(
+                                //       1,
+                                //       duration: const Duration(
+                                //           milliseconds: 10),
+                                //       curve: Curves.easeInOut);
+                                // } else if (controller
+                                //     .selectedPageIndex.value ==
+                                //     1) {
+                                //   controller.pageController.value
+                                //       .animateToPage(
+                                //       2,
+                                //       duration: const Duration(
+                                //           milliseconds: 10),
+                                //       curve: Curves.easeInOut);
+                                // } else if (controller
+                                //     .selectedPageIndex.value ==
+                                //     2) {
+                                //   controller.pageController.value
+                                //       .animateToPage(
+                                //       3,
+                                //       duration: const Duration(
+                                //           milliseconds: 10),
+                                //       curve: Curves.easeInOut);
+                                // } else {
+                                //   Get.off(HomeScreen());
+                                // }
+
+                                // Get.off(HomeScreen());
+                                UserModel userModel = UserModel();
+
+                                controller.setData(userModel);
+
                               },
                                 child: Row(
                                   children: [

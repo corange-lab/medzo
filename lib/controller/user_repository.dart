@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:medzo/model/current_medication.dart';
 import 'package:medzo/model/user_model.dart';
 
 class UserRepository {

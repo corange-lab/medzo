@@ -40,6 +40,7 @@ class OTPScreenWidget extends GetView<OTPController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           Expanded(

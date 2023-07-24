@@ -22,6 +22,7 @@ class SignUpScreen extends GetView<AuthController> {
       builder: (ctrl) {
         return Scaffold(
             backgroundColor: AppColors.primaryColor,
+            resizeToAvoidBottomInset: false,
             body: Center(
               child: Column(
                 children: [
