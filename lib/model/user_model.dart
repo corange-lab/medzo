@@ -13,26 +13,27 @@ class UserModel {
   final String? gender;
   final String? age;
   final String? profilePicture;
+  final String? profession;
   final bool? enablePushNotification;
   final HealthCondition? healthCondition;
   final CurrentMedication? currentMedication;
   final Allergies? allergies;
   final AgeGroup? ageGroup;
 
-  UserModel({
-    this.id,
-    this.name,
-    this.email,
-    this.fcmToken,
-    this.gender,
-    this.age,
-    this.profilePicture,
-    this.enablePushNotification,
-    this.healthCondition,
-    this.currentMedication,
-    this.allergies,
-    this.ageGroup
-  });
+  UserModel(
+      {this.id,
+      this.name,
+      this.email,
+      this.fcmToken,
+      this.gender,
+      this.age,
+      this.profilePicture,
+      this.profession,
+      this.enablePushNotification,
+      this.healthCondition,
+      this.currentMedication,
+      this.allergies,
+      this.ageGroup});
 
   UserModel copyWith({
     String? id,
@@ -44,6 +45,7 @@ class UserModel {
     String? gender,
     String? age,
     String? profilePicture,
+    String? profession,
     bool? enablePushNotification,
     HealthCondition? healthCondition,
     CurrentMedication? currentMedication,
@@ -58,6 +60,7 @@ class UserModel {
       gender: gender ?? this.gender,
       age: age ?? this.age,
       profilePicture: profilePicture ?? this.profilePicture,
+      profession: profession ?? this.profession,
       enablePushNotification:
           enablePushNotification ?? this.enablePushNotification,
       healthCondition: healthCondition ?? this.healthCondition,
@@ -75,6 +78,7 @@ class UserModel {
       'fcmToken': fcmToken,
       'gender': gender,
       'profile_picture': profilePicture,
+      'profession': profession,
       'age': age,
       'enablePushNotification': enablePushNotification,
       'health_condition': healthCondition?.toMap(),
@@ -92,12 +96,19 @@ class UserModel {
       fcmToken: map['fcmToken'],
       gender: map['gender'],
       profilePicture: map['profile_picture'],
+      profession: map['profession'],
       age: map['age'],
       enablePushNotification: map['enablePushNotification'],
-      healthCondition: map['health_condition'] == null ? null : HealthCondition.fromMap(map['health_condition']),
-      currentMedication: map['current_medication'] == null ? null : CurrentMedication.fromMap(map['current_medication']),
-      ageGroup: map['age_group'] == null ? null : AgeGroup.fromMap(map['age_group']),
-      allergies: map['allergies'] == null ? null : Allergies.fromMap(map['allergies']),
+      healthCondition: map['health_condition'] == null
+          ? null
+          : HealthCondition.fromMap(map['health_condition']),
+      currentMedication: map['current_medication'] == null
+          ? null
+          : CurrentMedication.fromMap(map['current_medication']),
+      ageGroup:
+          map['age_group'] == null ? null : AgeGroup.fromMap(map['age_group']),
+      allergies:
+          map['allergies'] == null ? null : Allergies.fromMap(map['allergies']),
     );
   }
 
@@ -107,13 +118,13 @@ class UserModel {
       UserModel.fromMap(json.decode(source));
 }
 
-
 class UserModelField {
   static const String id = 'id';
   static const String name = 'name';
   static const String email = 'email';
   static const String role = 'role';
   static const String profilePicture = 'profilePicture';
+  static const String profession = 'profession';
   static const String bio = 'bio';
   static const String birthdate = 'birthdate';
   static const String createdAt = 'createdAt';

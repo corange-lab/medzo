@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medzo/api/auth_api.dart';
 import 'package:medzo/api/create_user_api.dart';
-import 'package:medzo/controller/question_controller.dart';
 import 'package:medzo/controller/user_repository.dart';
 import 'package:medzo/model/general_response.dart';
 import 'package:medzo/model/user_model.dart';
@@ -70,6 +69,7 @@ class AuthController extends GetxController {
     firebaseUser = Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
 
+    String? currentUserId = _auth.currentUser?.uid;
     // ever(firebaseUser, _setInitialScreen);
   }
 
@@ -164,7 +164,6 @@ class AuthController extends GetxController {
       }
       print("Account created for user: ${_authResult?.user?.email ?? ''}");
 
-
       if (_authResult?.user!.emailVerified ?? false) {
         navigateToHomeScreen();
         showInSnackBar('SignUp successfully with $email mail address');
@@ -257,7 +256,7 @@ class AuthController extends GetxController {
     if (useremail != null && useremail.isNotEmpty) {
       if (userphone != null && userphone.isNotEmpty) {
         UserModel? currentUser =
-        await NewUser.instance.fetchUser(id: useruid, ownProfile: true);
+            await NewUser.instance.fetchUser(id: useruid, ownProfile: true);
         if (currentUser != null) {
           await appStorage.setUserData(currentUser);
           Get.offAll(() => HomeScreen());
@@ -282,7 +281,7 @@ class AuthController extends GetxController {
     const oneSec = Duration(seconds: 1);
     timer = Timer.periodic(
       oneSec,
-          (Timer timer) {
+      (Timer timer) {
         if (start.value == 0) {
           timer.cancel();
           resendButton = false.obs;
@@ -316,7 +315,7 @@ class AuthController extends GetxController {
         );
 
         UserCredential? userCredential =
-        await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+            await FirebaseAuth.instance.signInWithCredential(oauthCredential);
         if (userCredential.user != null) {
           user = userCredential.user!;
           showInSnackBar(ConstString.fetchApple, isSuccess: true);
@@ -364,7 +363,7 @@ class AuthController extends GetxController {
         final credential = GoogleAuthProvider.credential(
             accessToken: gauth.accessToken, idToken: gauth.idToken);
         UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+            await FirebaseAuth.instance.signInWithCredential(credential);
         if (userCredential.user != null) {
           user = userCredential.user!;
 
@@ -406,7 +405,7 @@ class AuthController extends GetxController {
   Future<void> createNewUserData({required Map<String, dynamic> params}) async {
     try {
       final UserModel? response =
-      await NewUser.instance.createUser(params: params);
+          await NewUser.instance.createUser(params: params);
       log("$response", name: " param");
     } catch (e) {
       log("$e", name: " error");
@@ -584,12 +583,12 @@ class AuthController extends GetxController {
   }
 
   Future<AuthResponse> signUpWithEmailPassword(
-      String email,
-      String password, {
-        String? displayName,
-        UserModel? user,
-        required UserCredential credentials,
-      }) async {
+    String email,
+    String password, {
+    String? displayName,
+    UserModel? user,
+    required UserCredential credentials,
+  }) async {
     AuthResponse result;
     UserModel? user;
     try {
@@ -628,9 +627,9 @@ class AuthController extends GetxController {
   }
 
   Future _createUserInUserCollection(
-      UserCredential credentials, {
-        String? displayName,
-      }) async {
+    UserCredential credentials, {
+    String? displayName,
+  }) async {
     List<String> name = getFirstLastName(credentials);
     UserModel userModel = UserModel(
         id: credentials.user?.uid,
@@ -695,9 +694,9 @@ class AuthController extends GetxController {
   }
 
   Future _createUserInUserModelCollection(
-      UserModel user, {
-        String? displayName,
-      }) async {
+    UserModel user, {
+    String? displayName,
+  }) async {
     user = user.copyWith(
       name: displayName ?? user.name,
       profilePicture: user.profilePicture,
