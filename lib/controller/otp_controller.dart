@@ -40,7 +40,6 @@ class OTPController extends GetxController {
   RxInt start = 30.obs;
   RxBool resendButton = true.obs;
   TextEditingController otpController = TextEditingController();
-  FirebaseAuth auth = FirebaseAuth.instance;
   bool socialButtonVisible = true;
   FocusNode phoneNumberTextField = FocusNode();
   AppStorage appStorage = AppStorage();
@@ -114,7 +113,8 @@ class OTPController extends GetxController {
     isLoading = true;
     update([ControllerIds.verifyButtonKey]);
     try {
-      var verifyOTPResponse = await NewUser.instance.verifyOTP(email: email, otp: otp.value);
+      var verifyOTPResponse =
+          await NewUser.instance.verifyOTP(email: email, otp: otp.value);
       if (!verifyOTPResponse) {
         // TODO: show unable to verify OTP
         return;
@@ -128,7 +128,7 @@ class OTPController extends GetxController {
       });
 
       if (gotNewUser != null) {
-        Get.offAll(() =>  HomeScreen());
+        Get.offAll(() => HomeScreen());
       }
       /*var gotUser = await NewUser.instance
           .fetchUser(id: result.user!.uid, ownProfile: true);
@@ -175,7 +175,8 @@ class OTPController extends GetxController {
     }
   }
 
-  Future<UserModel?> createNewUserData({required Map<String, dynamic> params}) async {
+  Future<UserModel?> createNewUserData(
+      {required Map<String, dynamic> params}) async {
     try {
       return await NewUser.instance.createUser(params: params);
     } catch (e) {

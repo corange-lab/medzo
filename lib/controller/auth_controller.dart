@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -632,30 +633,65 @@ class AuthController extends GetxController {
       }) async {
     List<String> name = getFirstLastName(credentials);
     UserModel userModel = UserModel(
-        id: credentials.user!.uid,
-        email: credentials.user!.email,
+        id: credentials.user?.uid,
+        email: credentials.user?.email,
         name: (displayName ?? ('${name.first} ${name[1]}')),
-        profilePicture: credentials.user!.photoURL,
+        profilePicture: credentials.user?.photoURL,
         fcmToken: NotificationService.instance.deviceToken);
     await UserRepository.getInstance().createNewUser(userModel);
     return userModel;
   }
 
   List<String> getFirstLastName(UserCredential credentials) {
-    if (credentials.user!.displayName == null) {
-      return ['Unknown', 'User'];
+    if (credentials.user?.displayName == null) {
+      return getNameFromEmail(credentials.user?.email ?? '');
     } else {
       try {
         List<String> splitedString = credentials.user!.displayName!.split(' ');
         if (splitedString.isNotEmpty) {
           return [splitedString[0], splitedString[1]];
         } else {
-          return [credentials.user!.displayName!, '-'];
+          return getNameFromEmail(credentials.user?.email ?? '');
         }
       } catch (e) {
-        return [credentials.user!.displayName!, '-'];
+        return getNameFromEmail(credentials.user?.email ?? '');
       }
     }
+  }
+
+  List<String> getNameFromEmail(String email) {
+    List<String> parts = email.split('@');
+
+    if (parts.length != 2) {
+      return ['-', ''];
+    }
+
+    String username = parts[0];
+
+    List<String> nameParts = username.split('.');
+
+    if (nameParts.isEmpty) {
+      return [
+        capitalizeFirstLetter(username),
+        generateRandomNumbers(),
+      ];
+    }
+
+    String firstName = capitalizeFirstLetter(nameParts[0]);
+    String lastName =
+        nameParts.length > 1 ? capitalizeFirstLetter(nameParts.last) : '';
+
+    return [firstName, lastName];
+  }
+
+  String capitalizeFirstLetter(String word) {
+    if (word.isEmpty) return '';
+    return word[0].toUpperCase() + word.substring(1);
+  }
+
+  String generateRandomNumbers() {
+    math.Random random = math.Random();
+    return '${random.nextInt(9)}${random.nextInt(9)}${random.nextInt(9)}';
   }
 
   Future _createUserInUserModelCollection(

@@ -73,10 +73,7 @@ class OTPScreenWidget extends GetView<OTPController> {
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: TextWidget(
                       ConstString.exploreandknowaboutmedicine,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: AppColors.white,
                           fontSize: Responsive.sp(4, context)),
                     ),
@@ -164,38 +161,40 @@ class OTPScreenWidget extends GetView<OTPController> {
                   // ),
 
                   Obx(
-                        () => controller.start.value != 0
+                    () => controller.start.value != 0
                         ? Text(
-                      "${controller.start.value}${controller.start.value == 1 ? '' : 's'} Sec",
+                            "${controller.start.value}${controller.start.value == 1 ? '' : 's'}",
                             style: Theme.of(context).textTheme.titleSmall,
-                    )
+                          )
                         : GetBuilder<OTPController>(
-                        id: OTPController.continueButtonId,
-                        builder: (ctrl) {
-                          return TextButton(
-                            onPressed: () async {
-                              // if (!controller.isLoading) {
-                                await controller.sendOTP(email: email);
-                              // }
-                              // TODO: send otp again
-                            },
-                            child: Text.rich(TextSpan(children: [
-                              TextSpan(
-                                  text: ConstString.didntreceivecode,
-                                  style: Theme.of(context).textTheme.labelSmall),
-                              TextSpan(
-                                text: ConstString.resendit,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontFamily: AppFont.fontFamily,
-                                  letterSpacing: 0.5,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.blue,
-                                ),
-                              )
-                            ])),
-                          );
-                        }),
+                            id: OTPController.continueButtonId,
+                            builder: (ctrl) {
+                              return TextButton(
+                                onPressed: () async {
+                                  // if (!controller.isLoading) {
+                                  await controller.sendOTP(email: email);
+                                  // }
+                                  // TODO: send otp again
+                                },
+                                child: Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                      text: ConstString.didntreceivecode,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall),
+                                  TextSpan(
+                                    text: ConstString.resendit,
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontFamily: AppFont.fontFamily,
+                                      letterSpacing: 0.5,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.blue,
+                                    ),
+                                  )
+                                ])),
+                              );
+                            }),
                   ),
                 ],
               ),

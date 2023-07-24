@@ -15,6 +15,9 @@ migrate_working_dir/
 *.ipr
 *.iws
 .idea/
+.idea/libraries/
+.idea/libraries/Dart_SDK.xml
+.idea/libraries/Flutter_Plugins.xml
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -25,6 +28,8 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.dart_tool/package_config.json
+.dart_tool/package_config_subset
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages

@@ -1,13 +1,51 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medzo/api/create_user_api.dart';
 import 'package:medzo/controller/auth_controller.dart';
 
 class ForgotController extends GetxController {
   RxBool pageStatus = false.obs;
   RxInt btnClick = 0.obs;
 
+  static const String continueButtonId = 'Continue';
+
+  Timer? timer;
+  RxInt start = 30.obs;
+  RxBool resendButton = true.obs;
+
   TextEditingController emailTextController = TextEditingController();
+
+  RxInt startTimer() {
+    const oneSec = Duration(seconds: 1);
+    timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (start.value == 0) {
+          timer.cancel();
+          resendButton = false.obs;
+        } else {
+          start.value != 0 ? start-- : null;
+        }
+        update([ForgotController.continueButtonId]);
+      },
+    );
+    return start;
+  }
+
+  Future<bool> sendOTP({required String email}) async {
+    try {
+      bool resendSuccess = await NewUser.instance.sendOTP(email: email);
+      startTimer();
+      return resendSuccess;
+    } catch (e) {
+      log('$e');
+      return false;
+    }
+  }
 
   Future<AuthResponse> forgetPassword(String email) async {
     try {
@@ -27,5 +65,11 @@ class ForgotController extends GetxController {
         success: false,
       );
     }
+  }
+
+  void navigateToSignIn() {
+    // Get.to(() => LoginScreen());
+    Get.back();
+    return;
   }
 }

@@ -7,7 +7,7 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
-import 'package:medzo/view/forgotpassword.dart';
+import 'package:medzo/view/forgot_password_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -235,7 +235,7 @@ class LoginScreen extends GetView<AuthController> {
                 child: TextButton(
                     onPressed: () {
                       // Forgot Button
-                      Get.to(ForgotScreen());
+                      Get.to(ForgotPasswordScreen());
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 22),
