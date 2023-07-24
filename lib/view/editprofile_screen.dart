@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/profile_controller.dart';
+import 'package:medzo/controller/user_repository.dart';
+import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -19,39 +23,45 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     pickImageController pickController = Get.put(pickImageController());
 
-    return Scaffold(
-      backgroundColor: AppColors.whitehome,
-      appBar: AppBar(
-        titleSpacing: 0,
-        backgroundColor: AppColors.white,
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: SvgPicture.asset(
-              SvgIcon.backarrow,
-              height: Responsive.height(2, context),
-            )),
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: TextWidget(
-            ConstString.editprofile,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: Responsive.sp(4.8, context),
-                fontFamily: AppFont.fontBold,
-                letterSpacing: 0,
-                color: AppColors.black),
+    return GetBuilder(
+      init: ProfileController(),
+      builder: (controller) {
+        return Scaffold(
+          backgroundColor: AppColors.whitehome,
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            titleSpacing: 0,
+            backgroundColor: AppColors.white,
+            leading: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: SvgPicture.asset(
+                  SvgIcon.backarrow,
+                  height: Responsive.height(2, context),
+                )),
+            title: Align(
+              alignment: Alignment.centerLeft,
+              child: TextWidget(
+                ConstString.editprofile,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontSize: Responsive.sp(4.8, context),
+                    fontFamily: AppFont.fontBold,
+                    letterSpacing: 0,
+                    color: AppColors.black),
+              ),
+            ),
+            elevation: 3,
+            shadowColor: AppColors.splashdetail.withOpacity(0.1),
           ),
-        ),
-        elevation: 3,
-        shadowColor: AppColors.splashdetail.withOpacity(0.1),
-      ),
-      body: editProfileWidget(context, pickController),
+          body: editProfileWidget(context, controller, pickController),
+        );
+      },
     );
   }
 
-  Stack editProfileWidget(
-      BuildContext context, pickImageController pickController) {
+  Stack editProfileWidget(BuildContext context, ProfileController controller,
+      pickImageController pickController) {
     return Stack(
       children: [
         Center(
@@ -102,19 +112,22 @@ class EditProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     top: 8, bottom: 8, right: 25, left: 15),
                 child: TextFormField(
+                  controller: controller.nameController,
                   cursorColor: AppColors.grey,
+                  textCapitalization: TextCapitalization.words,
+                  keyboardType: TextInputType.name,
                   decoration: InputDecoration(
                     filled: true,
                     enabled: true,
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            SvgIcon.pencil_simple,
-                            height: Responsive.height(2.8, context),
-                          )),
-                    ),
+                    // suffixIcon: Padding(
+                    //   padding: const EdgeInsets.only(right: 5),
+                    //   child: IconButton(
+                    //       onPressed: () {},
+                    //       icon: SvgPicture.asset(
+                    //         SvgIcon.pencil_simple,
+                    //         height: Responsive.height(2.8, context),
+                    //       )),
+                    // ),
                     fillColor: AppColors.searchbar.withOpacity(0.5),
                     hintText: "Enter your name",
                     hintStyle: Theme.of(context)
@@ -170,20 +183,21 @@ class EditProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     top: 8, bottom: 8, right: 25, left: 15),
                 child: TextFormField(
+                  controller: controller.professionController,
                   cursorColor: AppColors.grey,
                   decoration: InputDecoration(
                     filled: true,
                     enabled: true,
                     fillColor: AppColors.searchbar.withOpacity(0.5),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            SvgIcon.pencil_simple,
-                            height: Responsive.height(2.8, context),
-                          )),
-                    ),
+                    // suffixIcon: Padding(
+                    //   padding: const EdgeInsets.only(right: 5),
+                    //   child: IconButton(
+                    //       onPressed: () {},
+                    //       icon: SvgPicture.asset(
+                    //         SvgIcon.pencil_simple,
+                    //         height: Responsive.height(2.8, context),
+                    //       )),
+                    // ),
                     hintText: "Enter your profession",
                     hintStyle: Theme.of(context)
                         .textTheme
@@ -220,7 +234,19 @@ class EditProfileScreen extends StatelessWidget {
                 height: Responsive.height(5, context),
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  String name = controller.nameController.text;
+                  String profession = controller.professionController.text;
+
+                  try {
+                    await UserRepository.getInstance().updateUser(UserModel(
+                        name: name,
+                        profession: profession,
+                        id: FirebaseAuth.instance.currentUser!.uid));
+                  } catch (e) {
+                    print("Exception Thrown : $e");
+                  }
+
                   showDialog(
                     context: context,
                     builder: (context) {

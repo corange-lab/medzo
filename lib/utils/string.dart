@@ -184,6 +184,7 @@ class ConstString {
   static const String reactonlistheadline = "Reactions";
   static const String accountDetails = "Account details";
   static const String appSetting = "App settings";
+  static const String nodata = "No Data Found";
   static const String enablePushNotification = "Enable push notifications";
   static const String social = "Social";
   static const String inviteFriends = "Invite friends to use Medzo";

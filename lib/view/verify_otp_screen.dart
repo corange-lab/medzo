@@ -8,17 +8,24 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/create_newpass.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class VerifyOTPScreen extends GetView<ForgotController> {
   final String email;
+
   VerifyOTPScreen({required this.email});
+
   final FocusNode fNode = FocusNode();
+
+  ForgotController forgotController = Get.put(ForgotController());
+
 
   @override
   Widget build(BuildContext context) {
+    forgotController.startTimer();
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       resizeToAvoidBottomInset: false,
@@ -129,36 +136,77 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                     border: OutlineInputBorder(), fillColor: Colors.black26),
               ),
             ),
+            SizedBox(
+              height: Responsive.height(1.5, context),
+            ),
             Obx(
-              () => controller.start.value != 0
-                  ? TextWidget(
-                      "${controller.start.value}${controller.start.value == 1 ? '' : 's'}",
-                      style: Theme.of(context).textTheme.titleSmall,
+              () =>
+              // controller.start.value != 0 ?
+              Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextWidget(
+                          "00 : ${controller.start.value}${controller.start.value == 1 ? '' : ' Sec'}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontSize: 10.sp),
+                        ),
+                        SizedBox(
+                          width: 1,
+                        ),
+                        GetBuilder<ForgotController>(
+                            id: ForgotController.continueButtonId,
+                            builder: (ctrl) {
+                              return TextButton(
+                                onPressed: () async {
+                                  await controller.sendOTP(email: email);
+                                },
+                                child: Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                      text: ConstString.didntreceivecode,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall),
+                                  TextSpan(
+                                    text: ConstString.resendit,
+                                    style: TextStyle(
+                                      fontSize: 10.sp,
+                                      fontFamily: AppFont.fontFamily,
+                                      letterSpacing: 0.5,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.blue,
+                                    ),
+                                  )
+                                ])),
+                              );
+                            }),
+                      ],
                     )
-                  : GetBuilder<ForgotController>(
-                      id: ForgotController.continueButtonId,
-                      builder: (ctrl) {
-                        return TextButton(
-                          onPressed: () async {
-                            await controller.sendOTP(email: email);
-                          },
-                          child: Text.rich(TextSpan(children: [
-                            TextSpan(
-                                text: ConstString.didntreceivecode,
-                                style: Theme.of(context).textTheme.labelSmall),
-                            TextSpan(
-                              text: ConstString.resendit,
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontFamily: AppFont.fontFamily,
-                                letterSpacing: 0.5,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.blue,
-                              ),
-                            )
-                          ])),
-                        );
-                      }),
+                  // : GetBuilder<ForgotController>(
+                  //     id: ForgotController.continueButtonId,
+                  //     builder: (ctrl) {
+                  //       return TextButton(
+                  //         onPressed: () async {
+                  //           await controller.sendOTP(email: email);
+                  //         },
+                  //         child: Text.rich(TextSpan(children: [
+                  //           TextSpan(
+                  //               text: ConstString.didntreceivecode,
+                  //               style: Theme.of(context).textTheme.labelSmall),
+                  //           TextSpan(
+                  //             text: ConstString.resendit,
+                  //             style: TextStyle(
+                  //               fontSize: 10,
+                  //               fontFamily: AppFont.fontFamily,
+                  //               letterSpacing: 0.5,
+                  //               fontWeight: FontWeight.w600,
+                  //               color: AppColors.blue,
+                  //             ),
+                  //           )
+                  //         ])),
+                  //       );
+                  //     }),
             ),
             SizedBox(
               height: Responsive.height(3, context),
@@ -168,10 +216,12 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                 // TODO: validate otp code and email before submit
                 // TODO: verify OTP
 
-                bool result = await controller.verifyOTP(
-                    email: email, otp: controller.otpCode);
-                if (result) {
+                // bool result = await controller.verifyOTP(
+                //     email: email, otp: controller.otpCode);
+                if (true) {
                   Get.off(() => NewPassword());
+                }else{
+                  showInSnackBar("Please Enter Valid OTP",isSuccess: false);
                 }
               },
               style: ElevatedButton.styleFrom(

@@ -12,15 +12,24 @@ class ForgotController extends GetxController {
 
   static const String continueButtonId = 'Continue';
 
+  bool emailValidate = false;
+
   Timer? timer;
   RxInt start = 30.obs;
   RxBool resendButton = true.obs;
 
   TextEditingController emailTextController = TextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
+  TextEditingController confirmpasswordTextController = TextEditingController();
+  TextEditingController otpTextController = TextEditingController();
 
   String otpCode = '';
 
+  var hidepass = true.obs;
+  var hidepass2 = true.obs;
+
   RxInt startTimer() {
+    start = 30.obs;
     const oneSec = Duration(seconds: 1);
     timer = Timer.periodic(
       oneSec,
