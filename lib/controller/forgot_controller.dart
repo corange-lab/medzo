@@ -8,7 +8,6 @@ import 'package:medzo/api/create_user_api.dart';
 import 'package:medzo/controller/auth_controller.dart';
 
 class ForgotController extends GetxController {
-  RxBool pageStatus = false.obs;
   RxInt btnClick = 0.obs;
 
   static const String continueButtonId = 'Continue';
@@ -18,6 +17,8 @@ class ForgotController extends GetxController {
   RxBool resendButton = true.obs;
 
   TextEditingController emailTextController = TextEditingController();
+
+  String otpCode = '';
 
   RxInt startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -36,10 +37,29 @@ class ForgotController extends GetxController {
     return start;
   }
 
+  void stopTimer() {
+    if (timer != null) {
+      timer?.cancel();
+      timer = null;
+    }
+  }
+
   Future<bool> sendOTP({required String email}) async {
     try {
       bool resendSuccess = await NewUser.instance.sendOTP(email: email);
       startTimer();
+      return resendSuccess;
+    } catch (e) {
+      log('$e');
+      return false;
+    }
+  }
+
+  Future<bool> verifyOTP({required String email, required String otp}) async {
+    try {
+      bool resendSuccess =
+          await NewUser.instance.verifyOTP(email: email, otp: otp);
+      stopTimer();
       return resendSuccess;
     } catch (e) {
       log('$e');

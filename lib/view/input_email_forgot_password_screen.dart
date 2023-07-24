@@ -6,15 +6,15 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
-import 'package:medzo/view/forgotpassword.dart';
+import 'package:medzo/view/verify_otp_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
-class ForgotPasswordScreen extends GetView<ForgotController> {
+class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
   final FocusNode fNode = FocusNode();
   final FocusNode fNode1 = FocusNode();
 
-  ForgotPasswordScreen({super.key});
+  InputEmailForgotPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -185,8 +185,10 @@ class ForgotPasswordScreen extends GetView<ForgotController> {
               ),
               ElevatedButton(
                 onPressed: () async {
+                  // TODO: validate before send otp
+                  // TODO: send OTP API Call and handle success failure result here
                   String email = ctrl.emailTextController.text.trim();
-                  await Get.to(ForgotScreen(email: email));
+                  await Get.to(VerifyOTPScreen(email: email));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
@@ -196,7 +198,7 @@ class ForgotPasswordScreen extends GetView<ForgotController> {
                       borderRadius: BorderRadius.circular(50)),
                 ),
                 child: Text(
-                  ConstString.continueButton,
+                  ConstString.sendotp,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
