@@ -13,6 +13,7 @@ import 'package:sizer/sizer.dart';
 
 class OTPScreen extends StatelessWidget {
   final String email;
+
   const OTPScreen({
     Key? key,
     required this.email,
@@ -127,24 +128,25 @@ class OTPScreenWidget extends GetView<OTPController> {
               ),
               SizedBox(
                 height: Responsive.height(6.5, context),
+                width: SizerUtil.width,
                 child: OtpTextField(
                   numberOfFields: 6,
                   cursorColor: AppColors.primaryColor,
                   borderRadius: BorderRadius.circular(28),
                   showFieldAsBox: true,
-                  fieldWidth: 50,
+                  fieldWidth: 12.w,
                   onCodeChanged: (String code) {
                     controller.otp.value = code;
                   },
                   handleControllers: (contrs) {
                     controllers = contrs;
                   },
-                  onSubmit: (String code) => controller.verifyOtp(
-                      email: email,
-                      otp: controllers
-                          .map((e) => e?.text.trim())
-                          .toList()
-                          .join()),
+                  // onSubmit: (String code) => controller.verifyOtp(
+                  //     email: email,
+                  //     otp: controllers
+                  //         .map((e) => e?.text.trim())
+                  //         .toList()
+                  //         .join()),
                   showCursor: false,
                   borderColor: AppColors.primaryColor,
                   enabled: true,

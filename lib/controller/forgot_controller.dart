@@ -21,7 +21,7 @@ class ForgotController extends GetxController {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
   TextEditingController confirmpasswordTextController = TextEditingController();
-  TextEditingController otpTextController = TextEditingController();
+  List<TextEditingController?> otpController = [];
 
   String otpCode = '';
 

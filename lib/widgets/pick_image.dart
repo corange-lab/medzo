@@ -63,7 +63,7 @@ class pickImageController extends GetxController {
                     child: GestureDetector(
                       onTap: () async {
                         final XFile? image =
-                            await picker.pickImage(source: ImageSource.camera);
+                            await picker.pickImage(source: ImageSource.camera,imageQuality: 80);
 
                         if (image != null) {
                           _selectedImage.value = image.path;
@@ -90,7 +90,7 @@ class pickImageController extends GetxController {
                       child: GestureDetector(
                     onTap: () async {
                       final XFile? image =
-                          await picker.pickImage(source: ImageSource.gallery);
+                          await picker.pickImage(source: ImageSource.gallery,imageQuality: 80);
 
                       if (image != null) {
                         _selectedImage.value = image.path;

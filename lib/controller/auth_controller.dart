@@ -21,7 +21,6 @@ import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/view/login_screen.dart';
 import 'package:medzo/view/otp_screen.dart';
 import 'package:medzo/view/signup_screen.dart';
-import 'package:otp_text_field/otp_text_field.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController {
@@ -35,7 +34,6 @@ class AuthController extends GetxController {
 
   bool socialSignInBool = false;
   RxBool isOtpSent = false.obs;
-  OtpFieldController otpFieldController = OtpFieldController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 

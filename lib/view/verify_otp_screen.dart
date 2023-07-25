@@ -22,7 +22,6 @@ class VerifyOTPScreen extends GetView<ForgotController> {
 
   ForgotController forgotController = Get.put(ForgotController());
 
-
   @override
   Widget build(BuildContext context) {
     forgotController.startTimer();
@@ -113,18 +112,29 @@ class VerifyOTPScreen extends GetView<ForgotController> {
               height: Responsive.height(4, context),
             ),
             SizedBox(
-              height: Responsive.height(6.5, context),
+              height: Responsive.height(7, context),
+              width: SizerUtil.width,
               child: OtpTextField(
+                handleControllers: (ctrl) {
+                  controller.otpController = ctrl;
+                },
+                // onSubmit: (String code) => controller.verifyOTP(
+                //     email: email,
+                //     otp: controller.otpController
+                //         .map((e) => e!.text.trim())
+                //         .toList()
+                //         .join()),
                 numberOfFields: 6,
                 cursorColor: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(28),
                 showFieldAsBox: true,
-                fieldWidth: 72,
+                fieldWidth: 12.w,
                 borderColor: AppColors.primaryColor,
                 enabled: true,
                 filled: true,
                 onCodeChanged: (String code) {
                   controller.otpCode = code;
+                  print("Kevin ${controller.otpCode}");
                 },
                 fillColor: AppColors.splashdetail,
                 keyboardType: TextInputType.number,
@@ -139,75 +149,73 @@ class VerifyOTPScreen extends GetView<ForgotController> {
             SizedBox(
               height: Responsive.height(1.5, context),
             ),
-            Obx(
-              () =>
-              // controller.start.value != 0 ?
-              Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextWidget(
-                          "00 : ${controller.start.value}${controller.start.value == 1 ? '' : ' Sec'}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(fontSize: 10.sp),
-                        ),
-                        SizedBox(
-                          width: 1,
-                        ),
-                        GetBuilder<ForgotController>(
-                            id: ForgotController.continueButtonId,
-                            builder: (ctrl) {
-                              return TextButton(
-                                onPressed: () async {
-                                  await controller.sendOTP(email: email);
-                                },
-                                child: Text.rich(TextSpan(children: [
-                                  TextSpan(
-                                      text: ConstString.didntreceivecode,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall),
-                                  TextSpan(
-                                    text: ConstString.resendit,
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                      fontFamily: AppFont.fontFamily,
-                                      letterSpacing: 0.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.blue,
-                                    ),
-                                  )
-                                ])),
-                              );
-                            }),
-                      ],
-                    )
-                  // : GetBuilder<ForgotController>(
-                  //     id: ForgotController.continueButtonId,
-                  //     builder: (ctrl) {
-                  //       return TextButton(
-                  //         onPressed: () async {
-                  //           await controller.sendOTP(email: email);
-                  //         },
-                  //         child: Text.rich(TextSpan(children: [
-                  //           TextSpan(
-                  //               text: ConstString.didntreceivecode,
-                  //               style: Theme.of(context).textTheme.labelSmall),
-                  //           TextSpan(
-                  //             text: ConstString.resendit,
-                  //             style: TextStyle(
-                  //               fontSize: 10,
-                  //               fontFamily: AppFont.fontFamily,
-                  //               letterSpacing: 0.5,
-                  //               fontWeight: FontWeight.w600,
-                  //               color: AppColors.blue,
-                  //             ),
-                  //           )
-                  //         ])),
-                  //       );
-                  //     }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextWidget(
+                  "00 : ${controller.start.value}${controller.start.value == 1 ? '' : ' Sec'}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .copyWith(fontSize: 10.sp),
+                ),
+                SizedBox(
+                  width: 1,
+                ),
+                GetBuilder<ForgotController>(
+                    id: ForgotController.continueButtonId,
+                    builder: (ctrl) {
+                      return TextButton(
+                        onPressed: () async {
+                          await controller.sendOTP(email: email);
+                        },
+                        child: Text.rich(TextSpan(children: [
+                          TextSpan(
+                              text: ConstString.didntreceivecode,
+                              style: Theme.of(context).textTheme.labelSmall),
+                          TextSpan(
+                            text: ConstString.resendit,
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                              fontFamily: AppFont.fontFamily,
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.blue,
+                            ),
+                          )
+                        ])),
+                      );
+                    }),
+              ],
             ),
+            // Obx(() =>
+            // controller.start.value != 0 ?
+
+            // : GetBuilder<ForgotController>(
+            //     id: ForgotController.continueButtonId,
+            //     builder: (ctrl) {
+            //       return TextButton(
+            //         onPressed: () async {
+            //           await controller.sendOTP(email: email);
+            //         },
+            //         child: Text.rich(TextSpan(children: [
+            //           TextSpan(
+            //               text: ConstString.didntreceivecode,
+            //               style: Theme.of(context).textTheme.labelSmall),
+            //           TextSpan(
+            //             text: ConstString.resendit,
+            //             style: TextStyle(
+            //               fontSize: 10,
+            //               fontFamily: AppFont.fontFamily,
+            //               letterSpacing: 0.5,
+            //               fontWeight: FontWeight.w600,
+            //               color: AppColors.blue,
+            //             ),
+            //           )
+            //         ])),
+            //       );
+            //     }),
+            // ),
             SizedBox(
               height: Responsive.height(3, context),
             ),
@@ -215,13 +223,16 @@ class VerifyOTPScreen extends GetView<ForgotController> {
               onPressed: () async {
                 // TODO: validate otp code and email before submit
                 // TODO: verify OTP
-
-                // bool result = await controller.verifyOTP(
-                //     email: email, otp: controller.otpCode);
-                if (true) {
+                bool result = await controller.verifyOTP(
+                    email: email,
+                    otp: controller.otpController
+                        .map((e) => e!.text.trim())
+                        .toList()
+                        .join());
+                if (result) {
                   Get.off(() => NewPassword());
-                }else{
-                  showInSnackBar("Please Enter Valid OTP",isSuccess: false);
+                } else {
+                  showInSnackBar("Please Enter Valid OTP", isSuccess: false);
                 }
               },
               style: ElevatedButton.styleFrom(
