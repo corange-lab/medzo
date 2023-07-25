@@ -28,9 +28,7 @@ class AuthApi extends GetConnectImpl {
     } else {
       String? idToken = await firebaseIdToken();
 
-      Map<String, String> params = {
-        'email': email,
-      };
+      Map<String, String> params = {'email': email, 'type': 'REGISTER'};
 
       final response = await post(APIRequest.sendOTPUrl, jsonEncode(params),
           headers: APIDefaults.defaultHeaders(idToken));

@@ -185,16 +185,14 @@ class NewUser extends GetConnectImpl {
         }
         if (response.statusCode == 200) {
           return true;
-        }
-        else {
+        } else {
           return false;
         }
         // if (bodyMap['data'] != null) {
         //   log("$params  ${bodyMap['message']}", name: "add fcm api---");
         //   return bodyMap['message'];
         // }
-      }
-      else {
+      } else {
         return false;
       }
     } catch (e) {
@@ -203,16 +201,12 @@ class NewUser extends GetConnectImpl {
     }
   }
 
-
   Future<bool> sendOTP({required String email}) async {
     try {
       // TODO: remove this
       // return true;
       String url = APIRequest.sendOTPUrl;
-      Map<String, dynamic> params = {
-        "email": email,
-        "type": "REGISTER"
-      };
+      Map<String, dynamic> params = {'email': email, 'type': 'REGISTER'};
 
       final response = await post(
         url,
@@ -223,14 +217,12 @@ class NewUser extends GetConnectImpl {
       if (response.statusCode == 200) {
         Map<String, dynamic> bodyMap = jsonDecode(response.bodyString ?? "{}");
 
-        if (!bodyMap.containsKey('data')) {
+        if (!bodyMap.containsKey('success')) {
           APIDefaults.showApiStatusMessage(response);
           log('error while calling if no data object $url');
           return Future.error("SOMETHING WENT WRONG");
         }
-        if (bodyMap['data'] != null) {
-          return true;
-        }
+        return bodyMap['success'] != null && bodyMap['success'] == true;
       } else {
         log('error while calling else $url');
         APIDefaults.showApiStatusMessage(response,
@@ -246,14 +238,13 @@ class NewUser extends GetConnectImpl {
 
   Future<bool> verifyOTP({required String email, required String otp}) async {
     try {
-
       // return true;
       // TODO: remove this
       String url = APIRequest.verifyOTPUrl;
       Map<String, dynamic> params = {
-        "email": email,
-        "otp": otp,
-        "type": "REGISTER"
+        'email': email,
+        'otp': otp,
+        'type': 'REGISTER'
       };
       final response = await post(
         url,
@@ -264,14 +255,12 @@ class NewUser extends GetConnectImpl {
       if (response.statusCode == 200) {
         Map<String, dynamic> bodyMap = jsonDecode(response.bodyString ?? "{}");
 
-        if (!bodyMap.containsKey('data')) {
+        if (!bodyMap.containsKey('success')) {
           APIDefaults.showApiStatusMessage(response);
           log('error while calling if no data object $url');
           return Future.error("SOMETHING WENT WRONG");
         }
-        if (bodyMap['data'] != null) {
-          return true;
-        }
+        return bodyMap['success'] != null && bodyMap['success'] == true;
       } else {
         log('error while calling else $url');
         APIDefaults.showApiStatusMessage(response,
@@ -284,5 +273,4 @@ class NewUser extends GetConnectImpl {
     }
     return false;
   }
-
 }

@@ -1,5 +1,5 @@
 class GeneralResponse {
-  String? status;
+  dynamic status;
   String? details;
 
   GeneralResponse({this.status, this.details});

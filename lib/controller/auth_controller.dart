@@ -19,7 +19,7 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/view/login_screen.dart';
-import 'package:medzo/view/question_screen.dart';
+import 'package:medzo/view/otp_screen.dart';
 import 'package:medzo/view/signup_screen.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -92,14 +92,14 @@ class AuthController extends GetxController {
   }
 
   void navigateVerificationFlow(String email, AuthResponse? newUser) {
-    if (newUser?.user?.currentMedication == null) {
-      Get.to(() => QuestionScreen());
-    }
-    Get.to(() => QuestionScreen());
+    // if (newUser?.user?.currentMedication == null) {
+    //   Get.to(() => QuestionScreen());
+    // }
+    // Get.to(() => QuestionScreen());
     // TODO: uncomment below code
-    // Get.to(() => OTPScreen(
-    //       email: email, /*verificationId: verificationId.value*/
-    //     ));
+    Get.to(() => OTPScreen(
+          email: email, /*verificationId: verificationId.value*/
+        ));
     return;
   }
 
@@ -606,6 +606,10 @@ class AuthController extends GetxController {
           verificationKey = value.details;
         }
       } else {
+        if (!(displayName != null && displayName.isNotEmpty)) {
+          List<String> name = getFirstLastName(credentials);
+          displayName = name.join(' ');
+        }
         user = await _createUserInUserModelCollection(user!,
             displayName: displayName);
       }

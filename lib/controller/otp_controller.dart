@@ -102,8 +102,9 @@ class OTPController extends GetxController {
     }
   }
 
-  Future<void> verifyOtp({required String email}) async {
-    if (otp.value.isEmpty) {
+  Future<void> verifyOtp({required String otp, required String email}) async {
+    print('otp value ${otp}');
+    if (otp.isEmpty) {
       showInSnackBar(
         ConstString.enterOtp,
         title: ConstString.enterOtpMessage,
@@ -114,7 +115,7 @@ class OTPController extends GetxController {
     update([ControllerIds.verifyButtonKey]);
     try {
       var verifyOTPResponse =
-          await NewUser.instance.verifyOTP(email: email, otp: otp.value);
+          await NewUser.instance.verifyOTP(email: email, otp: otp);
       if (!verifyOTPResponse) {
         // TODO: show unable to verify OTP
         return;

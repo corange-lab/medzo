@@ -108,7 +108,7 @@ class VerifyOTPScreen extends GetView<ForgotController> {
             SizedBox(
               height: Responsive.height(6.5, context),
               child: OtpTextField(
-                numberOfFields: 4,
+                numberOfFields: 6,
                 cursorColor: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(28),
                 showFieldAsBox: true,

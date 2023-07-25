@@ -31,6 +31,7 @@ class OTPScreen extends StatelessWidget {
 
 class OTPScreenWidget extends GetView<OTPController> {
   final String email;
+
   const OTPScreenWidget({
     Key? key,
     required this.email,
@@ -89,6 +90,7 @@ class OTPScreenWidget extends GetView<OTPController> {
   }
 
   Container otpWidget(BuildContext context) {
+    List<TextEditingController?> controllers = [];
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -126,15 +128,23 @@ class OTPScreenWidget extends GetView<OTPController> {
               SizedBox(
                 height: Responsive.height(6.5, context),
                 child: OtpTextField(
-                  numberOfFields: 4,
+                  numberOfFields: 6,
                   cursorColor: AppColors.primaryColor,
                   borderRadius: BorderRadius.circular(28),
                   showFieldAsBox: true,
-                  fieldWidth: 70,
+                  fieldWidth: 50,
                   onCodeChanged: (String code) {
                     controller.otp.value = code;
                   },
-                  onSubmit: (String code) => controller.verifyOtp(email: email),
+                  handleControllers: (contrs) {
+                    controllers = contrs;
+                  },
+                  onSubmit: (String code) => controller.verifyOtp(
+                      email: email,
+                      otp: controllers
+                          .map((e) => e?.text.trim())
+                          .toList()
+                          .join()),
                   showCursor: false,
                   borderColor: AppColors.primaryColor,
                   enabled: true,
@@ -203,7 +213,12 @@ class OTPScreenWidget extends GetView<OTPController> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  await controller.verifyOtp(email: email);
+                  await controller.verifyOtp(
+                      email: email,
+                      otp: controllers
+                          .map((e) => e?.text.trim())
+                          .toList()
+                          .join());
                   //Get.off(QuestionScreen());
                 },
                 style: ElevatedButton.styleFrom(
