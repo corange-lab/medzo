@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:medzo/controller/forgot_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/constants.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/verify_otp_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -72,18 +74,21 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
                 Container(
                   color: Colors.white,
                   width: double.infinity,
-                  child: TextButton(
-                    onPressed: () {
-                      ctrl.navigateToSignIn();
-                    },
-                    child: Text.rich(TextSpan(children: [
-                      TextSpan(
-                          text: ConstString.didnthaveanaccount,
-                          style: Theme.of(context).textTheme.labelSmall),
-                      TextSpan(
-                          text: ConstString.createaccount,
-                          style: Theme.of(context).textTheme.labelMedium)
-                    ])),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: TextButton(
+                      onPressed: () {
+                        ctrl.navigateToSignIn();
+                      },
+                      child: Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: ConstString.didnthaveanaccount,
+                            style: Theme.of(context).textTheme.labelSmall),
+                        TextSpan(
+                            text: ConstString.createaccount,
+                            style: Theme.of(context).textTheme.labelMedium)
+                      ])),
+                    ),
                   ),
                 ),
               ],
@@ -114,7 +119,7 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 2),
                   child: TextWidget(
-                    ConstString.forgotpassword.replaceAll('?', ''),
+                    ConstString.forgotpassword.replaceAll("?", ""),
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
                 ),
@@ -131,7 +136,7 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7),
-                child: TextField(
+                child: TextFormField(
                   autofocus: false,
                   focusNode: fNode,
                   cursorColor: AppColors.grey,
@@ -148,6 +153,13 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
                         width: 5,
                       ),
                     ),
+                    errorText: controller.emailValidate
+                        ? "Please Enter Valid Email "
+                        : null,
+                    errorStyle: Theme.of(context)
+                        .textTheme
+                        .labelMedium!
+                        .copyWith(color: Colors.red),
                     fillColor: fNode.hasFocus
                         ? AppColors.tilecolor
                         : AppColors.splashdetail,
@@ -188,7 +200,16 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
                   // TODO: validate before send otp
                   // TODO: send OTP API Call and handle success failure result here
                   String email = ctrl.emailTextController.text.trim();
-                  await Get.to(VerifyOTPScreen(email: email));
+                  if (!validateEmail(
+                      ctrl.emailTextController.text, ctrl.emailValidate)) {
+                    await ctrl.sendOTP(email: email).then((value) {
+                      Get.to(VerifyOTPScreen(email: email));
+                      print("OTP Sent");
+                    });
+                  } else {
+                    showInSnackBar("Please Enter Valid E-mail Address!",
+                        isSuccess: false);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,

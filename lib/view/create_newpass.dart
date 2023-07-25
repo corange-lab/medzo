@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/auth_controller.dart';
+import 'package:medzo/controller/forgot_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -20,7 +21,7 @@ class NewPassword extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AuthController>(
+    return GetBuilder<ForgotController>(
       builder: (controller) {
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
@@ -77,7 +78,7 @@ class NewPassword extends GetView {
     );
   }
 
-  Container newPasswordWidget(AuthController controller, BuildContext context) {
+  Container newPasswordWidget(ForgotController controller, BuildContext context) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -115,12 +116,17 @@ class NewPassword extends GetView {
               Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 5),
                   child: Obx(
-                    () => TextField(
+                    () => TextFormField(
                       autofocus: false,
                       obscureText: controller.hidepass.value,
                       focusNode: fNode,
                       cursorColor: AppColors.grey,
-                      // controller: ctrl.passwordTextController,
+                      validator: (value) {
+                        if(value!.isEmpty){
+                          return 'Empty';
+                        }
+                      },
+                      controller: controller.passwordTextController,
                       // style: Theme.of(context).textTheme.bodyMedium,
                       decoration: InputDecoration(
                         filled: true,
@@ -182,13 +188,22 @@ class NewPassword extends GetView {
               Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Obx(
-                    () => TextField(
+                    () => TextFormField(
                       autofocus: false,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: controller.hidepass2.value,
                       focusNode: fNode1,
                       cursorColor: AppColors.grey,
-                      // controller: ctrl.passwordTextController,
+                      controller: controller.confirmpasswordTextController,
+                      validator: (value) {
+                        if(value!.isEmpty){
+                          return 'Empty';
+                        }
+                        if(value != controller.passwordTextController.text){
+                          return 'Password Not Match';
+                        }
+                        return null;
+                      },
                       // style: Theme.of(context).textTheme.bodyMedium,
                       decoration: InputDecoration(
                         filled: true,
@@ -248,7 +263,7 @@ class NewPassword extends GetView {
                     ),
                   )),
               SizedBox(
-                height: Responsive.height(1, context),
+                height: Responsive.height(2, context),
               ),
               Align(
                 alignment: Alignment.centerLeft,
