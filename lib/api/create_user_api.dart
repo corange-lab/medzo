@@ -201,8 +201,6 @@ class NewUser extends GetConnectImpl {
     }
   }
 
-
-
   Future<bool> sendOTP({required String email}) async {
     try {
       // TODO: remove this
