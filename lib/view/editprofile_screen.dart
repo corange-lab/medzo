@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -18,15 +17,14 @@ import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/widgets/pick_image.dart';
-import 'package:sizer/sizer.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  const EditProfileScreen({super.key});
+
+  EditProfileScreen();
 
   @override
   Widget build(BuildContext context) {
     pickImageController pickController = Get.put(pickImageController());
-
     return GetBuilder<ProfileController>(
       init: ProfileController(),
       builder: (controller) {
@@ -66,6 +64,7 @@ class EditProfileScreen extends StatelessWidget {
 
   Widget editProfileWidget(BuildContext context, ProfileController controller,
       pickImageController pickController) {
+    // controller.nameController.text = name!;
     return Stack(
       children: [
         Center(
@@ -73,28 +72,26 @@ class EditProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Obx(
-                    () => Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 15, vertical: 20),
-                  child: pickController.selectedImage.isEmpty
-                      ? CircleAvatar(
-                    maxRadius: Responsive.height(7, context),
-                    backgroundColor:
-                    AppColors.blue.withOpacity(0.1),
-                    backgroundImage:
-                    AssetImage(AppImages.profile_picture),
-                  )
-                      : ClipOval(
-                    child: Container(
-                      height: 105,
-                      width: 105,
-                      child: Image.file(
-                        File(pickController.selectedImage),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
+                () => Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 20),
+                    child: pickController.selectedImage.isEmpty
+                        ? CircleAvatar(
+                            maxRadius: Responsive.height(7, context),
+                            backgroundColor: AppColors.blue.withOpacity(0.1),
+                            backgroundImage:
+                                AssetImage(AppImages.profile_picture),
+                          )
+                        : Obx(() => ClipOval(
+                              child: Container(
+                                height: 105,
+                                width: 105,
+                                child: Image.file(
+                                  File(pickController.selectedImage),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ))),
               ),
               SizedBox(
                 height: Responsive.height(4, context),
@@ -105,10 +102,7 @@ class EditProfileScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 15),
                   child: TextWidget(
                     ConstString.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineLarge!
-                        .copyWith(
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppColors.grey.withOpacity(0.9),
                         fontSize: Responsive.sp(4, context),
@@ -143,26 +137,25 @@ class EditProfileScreen extends StatelessWidget {
                     hintStyle: Theme.of(context)
                         .textTheme
                         .headlineSmall!
-                        .copyWith(
-                        fontSize: Responsive.sp(3.8, context)),
+                        .copyWith(fontSize: Responsive.sp(3.8, context)),
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: AppColors.whitehome, width: 0.5),
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: AppColors.whitehome, width: 0.5),
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     disabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: AppColors.whitehome, width: 0.5),
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: AppColors.whitehome, width: 0.5),
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -181,10 +174,7 @@ class EditProfileScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 15),
                   child: TextWidget(
                     ConstString.profession,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineLarge!
-                        .copyWith(
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppColors.grey.withOpacity(0.9),
                         fontSize: Responsive.sp(4, context),
@@ -199,6 +189,7 @@ class EditProfileScreen extends StatelessWidget {
                 child: TextFormField(
                   controller: controller.professionController,
                   cursorColor: AppColors.grey,
+                  textCapitalization: TextCapitalization.words,
                   decoration: InputDecoration(
                     filled: true,
                     enabled: true,
@@ -216,26 +207,25 @@ class EditProfileScreen extends StatelessWidget {
                     hintStyle: Theme.of(context)
                         .textTheme
                         .headlineSmall!
-                        .copyWith(
-                        fontSize: Responsive.sp(3.8, context)),
+                        .copyWith(fontSize: Responsive.sp(3.8, context)),
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: AppColors.whitehome, width: 0.5),
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: AppColors.whitehome, width: 0.5),
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     disabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: AppColors.whitehome, width: 0.5),
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: AppColors.whitehome, width: 0.5),
+                      borderSide:
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -251,31 +241,27 @@ class EditProfileScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () async {
                   String name = controller.nameController.text;
-                  String profession =
-                      controller.professionController.text;
+                  String profession = controller.professionController.text;
                   String? username =
                       FirebaseAuth.instance.currentUser!.displayName;
-                  String userid =
-                      FirebaseAuth.instance.currentUser!.uid;
+                  String userid = FirebaseAuth.instance.currentUser!.uid;
 
                   try {
                     final ref = FirebaseStorage.instance
                         .ref('profile_pics/$username$userid');
                     UploadTask uploadtask =
-                    ref.putFile(File(pickController.selectedImage));
+                        ref.putFile(File(pickController.selectedImage));
 
                     await Future.value(uploadtask).then((value) async {
                       var newUrl = await ref.getDownloadURL();
 
                       await UserRepository.getInstance()
                           .updateUser(UserModel(
-                          name: name,
-                          profession: profession,
-                          email: FirebaseAuth
-                              .instance.currentUser!.email,
-                          profilePicture: newUrl.toString(),
-                          id: FirebaseAuth
-                              .instance.currentUser!.uid))
+                              name: name,
+                              profession: profession,
+                              email: FirebaseAuth.instance.currentUser!.email,
+                              profilePicture: newUrl.toString(),
+                              id: FirebaseAuth.instance.currentUser!.uid))
                           .then((value) {
                         showDialog(
                           context: context,
@@ -283,7 +269,7 @@ class EditProfileScreen extends StatelessWidget {
                             return successDialogue(
                               titleText: "Successful Changed",
                               subtitle:
-                              "Your profile has been changed successfully.",
+                                  "Your profile has been changed successfully.",
                               iconDialogue: SvgIcon.check_circle,
                               btntext: "Done",
                               onPressed: () {
@@ -311,10 +297,7 @@ class EditProfileScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30))),
                 child: TextWidget(
                   ConstString.save,
-                  style: Theme.of(context)
-                      .textTheme
-                      .displayMedium!
-                      .copyWith(
+                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
                       color: AppColors.buttontext,
                       fontSize: Responsive.sp(4.2, context)),
                 ),

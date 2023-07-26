@@ -15,8 +15,10 @@ class NewUser extends GetConnectImpl {
   AuthController authController = Get.find<AuthController>();
 
   NewUser._internal();
+
   static final instance = NewUser._internal();
   AppStorage appStorage = AppStorage();
+
   Future<UserModel?> createUser({required Map params}) async {
     String? idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
 
@@ -234,6 +236,36 @@ class NewUser extends GetConnectImpl {
       return false;
     }
     return false;
+  }
+
+  Future<bool> changePassword(
+      {required String email, required String password}) async {
+    try {
+      String url = APIRequest.changePassword;
+      Map<String, dynamic> params = {'email': email, 'password': password};
+
+      final response = await put(url, jsonEncode(params));
+      printApiLog(url, response);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> bodyMap = jsonDecode(response.bodyString ?? "{}");
+
+        if (!bodyMap.containsKey('success')) {
+          APIDefaults.showApiStatusMessage(response);
+          log('error while calling if no data object $url');
+          return Future.error("SOMETHING WENT WRONG");
+        }
+        return bodyMap['success'] != null && bodyMap['success'] == true;
+      } else {
+        log('error while calling else $url');
+        APIDefaults.showApiStatusMessage(response,
+            "Sorry, we couldn't retrieve the user details. Please try again later.");
+        return false;
+      }
+    } catch (e) {
+      log("fetch User error :: $e");
+      return false;
+    }
   }
 
   Future<bool> verifyOTP({required String email, required String otp}) async {

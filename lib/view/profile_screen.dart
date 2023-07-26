@@ -19,6 +19,10 @@ import 'package:sizer/sizer.dart';
 class ProfileScreen extends StatelessWidget {
   HomeController homeController = Get.put(HomeController());
 
+  // String? name;
+  // String? profession;
+  // String? imgurl;
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(
@@ -58,9 +62,9 @@ class ProfileScreen extends StatelessWidget {
                     ))
               ],
             ),
-            body: StreamBuilder<QuerySnapshot>(
+            body: StreamBuilder<QuerySnapshot?>(
               stream: controller.dataSnapShot,
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              builder: (context, AsyncSnapshot<QuerySnapshot?> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                       child: CircularProgressIndicator(
@@ -79,35 +83,42 @@ class ProfileScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(15.0),
                             child: ClipOval(
                               child: Container(
-                                child: imgurl!="" ?
-                                Image.network(
-                                  imgurl!,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                            .expectedTotalBytes !=
-                                            null
-                                            ? loadingProgress
-                                            .cumulativeBytesLoaded /
-                                            loadingProgress
-                                                .expectedTotalBytes!
-                                            : null,
-                                        color: AppColors.white,
-                                        strokeWidth: 3,
+                                child: imgurl == null
+                                    ? CircleAvatar(
+                                        backgroundImage: AssetImage(
+                                            AppImages.profile_picture),
+                                        radius: 50,
+                                        backgroundColor: AppColors.tilecolor,
+                                      )
+                                    : Image.network(
+                                        imgurl,
+                                        fit: BoxFit.cover,
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes!
+                                                  : null,
+                                              color: AppColors.white,
+                                              strokeWidth: 3,
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder:
+                                            (context, exception, stackTrack) =>
+                                                Icon(
+                                          Icons.error,
+                                        ),
                                       ),
-                                    );
-                                  },
-                                  errorBuilder:
-                                      (context, exception, stackTrack) => Icon(
-                                    Icons.error,
-                                  ),
-                                ) :
-                                CircleAvatar(backgroundImage: AssetImage(AppImages.profile_picture),radius: 50,),
                                 height: 14.h,
                                 width: 14.h,
                                 color: AppColors.tilecolor,
@@ -209,7 +220,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Get.to(const EditProfileScreen());
+                            Get.to(EditProfileScreen());
                           },
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
@@ -292,7 +303,7 @@ class ProfileScreen extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .labelLarge!
-                          .copyWith(color: AppColors.black,fontSize: 12),
+                          .copyWith(color: AppColors.black, fontSize: 12),
                     ),
                   );
                 }

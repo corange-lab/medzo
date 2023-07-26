@@ -91,7 +91,6 @@ class OTPScreenWidget extends GetView<OTPController> {
   }
 
   Container otpWidget(BuildContext context) {
-    List<TextEditingController?> controllers = [];
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -139,7 +138,7 @@ class OTPScreenWidget extends GetView<OTPController> {
                     controller.otp.value = code;
                   },
                   handleControllers: (contrs) {
-                    controllers = contrs;
+                    controller.otpController = contrs;
                   },
                   // onSubmit: (String code) => controller.verifyOtp(
                   //     email: email,
@@ -167,49 +166,90 @@ class OTPScreenWidget extends GetView<OTPController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // TextWidget(
-                  //   "${controller.start.value} Sec",
-                  //   style: Theme.of(context).textTheme.titleSmall,
-                  // ),
-
                   Obx(
-                    () => controller.start.value != 0
-                        ? Text(
-                            "${controller.start.value}${controller.start.value == 1 ? '' : 's'}",
-                            style: Theme.of(context).textTheme.titleSmall,
-                          )
-                        : GetBuilder<OTPController>(
-                            id: OTPController.continueButtonId,
-                            builder: (ctrl) {
-                              return TextButton(
-                                onPressed: () async {
-                                  // if (!controller.isLoading) {
-                                  await controller.sendOTP(email: email);
-                                  // }
-                                  // TODO: send otp again
-                                },
-                                child: Text.rich(TextSpan(children: [
-                                  TextSpan(
-                                      text: ConstString.didntreceivecode,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall),
-                                  TextSpan(
-                                    text: ConstString.resendit,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontFamily: AppFont.fontFamily,
-                                      letterSpacing: 0.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.blue,
-                                    ),
-                                  )
-                                ])),
-                              );
-                            }),
+                    () => TextWidget(
+                      "00 : ${controller.start.value}${controller.start.value == 1 ? '' : ' Sec'}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontSize: 10.sp),
+                    ),
                   ),
+                  SizedBox(
+                    width: 1,
+                  ),
+                  GetBuilder<OTPController>(
+                      id: OTPController.continueButtonId,
+                      builder: (ctrl) {
+                        return TextButton(
+                          onPressed: () async {
+                            await controller.sendOTP(email: email);
+                          },
+                          child: Text.rich(TextSpan(children: [
+                            TextSpan(
+                                text: ConstString.didntreceivecode,
+                                style: Theme.of(context).textTheme.labelSmall),
+                            TextSpan(
+                              text: ConstString.resendit,
+                              style: TextStyle(
+                                fontSize: 10.sp,
+                                fontFamily: AppFont.fontFamily,
+                                letterSpacing: 0.5,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.blue,
+                              ),
+                            )
+                          ])),
+                        );
+                      }),
                 ],
               ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     // TextWidget(
+              //     //   "${controller.start.value} Sec",
+              //     //   style: Theme.of(context).textTheme.titleSmall,
+              //     // ),
+              //
+              //     Obx(
+              //       () => controller.start.value != 0
+              //           ? Text(
+              //               "${controller.start.value}${controller.start.value == 1 ? '' : 'Sec'}",
+              //               style: Theme.of(context).textTheme.titleSmall,
+              //             )
+              //           : GetBuilder<OTPController>(
+              //               id: OTPController.continueButtonId,
+              //               builder: (ctrl) {
+              //                 return TextButton(
+              //                   onPressed: () async {
+              //                     // if (!controller.isLoading) {
+              //                     await controller.sendOTP(email: email);
+              //                     // }
+              //                     // TODO: send otp again
+              //                   },
+              //                   child: Text.rich(TextSpan(children: [
+              //                     TextSpan(
+              //                         text: ConstString.didntreceivecode,
+              //                         style: Theme.of(context)
+              //                             .textTheme
+              //                             .labelSmall),
+              //                     TextSpan(
+              //                       text: ConstString.resendit,
+              //                       style: TextStyle(
+              //                         fontSize: 10,
+              //                         fontFamily: AppFont.fontFamily,
+              //                         letterSpacing: 0.5,
+              //                         fontWeight: FontWeight.w600,
+              //                         color: AppColors.blue,
+              //                       ),
+              //                     )
+              //                   ])),
+              //                 );
+              //               }),
+              //     ),
+              //   ],
+              // ),
               SizedBox(
                 height: Responsive.height(3, context),
               ),
@@ -217,11 +257,10 @@ class OTPScreenWidget extends GetView<OTPController> {
                 onPressed: () async {
                   await controller.verifyOtp(
                       email: email,
-                      otp: controllers
-                          .map((e) => e?.text.trim())
+                      otp: controller.otpController
+                          .map((e) => e!.text.trim())
                           .toList()
                           .join());
-                  //Get.off(QuestionScreen());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,

@@ -230,7 +230,7 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                         .toList()
                         .join());
                 if (result) {
-                  Get.off(() => NewPassword());
+                  Get.off(() => NewPassword(email));
                 } else {
                   showInSnackBar("Please Enter Valid OTP", isSuccess: false);
                 }

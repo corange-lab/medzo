@@ -9,6 +9,7 @@ class APIRequest {
 
   static String sendOTPUrl = '${apiBaseUrl}auth/otp/send';
   static String verifyOTPUrl = '${apiBaseUrl}auth/otp/verify';
+  static String changePassword = '${apiBaseUrl}auth/password/change';
   static String dogDefaults = '${apiBaseUrl}pet/breed-size';
   static String updateUserUrl(String userId) => '${apiBaseUrl}users/$userId';
   static String getAllUsers() => '${apiBaseUrl}users';

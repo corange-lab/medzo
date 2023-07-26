@@ -60,8 +60,8 @@ class SignUpScreen extends GetView<AuthController> {
                                   .textTheme
                                   .titleMedium!
                                   .copyWith(
-                                  color: AppColors.white,
-                                  fontSize: Responsive.sp(4, context)),
+                                      color: AppColors.white,
+                                      fontSize: Responsive.sp(4, context)),
                             ),
                           )
                         ],
@@ -188,9 +188,9 @@ class SignUpScreen extends GetView<AuthController> {
                             icon: ctrl.hidepass.value
                                 ? SvgPicture.asset(
                                     SvgIcon.pass_eye,
-                                    height:Responsive.height(2.5, context),
+                                    height: Responsive.height(2.5, context),
                                   )
-                                :  Icon(
+                                : Icon(
                                     Icons.visibility_off_outlined,
                                     size: Responsive.height(2.5, context),
                                     color: Colors.black38,

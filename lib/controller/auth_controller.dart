@@ -90,10 +90,6 @@ class AuthController extends GetxController {
   }
 
   void navigateVerificationFlow(String email, AuthResponse? newUser) {
-    // if (newUser?.user?.currentMedication == null) {
-    //   Get.to(() => QuestionScreen());
-    // }
-    // Get.to(() => QuestionScreen());
     // TODO: uncomment below code
     Get.to(() => OTPScreen(
           email: email, /*verificationId: verificationId.value*/
@@ -519,7 +515,7 @@ class AuthController extends GetxController {
       );
     } catch (e) {
       return AuthResponse(
-        errorMsg: "Hooman Doesn't exists",
+        errorMsg: "Human Doesn't exists",
         success: false,
       );
     }

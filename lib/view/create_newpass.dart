@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:medzo/controller/auth_controller.dart';
 import 'package:medzo/controller/forgot_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/widgets/dialogue.dart';
+import 'package:medzo/utils/constants.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/question_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/dialogue.dart';
 import 'package:sizer/sizer.dart';
 
 class NewPassword extends GetView {
   final FocusNode fNode = FocusNode();
   final FocusNode fNode1 = FocusNode();
 
-  NewPassword({super.key});
+  String? email;
+
+  NewPassword(this.email);
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +81,8 @@ class NewPassword extends GetView {
     );
   }
 
-  Container newPasswordWidget(ForgotController controller, BuildContext context) {
+  Container newPasswordWidget(
+      ForgotController controller, BuildContext context) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -119,13 +123,9 @@ class NewPassword extends GetView {
                     () => TextFormField(
                       autofocus: false,
                       obscureText: controller.hidepass.value,
+                      keyboardType: TextInputType.visiblePassword,
                       focusNode: fNode,
                       cursorColor: AppColors.grey,
-                      validator: (value) {
-                        if(value!.isEmpty){
-                          return 'Empty';
-                        }
-                      },
                       controller: controller.passwordTextController,
                       // style: Theme.of(context).textTheme.bodyMedium,
                       decoration: InputDecoration(
@@ -148,7 +148,7 @@ class NewPassword extends GetView {
                                     SvgIcon.pass_eye,
                                     height: Responsive.height(2.5, context),
                                   )
-                                :  Icon(
+                                : Icon(
                                     Icons.visibility_off_outlined,
                                     size: Responsive.height(2.5, context),
                                     color: Colors.black38,
@@ -195,15 +195,6 @@ class NewPassword extends GetView {
                       focusNode: fNode1,
                       cursorColor: AppColors.grey,
                       controller: controller.confirmpasswordTextController,
-                      validator: (value) {
-                        if(value!.isEmpty){
-                          return 'Empty';
-                        }
-                        if(value != controller.passwordTextController.text){
-                          return 'Password Not Match';
-                        }
-                        return null;
-                      },
                       // style: Theme.of(context).textTheme.bodyMedium,
                       decoration: InputDecoration(
                         filled: true,
@@ -225,7 +216,7 @@ class NewPassword extends GetView {
                                     SvgIcon.pass_eye,
                                     height: Responsive.height(2.5, context),
                                   )
-                                :  Icon(
+                                : Icon(
                                     Icons.visibility_off_outlined,
                                     size: Responsive.height(2.5, context),
                                     color: Colors.black38,
@@ -276,9 +267,10 @@ class NewPassword extends GetView {
                           fontWeight: FontWeight.w500,
                           fontFamily: AppFont.fontMedium)),
                   TextSpan(
-                    text: "Strong",
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColors.lightgreen,)
-                  )
+                      text: "Strong",
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            color: AppColors.lightgreen,
+                          ))
                 ])),
               ),
               SizedBox(
@@ -352,20 +344,42 @@ class NewPassword extends GetView {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return successDialogue(
-                        titleText: "Change Password",
-                        subtitle: "Your password has been changed",
-                        iconDialogue: SvgIcon.key,
-                        btntext: "Done",
-                        onPressed: () {
-                          Get.off(QuestionScreen());
+                  String password = controller.passwordTextController.text;
+                  String cpassword =
+                      controller.confirmpasswordTextController.text;
+
+                  String passResponse = validatePassword(password, cpassword);
+
+                  if (passResponse == "Valid Password") {
+                    bool result = await controller.changePassword(
+                        email: email!, password: password);
+
+                    if (result) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return successDialogue(
+                            titleText: "Change Password",
+                            subtitle: "Your password has been changed",
+                            iconDialogue: SvgIcon.key,
+                            btntext: "Done",
+                            onPressed: () {
+                              // Get.offAll(() => QuestionScreen());
+                              Get.back();
+                              Get.back();
+                              Get.back();
+                            },
+                          );
                         },
                       );
-                    },
-                  );
+                    } else {
+                      showInSnackBar("Error");
+                    }
+                  } else if (passResponse == "Password Mismatch") {
+                    showInSnackBar("Password are Mismatched", isSuccess: false,title: "Forgot Password");
+                  } else {
+                    showInSnackBar("Invalid Format", isSuccess: false,title: "Forgot Password");
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,

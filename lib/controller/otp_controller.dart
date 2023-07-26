@@ -14,6 +14,7 @@ import 'package:medzo/utils/controller_ids.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/home_screen.dart';
+import 'package:medzo/view/question_screen.dart';
 
 class OTPController extends GetxController {
   String verificationId = "";
@@ -39,7 +40,7 @@ class OTPController extends GetxController {
   Timer? timer;
   RxInt start = 30.obs;
   RxBool resendButton = true.obs;
-  TextEditingController otpController = TextEditingController();
+  List<TextEditingController?> otpController = [];
   bool socialButtonVisible = true;
   FocusNode phoneNumberTextField = FocusNode();
   AppStorage appStorage = AppStorage();
@@ -102,7 +103,7 @@ class OTPController extends GetxController {
     }
   }
 
-  Future<void> verifyOtp({required String otp, required String email}) async {
+  Future verifyOtp({required String otp, required String email}) async {
     print('otp value ${otp}');
     if (otp.isEmpty) {
       showInSnackBar(
@@ -118,7 +119,9 @@ class OTPController extends GetxController {
           await NewUser.instance.verifyOTP(email: email, otp: otp);
       if (!verifyOTPResponse) {
         // TODO: show unable to verify OTP
-        return;
+        return showInSnackBar("Please Enter Valid OTP", isSuccess: false);
+      } else {
+        Get.off(() => QuestionScreen());
       }
 
       isLoading = true;

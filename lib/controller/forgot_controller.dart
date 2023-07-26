@@ -76,6 +76,18 @@ class ForgotController extends GetxController {
     }
   }
 
+  Future<bool> changePassword(
+      {required String email, required String password}) async {
+    try {
+      bool resendSuccess = await NewUser.instance
+          .changePassword(email: email, password: password);
+      return resendSuccess;
+    } catch (e) {
+      log('$e');
+      return false;
+    }
+  }
+
   Future<AuthResponse> forgetPassword(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
