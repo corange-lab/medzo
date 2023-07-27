@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medzo/api/create_user_api.dart';
@@ -13,7 +14,6 @@ import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/utils/controller_ids.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
-import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/view/question_screen.dart';
 
 class OTPController extends GetxController {
@@ -70,6 +70,13 @@ class OTPController extends GetxController {
     return start;
   }
 
+  void stopTimer() {
+    if (timer != null) {
+      timer?.cancel();
+      timer = null;
+    }
+  }
+
   Future<void> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? guser;
@@ -119,21 +126,29 @@ class OTPController extends GetxController {
           await NewUser.instance.verifyOTP(email: email, otp: otp);
       if (!verifyOTPResponse) {
         // TODO: show unable to verify OTP
-        return showInSnackBar("Please Enter Valid OTP", isSuccess: false);
+        // return showInSnackBar("Please Enter Valid OTP",
+        //     isSuccess: false);
+        return toast(
+            message: "Please Enter Valid OTP",
+            gravity: ToastGravity.CENTER,
+            isSuccess: true,
+            color: Colors.red);
       } else {
         Get.off(() => QuestionScreen());
       }
 
       isLoading = true;
       update([ControllerIds.verifyButtonKey]);
+      stopTimer();
 
-      var gotNewUser = await createNewUserData(params: {
-        "email": email,
-      });
+      // var gotNewUser = await createNewUserData(params: {
+      //   "email": email,
+      // });
+      //
+      // if (gotNewUser != null) {
+      //   Get.offAll(() => HomeScreen());
+      // }
 
-      if (gotNewUser != null) {
-        Get.offAll(() => HomeScreen());
-      }
       /*var gotUser = await NewUser.instance
           .fetchUser(id: result.user!.uid, ownProfile: true);
 

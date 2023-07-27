@@ -8,6 +8,7 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -129,6 +130,7 @@ class OTPScreenWidget extends GetView<OTPController> {
                 height: Responsive.height(6.5, context),
                 width: SizerUtil.width,
                 child: OtpTextField(
+                  autoFocus: false,
                   numberOfFields: 6,
                   cursorColor: AppColors.primaryColor,
                   borderRadius: BorderRadius.circular(28),
@@ -140,12 +142,12 @@ class OTPScreenWidget extends GetView<OTPController> {
                   handleControllers: (contrs) {
                     controller.otpController = contrs;
                   },
-                  // onSubmit: (String code) => controller.verifyOtp(
-                  //     email: email,
-                  //     otp: controllers
-                  //         .map((e) => e?.text.trim())
-                  //         .toList()
-                  //         .join()),
+                  onSubmit: (String code) => controller.verifyOtp(
+                      email: email,
+                      otp: controller.otpController
+                          .map((e) => e?.text.trim())
+                          .toList()
+                          .join()),
                   showCursor: false,
                   borderColor: AppColors.primaryColor,
                   enabled: true,
@@ -183,7 +185,17 @@ class OTPScreenWidget extends GetView<OTPController> {
                       builder: (ctrl) {
                         return TextButton(
                           onPressed: () async {
-                            await controller.sendOTP(email: email);
+                            await controller
+                                .sendOTP(email: email)
+                                .then((value) {
+                              // showInSnackBar(
+                              //     "Resend code in your register Email",
+                              //     position: SnackPosition.BOTTOM,
+                              //     isSuccess: true);
+                              toast(
+                                  message:
+                                      "Resend code in your register Email");
+                            });
                           },
                           child: Text.rich(TextSpan(children: [
                             TextSpan(
@@ -204,76 +216,30 @@ class OTPScreenWidget extends GetView<OTPController> {
                       }),
                 ],
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     // TextWidget(
-              //     //   "${controller.start.value} Sec",
-              //     //   style: Theme.of(context).textTheme.titleSmall,
-              //     // ),
-              //
-              //     Obx(
-              //       () => controller.start.value != 0
-              //           ? Text(
-              //               "${controller.start.value}${controller.start.value == 1 ? '' : 'Sec'}",
-              //               style: Theme.of(context).textTheme.titleSmall,
-              //             )
-              //           : GetBuilder<OTPController>(
-              //               id: OTPController.continueButtonId,
-              //               builder: (ctrl) {
-              //                 return TextButton(
-              //                   onPressed: () async {
-              //                     // if (!controller.isLoading) {
-              //                     await controller.sendOTP(email: email);
-              //                     // }
-              //                     // TODO: send otp again
-              //                   },
-              //                   child: Text.rich(TextSpan(children: [
-              //                     TextSpan(
-              //                         text: ConstString.didntreceivecode,
-              //                         style: Theme.of(context)
-              //                             .textTheme
-              //                             .labelSmall),
-              //                     TextSpan(
-              //                       text: ConstString.resendit,
-              //                       style: TextStyle(
-              //                         fontSize: 10,
-              //                         fontFamily: AppFont.fontFamily,
-              //                         letterSpacing: 0.5,
-              //                         fontWeight: FontWeight.w600,
-              //                         color: AppColors.blue,
-              //                       ),
-              //                     )
-              //                   ])),
-              //                 );
-              //               }),
-              //     ),
-              //   ],
-              // ),
               SizedBox(
                 height: Responsive.height(3, context),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  await controller.verifyOtp(
-                      email: email,
-                      otp: controller.otpController
-                          .map((e) => e!.text.trim())
-                          .toList()
-                          .join());
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  elevation: 0,
-                  fixedSize: Size(SizerUtil.width, 50),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                ),
-                child: Text(
-                  ConstString.verifyotp,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
+              // ElevatedButton(
+              //   onPressed: () async {
+              //     await controller.verifyOtp(
+              //         email: email,
+              //         otp: controller.otpController
+              //             .map((e) => e!.text.trim())
+              //             .toList()
+              //             .join());
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: AppColors.primaryColor,
+              //     elevation: 0,
+              //     fixedSize: Size(SizerUtil.width, 50),
+              //     shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(50)),
+              //   ),
+              //   child: Text(
+              //     ConstString.verifyotp,
+              //     style: Theme.of(context).textTheme.bodyMedium,
+              //   ),
+              // ),
             ],
           ),
         ),

@@ -166,6 +166,7 @@ class ConstString {
   static const String location = "Location";
   static const String contact = "Contact";
   static const String firstName = "First name";
+  static const String loading = "Loading...";
   static const String lastName = "Last name";
   static const String displayUserName = "Display username";
   static const String gender = "Gender";

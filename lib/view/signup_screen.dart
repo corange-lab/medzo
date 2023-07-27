@@ -4,9 +4,12 @@ import 'package:get/get.dart';
 import 'package:medzo/controller/auth_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/constants.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/dialogue.dart';
 import 'package:sizer/sizer.dart';
 
 class SignUpScreen extends GetView<AuthController> {
@@ -112,7 +115,7 @@ class SignUpScreen extends GetView<AuthController> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7),
-                child: TextField(
+                child: TextFormField(
                   autofocus: false,
                   focusNode: fNode,
                   cursorColor: AppColors.grey,
@@ -164,7 +167,7 @@ class SignUpScreen extends GetView<AuthController> {
               Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Obx(
-                    () => TextField(
+                    () => TextFormField(
                       autofocus: false,
                       obscureText: ctrl.hidepass.value,
                       focusNode: fNode1,
@@ -232,9 +235,18 @@ class SignUpScreen extends GetView<AuthController> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  await controller.signUp();
-                  // Get.to(OTPScreen(email: "email", verificationId: "verificationId"));
-                  // Get.off(OTPScreen());
+                  String password = controller.suppasswordTextController.text;
+
+                  String response = checkPassword(password);
+
+                  if (response == "Valid Password") {
+                    progressDialogue(context, title: "Sign Up");
+                    await controller.signUp();
+                  } else {
+                    // showInSnackBar("Invalid Format",
+                    //     isSuccess: false, position: SnackPosition.BOTTOM);
+                    toast(message: "Invalid Password Format");
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
@@ -380,38 +392,3 @@ class SignUpScreen extends GetView<AuthController> {
     );
   }
 }
-
-//
-// Column(
-// crossAxisAlignment: CrossAxisAlignment.center,
-// mainAxisAlignment: MainAxisAlignment.center,
-// children: [
-// TextField(
-// controller: controller.emailTextController,
-// decoration: const InputDecoration(labelText: 'Email'),
-// ),
-// TextField(
-// controller: controller.passwordTextController,
-// decoration: const InputDecoration(labelText: 'Password'),
-// ),
-// ElevatedButton(
-// onPressed: () async {
-// await controller.signUp();
-// },
-// child: Text(
-// 'Sign Up',
-// style: Theme.of(context).textTheme.labelMedium,
-// ),
-// ),
-// const SizedBox(height: 20),
-// TextButton(
-// onPressed: () {
-// Get.back();
-// },
-// child: Text(
-// 'Already have an account?',
-// style: Theme.of(context).textTheme.labelMedium,
-// ),
-// ),
-// ],
-// ),

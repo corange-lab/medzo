@@ -1,12 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:sizer/sizer.dart';
+
+Future progressDialogue(context, {required String title}) {
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        content: Container(
+          height: 10.h,
+          child: Column(
+            children: [
+              Expanded(
+                child: GFLoader(
+                  type: GFLoaderType.ios,
+                  loaderstrokeWidth: 10,
+                ),
+              ),
+              SizedBox(
+                height: 2.h,
+              ),
+              TextWidget(
+                title,
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    color: AppColors.black,
+                    fontSize: 15.sp,
+                    fontFamily: AppFont.fontMedium,
+                    letterSpacing: 0.5),
+              )
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
 
 Future logoutDialogue(context, controller) {
   return showDialog(
@@ -157,18 +194,20 @@ class successDialogue extends AlertDialog {
             subtitle,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                fontSize: Responsive.sp(3.7, context),
-                color: AppColors.grey.withOpacity(0.9),
-                fontWeight: FontWeight.w500,
-                fontFamily: AppFont.fontFamily,
-                letterSpacing: 0,
-                height: 1.5,),
+                  fontSize: Responsive.sp(3.7, context),
+                  color: AppColors.grey.withOpacity(0.9),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: AppFont.fontFamily,
+                  letterSpacing: 0,
+                  height: 1.5,
+                ),
           ),
           SizedBox(height: Responsive.height(2.5, context)),
           ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
-                fixedSize: Size(Responsive.width(55, context), Responsive.height(7, context)),
+                fixedSize: Size(Responsive.width(55, context),
+                    Responsive.height(7, context)),
                 backgroundColor: AppColors.black,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),

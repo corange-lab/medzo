@@ -115,15 +115,25 @@ class VerifyOTPScreen extends GetView<ForgotController> {
               height: Responsive.height(7, context),
               width: SizerUtil.width,
               child: OtpTextField(
+                autoFocus: false,
                 handleControllers: (ctrl) {
                   controller.otpController = ctrl;
                 },
-                // onSubmit: (String code) => controller.verifyOTP(
-                //     email: email,
-                //     otp: controller.otpController
-                //         .map((e) => e!.text.trim())
-                //         .toList()
-                //         .join()),
+                onSubmit: (String code) => controller
+                    .verifyOTP(
+                        email: email,
+                        otp: controller.otpController
+                            .map((e) => e!.text.trim())
+                            .toList()
+                            .join())
+                    .then((value) {
+                  if (value) {
+                    Get.off(() => NewPassword(email));
+                  } else {
+                    // showInSnackBar("Please Enter Valid OTP", isSuccess: false);
+                    toast(message: "Please Enter Valid OTP");
+                  }
+                }),
                 numberOfFields: 6,
                 cursorColor: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(28),
@@ -134,7 +144,6 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                 filled: true,
                 onCodeChanged: (String code) {
                   controller.otpCode = code;
-                  print("Kevin ${controller.otpCode}");
                 },
                 fillColor: AppColors.splashdetail,
                 keyboardType: TextInputType.number,
@@ -152,12 +161,14 @@ class VerifyOTPScreen extends GetView<ForgotController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextWidget(
-                  "00 : ${controller.start.value}${controller.start.value == 1 ? '' : ' Sec'}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontSize: 10.sp),
+                Obx(
+                  () => TextWidget(
+                    "00 : ${controller.start.value}${controller.start.value == 1 ? '' : ' Sec'}",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontSize: 10.sp),
+                  ),
                 ),
                 SizedBox(
                   width: 1,
@@ -167,7 +178,12 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                     builder: (ctrl) {
                       return TextButton(
                         onPressed: () async {
-                          await controller.sendOTP(email: email);
+                          await controller.sendOTP(email: email).then((value) {
+                            // showInSnackBar("Resend code in your register Email",
+                            //     position: SnackPosition.BOTTOM,
+                            //     isSuccess: true);
+                            toast(message: "Resend code in your register Email");
+                          });
                         },
                         child: Text.rich(TextSpan(children: [
                           TextSpan(
@@ -188,65 +204,37 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                     }),
               ],
             ),
-            // Obx(() =>
-            // controller.start.value != 0 ?
-
-            // : GetBuilder<ForgotController>(
-            //     id: ForgotController.continueButtonId,
-            //     builder: (ctrl) {
-            //       return TextButton(
-            //         onPressed: () async {
-            //           await controller.sendOTP(email: email);
-            //         },
-            //         child: Text.rich(TextSpan(children: [
-            //           TextSpan(
-            //               text: ConstString.didntreceivecode,
-            //               style: Theme.of(context).textTheme.labelSmall),
-            //           TextSpan(
-            //             text: ConstString.resendit,
-            //             style: TextStyle(
-            //               fontSize: 10,
-            //               fontFamily: AppFont.fontFamily,
-            //               letterSpacing: 0.5,
-            //               fontWeight: FontWeight.w600,
-            //               color: AppColors.blue,
-            //             ),
-            //           )
-            //         ])),
-            //       );
-            //     }),
-            // ),
             SizedBox(
               height: Responsive.height(3, context),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                // TODO: validate otp code and email before submit
-                // TODO: verify OTP
-                bool result = await controller.verifyOTP(
-                    email: email,
-                    otp: controller.otpController
-                        .map((e) => e!.text.trim())
-                        .toList()
-                        .join());
-                if (result) {
-                  Get.off(() => NewPassword(email));
-                } else {
-                  showInSnackBar("Please Enter Valid OTP", isSuccess: false);
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
-                elevation: 0,
-                fixedSize: Size(SizerUtil.width, 50),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)),
-              ),
-              child: Text(
-                ConstString.continueButton,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            )
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     // TODO: validate otp code and email before submit
+            //     // TODO: verify OTP
+            // bool result = await controller.verifyOTP(
+            //     email: email,
+            //     otp: controller.otpController
+            //         .map((e) => e!.text.trim())
+            //         .toList()
+            //         .join());
+            // if (result) {
+            //   Get.off(() => NewPassword(email));
+            // } else {
+            //   showInSnackBar("Please Enter Valid OTP", isSuccess: false);
+            // }
+            //   },
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: AppColors.primaryColor,
+            //     elevation: 0,
+            //     fixedSize: Size(SizerUtil.width, 50),
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(50)),
+            //   ),
+            //   child: Text(
+            //     ConstString.continueButton,
+            //     style: Theme.of(context).textTheme.bodyMedium,
+            //   ),
+            // )
           ],
         )),
       ),

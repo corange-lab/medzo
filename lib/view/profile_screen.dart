@@ -62,17 +62,17 @@ class ProfileScreen extends StatelessWidget {
                     ))
               ],
             ),
-            body: StreamBuilder<QuerySnapshot?>(
+            body: StreamBuilder<QuerySnapshot>(
               stream: controller.dataSnapShot,
-              builder: (context, AsyncSnapshot<QuerySnapshot?> snapshot) {
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                       child: CircularProgressIndicator(
                     color: AppColors.primaryColor,
                   ));
                 }
-                String? name = snapshot.data!.docs[0]['name'];
-                String? profession = snapshot.data!.docs[0]['profession'];
+                String? name = snapshot.data!.docs[0]['name'] ?? "User";
+                String? profession = snapshot.data!.docs[0]['profession'] ?? "Profession";
                 String? imgurl = snapshot.data!.docs[0]['profile_picture'];
                 if (snapshot.hasData) {
                   return SingleChildScrollView(

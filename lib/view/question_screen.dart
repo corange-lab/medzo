@@ -449,7 +449,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                     ),
                                   ))
                               : ctrl.selectedPageIndex.value == 2
-                                  ? TextField(
+                                  ? TextFormField(
                                       autofocus: false,
                                       // focusNode: fnode1,
                                       cursorColor: AppColors.grey,
@@ -634,7 +634,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                         ),
                                       ))
                                   : ctrl.selectedPageIndex.value == 2
-                                      ? TextField(
+                                      ? TextFormField(
                                           autofocus: false,
                                           maxLines: 5,
                                           // focusNode: fnode1,

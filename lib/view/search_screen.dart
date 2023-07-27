@@ -37,6 +37,7 @@ class SearchScreen extends StatelessWidget {
                   child: SizedBox(
                     height: Responsive.height(6, context),
                     child: TextFormField(
+                      autofocus: false,
                       controller: controller.searchController,
                       cursorColor: AppColors.grey,
                       decoration: InputDecoration(

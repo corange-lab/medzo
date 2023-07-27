@@ -9,7 +9,6 @@ import 'package:medzo/utils/constants.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
-import 'package:medzo/view/question_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
 import 'package:sizer/sizer.dart';
@@ -373,12 +372,15 @@ class NewPassword extends GetView {
                         },
                       );
                     } else {
-                      showInSnackBar("Error");
+                      // showInSnackBar("Error");
+                      toast(message: "Error");
                     }
                   } else if (passResponse == "Password Mismatch") {
-                    showInSnackBar("Password are Mismatched", isSuccess: false,title: "Forgot Password");
+                    // showInSnackBar("Password are Mismatched", isSuccess: false);
+                    toast(message: "Password are Mismatched");
                   } else {
-                    showInSnackBar("Invalid Format", isSuccess: false,title: "Forgot Password");
+                    // showInSnackBar("Invalid Format", isSuccess: false);
+                    toast(message: "Invalid Password Format");
                   }
                 },
                 style: ElevatedButton.styleFrom(

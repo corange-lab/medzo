@@ -109,19 +109,23 @@ class AuthController extends GetxController {
   }
 
   Future<void> signInWithEmailAndPassword() async {
+
     try {
       String email = emailTextController.text.trim();
       String password = passwordTextController.text;
 
       if (email.isEmpty || password.isEmpty) {
-        showInSnackBar('Email and password both is required!');
+        Get.back();
+        // showInSnackBar('Email and password both is required!');
+        toast(message: "Email and password both is required!");
         return;
       }
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       print('Signed in with uid: ${userCredential.user!.uid}');
-      AuthResponse newUser = await signUpWithEmailPassword(email, password,
-          credentials: userCredential);
+      // AuthResponse newUser = await signUpWithEmailPassword(email, password,
+      //     credentials: userCredential);
+      AuthResponse newUser = await signInWithEmailPassword(email, password);
       // TODO: Vijay check and handle verification screen for not verified user userCredential.user!.emailVerified
       if (userCredential.user != null) {
         if (userCredential.user!.emailVerified) {
@@ -131,6 +135,7 @@ class AuthController extends GetxController {
         }
       }
     } on FirebaseAuthException catch (e) {
+      Get.back();
       print('Failed with error code: ${e.code}');
       print(e.message);
 
@@ -141,6 +146,7 @@ class AuthController extends GetxController {
 
       authException(e);
     } catch (e) {
+      Get.back();
       print(e);
     }
   }
@@ -160,11 +166,13 @@ class AuthController extends GetxController {
 
       if (_authResult?.user!.emailVerified ?? false) {
         navigateToHomeScreen();
-        showInSnackBar('SignUp successfully with $email mail address');
+        // showInSnackBar('SignUp successfully with $email mail address');
+        toast(message: "SignUp successfully with $email mail address");
       } else {
         navigateVerificationFlow(email, newUser);
       }
     } on FirebaseAuthException catch (e) {
+      Get.back();
       print('Failed with error code: ${e.code}');
       print(e.message);
 
@@ -175,6 +183,7 @@ class AuthController extends GetxController {
 
       authException(e);
     } catch (e) {
+      Get.back();
       print(e);
     }
   }
@@ -229,10 +238,12 @@ class AuthController extends GetxController {
         await checkAfterSocialSignin(socialLoginType: 'Apple ID');
       }
     } on PlatformException catch (_) {
+      Get.back();
       log('Platform Exception ------------------------------');
       social = false;
       update([socialButtonId, continueButtonId]);
     } catch (e) {
+      Get.back();
       social = false;
       update([socialButtonId, continueButtonId]);
       log("-----------$e");
@@ -376,7 +387,8 @@ class AuthController extends GetxController {
             }
           }
         } else {
-          showInSnackBar(ConstString.selectGoogleAccount);
+          // showInSnackBar(ConstString.selectGoogleAccount);
+          toast(message: ConstString.selectGoogleAccount);
         }
       } else {
         social = false;
@@ -496,8 +508,8 @@ class AuthController extends GetxController {
         snackBarMessage = e.message ?? ConstString.somethingWentWrong;
     }
 
-    showInSnackBar(snackBarMessage);
-
+    // showInSnackBar(snackBarMessage);
+    toast(message: snackBarMessage);
     return snackBarMessage;
   }
 
@@ -797,7 +809,8 @@ class AuthController extends GetxController {
       final credentials = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       if (!credentials.user!.emailVerified) {
-        showInSnackBar(ConstString.verifyEmail);
+        // showInSnackBar(ConstString.verifyEmail);
+        toast(message: ConstString.verifyEmail);
         return false;
       } else {
         return true;
@@ -806,7 +819,8 @@ class AuthController extends GetxController {
       authException(e);
       return false;
     } on Exception {
-      showInSnackBar(ConstString.somethingWentWrong);
+      // showInSnackBar(ConstString.somethingWentWrong);
+      toast(message: ConstString.somethingWentWrong);
       return false;
     }
   }

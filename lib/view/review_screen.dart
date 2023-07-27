@@ -155,6 +155,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: TextFormField(
+                  autofocus: false,
                   maxLines: 5,
                   cursorColor: AppColors.grey,
                   decoration: InputDecoration(

@@ -39,7 +39,8 @@ class APIDefaults {
     if (response.statusCode == null) {
       messageString = "Internet connection unstable. Please retry in a moment.";
     }
-    showInSnackBar(messageString);
+    // showInSnackBar(messageString);
+    toast(message: messageString);
     return messageString;
   }
 }

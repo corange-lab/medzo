@@ -41,3 +41,13 @@ String validatePassword(String password, String cpassword) {
     return "Invalid Format";
   }
 }
+
+String checkPassword(String password) {
+  if (RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+          .hasMatch(password) &&
+      password.isNotEmpty) {
+    return "Valid Password";
+  } else {
+    return "Invalid Password";
+  }
+}

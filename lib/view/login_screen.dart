@@ -9,6 +9,7 @@ import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/input_email_forgot_password_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/dialogue.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginScreen extends GetView<AuthController> {
@@ -115,7 +116,7 @@ class LoginScreen extends GetView<AuthController> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7),
-                child: TextField(
+                child: TextFormField(
                   autofocus: false,
                   focusNode: fNode,
                   cursorColor: AppColors.grey,
@@ -167,7 +168,7 @@ class LoginScreen extends GetView<AuthController> {
               Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Obx(
-                    () => TextField(
+                    () => TextFormField(
                       autofocus: false,
                       obscureText: ctrl.hidepass.value,
                       focusNode: fNode1,
@@ -255,6 +256,7 @@ class LoginScreen extends GetView<AuthController> {
               ),
               ElevatedButton(
                 onPressed: () async {
+                  progressDialogue(context, title: "Log In");
                   await ctrl.signInWithEmailAndPassword();
                 },
                 style: ElevatedButton.styleFrom(

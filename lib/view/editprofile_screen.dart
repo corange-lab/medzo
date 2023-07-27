@@ -19,7 +19,6 @@ import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/widgets/pick_image.dart';
 
 class EditProfileScreen extends StatelessWidget {
-
   EditProfileScreen();
 
   @override
@@ -123,15 +122,6 @@ class EditProfileScreen extends StatelessWidget {
                   decoration: InputDecoration(
                     filled: true,
                     enabled: true,
-                    // suffixIcon: Padding(
-                    //   padding: const EdgeInsets.only(right: 5),
-                    //   child: IconButton(
-                    //       onPressed: () {},
-                    //       icon: SvgPicture.asset(
-                    //         SvgIcon.pencil_simple,
-                    //         height: Responsive.height(2.8, context),
-                    //       )),
-                    // ),
                     fillColor: AppColors.searchbar.withOpacity(0.5),
                     hintText: "Enter your name",
                     hintStyle: Theme.of(context)
@@ -187,6 +177,7 @@ class EditProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     top: 8, bottom: 8, right: 25, left: 15),
                 child: TextFormField(
+                  autofocus: false,
                   controller: controller.professionController,
                   cursorColor: AppColors.grey,
                   textCapitalization: TextCapitalization.words,
@@ -194,15 +185,6 @@ class EditProfileScreen extends StatelessWidget {
                     filled: true,
                     enabled: true,
                     fillColor: AppColors.searchbar.withOpacity(0.5),
-                    // suffixIcon: Padding(
-                    //   padding: const EdgeInsets.only(right: 5),
-                    //   child: IconButton(
-                    //       onPressed: () {},
-                    //       icon: SvgPicture.asset(
-                    //         SvgIcon.pencil_simple,
-                    //         height: Responsive.height(2.8, context),
-                    //       )),
-                    // ),
                     hintText: "Enter your profession",
                     hintStyle: Theme.of(context)
                         .textTheme
@@ -240,6 +222,7 @@ class EditProfileScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () async {
+                  progressDialogue(context, title: "Profile");
                   String name = controller.nameController.text;
                   String profession = controller.professionController.text;
                   String? username =
@@ -273,6 +256,7 @@ class EditProfileScreen extends StatelessWidget {
                               iconDialogue: SvgIcon.check_circle,
                               btntext: "Done",
                               onPressed: () {
+                                Get.back();
                                 Get.back();
                                 Get.back();
                               },

@@ -58,7 +58,7 @@ dependencies:
   shimmer: ^3.0.0
   animate_do:
   animated_text_kit:
-
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:

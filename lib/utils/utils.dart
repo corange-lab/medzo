@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -551,7 +552,7 @@ void showInSnackBar(String? message,
       (message ?? '').length > 300
           ? ConstString.somethingWentWrong
           : (message ?? ''),
-      snackPosition: position ?? SnackPosition.TOP,
+      snackPosition: position ?? SnackPosition.BOTTOM,
       snackStyle: SnackStyle.FLOATING,
       backgroundColor: isSuccess
           ? Colors.green.withOpacity(0.6)
@@ -559,4 +560,19 @@ void showInSnackBar(String? message,
       colorText: AppColors.textColor,
       margin: const EdgeInsets.all(10),
       duration: duration ?? const Duration(seconds: 3));
+}
+
+void toast(
+    {required String message,
+    ToastGravity? gravity,
+    bool isSuccess = false,
+    Color? color}) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      backgroundColor: isSuccess
+          ? Colors.green.withOpacity(0.6)
+          : color ?? Colors.red.withOpacity(0.6),
+      textColor: AppColors.white);
 }

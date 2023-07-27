@@ -295,8 +295,8 @@ class NewUser extends GetConnectImpl {
         return bodyMap['success'] != null && bodyMap['success'] == true;
       } else {
         log('error while calling else $url');
-        APIDefaults.showApiStatusMessage(response,
-            "Sorry, we couldn't retrieve the user details. Please try again later.");
+        // APIDefaults.showApiStatusMessage(response,
+        //     "Sorry, we couldn't retrieve the user details. Please try again later.");
         return false;
       }
     } catch (e) {
