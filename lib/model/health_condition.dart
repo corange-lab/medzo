@@ -1,21 +1,25 @@
 class HealthCondition {
-  int? id;
-  String? title;
-  String? desc;
+  bool? doesHealthCondition;
+  String? healthCondition;
+  String? healthConditionDuration;
 
-  HealthCondition({this.id, this.title, this.desc,});
+  HealthCondition({
+    this.doesHealthCondition,
+    this.healthCondition,
+    this.healthConditionDuration,
+  });
 
   HealthCondition.fromMap(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    desc = json['desc'];
+    doesHealthCondition = json['doesHealthCondition'];
+    healthCondition = json['healthCondition'];
+    healthConditionDuration = json['healthConditionDuration'];
   }
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['desc'] = desc;
+    data['doesHealthCondition'] = doesHealthCondition;
+    data['healthCondition'] = healthCondition;
+    data['healthConditionDuration'] = healthConditionDuration;
     return data;
   }
 }

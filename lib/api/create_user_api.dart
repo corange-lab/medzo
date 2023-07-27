@@ -235,7 +235,6 @@ class NewUser extends GetConnectImpl {
       log("fetch User error :: $e");
       return false;
     }
-    return false;
   }
 
   Future<bool> changePassword(
@@ -303,6 +302,5 @@ class NewUser extends GetConnectImpl {
       log("fetch User error :: $e");
       return false;
     }
-    return false;
   }
 }

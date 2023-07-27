@@ -1,21 +1,25 @@
 class CurrentMedication {
-  int? id;
-  String? title;
-  String? desc;
+  bool? takingMedicine;
+  String? currentTakingMedicine;
+  String? durationTakingMedicine;
 
-  CurrentMedication({this.id, this.title, this.desc,});
+  CurrentMedication({
+    this.takingMedicine,
+    this.currentTakingMedicine,
+    this.durationTakingMedicine,
+  });
 
   CurrentMedication.fromMap(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    desc = json['desc'];
+    takingMedicine = json['takingMedicine'];
+    currentTakingMedicine = json['currentTakingMedicine'];
+    durationTakingMedicine = json['durationTakingMedicine'];
   }
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['desc'] = desc;
+    data['takingMedicine'] = takingMedicine;
+    data['currentTakingMedicine'] = currentTakingMedicine;
+    data['durationTakingMedicine'] = durationTakingMedicine;
     return data;
   }
 }

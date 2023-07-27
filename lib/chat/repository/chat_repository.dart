@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:medzo/chat/models/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:medzo/chat/models/models.dart';
 
 class ChatRepository {
   late String _conversationId;

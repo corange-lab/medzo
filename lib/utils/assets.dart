@@ -11,7 +11,7 @@ class AppImages {
   static const String cardiovascular = 'assets/images/cardiovascular.svg';
   static const String chat_message = 'assets/images/chat_message.svg';
   static const String devices = 'assets/images/devices.svg';
-  static const String profile_picture = 'assets/images/profile.jpg';
+  static const String profile_picture = 'assets/appicon.png';
   static const String hypnotics = 'assets/images/hypnotics.svg';
   static const String mobile_image = 'assets/images/mobile_image.svg';
   static const String painkiller = 'assets/images/painkiller.svg';
@@ -25,7 +25,6 @@ class AppImages {
   static const String medzoLineLogo = 'assets/images/medzo_linelogo.svg';
   static const String medzoLineLogo1 = 'assets/images/medzo_linelogo.png';
 
-
   // TODO: add asses
   static const String errorImage = 'assets/error_image.png';
   static const String cameraIcon =
@@ -35,7 +34,6 @@ class AppImages {
   static const String group = 'assets/group.png';
   static const String gallaryIcon = 'assets/gallary_icon.png';
   static const String addEventsIcon = 'assets/add events.png';
-
 }
 
 class SvgIcon {

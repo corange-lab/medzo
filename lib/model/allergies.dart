@@ -1,21 +1,25 @@
 class Allergies {
-  int? id;
-  String? title;
-  String? desc;
+  bool? haveAllergies;
+  String? currentAllergies;
+  String? howSeverAllergies;
 
-  Allergies({this.id, this.title, this.desc,});
+  Allergies({
+    this.haveAllergies,
+    this.currentAllergies,
+    this.howSeverAllergies,
+  });
 
   Allergies.fromMap(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    desc = json['desc'];
+    haveAllergies = json['haveAllergies'];
+    currentAllergies = json['currentAllergies'];
+    howSeverAllergies = json['howSeverAllergies'];
   }
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['desc'] = desc;
+    data['haveAllergies'] = haveAllergies;
+    data['currentAllergies'] = currentAllergies;
+    data['howSeverAllergies'] = howSeverAllergies;
     return data;
   }
 }

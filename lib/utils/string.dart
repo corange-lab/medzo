@@ -1,5 +1,4 @@
 import 'dart:core';
-import 'dart:math';
 
 class ConstString {
   static const String apiTimeOut =
@@ -199,7 +198,8 @@ class ConstString {
   static const String weeklyleaderboard = "Weekly Leaderboard";
   static const String welcomeback = "Welcome Back";
   static const String enterdetailstocontinue = "Enter your details to continue";
-  static const String exploreandknowaboutmedicine = "Explore and know about your medicine...";
+  static const String exploreandknowaboutmedicine =
+      "Explore and know about your medicine...";
   static const String forgotpassword = "Forgot Password?";
   static const String login = "Log in";
   static const String sigup = "Sign Up";
@@ -242,9 +242,8 @@ class ConstString {
       "Please enter 4 Digit OTP sent on your email address us ${extractDomainFromEmail(email)}";
 
   static String extractDomainFromEmail(String email) {
-    // show only first and last char of email(till @) then replace all other char with *
-    var dum = (email.indexOf('@') - Random().nextInt(email.indexOf('@')));
-    return email.replaceRange(2, email.indexOf('@'), '**' * dum);
+    return email.replaceRange(
+        2, email.indexOf('@'), '*' * (email.indexOf('@') - 1));
   }
 
 // ---------------------------- category ---------------------------- //
@@ -268,7 +267,6 @@ class ConstString {
   static const String maoi = "MAOIs";
   static const String therphy = "Theophylline";
   static const String drugs = "Drugs";
-
 
   static const String selectchoice = "Select Your Choice";
 

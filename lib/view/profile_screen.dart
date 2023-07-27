@@ -1,11 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:ui' as ui;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/controller/profile_controller.dart';
+import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -72,8 +75,8 @@ class ProfileScreen extends StatelessWidget {
                   ));
                 }
                 String? name = snapshot.data!.docs[0]['name'] ?? "User";
-                String? profession = snapshot.data!.docs[0]['profession'] ?? "Profession";
-                String? imgurl = snapshot.data!.docs[0]['profile_picture'];
+                String? profession = snapshot.data!.docs[0]['profession'] ?? "";
+                String? imgUrl = snapshot.data!.docs[0]['profile_picture'];
                 if (snapshot.hasData) {
                   return SingleChildScrollView(
                     child: Column(
@@ -83,15 +86,10 @@ class ProfileScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(15.0),
                             child: ClipOval(
                               child: Container(
-                                child: imgurl == null
-                                    ? CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            AppImages.profile_picture),
-                                        radius: 50,
-                                        backgroundColor: AppColors.tilecolor,
-                                      )
+                                child: imgUrl == null
+                                    ? AppWidget.noProfileWidget(context)
                                     : Image.network(
-                                        imgurl,
+                                        imgUrl,
                                         fit: BoxFit.cover,
                                         loadingBuilder: (BuildContext context,
                                             Widget child,
@@ -219,8 +217,10 @@ class ProfileScreen extends StatelessWidget {
                           height: Responsive.height(3, context),
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            Get.to(EditProfileScreen());
+                          onPressed: () async {
+                            await Get.to(() => EditProfileScreen(
+                                UserModel.fromMap(snapshot.data!.docs[0].data()
+                                    as Map<String, dynamic>)));
                           },
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
@@ -310,6 +310,43 @@ class ProfileScreen extends StatelessWidget {
               },
             ));
       },
+    );
+  }
+}
+
+class AppWidget {
+  static Widget noProfileWidget(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: ImageFiltered(
+            imageFilter: ui.ImageFilter.blur(sigmaX: 1, sigmaY: 2),
+            child: SizedBox(
+              width: 40,
+              height: 40,
+              child: CircleAvatar(
+                backgroundImage: AssetImage(AppImages.profile_picture),
+                radius: 50,
+                backgroundColor: AppColors.tilecolor,
+              ),
+            ),
+          ),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.warning_amber_outlined,
+              color: AppColors.primaryColor,
+            ),
+            Text(
+              'No Profile Picture',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

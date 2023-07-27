@@ -1,21 +1,17 @@
 class AgeGroup {
-  int? id;
-  String? title;
-  String? desc;
+  int? age;
 
-  AgeGroup({this.id, this.title, this.desc,});
+  AgeGroup({
+    this.age,
+  });
 
   AgeGroup.fromMap(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    desc = json['desc'];
+    age = json['age'];
   }
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['desc'] = desc;
+    data['age'] = age;
     return data;
   }
 }

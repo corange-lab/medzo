@@ -11,14 +11,13 @@ class UserModel {
   final String? email;
   final String? fcmToken;
   final String? gender;
-  final String? age;
   final String? profilePicture;
   final String? profession;
   final bool? enablePushNotification;
-  final HealthCondition? healthCondition;
-  final CurrentMedication? currentMedication;
-  final Allergies? allergies;
-  final AgeGroup? ageGroup;
+  final dynamic healthCondition; //HealthCondition?
+  final dynamic currentMedication; //CurrentMedication?
+  final dynamic allergies; //Allergies?
+  final dynamic ageGroup; //AgeGroup?
 
   UserModel(
       {this.id,
@@ -26,7 +25,6 @@ class UserModel {
       this.email,
       this.fcmToken,
       this.gender,
-      this.age,
       this.profilePicture,
       this.profession,
       this.enablePushNotification,
@@ -43,14 +41,13 @@ class UserModel {
     String? country,
     String? fcmToken,
     String? gender,
-    String? age,
     String? profilePicture,
     String? profession,
     bool? enablePushNotification,
-    HealthCondition? healthCondition,
-    CurrentMedication? currentMedication,
-    AgeGroup? ageGroup,
-    Allergies? allergies,
+    dynamic healthCondition, // HealthCondition?
+    dynamic currentMedication, // CurrentMedication?
+    dynamic ageGroup, // AgeGroup?
+    dynamic allergies, // Allergies?
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -58,7 +55,6 @@ class UserModel {
       email: email ?? this.email,
       fcmToken: fcmToken ?? this.fcmToken,
       gender: gender ?? this.gender,
-      age: age ?? this.age,
       profilePicture: profilePicture ?? this.profilePicture,
       profession: profession ?? this.profession,
       enablePushNotification:
@@ -79,12 +75,15 @@ class UserModel {
       'gender': gender,
       'profile_picture': profilePicture,
       'profession': profession,
-      'age': age,
       'enablePushNotification': enablePushNotification,
-      'health_condition': healthCondition?.toMap(),
-      'current_medication': currentMedication?.toMap(),
-      'age_group': ageGroup?.toMap(),
-      'allergies': allergies?.toMap(),
+      'health_condition': (healthCondition is bool)
+          ? healthCondition
+          : healthCondition?.toMap(),
+      'current_medication': (currentMedication is bool)
+          ? currentMedication
+          : currentMedication?.toMap(),
+      'age_group': (ageGroup is bool) ? ageGroup : ageGroup?.toMap(),
+      'allergies': (allergies is bool) ? allergies : allergies?.toMap(),
     };
   }
 
@@ -97,18 +96,27 @@ class UserModel {
       gender: map['gender'],
       profilePicture: map['profile_picture'],
       profession: map['profession'],
-      age: map['age'],
       enablePushNotification: map['enablePushNotification'],
       healthCondition: map['health_condition'] == null
           ? null
-          : HealthCondition.fromMap(map['health_condition']),
+          : (map['health_condition'] is bool)
+              ? map['health_condition']
+              : HealthCondition.fromMap(map['health_condition']),
       currentMedication: map['current_medication'] == null
           ? null
-          : CurrentMedication.fromMap(map['current_medication']),
-      ageGroup:
-          map['age_group'] == null ? null : AgeGroup.fromMap(map['age_group']),
-      allergies:
-          map['allergies'] == null ? null : Allergies.fromMap(map['allergies']),
+          : (map['current_medication'] is bool)
+              ? map['current_medication']
+              : CurrentMedication.fromMap(map['current_medication']),
+      ageGroup: map['age_group'] == null
+          ? null
+          : (map['age_group'] is bool)
+              ? map['age_group']
+              : AgeGroup.fromMap(map['age_group']),
+      allergies: map['allergies'] == null
+          ? null
+          : (map['allergies'] is bool)
+              ? map['allergies']
+              : Allergies.fromMap(map['allergies']),
     );
   }
 

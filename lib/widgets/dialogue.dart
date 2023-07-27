@@ -33,7 +33,7 @@ Future progressDialogue(context, {required String title}) {
                 title,
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     color: AppColors.black,
-                    fontSize: 15.sp,
+                    fontSize: 13.sp,
                     fontFamily: AppFont.fontMedium,
                     letterSpacing: 0.5),
               )

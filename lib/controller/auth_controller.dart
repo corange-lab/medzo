@@ -20,6 +20,7 @@ import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/view/login_screen.dart';
 import 'package:medzo/view/otp_screen.dart';
+import 'package:medzo/view/question_screen.dart';
 import 'package:medzo/view/signup_screen.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -84,9 +85,31 @@ class AuthController extends GetxController {
     return;
   }
 
-  void navigateToHomeScreen() {
-    Get.offAll(() => HomeScreen());
-    return;
+  Future<void> navigateToHomeScreen() async {
+    UserModel? userModel = await AuthApi.instance.getLoggedInUserData();
+    int currentQuestionnairesPosition = hasQuestionnairesCompleted(userModel);
+    if (currentQuestionnairesPosition == -1) {
+      return Get.offAll(() => HomeScreen());
+    } else {
+      return Get.off(() => QuestionScreen(
+          currentQuestionnairesPosition: currentQuestionnairesPosition));
+    }
+  }
+
+  int hasQuestionnairesCompleted(UserModel? userModel) {
+    int position = -1;
+    if (userModel?.healthCondition == null) {
+      position = 0;
+    } else if (userModel?.currentMedication == null) {
+      position = 1;
+    } else if (userModel?.allergies == null) {
+      position = 2;
+    } else if (userModel?.ageGroup == null) {
+      position = 3;
+    } else {
+      return position;
+    }
+    return position;
   }
 
   void navigateVerificationFlow(String email, AuthResponse? newUser) {
@@ -109,7 +132,6 @@ class AuthController extends GetxController {
   }
 
   Future<void> signInWithEmailAndPassword() async {
-
     try {
       String email = emailTextController.text.trim();
       String password = passwordTextController.text;

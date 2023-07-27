@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medzo/controller/auth_controller.dart';
-import 'package:medzo/model/current_medication.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/string.dart';
 
 class QuestionController extends GetxController {
+  TextEditingController allergiesController = TextEditingController();
+  TextEditingController howSeverAllergiesController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
   RxString healthAns = "No".obs;
   RxString medicineAns = "No".obs;
   RxString allergyAns = "No".obs;
@@ -22,6 +23,16 @@ class QuestionController extends GetxController {
       FirebaseFirestore.instance.collection('users');
 
   UserModel userModel = UserModel();
+  int currentQuestionnairesPosition = 0;
+  QuestionController({this.currentQuestionnairesPosition = 0});
+
+  @override
+  void onInit() {
+    super.onInit();
+    if (currentQuestionnairesPosition != 0) {
+      selectedPageIndex.value = currentQuestionnairesPosition;
+    }
+  }
 
   // Future<AuthResponse> QuestionCheck() async {
   //   try {
@@ -35,10 +46,7 @@ class QuestionController extends GetxController {
 
   Future<UserModel> setData(UserModel userModel) async {
     final newDocRef = userCollection.doc(userModel.id);
-    UserModel newUser = userModel.copyWith(
-        id: newDocRef.id,
-        currentMedication:
-            CurrentMedication(id: 123, title: "Medicine", desc: "Pill"));
+    UserModel newUser = userModel.copyWith(id: newDocRef.id);
     print("Set Data");
     await newDocRef.set(newUser.toMap());
     return newUser;

@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/api/auth_api.dart';
 import 'package:medzo/controller/profile_controller.dart';
 import 'package:medzo/controller/user_repository.dart';
 import 'package:medzo/model/user_model.dart';
@@ -18,46 +19,63 @@ import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/widgets/pick_image.dart';
 
-class EditProfileScreen extends StatelessWidget {
-  EditProfileScreen();
+class EditProfileScreen extends StatefulWidget {
+  final UserModel userModel;
+  EditProfileScreen(this.userModel);
+
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  pickImageController pickController = Get.put(pickImageController());
+  ProfileController controller = Get.find<ProfileController>();
+  late UserModel userModel;
+
+  @override
+  void initState() {
+    userModel = UserModel(
+        name: widget.userModel.name,
+        profession: widget.userModel.profession,
+        email: widget.userModel.email,
+        profilePicture: widget.userModel.profilePicture,
+        id: widget.userModel.id);
+    super.initState();
+    controller.nameController.text = userModel.name ?? '';
+    controller.professionController.text = userModel.profession ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
-    pickImageController pickController = Get.put(pickImageController());
-    return GetBuilder<ProfileController>(
-      init: ProfileController(),
-      builder: (controller) {
-        return Scaffold(
-          backgroundColor: AppColors.whitehome,
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            titleSpacing: 0,
-            backgroundColor: AppColors.white,
-            leading: IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: SvgPicture.asset(
-                  SvgIcon.backarrow,
-                  height: Responsive.height(2, context),
-                )),
-            title: Align(
-              alignment: Alignment.centerLeft,
-              child: TextWidget(
-                ConstString.editprofile,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontSize: Responsive.sp(4.8, context),
-                    fontFamily: AppFont.fontBold,
-                    letterSpacing: 0,
-                    color: AppColors.black),
-              ),
-            ),
-            elevation: 3,
-            shadowColor: AppColors.splashdetail.withOpacity(0.1),
+    return Scaffold(
+      backgroundColor: AppColors.whitehome,
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        titleSpacing: 0,
+        backgroundColor: AppColors.white,
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: SvgPicture.asset(
+              SvgIcon.backarrow,
+              height: Responsive.height(2, context),
+            )),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            ConstString.editprofile,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: Responsive.sp(4.8, context),
+                fontFamily: AppFont.fontBold,
+                letterSpacing: 0,
+                color: AppColors.black),
           ),
-          body: editProfileWidget(context, controller, pickController),
-        );
-      },
+        ),
+        elevation: 3,
+        shadowColor: AppColors.splashdetail.withOpacity(0.1),
+      ),
+      body: editProfileWidget(context, controller, pickController),
     );
   }
 
@@ -222,7 +240,7 @@ class EditProfileScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  progressDialogue(context, title: "Profile");
+                  progressDialogue(context, title: "Profile updating");
                   String name = controller.nameController.text;
                   String profession = controller.professionController.text;
                   String? username =
@@ -230,45 +248,57 @@ class EditProfileScreen extends StatelessWidget {
                   String userid = FirebaseAuth.instance.currentUser!.uid;
 
                   try {
-                    final ref = FirebaseStorage.instance
-                        .ref('profile_pics/$username$userid');
-                    UploadTask uploadtask =
-                        ref.putFile(File(pickController.selectedImage));
+                    final ref =
+                        FirebaseStorage.instance.ref('profile_pics/$userid');
+                    final picFile = File(pickController.selectedImage);
+                    if (await picFile.exists()) {
+                      UploadTask uploadTask = ref.putFile(picFile);
 
-                    await Future.value(uploadtask).then((value) async {
-                      var newUrl = await ref.getDownloadURL();
-
-                      await UserRepository.getInstance()
-                          .updateUser(UserModel(
-                              name: name,
-                              profession: profession,
-                              email: FirebaseAuth.instance.currentUser!.email,
-                              profilePicture: newUrl.toString(),
-                              id: FirebaseAuth.instance.currentUser!.uid))
-                          .then((value) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return successDialogue(
-                              titleText: "Successful Changed",
-                              subtitle:
-                                  "Your profile has been changed successfully.",
-                              iconDialogue: SvgIcon.check_circle,
-                              btntext: "Done",
-                              onPressed: () {
-                                Get.back();
-                                Get.back();
-                                Get.back();
-                              },
-                            );
-                          },
-                        );
+                      await Future.value(uploadTask).then((value) async {
+                        var newUrl = await ref.getDownloadURL();
+                        await UserRepository.getInstance()
+                            .updateUser(UserModel(
+                                name: name,
+                                profession: profession,
+                                email: FirebaseAuth.instance.currentUser!.email,
+                                profilePicture: newUrl.toString(),
+                                id: FirebaseAuth.instance.currentUser!.uid))
+                            .then((value) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return successDialogue(
+                                titleText: "Successful Changed",
+                                subtitle:
+                                    "Your profile has been changed successfully.",
+                                iconDialogue: SvgIcon.check_circle,
+                                btntext: "Done",
+                                onPressed: () {
+                                  Get.back();
+                                  Get.back();
+                                  Get.back();
+                                },
+                              );
+                            },
+                          );
+                        }).onError((error, stackTrace) {
+                          showInSnackBar("$error", isSuccess: false);
+                        });
                       }).onError((error, stackTrace) {
-                        showInSnackBar("$error", isSuccess: false);
+                        showInSnackBar("${error}", isSuccess: false);
                       });
-                    }).onError((error, stackTrace) {
-                      showInSnackBar("${error}", isSuccess: false);
-                    });
+                    } else {
+                      UserModel? userModel =
+                          await AuthApi.instance.getLoggedInUserData();
+                      await UserRepository.getInstance().updateUser(UserModel(
+                          name: name,
+                          profession: profession,
+                          email: FirebaseAuth.instance.currentUser!.email,
+                          profilePicture: userModel?.profilePicture,
+                          id: FirebaseAuth.instance.currentUser!.uid));
+                      Get.back();
+                      Get.back();
+                    }
                   } catch (e) {
                     print("Exception Thrown : $e");
                   }

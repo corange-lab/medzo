@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:medzo/api/api_defaults.dart';
@@ -20,6 +21,31 @@ class AuthApi extends GetConnectImpl {
   AuthApi._internal();
 
   static final AuthApi instance = AuthApi._internal();
+
+  final CollectionReference _userCollection =
+      FirebaseFirestore.instance.collection('users');
+
+  Future<UserModel?> getLoggedInUserData() async {
+    if (FirebaseAuth.instance.currentUser?.uid == null) return null;
+    String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
+    if (userId.isEmpty) return null;
+
+    final DocumentSnapshot<Object?> userData =
+        await _userCollection.doc(userId).get();
+    if (userData.exists) {
+      return UserModel.fromMap(userData.data() as Map<String, dynamic>);
+    }
+    return null;
+  }
+
+  Future<UserModel?> getUserData({required String userId}) async {
+    final DocumentSnapshot<Object?> userData =
+        await _userCollection.doc(userId).get();
+    if (userData.exists) {
+      return UserModel.fromMap(userData.data() as Map<String, dynamic>);
+    }
+    return null;
+  }
 
   Future<dynamic> sendEmailVerification({required String email}) async {
     bool hasInternet = await Utils.hasInternetConnection();
@@ -193,7 +219,7 @@ class AuthApi extends GetConnectImpl {
     return null;
   }
 
-  /*Future<PetsResponse?> fetchUserDogs(String userId) async {
+/*Future<PetsResponse?> fetchUserDogs(String userId) async {
     bool hasInternet = await Utils.hasInternetConnection();
     if (!hasInternet) {
       showInSnackBar('noInternetConnection'.tr);
@@ -216,7 +242,7 @@ class AuthApi extends GetConnectImpl {
     }
   }*/
 
-  /*Future<DogDetail?> createNewDog({required Map params}) async {
+/*Future<DogDetail?> createNewDog({required Map params}) async {
     bool hasInternet = await Utils.hasInternetConnection();
     if (!hasInternet) {
       showInSnackBar('noInternetConnection'.tr);

@@ -240,7 +240,7 @@ class SignUpScreen extends GetView<AuthController> {
                   String response = checkPassword(password);
 
                   if (response == "Valid Password") {
-                    progressDialogue(context, title: "Sign Up");
+                    progressDialogue(context, title: "SignUp In Progress");
                     await controller.signUp();
                   } else {
                     // showInSnackBar("Invalid Format",

@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
+import 'package:medzo/api/auth_api.dart';
 import 'package:medzo/controller/question_controller.dart';
+import 'package:medzo/model/age_group.dart';
+import 'package:medzo/model/allergies.dart';
+import 'package:medzo/model/current_medication.dart';
+import 'package:medzo/model/health_condition.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -16,12 +21,14 @@ class QuestionScreen extends GetView<QuestionController> {
   final FocusNode fNode = FocusNode();
   final FocusNode fNode1 = FocusNode();
 
-  QuestionScreen({super.key});
+  final int currentQuestionnairesPosition;
+  QuestionScreen({super.key, this.currentQuestionnairesPosition = 0});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<QuestionController>(
-      init: QuestionController(),
+      init: QuestionController(
+          currentQuestionnairesPosition: currentQuestionnairesPosition),
       builder: (controller) {
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
@@ -61,42 +68,8 @@ class QuestionScreen extends GetView<QuestionController> {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  // if (controller.selectedPageIndex.value ==
-                                  //     0) {
-                                  //   controller.pageController.value
-                                  //       .animateToPage(
-                                  //       1,
-                                  //       duration: const Duration(
-                                  //           milliseconds: 10),
-                                  //       curve: Curves.easeInOut);
-                                  // } else if (controller
-                                  //     .selectedPageIndex.value ==
-                                  //     1) {
-                                  //   controller.pageController.value
-                                  //       .animateToPage(
-                                  //       2,
-                                  //       duration: const Duration(
-                                  //           milliseconds: 10),
-                                  //       curve: Curves.easeInOut);
-                                  // } else if (controller
-                                  //     .selectedPageIndex.value ==
-                                  //     2) {
-                                  //   controller.pageController.value
-                                  //       .animateToPage(
-                                  //       3,
-                                  //       duration: const Duration(
-                                  //           milliseconds: 10),
-                                  //       curve: Curves.easeInOut);
-                                  // } else {
-                                  //   Get.off(HomeScreen());
-                                  // }
-
-                                  // Get.off(HomeScreen());
-                                  UserModel userModel = UserModel();
-
-                                  controller.setData(userModel);
-                                },
+                                onTap: () async =>
+                                    await skipQuestion(controller),
                                 child: Row(
                                   children: [
                                     TextWidget(
@@ -158,23 +131,7 @@ class QuestionScreen extends GetView<QuestionController> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 25, vertical: 10),
                       child: ElevatedButton(
-                        onPressed: () async {
-                          if (controller.selectedPageIndex.value == 0) {
-                            controller.pageController.value.animateToPage(1,
-                                duration: const Duration(milliseconds: 10),
-                                curve: Curves.easeInOut);
-                          } else if (controller.selectedPageIndex.value == 1) {
-                            controller.pageController.value.animateToPage(2,
-                                duration: const Duration(milliseconds: 10),
-                                curve: Curves.easeInOut);
-                          } else if (controller.selectedPageIndex.value == 2) {
-                            controller.pageController.value.animateToPage(3,
-                                duration: const Duration(milliseconds: 10),
-                                curve: Curves.easeInOut);
-                          } else {
-                            Get.off(HomeScreen());
-                          }
-                        },
+                        onPressed: () async => await saveAndNext(controller),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryColor,
                           elevation: 0,
@@ -208,19 +165,11 @@ class QuestionScreen extends GetView<QuestionController> {
                                   } else if (controller
                                           .selectedPageIndex.value ==
                                       2) {
-                                    controller.pageController.value
-                                        .animateToPage(1,
-                                            duration: const Duration(
-                                                milliseconds: 10),
-                                            curve: Curves.easeInOut);
+                                    animate(controller, 1);
                                   } else if (controller
                                           .selectedPageIndex.value ==
                                       3) {
-                                    controller.pageController.value
-                                        .animateToPage(2,
-                                            duration: const Duration(
-                                                milliseconds: 10),
-                                            curve: Curves.easeInOut);
+                                    animate(controller, 2);
                                   } else {
                                     controller.pageController.value
                                         .animateToPage(0,
@@ -249,33 +198,8 @@ class QuestionScreen extends GetView<QuestionController> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 5, vertical: 10),
                               child: ElevatedButton(
-                                onPressed: () async {
-                                  if (controller.selectedPageIndex.value == 0) {
-                                    controller.pageController.value
-                                        .animateToPage(1,
-                                            duration: const Duration(
-                                                milliseconds: 10),
-                                            curve: Curves.easeInOut);
-                                  } else if (controller
-                                          .selectedPageIndex.value ==
-                                      1) {
-                                    controller.pageController.value
-                                        .animateToPage(2,
-                                            duration: const Duration(
-                                                milliseconds: 10),
-                                            curve: Curves.easeInOut);
-                                  } else if (controller
-                                          .selectedPageIndex.value ==
-                                      2) {
-                                    controller.pageController.value
-                                        .animateToPage(3,
-                                            duration: const Duration(
-                                                milliseconds: 10),
-                                            curve: Curves.easeInOut);
-                                  } else {
-                                    Get.offAll(() => HomeScreen());
-                                  }
-                                },
+                                onPressed: () async =>
+                                    await saveAndNext(controller),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.primaryColor,
                                   elevation: 0,
@@ -300,6 +224,81 @@ class QuestionScreen extends GetView<QuestionController> {
         );
       },
     );
+  }
+
+  Future<void> saveAndNext(QuestionController controller) async {
+    UserModel? userModel = await AuthApi.instance.getLoggedInUserData();
+    if (controller.selectedPageIndex.value == 0) {
+      animate(controller, 1);
+      userModel = userModel?.copyWith(
+        healthCondition: HealthCondition(
+          healthCondition: controller.healthDropdown.value,
+          doesHealthCondition: controller.healthAns.value == 'Yes',
+          healthConditionDuration: controller.yearDropdown.value,
+        ),
+      );
+    } else if (controller.selectedPageIndex.value == 1) {
+      animate(controller, 2);
+      // TODO:
+      userModel = userModel?.copyWith(
+        currentMedication: CurrentMedication(
+          currentTakingMedicine: controller.healthDropdown.value,
+          durationTakingMedicine: controller.yearDropdown.value,
+          takingMedicine: controller.healthAns.value == 'Yes',
+        ),
+      );
+    } else if (controller.selectedPageIndex.value == 2) {
+      animate(controller, 3);
+      // TODO:
+      userModel = userModel?.copyWith(
+        allergies: Allergies(
+          currentAllergies: controller.allergiesController.text.trim(),
+          haveAllergies: controller.healthAns.value == 'Yes',
+          howSeverAllergies: controller.howSeverAllergiesController.text.trim(),
+        ),
+      );
+    } else {
+      // TODO:
+      userModel = userModel?.copyWith(
+        ageGroup: AgeGroup(
+          age: int.tryParse(controller.ageController.text.trim()) ?? 0,
+        ),
+      );
+      Get.off(() => HomeScreen());
+    }
+  }
+
+  Future<void> skipQuestion(QuestionController controller) async {
+    UserModel? userModel = await AuthApi.instance.getLoggedInUserData();
+
+    if (controller.selectedPageIndex.value == 0) {
+      animate(controller, 1);
+      userModel = userModel?.copyWith(
+        healthCondition: false,
+      );
+    } else if (controller.selectedPageIndex.value == 1) {
+      animate(controller, 2);
+      userModel = userModel?.copyWith(
+        currentMedication: false,
+      );
+    } else if (controller.selectedPageIndex.value == 2) {
+      animate(controller, 3);
+      userModel = userModel?.copyWith(
+        allergies: false,
+      );
+    } else {
+      userModel = userModel?.copyWith(
+        ageGroup: false,
+      );
+      Get.offAll(() => HomeScreen());
+    }
+
+    controller.setData(userModel!);
+  }
+
+  void animate(QuestionController controller, int index) {
+    controller.pageController.value.animateToPage(index,
+        duration: const Duration(milliseconds: 10), curve: Curves.easeInOut);
   }
 
   Container questionWidget(QuestionController ctrl, BuildContext context) {
@@ -337,54 +336,113 @@ class QuestionScreen extends GetView<QuestionController> {
                                 style: Theme.of(context).textTheme.titleLarge,
                               )),
                           Obx(
-                            () => Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Radio(
-                                  value: "No",
-                                  groupValue: ctrl.healthAns.value,
-                                  onChanged: (value) {
-                                    ctrl.healthAns.value = value!;
-                                  },
-                                  activeColor: AppColors.primaryColor,
-                                ),
-                                TextWidget(
-                                  "No",
-                                  style: TextStyle(
-                                      fontSize: Responsive.sp(3.3, context),
-                                      fontFamily: AppFont.fontFamily,
-                                      letterSpacing: 0.5,
-                                      height: 1.4,
-                                      color: ctrl.healthAns.value == "No"
-                                          ? AppColors.primaryColor
-                                          : AppColors.grey,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                SizedBox(
-                                  width: Responsive.width(3, context),
-                                ),
-                                Radio(
-                                  value: "Yes",
-                                  groupValue: ctrl.healthAns.value,
-                                  onChanged: (value) {
-                                    ctrl.healthAns.value = value!;
-                                  },
-                                  activeColor: AppColors.primaryColor,
-                                ),
-                                TextWidget(
-                                  "Yes",
-                                  style: TextStyle(
-                                      fontSize: Responsive.sp(3.3, context),
-                                      fontFamily: AppFont.fontFamily,
-                                      letterSpacing: 0.5,
-                                      height: 1.4,
-                                      color: ctrl.healthAns.value == "Yes"
-                                          ? AppColors.primaryColor
-                                          : AppColors.grey,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            ),
+                            () => controller.selectedPageIndex.value == 3
+                                ? Container(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    child: TextFormField(
+                                      autofocus: false,
+                                      keyboardType: TextInputType.number,
+                                      // focusNode: fnode1,
+                                      controller: ctrl.ageController,
+                                      cursorColor: AppColors.grey,
+                                      // style: Theme.of(context).textTheme.bodyMedium,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        enabled: true,
+                                        // fillColor: fnode1.hasFocus
+                                        // ? AppColors.tilecolor
+                                        //     : AppColors.splashdetail,
+                                        hintText: "Enter Age",
+                                        hintStyle: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall,
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColors.white,
+                                              width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColors.txtborder,
+                                              width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        disabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColors.white,
+                                              width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColors.white,
+                                              width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                        ),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                          vertical: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Radio(
+                                        value: "No",
+                                        groupValue: ctrl.healthAns.value,
+                                        onChanged: (value) {
+                                          ctrl.healthAns.value = value!;
+                                        },
+                                        activeColor: AppColors.primaryColor,
+                                      ),
+                                      TextWidget(
+                                        "No",
+                                        style: TextStyle(
+                                            fontSize:
+                                                Responsive.sp(3.3, context),
+                                            fontFamily: AppFont.fontFamily,
+                                            letterSpacing: 0.5,
+                                            height: 1.4,
+                                            color: ctrl.healthAns.value == "No"
+                                                ? AppColors.primaryColor
+                                                : AppColors.grey,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(
+                                        width: Responsive.width(3, context),
+                                      ),
+                                      Radio(
+                                        value: "Yes",
+                                        groupValue: ctrl.healthAns.value,
+                                        onChanged: (value) {
+                                          ctrl.healthAns.value = value!;
+                                        },
+                                        activeColor: AppColors.primaryColor,
+                                      ),
+                                      TextWidget(
+                                        "Yes",
+                                        style: TextStyle(
+                                            fontSize:
+                                                Responsive.sp(3.3, context),
+                                            fontFamily: AppFont.fontFamily,
+                                            letterSpacing: 0.5,
+                                            height: 1.4,
+                                            color: ctrl.healthAns.value == "Yes"
+                                                ? AppColors.primaryColor
+                                                : AppColors.grey,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
                           ),
                           SizedBox(
                             height: Responsive.height(1.5, context),
@@ -452,6 +510,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                   ? TextFormField(
                                       autofocus: false,
                                       // focusNode: fnode1,
+                                      controller: ctrl.allergiesController,
                                       cursorColor: AppColors.grey,
                                       // style: Theme.of(context).textTheme.bodyMedium,
                                       decoration: InputDecoration(
@@ -635,6 +694,8 @@ class QuestionScreen extends GetView<QuestionController> {
                                       ))
                                   : ctrl.selectedPageIndex.value == 2
                                       ? TextFormField(
+                                          controller:
+                                              ctrl.howSeverAllergiesController,
                                           autofocus: false,
                                           maxLines: 5,
                                           // focusNode: fnode1,
