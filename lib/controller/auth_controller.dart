@@ -327,9 +327,9 @@ class AuthController extends GetxController {
             AppleIDAuthorizationScopes.fullName,
           ],
           webAuthenticationOptions: WebAuthenticationOptions(
-            clientId: 'com.corange.medzo',
+            clientId: 'android.apple.signin.com.corange.medzo',
             redirectUri: Uri.parse(
-              'https://medzo-2687b.firebaseapp.com/__/auth/handler',
+              'https://cosmic-knowing-sunfish.glitch.me/callbacks/sign_in_with_apple',
             ),
           ),
         );
@@ -350,11 +350,12 @@ class AuthController extends GetxController {
             if (userCredential.user!.emailVerified) {
               navigateToHomeScreen();
             } else {
-              // AuthResponse newUser = await signUpWithEmailPassword(email, password,
-              //     credentials: userCredential);
-              //
-              // TODO:
-              // navigateVerificationFlow(userCredential.user!.email!);
+              AuthResponse newUser = await signUpWithEmailPassword(
+                  user!.email!, '',
+                  credentials: userCredential);
+              // navigateVerificationFlow(userCredential.user.email, newUser);
+
+              // TODO: handle different flow for social login
             }
           }
         }
