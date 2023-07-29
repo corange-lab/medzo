@@ -10,7 +10,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medzo/api/auth_api.dart';
 import 'package:medzo/api/create_user_api.dart';
 import 'package:medzo/controller/user_repository.dart';
-import 'package:medzo/model/general_response.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/service/notification/notification_service.dart';
 import 'package:medzo/utils/app_storage.dart';
@@ -26,7 +25,6 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController {
   bool social = false;
-  RxString verificationId = "".obs;
   RxString otp = ''.obs;
   RxString userName = ''.obs;
   bool isLoading = false;
@@ -115,7 +113,7 @@ class AuthController extends GetxController {
   void navigateVerificationFlow(String email, AuthResponse? newUser) {
     // TODO: uncomment below code
     Get.to(() => OTPScreen(
-          email: email, /*verificationId: verificationId.value*/
+          email: email,
         ));
     return;
   }
@@ -530,7 +528,6 @@ class AuthController extends GetxController {
         snackBarMessage = e.message ?? ConstString.somethingWentWrong;
     }
 
-    // showInSnackBar(snackBarMessage);
     toast(message: snackBarMessage);
     return snackBarMessage;
   }
@@ -538,15 +535,7 @@ class AuthController extends GetxController {
   Future<AuthResponse> forgotPassword(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      // String? verificationKey;
-      // var value = await authApi.sendEmailVerification(email: email);
-      // if (value != null && value is GeneralResponse) {
-      //   verificationKey = value.details;
-      // }
-      return AuthResponse(
-        success: true,
-        // verificationKey: verificationKey
-      );
+      return AuthResponse(success: true);
     } catch (e) {
       return AuthResponse(
         errorMsg: "Human Doesn't exists",
@@ -620,7 +609,6 @@ class AuthController extends GetxController {
     AuthResponse result;
     UserModel? user;
     try {
-      String? verificationKey;
       if (password.isNotEmpty) {
         List<String> name = getFirstLastName(credentials);
         user = await _createUserInUserCollection(
@@ -628,11 +616,7 @@ class AuthController extends GetxController {
         );
         await credentials.user!
             .updateDisplayName(displayName ?? ('${name.first} ${name[1]}'));
-        // await credentials.user!.sendEmailVerification();
         dynamic value = await authApi.sendEmailVerification(email: email);
-        if (value != null && value is GeneralResponse) {
-          verificationKey = value.details;
-        }
       } else {
         if (!(displayName != null && displayName.isNotEmpty)) {
           List<String> name = getFirstLastName(credentials);
@@ -642,8 +626,7 @@ class AuthController extends GetxController {
             displayName: displayName);
       }
 
-      result = AuthResponse(
-          success: true, user: user, verificationKey: verificationKey);
+      result = AuthResponse(success: true, user: user);
       // await FirebaseAuth.instance.signOut();
       // await FirebaseAuth.instance.signInWithCustomToken(_user!.fcmToken!);
     } on FirebaseAuthException catch (e) {
@@ -851,7 +834,6 @@ class AuthController extends GetxController {
 class AuthResponse {
   final bool? success;
   final bool? isVerified;
-  final String? verificationKey;
   final String? errorMsg;
   final String? token;
   final bool aborted;
@@ -860,7 +842,6 @@ class AuthResponse {
   AuthResponse({
     this.success,
     this.isVerified,
-    this.verificationKey,
     this.errorMsg,
     this.token,
     this.aborted = false,

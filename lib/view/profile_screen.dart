@@ -74,9 +74,9 @@ class ProfileScreen extends StatelessWidget {
                     color: AppColors.primaryColor,
                   ));
                 }
-                String? name = snapshot.data!.docs[0]['name'] ?? "User";
-                String? profession = snapshot.data!.docs[0]['profession'] ?? "";
-                String? imgUrl = snapshot.data!.docs[0]['profile_picture'];
+                String? name = snapshot.data?.docs[0]['name'] ?? "";
+                String? profession = snapshot.data?.docs[0]['profession'] ?? "";
+                String? imgUrl = snapshot.data?.docs[0]['profile_picture'];
                 if (snapshot.hasData) {
                   return SingleChildScrollView(
                     child: Column(

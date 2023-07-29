@@ -91,14 +91,8 @@ class ForgotController extends GetxController {
   Future<AuthResponse> forgetPassword(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      // String? verificationKey;
-      // var value = await authApi.sendEmailVerification(email: email);
-      // if (value != null && value is GeneralResponse) {
-      //   verificationKey = value.details;
-      // }
       return AuthResponse(
         success: true,
-        // verificationKey: verificationKey
       );
     } catch (e) {
       return AuthResponse(
@@ -109,7 +103,6 @@ class ForgotController extends GetxController {
   }
 
   void navigateToSignIn() {
-    // Get.to(() => LoginScreen());
     Get.back();
     return;
   }

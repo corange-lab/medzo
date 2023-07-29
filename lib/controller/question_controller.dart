@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medzo/api/auth_api.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/string.dart';
 
@@ -8,9 +9,9 @@ class QuestionController extends GetxController {
   TextEditingController allergiesController = TextEditingController();
   TextEditingController howSeverAllergiesController = TextEditingController();
   TextEditingController ageController = TextEditingController();
-  RxString healthAns = "No".obs;
-  RxString medicineAns = "No".obs;
-  RxString allergyAns = "No".obs;
+  RxBool healthAns = false.obs;
+  // RxBool medicineAns = false.obs;
+  // RxBool allergyAns = false.obs;
 
   var pageController = PageController().obs;
   var selectedPageIndex = 0.obs;
@@ -28,28 +29,32 @@ class QuestionController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
     if (currentQuestionnairesPosition != 0) {
       selectedPageIndex.value = currentQuestionnairesPosition;
     }
+    AuthApi.instance.getLoggedInUserData().then((UserModel? userModel) {
+      if (userModel != null) {
+        this.userModel = userModel;
+      }
+    });
+    super.onInit();
   }
 
-  // Future<AuthResponse> QuestionCheck() async {
-  //   try {
-  //     AuthResponse newUser = AuthResponse();
-  //     setData(userModel);
-  //     return AuthResponse(success: true);
-  //   } catch (e) {
-  //     return AuthResponse(success: false);
-  //   }
-  // }
-
-  Future<UserModel> setData(UserModel userModel) async {
+  Future<UserModel> updateData() async {
     final newDocRef = userCollection.doc(userModel.id);
     UserModel newUser = userModel.copyWith(id: newDocRef.id);
     print("Set Data");
+    resetScreenData();
     await newDocRef.set(newUser.toMap());
     return newUser;
+  }
+
+  void resetScreenData() {
+    healthDropdown = healthCondition.first.obs;
+    yearDropdown = year.first.obs;
+    healthAns = false.obs;
+    // medicineAns = false.obs;
+    // allergyAns = false.obs;
   }
 
   List<String> healthCondition = [
@@ -60,7 +65,7 @@ class QuestionController extends GetxController {
     "Handicap"
   ];
 
-  List<String> QuestionTopic = [
+  List<String> questionTopic = [
     "Current Health Conditions",
     "Current Medications being taken",
     "Current allergies",
@@ -71,8 +76,11 @@ class QuestionController extends GetxController {
     "1 Years",
     "2 Years",
     "3 Years",
-    "4 Years",
     "5 Years",
+    "10 Years",
+    "12 Years",
+    "15 Years",
+    "20 Years",
   ];
 
   List ageGroup = [
@@ -85,32 +93,25 @@ class QuestionController extends GetxController {
     "62-71"
   ];
 
-  List medicineList = [
-    "Medicine 1",
-    "Medicine 2",
-    "Medicine 3",
-    "Medicine 4",
-  ];
-
-  List Questions = [
+  List questions = [
     [
-      [ConstString.question1, "No"],
-      [ConstString.question2, ""],
-      [ConstString.question3, ""],
+      ConstString.question1,
+      ConstString.question2,
+      ConstString.question3,
     ],
     [
-      [ConstString.question4, ""],
-      [ConstString.question5, ""],
-      [ConstString.question6, ""],
+      ConstString.question4,
+      ConstString.question5,
+      ConstString.question6,
     ],
     [
-      [ConstString.question7, ""],
-      [ConstString.question8, ""],
-      [ConstString.question9, ""],
+      ConstString.question7,
+      ConstString.question8,
+      ConstString.question9,
     ],
     [
-      [ConstString.question10, ""],
-      [ConstString.question11, ""],
+      ConstString.question10,
+      ConstString.question11,
     ],
   ];
 }

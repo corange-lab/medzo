@@ -17,10 +17,8 @@ import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/question_screen.dart';
 
 class OTPController extends GetxController {
-  String verificationId = "";
   RxString otp = ''.obs;
   RxString userName = ''.obs;
-  RxString verificationid = "".obs;
   bool isLoading = false;
   RxBool disableLengthCheck = false.obs;
 
@@ -45,7 +43,7 @@ class OTPController extends GetxController {
   FocusNode phoneNumberTextField = FocusNode();
   AppStorage appStorage = AppStorage();
 
-  OTPController({/*required this.verificationId,*/ required this.email});
+  OTPController({required this.email});
 
   @override
   void onInit() {
