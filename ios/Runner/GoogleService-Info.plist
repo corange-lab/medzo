@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>429541735617-remi8ephhapcp5jjktfq3l9ko2aosvlo.apps.googleusercontent.com</string>
+	<string>129258897545-806hv1i52hgkbmjn58tev9gm0i4noltd.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.429541735617-remi8ephhapcp5jjktfq3l9ko2aosvlo</string>
+	<string>com.googleusercontent.apps.129258897545-806hv1i52hgkbmjn58tev9gm0i4noltd</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>429541735617-fbtmjnat74cpggqfthnoj5dhldnbcnp5.apps.googleusercontent.com</string>
+	<string>129258897545-n4lbioqk0lbofvet1jpprb1s7eu2ou21.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDBTLWVDdc48ZjW7kkDV0q_phNd9hUCbB4</string>
+	<string>AIzaSyAuB5VhIVwvDN_u_8Fi3Te5N8QSG37Jje0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>429541735617</string>
+	<string>129258897545</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.corange.medzo</string>
 	<key>PROJECT_ID</key>
-	<string>medzo-2687b</string>
+	<string>medzo-18785</string>
 	<key>STORAGE_BUCKET</key>
-	<string>medzo-2687b.appspot.com</string>
+	<string>medzo-18785.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:429541735617:ios:6546a6138c8aac120f2840</string>
-	<key>DATABASE_URL</key>
-	<string>https://medzo-2687b-default-rtdb.firebaseio.com</string>
+	<string>1:129258897545:ios:66f2028dc373a609998658</string>
 </dict>
 </plist>
