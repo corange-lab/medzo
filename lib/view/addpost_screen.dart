@@ -56,23 +56,43 @@ class AddPostScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
         child: ElevatedButton(
           onPressed: () async {
-            List<String> imagelist = [];
+            List<PostImageData> imagelist = [];
 
             for (var i = 0;
                 i < postController.selectedMultiImages.length;
                 i++) {
-              imagelist.add(postController.selectedMultiImages[i].toString());
+              PostImageData image = PostImageData(
+                path: postController.selectedMultiImages[i].path,
+                uploaded: false,
+              );
+              imagelist.add(image);
               print(imagelist);
             }
 
-            PostModel pmodel = PostModel(
-                id: postController.userid,
+            PostData newPostData = PostData.create(
                 postImages: imagelist,
                 description: postController.description.text,
-                isFavourite: true);
+                creatorId: postController.loggedInUserId,
+                createdTime: DateTime.now());
 
-            final postId = postController.postRef.doc(postController.userid);
-            postId.set(pmodel.toMap()).then((value) {
+            final postId =
+                postController.postRef.doc(postController.loggedInUserId);
+            postId.set(newPostData.toMap()).then((value) async {
+              newPostData = PostData.fromMap(newPostData.toMap());
+
+              newPostData = newPostData.copyWith(id: postId.id);
+              for (var mImage in imagelist) {
+                //pick path of image from mImage variable and upload image to firebase storage
+                await postController.uploadImage(mImage);
+
+                mImage.uploaded = true;
+                imagelist[imagelist.indexOf(mImage)] = mImage;
+                await postController.postRef
+                    .doc(postId.id)
+                    .collection('postImages')
+                    .add(mImage.toFirebaseMap());
+              }
+
               showDialog(
                 context: context,
                 builder: (context) {

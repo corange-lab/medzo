@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medzo/model/post_model.dart';
 
 class PostController extends GetxController {
-  PostModel newPost = PostModel();
+  PostData newPost = PostData();
 
   RxList<File> selectedMultiImages = <File>[].obs;
 
@@ -17,9 +18,28 @@ class PostController extends GetxController {
   var pageController = PageController().obs;
   RxInt pageIndex = 0.obs;
 
-  String userid = FirebaseAuth.instance.currentUser!.uid;
+  String loggedInUserId = FirebaseAuth.instance.currentUser!.uid;
 
   final CollectionReference postRef =
       FirebaseFirestore.instance.collection('posts');
 
+  // implement functionality to upload image in firebase storage inside the post directory
+  Future uploadImage(PostImageData imageData) async {
+    UploadTask uploadTask = uploadFile(
+        File(imageData.path!), imageData.path!.lastIndexOf('/').toString());
+    try {
+      TaskSnapshot snapshot = await uploadTask;
+      String imageUrl = await snapshot.ref.getDownloadURL();
+      return imageUrl;
+    } on FirebaseException catch (e) {
+      return 'error';
+    }
+  }
+
+  UploadTask uploadFile(File image, String fileName) {
+    Reference reference =
+        FirebaseStorage.instance.ref().child("posts/$fileName");
+    UploadTask uploadTask = reference.putFile(image);
+    return uploadTask;
+  }
 }
