@@ -65,18 +65,7 @@ class AuthController extends GetxController {
     super.onReady();
     firebaseUser = Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
-
-    String? currentUserId = _auth.currentUser?.uid;
-    // ever(firebaseUser, _setInitialScreen);
   }
-
-  /*_setInitialScreen(User? user) {
-    if (user != null) {
-      Get.offAll(() => const HomeScreen());
-    } else {
-      Get.offAll(() => const LoginScreen());
-    }
-  }*/
 
   void navigateToSignUp() {
     Get.to(() => SignUpScreen());
@@ -341,13 +330,19 @@ class AuthController extends GetxController {
 
         UserCredential? userCredential =
             await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-        if (userCredential.user != null) {
+        if (userCredential.user?.email != null) {
           user = userCredential.user!;
           showInSnackBar(ConstString.fetchApple, isSuccess: true);
           socialSignInBool = true;
 
           if (userCredential.user != null) {
             if (userCredential.user!.emailVerified) {
+              List<String> name = getFirstLastName(userCredential);
+              await userCredential.user!.updateDisplayName(
+                  userCredential.user?.displayName ?? name.join(' '));
+              userModel = await _createUserInUserCollection(
+                userCredential,
+              );
               navigateToHomeScreen();
             } else {
               AuthResponse newUser = await signUpWithEmailPassword(
@@ -397,6 +392,12 @@ class AuthController extends GetxController {
           socialSignInBool = true;
           if (userCredential.user != null) {
             if (userCredential.user!.emailVerified) {
+              List<String> name = getFirstLastName(userCredential);
+              await userCredential.user!.updateDisplayName(
+                  userCredential.user?.displayName ?? name.join(' '));
+              userModel = await _createUserInUserCollection(
+                userCredential,
+              );
               navigateToHomeScreen();
             } else {
               AuthResponse newUser = await signUpWithEmailPassword(
@@ -642,7 +643,7 @@ class AuthController extends GetxController {
     return result;
   }
 
-  Future _createUserInUserCollection(
+  Future<UserModel> _createUserInUserCollection(
     UserCredential credentials, {
     String? displayName,
   }) async {
