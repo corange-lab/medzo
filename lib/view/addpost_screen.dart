@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/post_controller.dart';
+import 'package:medzo/model/post_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -12,9 +16,10 @@ import 'package:medzo/widgets/pick_image.dart';
 import 'package:sizer/sizer.dart';
 
 class AddPostScreen extends StatelessWidget {
-  const AddPostScreen({super.key});
-
   // use here PostController
+
+  PostController postController = Get.find<PostController>();
+
   @override
   Widget build(BuildContext context) {
     pickImageController pickController = Get.put(pickImageController());
@@ -50,22 +55,40 @@ class AddPostScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
         child: ElevatedButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return successDialogue(
-                  titleText: "Successful Uploaded",
-                  subtitle: "Your post has been uploaded successfully.",
-                  iconDialogue: SvgIcon.check_circle,
-                  btntext: "View",
-                  onPressed: () {
-                    Get.back();
-                    Get.back();
-                  },
-                );
-              },
-            );
+          onPressed: () async {
+            List<String> imagelist = [];
+
+            for (var i = 0;
+                i < postController.selectedMultiImages.length;
+                i++) {
+              imagelist.add(postController.selectedMultiImages[i].toString());
+              print(imagelist);
+            }
+
+            PostModel pmodel = PostModel(
+                id: postController.userid,
+                postImages: imagelist,
+                description: postController.description.text,
+                isFavourite: true);
+
+            final postId = postController.postRef.doc(postController.userid);
+            postId.set(pmodel.toMap()).then((value) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return successDialogue(
+                    titleText: "Successful Uploaded",
+                    subtitle: "Your post has been uploaded successfully.",
+                    iconDialogue: SvgIcon.check_circle,
+                    btntext: "View",
+                    onPressed: () {
+                      Get.back();
+                      Get.back();
+                    },
+                  );
+                },
+              );
+            });
           },
           style: ElevatedButton.styleFrom(
               elevation: 0,
@@ -85,14 +108,20 @@ class AddPostScreen extends StatelessWidget {
     );
   }
 
-  SingleChildScrollView addpostWidget(
+  void onChooseFile(File value) {
+    postController.selectedMultiImages.add(value);
+    postController.update();
+  }
+
+  Widget addpostWidget(
       BuildContext context, pickImageController pickController) {
     return SingleChildScrollView(
       child: Column(
         children: [
           GestureDetector(
             onTap: () {
-              pickController.pickImage(context);
+              postController.selectedMultiImages.clear();
+              pickController.pickMultipleImage(context, onChooseFile);
             },
             child: Container(
               margin: const EdgeInsets.all(20),
@@ -125,23 +154,35 @@ class AddPostScreen extends StatelessWidget {
               ),
             ),
           ),
-          Obx(
-            () => pickController.selectedImage.isNotEmpty
-                ? Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, bottom: 20),
-                      child: Text(
-                        "Uploaded : ${pickController.selectedImage.split("/").last}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelMedium!
-                            .copyWith(fontSize: Responsive.sp(3.3, context)),
-                      ),
+          Obx(() => postController.selectedMultiImages.isNotEmpty
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    height: 10.h,
+                    width: SizerUtil.width,
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: postController.selectedMultiImages.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Image.file(
+                              File(postController
+                                  .selectedMultiImages[index].path),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  )
-                : SizedBox(),
-          ),
+                  ),
+                )
+              : SizedBox()),
           SizedBox(
             height: Responsive.height(1, context),
           ),
@@ -162,6 +203,10 @@ class AddPostScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: TextFormField(
+              textCapitalization: TextCapitalization.sentences,
+              autofocus: false,
+              maxLength: 500,
+              controller: postController.description,
               cursorColor: AppColors.grey,
               decoration: InputDecoration(
                 filled: true,

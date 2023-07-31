@@ -1249,7 +1249,7 @@ class PostScreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 30),
               child: ElevatedButton(
                   onPressed: () {
-                    Get.to(const AddPostScreen());
+                    Get.to(AddPostScreen());
                   },
                   style: ElevatedButton.styleFrom(
                       elevation: 0,

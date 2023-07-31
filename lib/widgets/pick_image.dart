@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -6,6 +8,7 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
 class pickImageController extends GetxController {
@@ -13,7 +16,22 @@ class pickImageController extends GetxController {
 
   String get selectedImage => _selectedImage.value;
 
+
   final ImagePicker picker = ImagePicker();
+
+  pickMultipleImage(context, addChoosenFile) async {
+    final List<XFile> pickedFile = await picker.pickMultiImage();
+    List xPickFile = pickedFile;
+
+    if (xPickFile.isNotEmpty) {
+      for (var i = 0; i < xPickFile.length; i++) {
+        //selectedMultiImages.add();
+        addChoosenFile(File(xPickFile[i].path));
+      }
+    } else {
+      toast(message: "Nothing is selected");
+    }
+  }
 
   pickImage(context) {
     showModalBottomSheet(
@@ -62,8 +80,8 @@ class pickImageController extends GetxController {
                   Expanded(
                     child: GestureDetector(
                       onTap: () async {
-                        final XFile? image =
-                            await picker.pickImage(source: ImageSource.camera,imageQuality: 80);
+                        final XFile? image = await picker.pickImage(
+                            source: ImageSource.camera, imageQuality: 80);
 
                         if (image != null) {
                           _selectedImage.value = image.path;
@@ -89,8 +107,8 @@ class pickImageController extends GetxController {
                   Expanded(
                       child: GestureDetector(
                     onTap: () async {
-                      final XFile? image =
-                          await picker.pickImage(source: ImageSource.gallery,imageQuality: 70);
+                      final XFile? image = await picker.pickImage(
+                          source: ImageSource.gallery, imageQuality: 70);
 
                       if (image != null) {
                         _selectedImage.value = image.path;

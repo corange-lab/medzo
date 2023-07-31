@@ -571,8 +571,8 @@ void toast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
-      backgroundColor: isSuccess
-          ? Colors.green.withOpacity(0.6)
-          : color ?? Colors.red.withOpacity(0.6),
+      // backgroundColor: isSuccess
+      //     ? Colors.green.withOpacity(0.6)
+      //     : color ?? Colors.red.withOpacity(0.6),
       textColor: AppColors.white);
 }

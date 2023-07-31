@@ -14,7 +14,7 @@ class PostModel {
       this.createdTime,
       this.updatedTime});
 
-  PostModel.fromJson(Map<String, dynamic> json) {
+  PostModel.fromMap(Map<String, dynamic> json) {
     postImages = json['postImages'].cast<String>();
     description = json['description'];
     id = json['id'];
@@ -23,7 +23,7 @@ class PostModel {
     updatedTime = json['updatedTime'];
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['postImages'] = this.postImages;
     data['description'] = this.description;

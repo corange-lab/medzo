@@ -238,15 +238,8 @@ class SignUpScreen extends GetView<AuthController> {
                   String password = controller.suppasswordTextController.text;
 
                   String response = checkPassword(password);
-
-                  if (response == "Valid Password") {
-                    progressDialogue(context, title: "SignUp In Progress");
-                    await controller.signUp();
-                  } else {
-                    // showInSnackBar("Invalid Format",
-                    //     isSuccess: false, position: SnackPosition.BOTTOM);
-                    toast(message: "Invalid Password Format");
-                  }
+                  progressDialogue(context, title: "SignUp In Progress");
+                  await controller.signUp();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,

@@ -81,7 +81,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget editProfileWidget(BuildContext context, ProfileController controller,
       pickImageController pickController) {
-    // controller.nameController.text = name!;
     return Stack(
       children: [
         Center(
