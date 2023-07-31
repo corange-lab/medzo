@@ -4,16 +4,17 @@ import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/widgets/pick_image.dart';
 import 'package:sizer/sizer.dart';
 
-class AddpostScreen extends StatelessWidget {
-  const AddpostScreen({super.key});
+class AddPostScreen extends StatelessWidget {
+  const AddPostScreen({super.key});
 
+  // use here PostController
   @override
   Widget build(BuildContext context) {
     pickImageController pickController = Get.put(pickImageController());
@@ -45,7 +46,7 @@ class AddpostScreen extends StatelessWidget {
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      body: addpostWidget(context,pickController),
+      body: addpostWidget(context, pickController),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
         child: ElevatedButton(
@@ -75,15 +76,17 @@ class AddpostScreen extends StatelessWidget {
           child: TextWidget(
             ConstString.uploadpost,
             style: Theme.of(context).textTheme.displayMedium!.copyWith(
-              fontSize: Responsive.sp(4, context),
-                color: AppColors.buttontext, fontFamily: AppFont.fontMedium),
+                fontSize: Responsive.sp(4, context),
+                color: AppColors.buttontext,
+                fontFamily: AppFont.fontMedium),
           ),
         ),
       ),
     );
   }
 
-  SingleChildScrollView addpostWidget(BuildContext context,pickImageController pickController) {
+  SingleChildScrollView addpostWidget(
+      BuildContext context, pickImageController pickController) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -123,20 +126,20 @@ class AddpostScreen extends StatelessWidget {
             ),
           ),
           Obx(
-                () => pickController.selectedImage.isNotEmpty
+            () => pickController.selectedImage.isNotEmpty
                 ? Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20,bottom: 20),
-                child: Text(
-                  "Uploaded : ${pickController.selectedImage.split("/").last}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelMedium!
-                      .copyWith(fontSize: Responsive.sp(3.3, context)),
-                ),
-              ),
-            )
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20, bottom: 20),
+                      child: Text(
+                        "Uploaded : ${pickController.selectedImage.split("/").last}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelMedium!
+                            .copyWith(fontSize: Responsive.sp(3.3, context)),
+                      ),
+                    ),
+                  )
                 : SizedBox(),
           ),
           SizedBox(
@@ -165,7 +168,10 @@ class AddpostScreen extends StatelessWidget {
                 enabled: true,
                 fillColor: AppColors.searchbar.withOpacity(0.5),
                 hintText: "Add Description",
-                hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: Responsive.sp(4, context)),
+                hintStyle: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(fontSize: Responsive.sp(4, context)),
                 border: OutlineInputBorder(
                   borderSide:
                       BorderSide(color: AppColors.whitehome, width: 0.5),

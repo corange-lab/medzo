@@ -1,9 +1,7 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:medzo/controller/home_controller.dart';
+import 'package:medzo/controller/post_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -20,7 +18,7 @@ class PostScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: HomeController(),
+      init: PostController(),
       builder: (controller) {
         return Scaffold(
           backgroundColor: AppColors.whitedown,
@@ -457,70 +455,80 @@ class PostScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           ListTile(
-                            leading: ClipOval(
-                              child: SizedBox(
-                                height: 45,
-                                width: 45,
-                                child: Image.asset("assets/user4.jpg"),
-                                // child: SvgPicture.asset("assets/user.svg",height: 50,),
-                              ),
-                            ),
-                            // CircleAvatar(
-                            //   backgroundColor: AppColors.purple.withOpacity(0.2),
-                            //   child: Icon(
-                            //     Icons.person,
-                            //     color: AppColors.purple.withOpacity(0.7),
-                            //   ),
-                            // ),
-                            title: Align(
-                              alignment: Alignment.topLeft,
-                              child: TextWidget(
-                                "Leslie Alexander",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge!
-                                    .copyWith(
-                                        fontFamily: AppFont.fontBold,
-                                        fontSize: Responsive.sp(4.2, context)),
-                              ),
-                            ),
-                            subtitle: Align(
-                              alignment: Alignment.topLeft,
-                              child: TextWidget(
-                                "12hr ago",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                        color: AppColors.grey.withOpacity(0.8),
-                                        fontSize: Responsive.sp(3.4, context)),
-                              ),
-                            ),
-                            trailing: Obx(() => GestureDetector(
-                              onTap: () {
-                                if (controller.isSaveExpert[3]) {
-                                  controller.isSaveExpert[3] = false;
-                                } else {
-                                  controller.isSaveExpert[3] = true;
-                                }
-                              },
-                              child: Container(
-                                height: 38,
-                                width: 38,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: AppColors.splashdetail),
-                                child: Padding(
-                                  padding: controller.isSaveExpert[3] ? EdgeInsets.all(7.0) : EdgeInsets.all(9.0),
-                                  child: SvgPicture.asset(
-                                    controller.isSaveExpert[3] ? SvgIcon.bookmark : SvgIcon.fillbookmark,
-                                    height: Responsive.height(2, context),
-                                    color: controller.isSaveExpert[3] ? Colors.black : AppColors.primaryColor,
-                                  ),
+                              leading: ClipOval(
+                                child: SizedBox(
+                                  height: 45,
+                                  width: 45,
+                                  child: Image.asset("assets/user4.jpg"),
+                                  // child: SvgPicture.asset("assets/user.svg",height: 50,),
                                 ),
                               ),
-                            ),)
-                          ),
+                              // CircleAvatar(
+                              //   backgroundColor: AppColors.purple.withOpacity(0.2),
+                              //   child: Icon(
+                              //     Icons.person,
+                              //     color: AppColors.purple.withOpacity(0.7),
+                              //   ),
+                              // ),
+                              title: Align(
+                                alignment: Alignment.topLeft,
+                                child: TextWidget(
+                                  "Leslie Alexander",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(
+                                          fontFamily: AppFont.fontBold,
+                                          fontSize:
+                                              Responsive.sp(4.2, context)),
+                                ),
+                              ),
+                              subtitle: Align(
+                                alignment: Alignment.topLeft,
+                                child: TextWidget(
+                                  "12hr ago",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          color:
+                                              AppColors.grey.withOpacity(0.8),
+                                          fontSize:
+                                              Responsive.sp(3.4, context)),
+                                ),
+                              ),
+                              trailing: Obx(
+                                () => GestureDetector(
+                                  onTap: () {
+                                    if (controller.isSaveExpert[3]) {
+                                      controller.isSaveExpert[3] = false;
+                                    } else {
+                                      controller.isSaveExpert[3] = true;
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 38,
+                                    width: 38,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: AppColors.splashdetail),
+                                    child: Padding(
+                                      padding: controller.isSaveExpert[3]
+                                          ? EdgeInsets.all(7.0)
+                                          : EdgeInsets.all(9.0),
+                                      child: SvgPicture.asset(
+                                        controller.isSaveExpert[3]
+                                            ? SvgIcon.bookmark
+                                            : SvgIcon.fillbookmark,
+                                        height: Responsive.height(2, context),
+                                        color: controller.isSaveExpert[3]
+                                            ? Colors.black
+                                            : AppColors.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             child: TextWidget(
@@ -1241,7 +1249,7 @@ class PostScreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 30),
               child: ElevatedButton(
                   onPressed: () {
-                    Get.to(const AddpostScreen());
+                    Get.to(const AddPostScreen());
                   },
                   style: ElevatedButton.styleFrom(
                       elevation: 0,
@@ -1278,7 +1286,7 @@ class PostScreen extends StatelessWidget {
     );
   }
 
-  void onPageChanged(HomeController controller, int? value) {
+  void onPageChanged(PostController controller, int? value) {
     controller.pageIndex.value = value ?? 0;
     // print('value $value');
     // if (controller.selectedPageIndex.value == 3) {
