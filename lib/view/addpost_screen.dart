@@ -66,21 +66,24 @@ class AddPostScreen extends StatelessWidget {
                 uploaded: false,
               );
               imagelist.add(image);
-              print(imagelist);
             }
 
             PostData newPostData = PostData.create(
-                postImages: imagelist,
-                description: postController.description.text,
-                creatorId: postController.loggedInUserId,
-                createdTime: DateTime.now());
+              postImages: imagelist,
+              description: postController.description.text,
+              creatorId: postController.loggedInUserId,
+              id: postController.loggedInUserId,
+              createdTime: DateTime.now(),
+            );
 
             final postId =
                 postController.postRef.doc(postController.loggedInUserId);
+
             postId.set(newPostData.toMap()).then((value) async {
               newPostData = PostData.fromMap(newPostData.toFirebaseMap());
 
               newPostData = newPostData.copyWith(id: postId.id);
+
               for (int i = 0; i < imagelist.length; i++) {
                 PostImageData mImage = imagelist.elementAt(i);
                 String? imageUrl = await postController.uploadImage(mImage);

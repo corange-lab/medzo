@@ -18,6 +18,7 @@ class PostData {
     this.updatedTime,
   });
 
+
   PostData.create({
     this.id,
     required this.creatorId,
@@ -70,10 +71,10 @@ class PostData {
     data['id'] = this.id;
     data['creatorId'] = this.creatorId;
     data['description'] = this.description;
-    if (this.postImages != null) {
-      data['postImages'] =
-          this.postImages!.map((image) => image.toMap()).toList();
-    }
+    // if (this.postImages != null) {
+    //   data['postImages'] =
+    //       this.postImages!.map((image) => image.toMap()).toList();
+    // }
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;
     }
@@ -166,6 +167,7 @@ class PostImageData {
     data['url'] = this.url;
     return data;
   }
+  
 
   PostImageData copyWith({
     String? id,

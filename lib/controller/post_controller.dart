@@ -26,7 +26,7 @@ class PostController extends GetxController {
   // implement functionality to upload image in firebase storage inside the post directory
   Future<String?> uploadImage(PostImageData imageData) async {
     UploadTask uploadTask = uploadFile(
-        File(imageData.path!), imageData.path!.lastIndexOf('/').toString());
+        File(imageData.path!), imageData.path!.split("/").last.toString());
     try {
       TaskSnapshot snapshot = await uploadTask;
       String imageUrl = await snapshot.ref.getDownloadURL();
@@ -37,8 +37,9 @@ class PostController extends GetxController {
   }
 
   UploadTask uploadFile(File image, String fileName) {
-    Reference reference =
-        FirebaseStorage.instance.ref().child("posts/$fileName");
+    Reference reference = FirebaseStorage.instance
+        .ref()
+        .child("posts/${loggedInUserId}/${fileName}");
     UploadTask uploadTask = reference.putFile(image);
     return uploadTask;
   }
