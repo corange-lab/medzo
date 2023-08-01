@@ -82,6 +82,23 @@ class PostData {
     return data;
   }
 
+  Map<String, dynamic> toFirebaseMap() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['creatorId'] = this.creatorId;
+    data['description'] = this.description;
+    // if (this.postImages != null) {
+    //   data['postImages'] =
+    //       this.postImages!.map((image) => image.toMap()).toList();
+    // }
+    if (this.likedUsers != null) {
+      data['likedUsers'] = this.likedUsers;
+    }
+    data['createdTime'] = this.createdTime;
+    data['updatedTime'] = this.updatedTime;
+    return data;
+  }
+
   PostData copyWith({
     String? id,
     String? description,
@@ -148,6 +165,19 @@ class PostImageData {
     data['id'] = this.id;
     data['url'] = this.url;
     return data;
+  }
+
+  PostImageData copyWith({
+    String? id,
+    String? url,
+    String? path,
+    bool uploaded = true,
+  }) {
+    return PostImageData(
+      id: id ?? id,
+      url: url ?? url,
+      path: path ?? path,
+    );
   }
 
   @override

@@ -24,7 +24,7 @@ class PostController extends GetxController {
       FirebaseFirestore.instance.collection('posts');
 
   // implement functionality to upload image in firebase storage inside the post directory
-  Future uploadImage(PostImageData imageData) async {
+  Future<String?> uploadImage(PostImageData imageData) async {
     UploadTask uploadTask = uploadFile(
         File(imageData.path!), imageData.path!.lastIndexOf('/').toString());
     try {
@@ -32,7 +32,7 @@ class PostController extends GetxController {
       String imageUrl = await snapshot.ref.getDownloadURL();
       return imageUrl;
     } on FirebaseException catch (e) {
-      return 'error';
+      return null;
     }
   }
 
