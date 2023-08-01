@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:medzo/controller/post_controller.dart';
+import 'package:medzo/controller/new_post_controller.dart';
 import 'package:medzo/model/post_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -16,136 +16,141 @@ import 'package:medzo/widgets/pick_image.dart';
 import 'package:sizer/sizer.dart';
 
 class AddPostScreen extends StatelessWidget {
-  // use here PostController
-
-  PostController postController = Get.find<PostController>();
-
   @override
   Widget build(BuildContext context) {
     pickImageController pickController = Get.put(pickImageController());
-    return Scaffold(
-      backgroundColor: AppColors.whitehome,
-      appBar: AppBar(
-        titleSpacing: 0,
-        backgroundColor: AppColors.white,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: SvgPicture.asset(
-              SvgIcon.backarrow,
-              height: Responsive.height(2, context),
-            )),
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: TextWidget(
-            ConstString.newpost,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: Responsive.sp(4.8, context),
-                fontFamily: AppFont.fontBold,
-                letterSpacing: 0,
-                color: AppColors.black),
+
+    return GetBuilder(
+      init: NewPostController(),
+      builder: (controller) {
+        return Scaffold(
+          backgroundColor: AppColors.whitehome,
+          appBar: AppBar(
+            titleSpacing: 0,
+            backgroundColor: AppColors.white,
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: SvgPicture.asset(
+                  SvgIcon.backarrow,
+                  height: Responsive.height(2, context),
+                )),
+            title: Align(
+              alignment: Alignment.centerLeft,
+              child: TextWidget(
+                ConstString.newpost,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontSize: Responsive.sp(4.8, context),
+                    fontFamily: AppFont.fontBold,
+                    letterSpacing: 0,
+                    color: AppColors.black),
+              ),
+            ),
+            elevation: 3,
+            shadowColor: AppColors.splashdetail.withOpacity(0.1),
           ),
-        ),
-        elevation: 3,
-        shadowColor: AppColors.splashdetail.withOpacity(0.1),
-      ),
-      body: addpostWidget(context, pickController),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
-        child: ElevatedButton(
-          onPressed: () async {
-            List<PostImageData> imagelist = [];
+          body: addpostWidget(context, pickController, controller),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+            child: ElevatedButton(
+              onPressed: () async {
+                List<PostImageData> imagelist = [];
 
-            for (var i = 0;
-                i < postController.selectedMultiImages.length;
-                i++) {
-              PostImageData image = PostImageData(
-                path: postController.selectedMultiImages[i].path,
-                uploaded: false,
-              );
-              imagelist.add(image);
-            }
+                for (var i = 0;
+                    i < controller.selectedMultiImages.length;
+                    i++) {
+                  PostImageData image = PostImageData(
+                    path: controller.selectedMultiImages[i].path,
+                    uploaded: false,
+                  );
+                  imagelist.add(image);
+                }
 
-            PostData newPostData = PostData.create(
-              postImages: imagelist,
-              description: postController.description.text,
-              creatorId: postController.loggedInUserId,
-              id: postController.loggedInUserId,
-              createdTime: DateTime.now(),
-            );
+                PostData newPostData = PostData.create(
+                  postImages: imagelist,
+                  description: controller.description.text,
+                  creatorId: controller.loggedInUserId,
+                  id: controller.loggedInUserId,
+                  createdTime: DateTime.now(),
+                );
 
-            final postId =
-                postController.postRef.doc(postController.loggedInUserId);
+                final postId =
+                    controller.postRef.doc(controller.loggedInUserId);
 
-            postId.set(newPostData.toMap()).then((value) async {
-              newPostData = PostData.fromMap(newPostData.toFirebaseMap());
+                postId.set(newPostData.toMap()).then((value) async {
+                  newPostData = PostData.fromMap(newPostData.toFirebaseMap());
 
-              newPostData = newPostData.copyWith(id: postId.id);
+                  newPostData = newPostData.copyWith(id: postId.id);
 
-              for (int i = 0; i < imagelist.length; i++) {
-                PostImageData mImage = imagelist.elementAt(i);
-                String? imageUrl = await postController.uploadImage(mImage);
+                  for (int i = 0; i < imagelist.length; i++) {
+                    PostImageData mImage = imagelist.elementAt(i);
+                    String? imageUrl = await controller.uploadImage(mImage);
 
-                mImage = mImage.copyWith(
-                    id: postId.id, uploaded: true, url: imageUrl);
-                imagelist[i] = mImage;
-                await postController.postRef
-                    .doc(postId.id)
-                    .collection('postImages')
-                    .add(mImage.toFirebaseMap());
-              }
+                    mImage = mImage.copyWith(
+                        id: postId.id, uploaded: true, url: imageUrl);
+                    imagelist[i] = mImage;
+                    await controller.postRef
+                        .doc(postId.id)
+                        .collection('postImages')
+                        .add(mImage.toFirebaseMap());
+                  }
 
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return successDialogue(
-                    titleText: "Successful Uploaded",
-                    subtitle: "Your post has been uploaded successfully.",
-                    iconDialogue: SvgIcon.check_circle,
-                    btntext: "View",
-                    onPressed: () {
-                      Get.back();
-                      Get.back();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return successDialogue(
+                        titleText: "Successful Uploaded",
+                        subtitle: "Your post has been uploaded successfully.",
+                        iconDialogue: SvgIcon.check_circle,
+                        btntext: "View",
+                        onPressed: () {
+                          Get.back();
+                          Get.back();
+                        },
+                      );
                     },
                   );
-                },
-              );
-            });
-          },
-          style: ElevatedButton.styleFrom(
-              elevation: 0,
-              fixedSize: Size(Responsive.width(50, context), 60),
-              backgroundColor: AppColors.black,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30))),
-          child: TextWidget(
-            ConstString.uploadpost,
-            style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                fontSize: Responsive.sp(4, context),
-                color: AppColors.buttontext,
-                fontFamily: AppFont.fontMedium),
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  fixedSize: Size(Responsive.width(50, context), 60),
+                  backgroundColor: AppColors.black,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30))),
+              child: TextWidget(
+                ConstString.uploadpost,
+                style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                    fontSize: Responsive.sp(4, context),
+                    color: AppColors.buttontext,
+                    fontFamily: AppFont.fontMedium),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  void onChooseFile(File value) {
-    postController.selectedMultiImages.add(value);
-    postController.update();
-  }
+  // void onChooseFile(File value) {
+  //   controller.selectedMultiImages.add(value);
+  //   controller.update();
+  // }
 
-  Widget addpostWidget(
-      BuildContext context, pickImageController pickController) {
+  Widget addpostWidget(BuildContext context, pickImageController pickController,
+      NewPostController controller) {
     return SingleChildScrollView(
       child: Column(
         children: [
           GestureDetector(
             onTap: () {
-              postController.selectedMultiImages.clear();
-              pickController.pickMultipleImage(context, onChooseFile);
+              controller.selectedMultiImages.clear();
+              pickController.pickMultipleImage(context, (File value) {
+                controller.selectedMultiImages.add(value);
+                controller.update();
+              });
             },
             child: Container(
               margin: const EdgeInsets.all(20),
@@ -178,7 +183,7 @@ class AddPostScreen extends StatelessWidget {
               ),
             ),
           ),
-          Obx(() => postController.selectedMultiImages.isNotEmpty
+          Obx(() => controller.selectedMultiImages.isNotEmpty
               ? Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
@@ -187,7 +192,7 @@ class AddPostScreen extends StatelessWidget {
                     width: SizerUtil.width,
                     child: GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: postController.selectedMultiImages.length,
+                      itemCount: controller.selectedMultiImages.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4),
                       itemBuilder: (context, index) {
@@ -196,8 +201,7 @@ class AddPostScreen extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: Image.file(
-                              File(postController
-                                  .selectedMultiImages[index].path),
+                              File(controller.selectedMultiImages[index].path),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -230,7 +234,7 @@ class AddPostScreen extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               autofocus: false,
               maxLength: 500,
-              controller: postController.description,
+              controller: controller.description,
               cursorColor: AppColors.grey,
               decoration: InputDecoration(
                 filled: true,
