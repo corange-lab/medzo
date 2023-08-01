@@ -23,10 +23,14 @@ class PostController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchAlPosts();
+    fetchAllPosts();
   }
 
-  Future<Stream<QuerySnapshot<Object?>>> fetchAlPosts() async {
-    return postRef.get().asStream();
+  Stream<QuerySnapshot<Object?>> fetchAllPosts() {
+    return postRef
+        .doc(loggedInUserId)
+        .collection("postImages")
+        .get()
+        .asStream();
   }
 }

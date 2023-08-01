@@ -32,6 +32,7 @@ class NewPostController extends GetxController {
       String imageUrl = await snapshot.ref.getDownloadURL();
       return imageUrl;
     } on FirebaseException catch (e) {
+      print(e);
       return null;
     }
   }
