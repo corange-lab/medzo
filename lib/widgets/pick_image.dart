@@ -16,7 +16,6 @@ class pickImageController extends GetxController {
 
   String get selectedImage => _selectedImage.value;
 
-
   final ImagePicker picker = ImagePicker();
 
   pickMultipleImage(context, addChoosenFile) async {
@@ -33,8 +32,8 @@ class pickImageController extends GetxController {
     }
   }
 
-  pickImage(context) {
-    showModalBottomSheet(
+  Future<void> pickImage(context) {
+    return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {

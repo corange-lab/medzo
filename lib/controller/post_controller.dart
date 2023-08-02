@@ -27,10 +27,6 @@ class PostController extends GetxController {
   }
 
   Stream<QuerySnapshot<Object?>> fetchAllPosts() {
-    return postRef
-        .doc(loggedInUserId)
-        .collection("postImages")
-        .get()
-        .asStream();
+    return postRef.get().asStream();
   }
 }

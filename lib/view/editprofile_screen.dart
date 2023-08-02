@@ -322,8 +322,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           top: 85,
           right: 120,
           child: GestureDetector(
-            onTap: () {
-              pickController.pickImage(context);
+            onTap: () async {
+              await pickController.pickImage(context);
             },
             child: ClipOval(
               child: Container(

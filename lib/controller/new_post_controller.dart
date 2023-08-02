@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:medzo/model/post_model.dart';
 
 class NewPostController extends GetxController {
-  PostData newPost = PostData();
+  PostData? newPostData;
 
   RxList<File> selectedMultiImages = <File>[].obs;
 
