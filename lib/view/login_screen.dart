@@ -256,7 +256,7 @@ class LoginScreen extends GetView<AuthController> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  progressDialogue(context, title: "Log In In Progress");
+                  progressDialogue(context, title: "Login In Progress");
                   await ctrl.signInWithEmailAndPassword();
                 },
                 style: ElevatedButton.styleFrom(

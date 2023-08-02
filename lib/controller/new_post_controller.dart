@@ -23,6 +23,22 @@ class NewPostController extends GetxController {
   final CollectionReference postRef =
       FirebaseFirestore.instance.collection('posts');
 
+  Future<List> fetchImages(List<PostImageData> imagelist) async {
+    DocumentSnapshot doc = await postRef.doc(loggedInUserId).get();
+
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+    List postData = List.from(data['postImages'] ?? []);
+
+    postData.add(PostImageData(
+        id: loggedInUserId,
+        url: imagelist[0].url,
+        path: imagelist[0].path,
+        uploaded: true));
+
+    return postData;
+  }
+
   // implement functionality to upload image in firebase storage inside the post directory
   Future<String?> uploadImage(PostImageData imageData) async {
     UploadTask uploadTask = uploadFile(

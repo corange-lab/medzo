@@ -20,6 +20,7 @@ class QuestionScreen extends GetView<QuestionController> {
   final FocusNode fNode1 = FocusNode();
 
   final int currentQuestionnairesPosition;
+
   QuestionScreen({super.key, this.currentQuestionnairesPosition = 0});
 
   @override
@@ -97,7 +98,7 @@ class QuestionScreen extends GetView<QuestionController> {
               () => controller.selectedPageIndex.value == 0
                   ? Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 25, vertical: 10),
+                          horizontal: 25, vertical: 25),
                       child: ElevatedButton(
                         onPressed: () async => await saveAndNext(controller),
                         style: ElevatedButton.styleFrom(
@@ -114,7 +115,8 @@ class QuestionScreen extends GetView<QuestionController> {
                       ),
                     )
                   : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 20),
                       child: Row(
                         children: [
                           Expanded(

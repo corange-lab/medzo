@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -52,12 +51,14 @@ class AddPostScreen extends StatelessWidget {
             elevation: 3,
             shadowColor: AppColors.splashdetail.withOpacity(0.1),
           ),
-          body: addPostWidget(context, pickController, controller),
+          body: addpostWidget(context, pickController, controller),
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
             child: ElevatedButton(
               onPressed: () async {
+                progressDialogue(context, title: "Post Uploading");
                 List<PostImageData> imagelist = [];
+                List postData = [];
 
                 for (var i = 0;
                     i < controller.selectedMultiImages.length;
@@ -69,73 +70,57 @@ class AddPostScreen extends StatelessWidget {
                   imagelist.add(image);
                 }
 
-                if (controller.newPostData == null) {
-                  controller.newPostData = PostData.create(
-                    postImages: imagelist,
-                    description: controller.description.text,
-                    creatorId: controller.loggedInUserId,
-                    id: controller.loggedInUserId,
-                    createdTime: DateTime.now(),
-                  );
-                }
-
                 final postId =
                     controller.postRef.doc(controller.loggedInUserId);
 
-                postId.set(controller.newPostData?.toMap()).then((value) async {
-                  controller.newPostData =
-                      PostData.fromMap(controller.newPostData!.toFirebaseMap());
+                PostImageData mImage = PostImageData();
 
-                  controller.newPostData =
-                      controller.newPostData?.copyWith(id: postId.id);
+                for (int i = 0; i < imagelist.length; i++) {
+                  mImage = imagelist.elementAt(i);
+                  String? imageUrl = await controller.uploadImage(mImage);
 
-                  for (int i = 0; i < imagelist.length; i++) {
-                    PostImageData mImage = imagelist.elementAt(i);
-                    String? imageUrl = await controller.uploadImage(mImage);
+                  mImage = mImage.copyWith(
+                      id: postId.id,
+                      uploaded: true,
+                      url: imageUrl,
+                      path: imagelist[i].path);
+                  imagelist[i] = mImage;
+                  // await controller.postRef
+                  //     .doc(postId.id)
+                  //     .collection('postImages')
+                  //     .add(mImage.toFirebaseMap());
+                  postData = await controller.fetchImages(imagelist);
+                }
 
-                    String id = postImagesRef(controller, postId).id;
-                    mImage = mImage.copyWith(
-                        id: id,
-                        postId: postId.id,
-                        uploaded: true,
-                        url: imageUrl);
-                    imagelist[i] = mImage;
-                    await postImagesRef(controller, postId)
-                        .add(mImage.toFirebaseMap());
-                  }
+                PostData newPostData = PostData.create(
+                  postImages: postData,
+                  description: controller.description.text,
+                  creatorId: controller.loggedInUserId,
+                  id: controller.loggedInUserId,
+                  createdTime: DateTime.now(),
+                );
 
-                  if (imagelist.every((element) => element.uploaded == true)) {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return successDialogue(
-                          titleText: "Successful Uploaded",
-                          subtitle: "Your post has been uploaded successfully.",
-                          iconDialogue: SvgIcon.check_circle,
-                          btntext: "View",
-                          onPressed: () {
-                            Get.back();
-                            Get.back();
-                          },
-                        );
-                      },
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return FailureDialog(
-                          titleText: "Failed to Upload",
-                          subtitle: "Your post has been failed to upload.",
-                          iconDialogue: SvgIcon.info,
-                          btntext: "Close",
-                          onPressed: () {
-                            Get.back();
-                          },
-                        );
-                      },
-                    );
-                  }
+                postId.set(newPostData.toMap()).then((value) async {
+                  newPostData = PostData.fromMap(newPostData.toFirebaseMap());
+
+                  newPostData = newPostData.copyWith(id: postId.id);
+
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return successDialogue(
+                        titleText: "Successful Uploaded",
+                        subtitle: "Your post has been uploaded successfully.",
+                        iconDialogue: SvgIcon.check_circle,
+                        btntext: "View",
+                        onPressed: () {
+                          Get.back();
+                          Get.back();
+                          Get.back();
+                        },
+                      );
+                    },
+                  );
                 });
               },
               style: ElevatedButton.styleFrom(
@@ -158,17 +143,12 @@ class AddPostScreen extends StatelessWidget {
     );
   }
 
-  CollectionReference<Map<String, dynamic>> postImagesRef(
-      NewPostController controller, DocumentReference<Object?> postId) {
-    return controller.postRef.doc(postId.id).collection('postImages');
-  }
-
   // void onChooseFile(File value) {
   //   controller.selectedMultiImages.add(value);
   //   controller.update();
   // }
 
-  Widget addPostWidget(BuildContext context, pickImageController pickController,
+  Widget addpostWidget(BuildContext context, pickImageController pickController,
       NewPostController controller) {
     return SingleChildScrollView(
       child: Column(
@@ -259,14 +239,12 @@ class AddPostScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: TextField(
+            child: TextFormField(
               textCapitalization: TextCapitalization.sentences,
               autofocus: false,
               maxLength: 500,
               controller: controller.description,
               cursorColor: AppColors.grey,
-              maxLines: 8,
-              minLines: 1,
               decoration: InputDecoration(
                 filled: true,
                 enabled: true,

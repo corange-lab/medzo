@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medzo/model/comment_data.dart';
 import 'package:medzo/utils/firebase_utils.dart';
 
@@ -5,7 +6,7 @@ class PostData {
   final String? id;
   final String? creatorId;
   final String? description;
-  final List<PostImageData>? postImages;
+  final List? postImages;
   final List<CommentData>? postComments;
   final List<String?>? likedUsers;
   bool? isFavourite;
@@ -27,7 +28,7 @@ class PostData {
     this.id,
     required this.creatorId,
     required this.description,
-    this.postImages,
+    required this.postImages,
     this.postComments,
     this.likedUsers,
     required this.createdTime,
@@ -86,10 +87,10 @@ class PostData {
     data['id'] = this.id;
     data['creatorId'] = this.creatorId;
     data['description'] = this.description;
-    // if (this.postImages != null) {
-    //   data['postImages'] =
-    //       this.postImages!.map((image) => image.toMap()).toList();
-    // }
+    if (this.postImages != null) {
+      data['postImages'] =
+          this.postImages!.map((image) => image is Map<String, dynamic> ? image : image.toMap()).toList();
+    }
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;
     }
@@ -103,15 +104,17 @@ class PostData {
     data['id'] = this.id;
     data['creatorId'] = this.creatorId;
     data['description'] = this.description;
-    // if (this.postImages != null) {
-    //   data['postImages'] =
-    //       this.postImages!.map((image) => image.toMap()).toList();
-    // }
+    if (this.postImages != null) {
+      data['postImages'] =
+          this.postImages!.map((image) => image is Map<String, dynamic> ? image : image.toMap()).toList();
+    }
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;
     }
-    data['createdTime'] = this.createdTime;
-    data['updatedTime'] = this.updatedTime;
+    data['createdTime'] =
+        this.createdTime != null ? Timestamp.fromDate(this.createdTime!) : null;
+    data['updatedTime'] =
+        this.updatedTime != null ? Timestamp.fromDate(this.updatedTime!) : null;
     return data;
   }
 
@@ -152,7 +155,7 @@ class PostData {
 class PostImageData {
   final String? id;
   final String? postId;
-  final String? url;
+  late final String? url;
   final String? path;
   bool uploaded = true;
 
