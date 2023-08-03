@@ -15,131 +15,142 @@ import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/widgets/pick_image.dart';
 import 'package:sizer/sizer.dart';
 
-class AddPostScreen extends StatelessWidget {
+class AddPostScreen extends GetView<NewPostController> {
   @override
   Widget build(BuildContext context) {
     pickImageController pickController = Get.put(pickImageController());
+    NewPostController controller = Get.isRegistered<NewPostController>()
+        ? Get.find<NewPostController>()
+        : Get.put(NewPostController());
 
-    return GetBuilder(
-      init: NewPostController(),
-      builder: (controller) {
-        return Scaffold(
-          backgroundColor: AppColors.whitehome,
-          appBar: AppBar(
-            titleSpacing: 0,
-            backgroundColor: AppColors.white,
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: SvgPicture.asset(
-                  SvgIcon.backarrow,
-                  height: Responsive.height(2, context),
-                )),
-            title: Align(
-              alignment: Alignment.centerLeft,
-              child: TextWidget(
-                ConstString.newpost,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontSize: Responsive.sp(4.8, context),
-                    fontFamily: AppFont.fontBold,
-                    letterSpacing: 0,
-                    color: AppColors.black),
-              ),
-            ),
-            elevation: 3,
-            shadowColor: AppColors.splashdetail.withOpacity(0.1),
+    return Scaffold(
+      backgroundColor: AppColors.whitehome,
+      appBar: AppBar(
+        titleSpacing: 0,
+        backgroundColor: AppColors.white,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: SvgPicture.asset(
+              SvgIcon.backarrow,
+              height: Responsive.height(2, context),
+            )),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            ConstString.newpost,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: Responsive.sp(4.8, context),
+                fontFamily: AppFont.fontBold,
+                letterSpacing: 0,
+                color: AppColors.black),
           ),
-          body: addpostWidget(context, pickController, controller),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
-            child: ElevatedButton(
-              onPressed: () async {
-                progressDialogue(context, title: "Post Uploading");
-                List<PostImageData> imagelist = [];
-                List postData = [];
+        ),
+        elevation: 3,
+        shadowColor: AppColors.splashdetail.withOpacity(0.1),
+      ),
+      body: addpostWidget(context, pickController, controller),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+        child: ElevatedButton(
+          onPressed: () async {
+            progressDialogue(context, title: "Post Uploading");
+            List<PostImageData> imagelist = [];
+            // List<PostImageData> postData = [];
 
-                for (var i = 0;
-                    i < controller.selectedMultiImages.length;
-                    i++) {
-                  PostImageData image = PostImageData(
-                    path: controller.selectedMultiImages[i].path,
-                    uploaded: false,
-                  );
-                  imagelist.add(image);
-                }
+            for (var i = 0; i < controller.selectedMultiImages.length; i++) {
+              PostImageData image = PostImageData(
+                path: controller.selectedMultiImages[i].path,
+                uploaded: false,
+              );
+              imagelist.add(image);
+            }
 
-                final postId =
-                    controller.postRef.doc(controller.loggedInUserId);
+            final postId = controller.postRef.doc().id;
 
-                PostImageData mImage = PostImageData();
+            PostImageData mImage = PostImageData();
 
-                for (int i = 0; i < imagelist.length; i++) {
-                  mImage = imagelist.elementAt(i);
-                  String? imageUrl = await controller.uploadImage(mImage);
+            for (int i = 0; i < imagelist.length; i++) {
+              mImage = imagelist.elementAt(i);
+              String? imageUrl = await controller.uploadImage(mImage);
 
-                  mImage = mImage.copyWith(
-                      id: postId.id,
-                      uploaded: true,
-                      url: imageUrl,
-                      path: imagelist[i].path);
-                  imagelist[i] = mImage;
-                  // await controller.postRef
-                  //     .doc(postId.id)
-                  //     .collection('postImages')
-                  //     .add(mImage.toFirebaseMap());
-                  postData = await controller.fetchImages(imagelist);
-                }
+              mImage = mImage.copyWith(
+                  id: postId,
+                  uploaded: true,
+                  url: imageUrl,
+                  path: imagelist[i].path);
+              imagelist[i] = mImage;
+            }
 
-                PostData newPostData = PostData.create(
-                  postImages: postData,
-                  description: controller.description.text,
-                  creatorId: controller.loggedInUserId,
-                  id: controller.loggedInUserId,
-                  createdTime: DateTime.now(),
+            // postData = await controller.fetchImages(imagelist);
+
+            PostData newPostData = PostData.create(
+              postImages: imagelist,
+              description: controller.description.text,
+              creatorId: controller.loggedInUserId,
+              id: postId,
+              createdTime: DateTime.now(),
+            );
+
+            controller.postRef
+                .doc()
+                .set(newPostData.toMap())
+                .then((value) async {
+              newPostData = PostData.fromMap(newPostData.toFirebaseMap());
+
+              newPostData = newPostData.copyWith(id: postId);
+
+              if (imagelist.every((element) => element.uploaded == true)) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return successDialogue(
+                      titleText: "Successful Uploaded",
+                      subtitle: "Your post has been uploaded successfully.",
+                      iconDialogue: SvgIcon.check_circle,
+                      btntext: "View",
+                      onPressed: () {
+                        Get.back();
+                        Get.back();
+                      },
+                    );
+                  },
                 );
-
-                postId.set(newPostData.toMap()).then((value) async {
-                  newPostData = PostData.fromMap(newPostData.toFirebaseMap());
-
-                  newPostData = newPostData.copyWith(id: postId.id);
-
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return successDialogue(
-                        titleText: "Successful Uploaded",
-                        subtitle: "Your post has been uploaded successfully.",
-                        iconDialogue: SvgIcon.check_circle,
-                        btntext: "View",
-                        onPressed: () {
-                          Get.back();
-                          Get.back();
-                          Get.back();
-                        },
-                      );
-                    },
-                  );
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  fixedSize: Size(Responsive.width(50, context), 60),
-                  backgroundColor: AppColors.black,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30))),
-              child: TextWidget(
-                ConstString.uploadpost,
-                style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                    fontSize: Responsive.sp(4, context),
-                    color: AppColors.buttontext,
-                    fontFamily: AppFont.fontMedium),
-              ),
-            ),
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return FailureDialog(
+                      titleText: "Failed to Upload",
+                      subtitle: "Your post has been failed to upload.",
+                      iconDialogue: SvgIcon.info,
+                      btntext: "Close",
+                      onPressed: () {
+                        Get.back();
+                      },
+                    );
+                  },
+                );
+              }
+            });
+          },
+          style: ElevatedButton.styleFrom(
+              elevation: 0,
+              fixedSize: Size(Responsive.width(50, context), 60),
+              backgroundColor: AppColors.black,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30))),
+          child: TextWidget(
+            ConstString.uploadpost,
+            style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                fontSize: Responsive.sp(4, context),
+                color: AppColors.buttontext,
+                fontFamily: AppFont.fontMedium),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 

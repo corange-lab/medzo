@@ -35,6 +35,7 @@ class ConstString {
   static const String continueButton = "Continue";
   static const String startUsingApp = "Start using the app";
   static const String submitSuggestion = "Submit suggestion";
+  static const String morePosts = "More Posts";
   static const String verify = "Verify";
   static const String getStarted = "Get started";
   static const String skipButton = "Skip";

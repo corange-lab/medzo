@@ -6,7 +6,7 @@ class PostData {
   final String? id;
   final String? creatorId;
   final String? description;
-  final List? postImages;
+  final List<PostImageData>? postImages;
   final List<CommentData>? postComments;
   final List<String?>? likedUsers;
   bool? isFavourite;
@@ -42,7 +42,7 @@ class PostData {
     this.postImages,
     this.postComments,
     this.likedUsers,
-    required this.createdTime,
+    this.createdTime,
     required this.updatedTime,
   });
 
@@ -88,8 +88,11 @@ class PostData {
     data['creatorId'] = this.creatorId;
     data['description'] = this.description;
     if (this.postImages != null) {
-      data['postImages'] =
-          this.postImages!.map((image) => image is Map<String, dynamic> ? image : image.toMap()).toList();
+      data['postImages'] = this
+          .postImages!
+          .map((image) =>
+              image is Map<String, dynamic> ? image : image.toFirebaseMap())
+          .toList();
     }
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;
@@ -105,8 +108,10 @@ class PostData {
     data['creatorId'] = this.creatorId;
     data['description'] = this.description;
     if (this.postImages != null) {
-      data['postImages'] =
-          this.postImages!.map((image) => image is Map<String, dynamic> ? image : image.toMap()).toList();
+      data['postImages'] = this
+          .postImages!
+          .map((image) => image is Map<String, dynamic> ? image : image.toMap())
+          .toList();
     }
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;

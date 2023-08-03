@@ -15,6 +15,7 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
 import 'package:medzo/view/expert_profile.dart';
 import 'package:medzo/view/medicine_detail.dart';
+import 'package:medzo/view/network_image_preview_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -90,50 +91,19 @@ class PostScreen extends GetView<PostController> {
           )
         ],
       ),
-      body: StreamBuilder<QuerySnapshot<Object?>>(
-        stream: controller.fetchAllPosts(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primaryColor,
-              ),
-            );
-          }
-          List<PostData> postDataList = snapshot.data!.docs.map((doc) {
-            return PostData.fromMap(doc.data() as Map<String, dynamic>);
-          }).toList();
-
-          if (snapshot.hasData) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListView.separated(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => PostItemWidget(
-                          context, controller, postDataList.elementAt(index)),
-                      separatorBuilder: (context, index) => Divider(),
-                      itemCount: postDataList.length),
-                  ...BestMatchesWidget(context),
-                  ...BookmarkPostWidget(context),
-                ],
-              ),
-            );
-          } else {
-            return Center(
-              child: Text(
-                ConstString.nodata,
-                style: Theme.of(context)
-                    .textTheme
-                    .labelLarge!
-                    .copyWith(color: AppColors.black, fontSize: 12),
-              ),
-            );
-          }
-        },
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PostListWidget(context),
+            SizedBox(
+              height: 10,
+            ),
+            ...BestMatchesWidget(context),
+            ...BookmarkPostWidget(context),
+          ],
+        ),
       ),
       floatingActionButton: Align(
         alignment: Alignment.bottomCenter,
@@ -141,7 +111,7 @@ class PostScreen extends GetView<PostController> {
           padding: const EdgeInsets.only(left: 30),
           child: ElevatedButton(
               onPressed: () async {
-                await Get.to(AddPostScreen());
+                await Get.to(() => AddPostScreen());
               },
               style: ElevatedButton.styleFrom(
                   elevation: 0,
@@ -176,8 +146,8 @@ class PostScreen extends GetView<PostController> {
   GestureDetector PostItemWidget(
       BuildContext context, PostController controller, PostData postData) {
     return GestureDetector(
-      onTap: () {
-        Get.to(const ExpertProfileScreen());
+      onTap: () async {
+        await Get.to(() => const ExpertProfileScreen());
       },
       child: Container(
         padding: const EdgeInsets.only(bottom: 3),
@@ -266,27 +236,41 @@ class PostScreen extends GetView<PostController> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     child: Container(
-                      height: 20.h,
+                      height: 12.h,
                       alignment: Alignment.center,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                // TODO: handle image null an error
-                                child: CachedNetworkImage(
-                                  imageUrl: postData.postImages
-                                          ?.elementAt(index)
-                                          .url ??
-                                      '',
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                )),
-                            decoration: BoxDecoration(
-                                color: AppColors.tilecolor,
-                                borderRadius: BorderRadius.circular(5)),
+                          // TODO: on Image click open a IMAGE IN NEW SCREEN
+                          return GestureDetector(
+                            onTap: () {
+                              if (postData.postImages?.elementAt(index).url !=
+                                  null) {
+                                Get.to(() => NetworkImagePreviewScreen(
+                                    imageUrl: postData.postImages
+                                            ?.elementAt(index)
+                                            .url ??
+                                        ''));
+                              }
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 10),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  // TODO: handle image null an error
+                                  child: CachedNetworkImage(
+                                    imageUrl: postData.postImages
+                                            ?.elementAt(index)
+                                            .url ??
+                                        '',
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    fit: BoxFit.contain,
+                                  )),
+                              decoration: BoxDecoration(
+                                  color: AppColors.tilecolor,
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
                           );
                         },
                         itemCount: (postData.postImages ?? []).length,
@@ -653,8 +637,8 @@ class PostScreen extends GetView<PostController> {
                   ),
             ),
             TextButton(
-                onPressed: () {
-                  Get.to(const MedicineDetail());
+                onPressed: () async {
+                  await Get.to(() => const MedicineDetail());
                 },
                 child: Row(
                   children: [
@@ -837,8 +821,8 @@ class PostScreen extends GetView<PostController> {
                             SizedBox(
                               height: Responsive.height(4.4, context),
                               child: ElevatedButton(
-                                  onPressed: () {
-                                    Get.to(const MedicineDetail());
+                                  onPressed: () async {
+                                    await Get.to(() => const MedicineDetail());
                                   },
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
@@ -929,5 +913,275 @@ class PostScreen extends GetView<PostController> {
         },
       )
     ];
+  }
+
+  Widget PostListWidget(BuildContext context) {
+    return StreamBuilder<QuerySnapshot<Object?>>(
+        stream: controller.fetchAllPosts(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            // TODO: show No Post data found
+            return Center(
+              child: Text(
+                ConstString.nodata,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge!
+                    .copyWith(color: AppColors.black, fontSize: 12),
+              ),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // TODO: shimmer loading for 3 items in list
+            return Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ),
+            );
+          }
+          List<PostData> postDataList = snapshot.data!.docs.map((doc) {
+            return PostData.fromMap(doc.data() as Map<String, dynamic>);
+          }).toList();
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => PostItemWidget(
+                      context, controller, postDataList.elementAt(index)),
+                  separatorBuilder: (context, index) => Divider(),
+                  itemCount: postDataList.length < 3 ? postDataList.length : 3),
+              postDataList.length > 3
+                  ? InkWell(
+                      onTap: () async {
+                        await Get.to(() => PostListScreen());
+                        // TODO: implement all post screen
+                      },
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: ElevatedButton(
+                            onPressed: () async {
+                              print('Hey');
+                              await Get.to(() => PostListScreen());
+                            },
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                fixedSize: Size(Responsive.width(40, context),
+                                    Responsive.height(5, context)),
+                                backgroundColor: AppColors.black,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30))),
+                            child: TextWidget(
+                              ConstString.morePosts,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge!
+                                  .copyWith(
+                                      color: AppColors.white, fontSize: 12),
+                            )),
+                      ),
+                    )
+                  : SizedBox()
+            ],
+          );
+        });
+  }
+}
+
+class PostListScreen extends StatefulWidget {
+  const PostListScreen({super.key});
+
+  @override
+  State<PostListScreen> createState() => _PostListScreenState();
+}
+
+class _PostListScreenState extends State<PostListScreen> {
+  PostController controller = Get.find<PostController>();
+  @override
+  Widget build(BuildContext context) {
+    // this screen will have all post from the firestore database collection same as PostScreen Have
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Post List'),
+      ),
+      body: StreamBuilder<QuerySnapshot<Object?>>(
+          stream: controller.fetchAllPosts(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              // TODO: show No Post data found
+              return Center(
+                child: Text(
+                  ConstString.nodata,
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelLarge!
+                      .copyWith(color: AppColors.black, fontSize: 12),
+                ),
+              );
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // TODO: shimmer loading for 3 items in list
+              return Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primaryColor,
+                ),
+              );
+            }
+            List<PostData> postDataList = snapshot.data!.docs.map((doc) {
+              return PostData.fromMap(doc.data() as Map<String, dynamic>);
+            }).toList();
+
+            return ListView.separated(
+                itemBuilder: (context, index) => PostItemWidget(
+                    context, controller, postDataList.elementAt(index)),
+                separatorBuilder: (context, index) => Divider(),
+                itemCount: postDataList.length);
+          }),
+    );
+  }
+
+  GestureDetector PostItemWidget(
+      BuildContext context, PostController controller, PostData postData) {
+    return GestureDetector(
+      onTap: () async {
+        await Get.to(() => const ExpertProfileScreen());
+      },
+      child: Container(
+        padding: const EdgeInsets.only(bottom: 3),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              horizontalTitleGap: 10,
+              leading: ClipOval(
+                child: SizedBox(
+                  height: 45,
+                  width: 45,
+                  child: Image.asset("assets/user1.jpg"),
+                  // child: SvgPicture.asset("assets/user.svg",height: 50,),
+                ),
+              ),
+              title: Align(
+                alignment: Alignment.topLeft,
+                child: TextWidget(
+                  "Ralph Edwards",
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      fontFamily: AppFont.fontFamilysemi,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.3,
+                      fontSize: Responsive.sp(4.2, context)),
+                ),
+              ),
+              subtitle: Align(
+                alignment: Alignment.topLeft,
+                child: TextWidget(
+                  "12hr ago",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: AppColors.grey.withOpacity(0.8),
+                      fontSize: Responsive.sp(3.4, context)),
+                ),
+              ),
+              trailing: Obx(
+                () => GestureDetector(
+                  onTap: () {
+                    if (controller.isSaveExpert[0]) {
+                      controller.isSaveExpert[0] = false;
+                    } else {
+                      controller.isSaveExpert[0] = true;
+                    }
+                  },
+                  child: Container(
+                    height: 38,
+                    width: 38,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: AppColors.splashdetail),
+                    child: Padding(
+                      padding: controller.isSaveExpert[0]
+                          ? EdgeInsets.symmetric(horizontal: 7)
+                          : EdgeInsets.all(9),
+                      child: SvgPicture.asset(
+                        controller.isSaveExpert[0]
+                            ? SvgIcon.bookmark
+                            : SvgIcon.fillbookmark,
+                        height: Responsive.height(2, context),
+                        color: controller.isSaveExpert[0]
+                            ? AppColors.black
+                            : AppColors.primaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextWidget(
+                postData.description ?? '',
+                textAlign: TextAlign.start,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    fontSize: Responsive.sp(3.5, context),
+                    fontFamily: AppFont.fontFamily,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.dark.withOpacity(0.9),
+                    height: 1.5),
+              ),
+            ),
+            (postData.postImages ?? []).isNotEmpty
+                ? Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: Container(
+                      height: 12.h,
+                      alignment: Alignment.center,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          // TODO: on Image click open a IMAGE IN NEW SCREEN
+                          return GestureDetector(
+                            onTap: () {
+                              if (postData.postImages?.elementAt(index).url !=
+                                  null) {
+                                Get.to(() => NetworkImagePreviewScreen(
+                                    imageUrl: postData.postImages
+                                            ?.elementAt(index)
+                                            .url ??
+                                        ''));
+                              }
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 10),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  // TODO: handle image null an error
+                                  child: CachedNetworkImage(
+                                    imageUrl: postData.postImages
+                                            ?.elementAt(index)
+                                            .url ??
+                                        '',
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    fit: BoxFit.contain,
+                                  )),
+                              decoration: BoxDecoration(
+                                  color: AppColors.tilecolor,
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+                          );
+                        },
+                        itemCount: (postData.postImages ?? []).length,
+                      ),
+                    ))
+                : SizedBox()
+          ],
+        ),
+      ),
+    );
   }
 }

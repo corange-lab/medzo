@@ -20,6 +20,9 @@ class PostController extends GetxController {
   final CollectionReference postRef =
       FirebaseFirestore.instance.collection('posts');
 
+  final CollectionReference favouritesRef =
+      FirebaseFirestore.instance.collection('favourites');
+
   @override
   void onInit() {
     super.onInit();
@@ -28,5 +31,11 @@ class PostController extends GetxController {
 
   Stream<QuerySnapshot<Object?>> fetchAllPosts() {
     return postRef.get().asStream();
+  }
+
+  //TODO; fetch favourite post of logged in user
+  Stream<QuerySnapshot<Object?>> fetchFavouritePosts() {
+    return favouritesRef.get().asStream().where((event) =>
+        event.docs.where((element) => element.id == loggedInUserId).isNotEmpty);
   }
 }
