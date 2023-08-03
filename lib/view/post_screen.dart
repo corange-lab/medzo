@@ -144,12 +144,13 @@ class PostScreen extends GetView<PostController> {
   }
 
   GestureDetector PostItemWidget(
-      BuildContext context, PostController controller, PostData postData) {
+      BuildContext context, PostController controller, PostData postData,int index) {
     return GestureDetector(
       onTap: () async {
         await Get.to(() => const ExpertProfileScreen());
       },
       child: Container(
+        color: AppColors.white,
         padding: const EdgeInsets.only(bottom: 3),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -162,7 +163,6 @@ class PostScreen extends GetView<PostController> {
                   height: 45,
                   width: 45,
                   child: Image.asset("assets/user1.jpg"),
-                  // child: SvgPicture.asset("assets/user.svg",height: 50,),
                 ),
               ),
               title: Align(
@@ -185,48 +185,22 @@ class PostScreen extends GetView<PostController> {
                       fontSize: Responsive.sp(3.4, context)),
                 ),
               ),
-              trailing: Obx(
-                () => GestureDetector(
-                  onTap: () {
-                    if (controller.isSaveExpert[0]) {
-                      controller.isSaveExpert[0] = false;
-                    } else {
-                      controller.isSaveExpert[0] = true;
-                    }
-                  },
-                  child: Container(
-                    height: 38,
-                    width: 38,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: AppColors.splashdetail),
-                    child: Padding(
-                      padding: controller.isSaveExpert[0]
-                          ? EdgeInsets.symmetric(horizontal: 7)
-                          : EdgeInsets.all(9),
-                      child: SvgPicture.asset(
-                        controller.isSaveExpert[0]
-                            ? SvgIcon.bookmark
-                            : SvgIcon.fillbookmark,
-                        height: Responsive.height(2, context),
-                        color: controller.isSaveExpert[0]
-                            ? AppColors.black
-                            : AppColors.primaryColor,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            ),
+            Container(
+              height: 0.18.h,
+              width: SizerUtil.width,
+              color: AppColors.grey.withOpacity(0.1),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               child: TextWidget(
                 postData.description ?? '',
                 textAlign: TextAlign.start,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontSize: Responsive.sp(3.5, context),
-                    fontFamily: AppFont.fontFamily,
-                    fontWeight: FontWeight.w400,
+                    fontSize: Responsive.sp(3.8, context),
+                    fontFamily: AppFont.fontMedium,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0,
                     color: AppColors.dark.withOpacity(0.9),
                     height: 1.5),
               ),
@@ -234,9 +208,9 @@ class PostScreen extends GetView<PostController> {
             (postData.postImages ?? []).isNotEmpty
                 ? Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                     child: Container(
-                      height: 12.h,
+                      height: 18.h,
                       alignment: Alignment.center,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -268,7 +242,7 @@ class PostScreen extends GetView<PostController> {
                                     fit: BoxFit.contain,
                                   )),
                               decoration: BoxDecoration(
-                                  color: AppColors.tilecolor,
+                                  color: AppColors.dark.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(5)),
                             ),
                           );
@@ -276,7 +250,57 @@ class PostScreen extends GetView<PostController> {
                         itemCount: (postData.postImages ?? []).length,
                       ),
                     ))
-                : SizedBox()
+                : SizedBox(),
+            Container(
+              height: 0.18.h,
+              width: SizerUtil.width,
+              color: AppColors.grey.withOpacity(0.1),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: SvgPicture.asset(
+                      SvgIcon.likePost,
+                      height: 2.5.h,
+                    ),
+                    splashColor: Colors.transparent,
+                  ),
+                  Text(
+                    "132",
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: AppColors.txtlike,
+                        letterSpacing: 0.3,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: AppFont.fontFamily),
+                  ),
+                  SizedBox(
+                    width: 2.w,
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: SvgPicture.asset(
+                      SvgIcon.commentPost,
+                      height: 2.8.h,
+                    ),
+                    splashColor: Colors.transparent,
+                  ),
+                  Text(
+                    "4",
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: AppColors.txtlike,
+                        letterSpacing: 0.3,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: AppFont.fontFamily),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -952,26 +976,23 @@ class PostScreen extends GetView<PostController> {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) => PostItemWidget(
-                      context, controller, postDataList.elementAt(index)),
-                  separatorBuilder: (context, index) => Divider(),
+                      context, controller, postDataList.elementAt(index),index),
+                  separatorBuilder: (context, index) =>
+                      Divider(color: Colors.transparent),
                   itemCount: postDataList.length < 3 ? postDataList.length : 3),
               postDataList.length > 3
-                  ? InkWell(
-                      onTap: () async {
-                        await Get.to(() => PostListScreen());
-                        // TODO: implement all post screen
-                      },
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Align(
                         alignment: Alignment.center,
                         child: ElevatedButton(
                             onPressed: () async {
-                              print('Hey');
                               await Get.to(() => PostListScreen());
                             },
                             style: ElevatedButton.styleFrom(
                                 elevation: 0,
                                 fixedSize: Size(Responsive.width(40, context),
-                                    Responsive.height(5, context)),
+                                    Responsive.height(5.5, context)),
                                 backgroundColor: AppColors.black,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
@@ -979,9 +1000,10 @@ class PostScreen extends GetView<PostController> {
                               ConstString.morePosts,
                               style: Theme.of(context)
                                   .textTheme
-                                  .labelLarge!
+                                  .titleLarge!
                                   .copyWith(
-                                      color: AppColors.white, fontSize: 12),
+                                      color: AppColors.buttontext,
+                                      fontSize: 12.sp),
                             )),
                       ),
                     )
@@ -1001,6 +1023,7 @@ class PostListScreen extends StatefulWidget {
 
 class _PostListScreenState extends State<PostListScreen> {
   PostController controller = Get.find<PostController>();
+
   @override
   Widget build(BuildContext context) {
     // this screen will have all post from the firestore database collection same as PostScreen Have
@@ -1052,7 +1075,7 @@ class _PostListScreenState extends State<PostListScreen> {
         await Get.to(() => const ExpertProfileScreen());
       },
       child: Container(
-        padding: const EdgeInsets.only(bottom: 3),
+        // padding: const EdgeInsets.only(bottom: 3),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1178,10 +1201,18 @@ class _PostListScreenState extends State<PostListScreen> {
                         itemCount: (postData.postImages ?? []).length,
                       ),
                     ))
-                : SizedBox()
+                : SizedBox(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: SizerUtil.width,
+                height: 10,
+              ),
+            )
           ],
         ),
       ),
     );
   }
 }
+

@@ -53,6 +53,8 @@ class SvgIcon {
   static const String chathome = 'assets/icons/chathome.svg';
   static const String skip = 'assets/icons/skip.svg';
   static const String camera = 'assets/icons/camera.svg';
+  static const String likePost = 'assets/icons/likePost.svg';
+  static const String commentPost = 'assets/icons/commentPost.svg';
   static const String camerapng = 'assets/icons/camera.png';
   static const String gallery = 'assets/icons/gallery.svg';
   static const String gallerypng = 'assets/icons/gallery.png';

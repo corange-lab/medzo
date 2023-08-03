@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -16,17 +17,38 @@ class pickImageController extends GetxController {
 
   String get selectedImage => _selectedImage.value;
 
+  File? postImageFile;
+
+  CroppedFile? croppedFile;
+
   final ImagePicker picker = ImagePicker();
 
-  pickMultipleImage(context, addChoosenFile) async {
-    final List<XFile> pickedFile = await picker.pickMultiImage();
-    List xPickFile = pickedFile;
+  pickPostImage() async {
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
 
-    if (xPickFile.isNotEmpty) {
-      for (var i = 0; i < xPickFile.length; i++) {
-        //selectedMultiImages.add();
-        addChoosenFile(File(xPickFile[i].path));
-      }
+    if (pickedFile!.path.isNotEmpty) {
+      File imageFile = File(pickedFile.path);
+        croppedFile = await ImageCropper().cropImage(
+        sourcePath: imageFile.path,
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarColor: AppColors.white,
+            toolbarTitle: 'Crop Image',
+          ),
+          IOSUiSettings(
+            title: 'Crop Image',
+          )
+        ],
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9,
+          CropAspectRatioPreset.ratio5x4,
+        ],
+      );
     } else {
       toast(message: "Nothing is selected");
     }

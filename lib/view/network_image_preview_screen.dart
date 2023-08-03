@@ -8,6 +8,7 @@ import 'package:medzo/widgets/custom_widget.dart';
 
 class NetworkImagePreviewScreen extends StatefulWidget {
   final String imageUrl;
+
   const NetworkImagePreviewScreen({required this.imageUrl});
 
   @override
@@ -18,6 +19,7 @@ class NetworkImagePreviewScreen extends StatefulWidget {
 class _NetworkImagePreviewScreenState extends State<NetworkImagePreviewScreen> {
   double _scale = 1.0;
   double _previousScale = 1.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

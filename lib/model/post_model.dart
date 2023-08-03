@@ -6,6 +6,7 @@ class PostData {
   final String? id;
   final String? creatorId;
   final String? description;
+  // final List<PostImageData>? postImages;
   final List<PostImageData>? postImages;
   final List<CommentData>? postComments;
   final List<String?>? likedUsers;

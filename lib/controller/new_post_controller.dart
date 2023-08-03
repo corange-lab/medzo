@@ -10,7 +10,7 @@ import 'package:medzo/model/post_model.dart';
 class NewPostController extends GetxController {
   PostData? newPostData;
 
-  RxList<File> selectedMultiImages = <File>[].obs;
+  RxString? postImageFile = "".obs;
 
   TextEditingController description = TextEditingController();
   RxList<bool> isSaveMedicine = List.filled(5, false).obs;
@@ -24,17 +24,19 @@ class NewPostController extends GetxController {
       FirebaseFirestore.instance.collection('posts');
 
   Future<List> fetchImages(List<PostImageData> imagelist) async {
-    DocumentSnapshot doc = await postRef.doc(loggedInUserId).get();
+    DocumentSnapshot? doc = await postRef.doc(loggedInUserId).get();
 
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
     List postData = List.from(data['postImages'] ?? []);
 
-    postData.add(PostImageData(
-        id: loggedInUserId,
-        url: imagelist[0].url,
-        path: imagelist[0].path,
-        uploaded: true));
+    for (var i = 0; i < imagelist.length; i++) {
+      postData.add(PostImageData(
+          id: loggedInUserId,
+          url: imagelist[i].url,
+          path: imagelist[i].path,
+          uploaded: true));
+    }
 
     return postData;
   }
