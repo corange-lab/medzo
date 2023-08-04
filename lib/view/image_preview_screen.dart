@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
+import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
+import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
 class ImagePreviewScreen extends StatefulWidget {
@@ -25,28 +28,32 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: AppColors.whitehome,
         appBar: AppBar(
+          titleSpacing: 0,
           backgroundColor: AppColors.white,
-          elevation: 0,
+          automaticallyImplyLeading: false,
           leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: Icon(
-              Icons.arrow_back_ios_rounded,
-              color: AppColors.dark,
-              size: Responsive.height(2.5, context),
+              onPressed: () {
+                Get.back();
+              },
+              icon: SvgPicture.asset(
+                SvgIcon.backarrow,
+                height: Responsive.height(2, context),
+              )),
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: TextWidget(
+              ConstString.preview,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontSize: Responsive.sp(4.8, context),
+                  fontFamily: AppFont.fontBold,
+                  letterSpacing: 0,
+                  color: AppColors.black),
             ),
           ),
-          title: TextWidget(
-            'Preview',
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontSize: Responsive.sp(3.5, context),
-                color: AppColors.dark,
-                fontFamily: AppFont.fontBold,
-                letterSpacing: 0),
-          ),
-          centerTitle: true,
+          elevation: 3,
+          shadowColor: AppColors.splashdetail.withOpacity(0.1),
         ),
         body: Center(
           child: InteractiveViewer(

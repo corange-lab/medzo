@@ -11,6 +11,7 @@ class NewPostController extends GetxController {
   PostData? newPostData;
 
   RxString postImageFile = "".obs;
+  RxList<File> selectedMultiImages = <File>[].obs;
 
   TextEditingController description = TextEditingController();
   RxList<bool> isSaveMedicine = List.filled(5, false).obs;

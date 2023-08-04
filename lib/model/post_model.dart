@@ -93,11 +93,6 @@ class PostData {
           .postImages!
           .map((image) => image is Map<String, dynamic> ? image : image.toMap())
           .toList();
-      data['postImages'] = this
-          .postImages!
-          .map((image) =>
-              image is Map<String, dynamic> ? image : image.toFirebaseMap())
-          .toList();
     }
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;

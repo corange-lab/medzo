@@ -262,13 +262,26 @@ class PostScreen extends GetView<PostController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: SvgPicture.asset(
-                      SvgIcon.likePost,
-                      height: 2.5.h,
+                  Obx(
+                    () => IconButton(
+                      onPressed: () {
+                        if (controller.likedUser[index]) {
+                          controller.likedUser[index] = false;
+                        } else {
+                          controller.likedUser[index] = true;
+                        }
+                      },
+                      icon: controller.likedUser[index]
+                          ? Icon(
+                              Icons.favorite_rounded,
+                              color: AppColors.primaryColor,
+                            )
+                          : SvgPicture.asset(
+                              SvgIcon.likePost,
+                              height: 2.5.h,
+                            ),
+                      splashColor: Colors.transparent,
                     ),
-                    splashColor: Colors.transparent,
                   ),
                   Text(
                     "132",
@@ -944,7 +957,64 @@ class PostScreen extends GetView<PostController> {
     return StreamBuilder<QuerySnapshot<Object?>>(
         stream: controller.fetchAllPosts(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // TODO: shimmer loading for 3 items in list
+            return Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              ),
+            );
+          }
+
+          if (snapshot.hasData) {
+            List<PostData> postDataList = snapshot.data!.docs.map((doc) {
+              return PostData.fromMap(doc.data() as Map<String, dynamic>);
+            }).toList();
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ListView.separated(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => PostItemWidget(context,
+                        controller, postDataList.elementAt(index), index),
+                    separatorBuilder: (context, index) =>
+                        Divider(color: Colors.transparent),
+                    itemCount:
+                        postDataList.length < 3 ? postDataList.length : 3),
+                postDataList.length > 3
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                await Get.to(() => PostListScreen());
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  fixedSize: Size(Responsive.width(40, context),
+                                      Responsive.height(5.5, context)),
+                                  backgroundColor: AppColors.black,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30))),
+                              child: TextWidget(
+                                ConstString.morePosts,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        color: AppColors.buttontext,
+                                        fontSize: 12.sp),
+                              )),
+                        ),
+                      )
+                    : SizedBox()
+              ],
+            );
+          } else {
             // TODO: show No Post data found
             return Center(
               child: Text(
@@ -956,61 +1026,6 @@ class PostScreen extends GetView<PostController> {
               ),
             );
           }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // TODO: shimmer loading for 3 items in list
-            return Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primaryColor,
-              ),
-            );
-          }
-          List<PostData> postDataList = snapshot.data!.docs.map((doc) {
-            return PostData.fromMap(doc.data() as Map<String, dynamic>);
-          }).toList();
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => PostItemWidget(context,
-                      controller, postDataList.elementAt(index), index),
-                  separatorBuilder: (context, index) =>
-                      Divider(color: Colors.transparent),
-                  itemCount: postDataList.length < 3 ? postDataList.length : 3),
-              postDataList.length > 3
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await Get.to(() => PostListScreen());
-                            },
-                            style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                fixedSize: Size(Responsive.width(40, context),
-                                    Responsive.height(5.5, context)),
-                                backgroundColor: AppColors.black,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30))),
-                            child: TextWidget(
-                              ConstString.morePosts,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(
-                                      color: AppColors.buttontext,
-                                      fontSize: 12.sp),
-                            )),
-                      ),
-                    )
-                  : SizedBox()
-            ],
-          );
         });
   }
 }
@@ -1029,13 +1044,56 @@ class _PostListScreenState extends State<PostListScreen> {
   Widget build(BuildContext context) {
     // this screen will have all post from the firestore database collection same as PostScreen Have
     return Scaffold(
+      backgroundColor: AppColors.whitehome,
       appBar: AppBar(
-        title: Text('Post List'),
+        titleSpacing: 0,
+        backgroundColor: AppColors.white,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: SvgPicture.asset(
+              SvgIcon.backarrow,
+              height: Responsive.height(2, context),
+            )),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            ConstString.postlist,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: Responsive.sp(4.8, context),
+                fontFamily: AppFont.fontBold,
+                letterSpacing: 0,
+                color: AppColors.black),
+          ),
+        ),
+        elevation: 3,
+        shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
       body: StreamBuilder<QuerySnapshot<Object?>>(
           stream: controller.fetchAllPosts(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // TODO: shimmer loading for 3 items in list
+              return Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primaryColor,
+                ),
+              );
+            }
+
+            if (snapshot.hasData) {
+              List<PostData> postDataList = snapshot.data!.docs.map((doc) {
+                return PostData.fromMap(doc.data() as Map<String, dynamic>);
+              }).toList();
+
+              return ListView.separated(
+                  itemBuilder: (context, index) => PostItemWidget(context,
+                      controller, postDataList.elementAt(index), index),
+                  separatorBuilder: (context, index) => Divider(),
+                  itemCount: postDataList.length);
+            } else {
               // TODO: show No Post data found
               return Center(
                 child: Text(
@@ -1047,36 +1105,19 @@ class _PostListScreenState extends State<PostListScreen> {
                 ),
               );
             }
-
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // TODO: shimmer loading for 3 items in list
-              return Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.primaryColor,
-                ),
-              );
-            }
-            List<PostData> postDataList = snapshot.data!.docs.map((doc) {
-              return PostData.fromMap(doc.data() as Map<String, dynamic>);
-            }).toList();
-
-            return ListView.separated(
-                itemBuilder: (context, index) => PostItemWidget(
-                    context, controller, postDataList.elementAt(index)),
-                separatorBuilder: (context, index) => Divider(),
-                itemCount: postDataList.length);
           }),
     );
   }
 
-  GestureDetector PostItemWidget(
-      BuildContext context, PostController controller, PostData postData) {
+  GestureDetector PostItemWidget(BuildContext context,
+      PostController controller, PostData postData, int index) {
     return GestureDetector(
       onTap: () async {
         await Get.to(() => const ExpertProfileScreen());
       },
       child: Container(
-        // padding: const EdgeInsets.only(bottom: 3),
+        color: AppColors.white,
+        padding: const EdgeInsets.only(bottom: 3),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1088,7 +1129,6 @@ class _PostListScreenState extends State<PostListScreen> {
                   height: 45,
                   width: 45,
                   child: Image.asset("assets/user1.jpg"),
-                  // child: SvgPicture.asset("assets/user.svg",height: 50,),
                 ),
               ),
               title: Align(
@@ -1112,15 +1152,21 @@ class _PostListScreenState extends State<PostListScreen> {
                 ),
               ),
             ),
+            Container(
+              height: 0.18.h,
+              width: SizerUtil.width,
+              color: AppColors.grey.withOpacity(0.1),
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               child: TextWidget(
                 postData.description ?? '',
                 textAlign: TextAlign.start,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontSize: Responsive.sp(3.5, context),
-                    fontFamily: AppFont.fontFamily,
-                    fontWeight: FontWeight.w400,
+                    fontSize: Responsive.sp(3.8, context),
+                    fontFamily: AppFont.fontMedium,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0,
                     color: AppColors.dark.withOpacity(0.9),
                     height: 1.5),
               ),
@@ -1128,9 +1174,9 @@ class _PostListScreenState extends State<PostListScreen> {
             (postData.postImages ?? []).isNotEmpty
                 ? Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                     child: Container(
-                      height: 12.h,
+                      height: 18.h,
                       alignment: Alignment.center,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -1151,38 +1197,17 @@ class _PostListScreenState extends State<PostListScreen> {
                                   borderRadius: BorderRadius.circular(5),
                                   // TODO: handle image null an error
                                   child: CachedNetworkImage(
-                                    width: SizerUtil.width,
                                     imageUrl: postData.postImages
                                             ?.elementAt(index)
                                             .url ??
                                         '',
                                     errorWidget: (context, url, error) =>
-                                        SizedBox(
-                                            height: 20.h,
-                                            width: SizerUtil.width,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(Icons.error,
-                                                    color:
-                                                        AppColors.primaryColor),
-                                                SizedBox(
-                                                  height: 1.h,
-                                                ),
-                                                Text(
-                                                  ConstString.failed,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelMedium,
-                                                )
-                                              ],
-                                            )),
+                                        Icon(Icons.error),
                                     fit: BoxFit.contain,
                                   )),
                               decoration: BoxDecoration(
-                                  color: AppColors.dark.withOpacity(0.02),
-                                  borderRadius: BorderRadius.circular(10)),
+                                  color: AppColors.dark.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
                           );
                         },
@@ -1190,11 +1215,67 @@ class _PostListScreenState extends State<PostListScreen> {
                       ),
                     ))
                 : SizedBox(),
+            Container(
+              height: 0.18.h,
+              width: SizerUtil.width,
+              color: AppColors.grey.withOpacity(0.1),
+            ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: SizerUtil.width,
-                height: 10,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Obx(
+                    () => IconButton(
+                      onPressed: () {
+                        if (controller.likedUser[index]) {
+                          controller.likedUser[index] = false;
+                        } else {
+                          controller.likedUser[index] = true;
+                        }
+                      },
+                      icon: controller.likedUser[index]
+                          ? Icon(
+                              Icons.favorite_rounded,
+                              color: AppColors.primaryColor,
+                            )
+                          : SvgPicture.asset(
+                              SvgIcon.likePost,
+                              height: 2.5.h,
+                            ),
+                      splashColor: Colors.transparent,
+                    ),
+                  ),
+                  Text(
+                    "132",
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: AppColors.txtlike,
+                        letterSpacing: 0.3,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: AppFont.fontFamily),
+                  ),
+                  SizedBox(
+                    width: 2.w,
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: SvgPicture.asset(
+                      SvgIcon.commentPost,
+                      height: 2.8.h,
+                    ),
+                    splashColor: Colors.transparent,
+                  ),
+                  Text(
+                    "4",
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: AppColors.txtlike,
+                        letterSpacing: 0.3,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: AppFont.fontFamily),
+                  ),
+                ],
               ),
             )
           ],

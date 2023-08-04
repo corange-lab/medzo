@@ -13,6 +13,8 @@ class PostController extends GetxController {
   RxList<bool> isSaveMedicine = List.filled(5, false).obs;
   RxList<bool> isSaveExpert = List.filled(100, false).obs;
 
+  RxList<bool> likedUser = List.filled(100, false).obs;
+
   var pageController = PageController().obs;
   RxInt pageIndex = 0.obs;
 

@@ -58,15 +58,14 @@ class AddPostScreen extends GetView<NewPostController> {
           onPressed: () async {
             progressDialogue(context, title: "Post Uploading");
             List<PostImageData> imagelist = [];
-            // List<PostImageData> postData = [];
 
-            // for (var i = 0; i < controller.selectedMultiImages.length; i++) {
-            PostImageData image = PostImageData(
-              path: controller.postImageFile.value,
-              uploaded: false,
-            );
-            // imagelist.add(image);
-            // }
+            for (var i = 0; i < controller.selectedMultiImages.length; i++) {
+              PostImageData image = PostImageData(
+                path: controller.selectedMultiImages[i].path,
+                uploaded: false,
+              );
+              imagelist.add(image);
+            }
 
             final postId = controller.postRef.doc().id;
 
@@ -74,13 +73,13 @@ class AddPostScreen extends GetView<NewPostController> {
 
             for (int i = 0; i < imagelist.length; i++) {
               mImage = imagelist.elementAt(i);
-              String? imageUrl = await controller.uploadImage(image);
+              String? imageUrl = await controller.uploadImage(mImage);
 
               mImage = mImage.copyWith(
                   id: postId,
                   uploaded: true,
                   url: imageUrl,
-                  path: controller.postImageFile.value);
+                  path: imagelist[i].path);
               imagelist[i] = mImage;
             }
 
@@ -101,6 +100,7 @@ class AddPostScreen extends GetView<NewPostController> {
               newPostData = PostData.fromMap(newPostData.toFirebaseMap());
 
               newPostData = newPostData.copyWith(id: postId);
+              controller.selectedMultiImages.clear();
 
               if (imagelist.every((element) => element.uploaded == true)) {
                 showDialog(
@@ -162,6 +162,7 @@ class AddPostScreen extends GetView<NewPostController> {
 
   Widget addpostWidget(BuildContext context, pickImageController pickController,
       NewPostController controller) {
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -169,7 +170,10 @@ class AddPostScreen extends GetView<NewPostController> {
             onTap: () async {
               await pickController.pickPostImage();
               controller.postImageFile =
-                  pickController.croppedPostFile!.path.obs;
+                  await pickController.croppedPostFile!.path.obs;
+              controller.selectedMultiImages
+                  .add(File(controller.postImageFile.value));
+              print(controller.selectedMultiImages);
             },
             child: Container(
               margin: const EdgeInsets.all(20),
@@ -203,17 +207,26 @@ class AddPostScreen extends GetView<NewPostController> {
             ),
           ),
           Obx(
-            () => controller.postImageFile.value.isNotEmpty
-                ? Align(
-                    alignment: Alignment.centerLeft,
+            () => controller.selectedMultiImages.isNotEmpty
+                ? Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     child: Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                        height: 12.h,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child: Image.file(
-                                File(controller.postImageFile.value)))),
+                      height: 15.h,
+                      width: SizerUtil.width,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: controller.selectedMultiImages.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.file(
+                                      controller.selectedMultiImages[index])));
+                        },
+                      ),
+                    ),
                   )
                 : SizedBox(),
           ),
