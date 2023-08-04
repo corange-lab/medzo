@@ -6,8 +6,9 @@ class PostData {
   final String? id;
   final String? creatorId;
   final String? description;
+
   // final List<PostImageData>? postImages;
-  final List<PostImageData>? postImages;
+  final PostImageData? postImages;
   final List<CommentData>? postComments;
   final List<String?>? likedUsers;
   bool? isFavourite;
@@ -63,9 +64,8 @@ class PostData {
       id: json['id'],
       creatorId: json['creatorId'],
       description: json['description'],
-      postImages: json['postImages'] != null
-          ? List<PostImageData>.from(
-              json['postImages'].map((x) => PostImageData.fromMap(x)))
+      postImages: json['postImages'] is Map<String, dynamic>
+          ? PostImageData.fromMap(json['postImages'] as Map<String, dynamic>)
           : null,
       postComments: json['postComments'] != null
           ? List<CommentData>.from(
@@ -89,11 +89,7 @@ class PostData {
     data['creatorId'] = this.creatorId;
     data['description'] = this.description;
     if (this.postImages != null) {
-      data['postImages'] = this
-          .postImages!
-          .map((image) =>
-              image is Map<String, dynamic> ? image : image.toFirebaseMap())
-          .toList();
+      data['postImages'] = this.postImages!.toMap();
     }
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;
@@ -109,10 +105,7 @@ class PostData {
     data['creatorId'] = this.creatorId;
     data['description'] = this.description;
     if (this.postImages != null) {
-      data['postImages'] = this
-          .postImages!
-          .map((image) => image is Map<String, dynamic> ? image : image.toMap())
-          .toList();
+      data['postImages'] = this.postImages!.toMap();
     }
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;
@@ -127,7 +120,7 @@ class PostData {
   PostData copyWith({
     String? id,
     String? description,
-    List<PostImageData>? postImages,
+    PostImageData? postImages,
     List<CommentData>? postComments,
     List<String?>? likedUsers,
     bool? isFavourite,

@@ -19,7 +19,8 @@ class pickImageController extends GetxController {
 
   File? postImageFile;
 
-  CroppedFile? croppedFile;
+  CroppedFile? croppedPostFile;
+  CroppedFile? croppedProfileFile;
 
   final ImagePicker picker = ImagePicker();
 
@@ -29,7 +30,7 @@ class pickImageController extends GetxController {
 
     if (pickedFile!.path.isNotEmpty) {
       File imageFile = File(pickedFile.path);
-        croppedFile = await ImageCropper().cropImage(
+      croppedPostFile = await ImageCropper().cropImage(
         sourcePath: imageFile.path,
         uiSettings: [
           AndroidUiSettings(
@@ -47,6 +48,8 @@ class pickImageController extends GetxController {
           CropAspectRatioPreset.ratio4x3,
           CropAspectRatioPreset.ratio16x9,
           CropAspectRatioPreset.ratio5x4,
+          CropAspectRatioPreset.ratio5x3,
+          CropAspectRatioPreset.ratio7x5,
         ],
       );
     } else {
@@ -105,7 +108,34 @@ class pickImageController extends GetxController {
                             source: ImageSource.camera, imageQuality: 80);
 
                         if (image != null) {
-                          _selectedImage.value = image.path;
+                          // _selectedImage.value = image.path;
+
+                          File imageFile = File(image.path);
+                          croppedProfileFile = await ImageCropper().cropImage(
+                            sourcePath: imageFile.path,
+                            uiSettings: [
+                              AndroidUiSettings(
+                                toolbarColor: AppColors.white,
+                                toolbarTitle: 'Crop Image',
+                              ),
+                              IOSUiSettings(
+                                title: 'Crop Image',
+                              )
+                            ],
+                            aspectRatioPresets: [
+                              CropAspectRatioPreset.square,
+                              CropAspectRatioPreset.ratio3x2,
+                              CropAspectRatioPreset.original,
+                              CropAspectRatioPreset.ratio4x3,
+                              CropAspectRatioPreset.ratio16x9,
+                              CropAspectRatioPreset.ratio5x4,
+                              CropAspectRatioPreset.ratio5x3,
+                              CropAspectRatioPreset.ratio7x5,
+                            ],
+                          );
+
+                          _selectedImage.value = croppedProfileFile!.path;
+
                           print("Image Picked From Camera");
                         }
                         Get.back();
@@ -132,7 +162,34 @@ class pickImageController extends GetxController {
                           source: ImageSource.gallery, imageQuality: 70);
 
                       if (image != null) {
-                        _selectedImage.value = image.path;
+                        // _selectedImage.value = image.path;
+
+                        File imageFile = File(image.path);
+                        croppedProfileFile = await ImageCropper().cropImage(
+                          sourcePath: imageFile.path,
+                          uiSettings: [
+                            AndroidUiSettings(
+                              toolbarColor: AppColors.white,
+                              toolbarTitle: 'Crop Image',
+                            ),
+                            IOSUiSettings(
+                              title: 'Crop Image',
+                            )
+                          ],
+                          aspectRatioPresets: [
+                            CropAspectRatioPreset.square,
+                            CropAspectRatioPreset.ratio3x2,
+                            CropAspectRatioPreset.original,
+                            CropAspectRatioPreset.ratio4x3,
+                            CropAspectRatioPreset.ratio16x9,
+                            CropAspectRatioPreset.ratio5x4,
+                            CropAspectRatioPreset.ratio5x3,
+                            CropAspectRatioPreset.ratio7x5,
+                          ],
+                        );
+
+                        _selectedImage.value = croppedProfileFile!.path;
+
                         print("Image Picked From Gallery");
                       }
                       Get.back();

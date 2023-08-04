@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/new_post_controller.dart';
+import 'package:medzo/model/post_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/widgets/pick_image.dart';
 import 'package:sizer/sizer.dart';
 
@@ -53,89 +55,88 @@ class AddPostScreen extends GetView<NewPostController> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
         child: ElevatedButton(
-          onPressed: () {},
-          // onPressed: () async {
-          //   progressDialogue(context, title: "Post Uploading");
-          //   List<PostImageData> imagelist = [];
-          //   // List<PostImageData> postData = [];
-          //
-          //   for (var i = 0; i < controller.selectedMultiImages.length; i++) {
-          //     PostImageData image = PostImageData(
-          //       path: controller.selectedMultiImages[i].path,
-          //       uploaded: false,
-          //     );
-          //     imagelist.add(image);
-          //   }
-          //
-          //   final postId = controller.postRef.doc().id;
-          //
-          //   PostImageData mImage = PostImageData();
-          //
-          //   for (int i = 0; i < imagelist.length; i++) {
-          //     mImage = imagelist.elementAt(i);
-          //     String? imageUrl = await controller.uploadImage(mImage);
-          //
-          //     mImage = mImage.copyWith(
-          //         id: postId,
-          //         uploaded: true,
-          //         url: imageUrl,
-          //         path: imagelist[i].path);
-          //     imagelist[i] = mImage;
-          //   }
-          //
-          //   // postData = await controller.fetchImages(imagelist);
-          //
-          //   PostData newPostData = PostData.create(
-          //     postImages: imagelist,
-          //     description: controller.description.text,
-          //     creatorId: controller.loggedInUserId,
-          //     id: postId,
-          //     createdTime: DateTime.now(),
-          //   );
-          //
-          //   controller.postRef
-          //       .doc()
-          //       .set(newPostData.toMap())
-          //       .then((value) async {
-          //     newPostData = PostData.fromMap(newPostData.toFirebaseMap());
-          //
-          //     newPostData = newPostData.copyWith(id: postId);
-          //
-          //     if (imagelist.every((element) => element.uploaded == true)) {
-          //       showDialog(
-          //         context: context,
-          //         builder: (context) {
-          //           return successDialogue(
-          //             titleText: "Successful Uploaded",
-          //             subtitle: "Your post has been uploaded successfully.",
-          //             iconDialogue: SvgIcon.check_circle,
-          //             btntext: "View",
-          //             onPressed: () {
-          //               Get.back();
-          //               Get.back();
-          //               Get.back();
-          //             },
-          //           );
-          //         },
-          //       );
-          //     } else {
-          //       showDialog(
-          //         context: context,
-          //         builder: (context) {
-          //           return FailureDialog(
-          //             titleText: "Failed to Upload",
-          //             subtitle: "Your post has been failed to upload.",
-          //             iconDialogue: SvgIcon.info,
-          //             btntext: "Close",
-          //             onPressed: () {
-          //               Get.back();
-          //             },
-          //           );
-          //         },
-          //       );
-          //     }
-          //   });
-          // },
+          onPressed: () async {
+            progressDialogue(context, title: "Post Uploading");
+            List<PostImageData> imagelist = [];
+            // List<PostImageData> postData = [];
+
+            // for (var i = 0; i < controller.selectedMultiImages.length; i++) {
+            PostImageData image = PostImageData(
+              path: controller.postImageFile.value,
+              uploaded: false,
+            );
+            // imagelist.add(image);
+            // }
+
+            final postId = controller.postRef.doc().id;
+
+            PostImageData mImage = PostImageData();
+
+            // for (int i = 0; i < imagelist.length; i++) {
+            //   mImage = imagelist.elementAt(i);
+            String? imageUrl = await controller.uploadImage(image);
+
+            mImage = mImage.copyWith(
+                id: postId,
+                uploaded: true,
+                url: imageUrl,
+                path: controller.postImageFile.value);
+            // imagelist[i] = mImage;
+            // }
+
+            // postData = await controller.fetchImages(imagelist);
+
+            PostData newPostData = PostData.create(
+              postImages: mImage,
+              description: controller.description.text,
+              creatorId: controller.loggedInUserId,
+              id: postId,
+              createdTime: DateTime.now(),
+            );
+
+            controller.postRef
+                .doc()
+                .set(newPostData.toMap())
+                .then((value) async {
+              newPostData = PostData.fromMap(newPostData.toFirebaseMap());
+
+              newPostData = newPostData.copyWith(id: postId);
+
+              // if (imagelist.every((element) => element.uploaded == true)) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return successDialogue(
+                    titleText: "Successful Uploaded",
+                    subtitle: "Your post has been uploaded successfully.",
+                    iconDialogue: SvgIcon.check_circle,
+                    btntext: "View",
+                    onPressed: () {
+                      Get.back();
+                      Get.back();
+                      Get.back();
+                    },
+                  );
+                },
+              );
+              // } else {
+              //   showDialog(
+              //     context: context,
+              //     builder: (context) {
+              //       return FailureDialog(
+              //         titleText: "Failed to Upload",
+              //         subtitle: "Your post has been failed to upload.",
+              //         iconDialogue: SvgIcon.info,
+              //         btntext: "Close",
+              //         onPressed: () {
+              //           Get.back();
+              //         },
+              //       );
+              //     },
+              //   );
+              // }
+            });
+          },
           style: ElevatedButton.styleFrom(
               elevation: 0,
               fixedSize: Size(Responsive.width(50, context), 60),
@@ -167,8 +168,7 @@ class AddPostScreen extends GetView<NewPostController> {
           GestureDetector(
             onTap: () async {
               await pickController.pickPostImage();
-              controller.postImageFile = pickController.croppedFile!.path.obs;
-              controller.update();
+              controller.postImageFile = pickController.croppedPostFile!.path.obs;
             },
             child: Container(
               margin: const EdgeInsets.all(20),
@@ -202,16 +202,17 @@ class AddPostScreen extends GetView<NewPostController> {
             ),
           ),
           Obx(
-            () => controller.postImageFile!.value.isNotEmpty
+            () => controller.postImageFile.value.isNotEmpty
                 ? Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
                         margin:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                        height: 10.h,
-                        width: SizerUtil.width,
-                        child:
-                            Image.file(File(controller.postImageFile!.value))),
+                        height: 12.h,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Image.file(
+                                File(controller.postImageFile.value)))),
                   )
                 : SizedBox(),
           ),

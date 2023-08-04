@@ -191,6 +191,7 @@ class ConstString {
   static const String social = "Social";
   static const String inviteFriends = "Invite friends to use Medzo";
   static const String legal = "Legal";
+  static const String failed = "Failed To Load Image";
   static const String notificationTitle = 'Notifications';
   static const String badgesandtrophititle = "Badges and Trophies";
   static const String pointstitle = "Points";

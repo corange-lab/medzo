@@ -10,7 +10,7 @@ import 'package:medzo/model/post_model.dart';
 class NewPostController extends GetxController {
   PostData? newPostData;
 
-  RxString? postImageFile = "".obs;
+  RxString postImageFile = "".obs;
 
   TextEditingController description = TextEditingController();
   RxList<bool> isSaveMedicine = List.filled(5, false).obs;
