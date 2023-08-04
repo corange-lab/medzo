@@ -14,8 +14,8 @@ import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
 import 'package:medzo/view/expert_profile.dart';
+import 'package:medzo/view/image_preview_screen.dart';
 import 'package:medzo/view/medicine_detail.dart';
-import 'package:medzo/view/network_image_preview_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -101,6 +101,9 @@ class PostScreen extends GetView<PostController> {
               height: 10,
             ),
             ...BestMatchesWidget(context),
+            SizedBox(
+              height: 10,
+            ),
             ...BookmarkPostWidget(context),
           ],
         ),
@@ -205,57 +208,49 @@ class PostScreen extends GetView<PostController> {
                     height: 1.5),
               ),
             ),
-            postData.postImages?.url != null
+            (postData.postImages ?? []).isNotEmpty
                 ? Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                     child: Container(
-                        height: 18.h,
-                        alignment: Alignment.center,
-                        child: GestureDetector(
-                          onTap: () {
-                            if (postData.postImages!.url != null) {
-                              Get.to(() => NetworkImagePreviewScreen(
-                                  imageUrl: postData.postImages!.url ?? ''));
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                // TODO: handle image null an error
-                                child: CachedNetworkImage(
-                                  width: SizerUtil.width,
-                                  imageUrl: postData.postImages!.url!,
-                                  errorWidget: (context, url, error) =>
-                                      SizedBox(
-                                          height: 20.h,
-                                          width: SizerUtil.width,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(Icons.error,
-                                                  color:
-                                                      AppColors.primaryColor),
-                                              SizedBox(
-                                                height: 1.h,
-                                              ),
-                                              Text(
-                                                ConstString.failed,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .labelMedium,
-                                              )
-                                            ],
-                                          )),
-                                  fit: BoxFit.contain,
-                                )),
-                            decoration: BoxDecoration(
-                                color: AppColors.dark.withOpacity(0.02),
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                        )))
+                      height: 18.h,
+                      alignment: Alignment.center,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          // TODO: on Image click open a IMAGE IN NEW SCREEN
+                          return GestureDetector(
+                            onTap: () {
+                              if (postData.postImages?.elementAt(index).url !=
+                                  null) {
+                                Get.to(() => ImagePreviewScreen.withUrl(
+                                    postData.postImages?.elementAt(index).url ??
+                                        ''));
+                              }
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 10),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  // TODO: handle image null an error
+                                  child: CachedNetworkImage(
+                                    imageUrl: postData.postImages
+                                            ?.elementAt(index)
+                                            .url ??
+                                        '',
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    fit: BoxFit.contain,
+                                  )),
+                              decoration: BoxDecoration(
+                                  color: AppColors.dark.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+                          );
+                        },
+                        itemCount: (postData.postImages ?? []).length,
+                      ),
+                    ))
                 : SizedBox(),
             Container(
               height: 0.18.h,
@@ -1130,57 +1125,70 @@ class _PostListScreenState extends State<PostListScreen> {
                     height: 1.5),
               ),
             ),
-            postData.postImages?.url != null
+            (postData.postImages ?? []).isNotEmpty
                 ? Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-                child: Container(
-                    height: 18.h,
-                    alignment: Alignment.center,
-                    child: GestureDetector(
-                      onTap: () {
-                        if (postData.postImages!.url != null) {
-                          Get.to(() => NetworkImagePreviewScreen(
-                              imageUrl: postData.postImages!.url ?? ''));
-                        }
-                      },
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            // TODO: handle image null an error
-                            child: CachedNetworkImage(
-                              width: SizerUtil.width,
-                              imageUrl: postData.postImages!.url!,
-                              errorWidget: (context, url, error) =>
-                                  SizedBox(
-                                      height: 20.h,
-                                      width: SizerUtil.width,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.error,
-                                              color:
-                                              AppColors.primaryColor),
-                                          SizedBox(
-                                            height: 1.h,
-                                          ),
-                                          Text(
-                                            ConstString.failed,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelMedium,
-                                          )
-                                        ],
-                                      )),
-                              fit: BoxFit.contain,
-                            )),
-                        decoration: BoxDecoration(
-                            color: AppColors.dark.withOpacity(0.02),
-                            borderRadius: BorderRadius.circular(10)),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: Container(
+                      height: 12.h,
+                      alignment: Alignment.center,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          // TODO: on Image click open a IMAGE IN NEW SCREEN
+                          return GestureDetector(
+                            onTap: () {
+                              if (postData.postImages?.elementAt(index).url !=
+                                  null) {
+                                Get.to(() => ImagePreviewScreen.withUrl(
+                                    postData.postImages?.elementAt(index).url ??
+                                        ''));
+                              }
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 10),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  // TODO: handle image null an error
+                                  child: CachedNetworkImage(
+                                    width: SizerUtil.width,
+                                    imageUrl: postData.postImages
+                                            ?.elementAt(index)
+                                            .url ??
+                                        '',
+                                    errorWidget: (context, url, error) =>
+                                        SizedBox(
+                                            height: 20.h,
+                                            width: SizerUtil.width,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(Icons.error,
+                                                    color:
+                                                        AppColors.primaryColor),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                Text(
+                                                  ConstString.failed,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelMedium,
+                                                )
+                                              ],
+                                            )),
+                                    fit: BoxFit.contain,
+                                  )),
+                              decoration: BoxDecoration(
+                                  color: AppColors.dark.withOpacity(0.02),
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                          );
+                        },
+                        itemCount: (postData.postImages ?? []).length,
                       ),
-                    )))
+                    ))
                 : SizedBox(),
             Padding(
               padding: const EdgeInsets.all(8.0),

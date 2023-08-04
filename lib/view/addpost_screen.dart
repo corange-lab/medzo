@@ -72,22 +72,22 @@ class AddPostScreen extends GetView<NewPostController> {
 
             PostImageData mImage = PostImageData();
 
-            // for (int i = 0; i < imagelist.length; i++) {
-            //   mImage = imagelist.elementAt(i);
-            String? imageUrl = await controller.uploadImage(image);
+            for (int i = 0; i < imagelist.length; i++) {
+              mImage = imagelist.elementAt(i);
+              String? imageUrl = await controller.uploadImage(image);
 
-            mImage = mImage.copyWith(
-                id: postId,
-                uploaded: true,
-                url: imageUrl,
-                path: controller.postImageFile.value);
-            // imagelist[i] = mImage;
-            // }
+              mImage = mImage.copyWith(
+                  id: postId,
+                  uploaded: true,
+                  url: imageUrl,
+                  path: controller.postImageFile.value);
+              imagelist[i] = mImage;
+            }
 
             // postData = await controller.fetchImages(imagelist);
 
             PostData newPostData = PostData.create(
-              postImages: mImage,
+              postImages: imagelist,
               description: controller.description.text,
               creatorId: controller.loggedInUserId,
               id: postId,
@@ -102,39 +102,39 @@ class AddPostScreen extends GetView<NewPostController> {
 
               newPostData = newPostData.copyWith(id: postId);
 
-              // if (imagelist.every((element) => element.uploaded == true)) {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return successDialogue(
-                    titleText: "Successful Uploaded",
-                    subtitle: "Your post has been uploaded successfully.",
-                    iconDialogue: SvgIcon.check_circle,
-                    btntext: "View",
-                    onPressed: () {
-                      Get.back();
-                      Get.back();
-                      Get.back();
-                    },
-                  );
-                },
-              );
-              // } else {
-              //   showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       return FailureDialog(
-              //         titleText: "Failed to Upload",
-              //         subtitle: "Your post has been failed to upload.",
-              //         iconDialogue: SvgIcon.info,
-              //         btntext: "Close",
-              //         onPressed: () {
-              //           Get.back();
-              //         },
-              //       );
-              //     },
-              //   );
-              // }
+              if (imagelist.every((element) => element.uploaded == true)) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return successDialogue(
+                      titleText: "Successful Uploaded",
+                      subtitle: "Your post has been uploaded successfully.",
+                      iconDialogue: SvgIcon.check_circle,
+                      btntext: "View",
+                      onPressed: () {
+                        Get.back();
+                        Get.back();
+                        Get.back();
+                      },
+                    );
+                  },
+                );
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return FailureDialog(
+                      titleText: "Failed to Upload",
+                      subtitle: "Your post has been failed to upload.",
+                      iconDialogue: SvgIcon.info,
+                      btntext: "Close",
+                      onPressed: () {
+                        Get.back();
+                      },
+                    );
+                  },
+                );
+              }
             });
           },
           style: ElevatedButton.styleFrom(
@@ -168,7 +168,8 @@ class AddPostScreen extends GetView<NewPostController> {
           GestureDetector(
             onTap: () async {
               await pickController.pickPostImage();
-              controller.postImageFile = pickController.croppedPostFile!.path.obs;
+              controller.postImageFile =
+                  pickController.croppedPostFile!.path.obs;
             },
             child: Container(
               margin: const EdgeInsets.all(20),

@@ -69,6 +69,13 @@ class HomeController extends GetxController {
     SvgIcon.person_run
   ];
 
+  @override
+  void onInit() {
+    print(
+        'Logged In user id ${FirebaseAuth.instance.currentUser?.uid ?? '-null-'}');
+    super.onInit();
+  }
+
   pageUpdateOnHomeScreen(int index) {
     pageIndex.value = index;
     update(['PageUpdate']);
