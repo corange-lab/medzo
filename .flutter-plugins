@@ -1,5 +1,5 @@
 # This is a generated file; do not edit or check into version control.
-cloud_firestore=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\cloud_firestore-4.8.3\\
+cloud_firestore=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\cloud_firestore-4.8.4\\
 cloud_firestore_web=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\cloud_firestore_web-3.6.3\\
 connectivity_plus=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\connectivity_plus-4.0.1\\
 file_selector_linux=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\file_selector_linux-0.9.2\\
@@ -25,6 +25,8 @@ google_sign_in=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\go
 google_sign_in_android=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\google_sign_in_android-6.1.18\\
 google_sign_in_ios=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\google_sign_in_ios-5.6.2\\
 google_sign_in_web=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\google_sign_in_web-0.12.0+2\\
+image_cropper=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_cropper-5.0.0\\
+image_cropper_for_web=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_cropper_for_web-3.0.0\\
 image_picker=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_picker-1.0.1\\
 image_picker_android=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_picker_android-0.8.7+4\\
 image_picker_for_web=C:\\Users\\admin\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_picker_for_web-2.2.0\\

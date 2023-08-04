@@ -87,7 +87,7 @@
     },
     {
       "name": "cloud_firestore",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore-4.8.3",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore-4.8.4",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -464,6 +464,24 @@
       "languageVersion": "2.15"
     },
     {
+      "name": "image_cropper",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/image_cropper-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "image_cropper_for_web",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/image_cropper_for_web-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "image_cropper_platform_interface",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/image_cropper_platform_interface-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "image_picker",
       "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker-1.0.1",
       "packageUri": "lib/",
@@ -818,7 +836,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-08-01T12:41:33.208889Z",
+  "generated": "2023-08-03T11:20:36.231902Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }
