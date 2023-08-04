@@ -17,6 +17,7 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/editprofile_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
+import 'package:medzo/widgets/user/my_name_text_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -124,16 +125,16 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        TextWidget(
-                          "${name}",
-                          style:
-                              Theme.of(context).textTheme.labelLarge!.copyWith(
-                                    fontSize: Responsive.sp(4.5, context),
-                                    fontFamily: AppFont.fontBold,
-                                    letterSpacing: 0,
-                                    color: AppColors.darkPrimaryColor,
-                                  ),
-                        ),
+                        MyNameTextWidget(
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(
+                                  fontSize: Responsive.sp(4.5, context),
+                                  fontFamily: AppFont.fontBold,
+                                  letterSpacing: 0,
+                                  color: AppColors.darkPrimaryColor,
+                                )),
                         SizedBox(
                           height: Responsive.height(2, context),
                         ),

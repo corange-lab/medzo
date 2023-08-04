@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -83,6 +84,13 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
         imageUrl: widget.imageUrl!,
         errorWidget: (context, url, error) => Icon(Icons.error),
         fit: BoxFit.contain,
+        progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+          child: CupertinoActivityIndicator(
+            color: AppColors.primaryColor,
+            animating: true,
+            radius: 14,
+          ),
+        ),
       );
     } else if (widget.component != null) {
       return widget.component!;

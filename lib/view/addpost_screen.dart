@@ -56,6 +56,8 @@ class AddPostScreen extends GetView<NewPostController> {
         padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
         child: ElevatedButton(
           onPressed: () async {
+            //FIXME: add validation for description
+
             progressDialogue(context, title: "Post Uploading");
             List<PostImageData> imagelist = [];
 
@@ -74,16 +76,17 @@ class AddPostScreen extends GetView<NewPostController> {
             for (int i = 0; i < imagelist.length; i++) {
               mImage = imagelist.elementAt(i);
               String? imageUrl = await controller.uploadImage(mImage);
-
-              mImage = mImage.copyWith(
-                  id: postId,
-                  uploaded: true,
-                  url: imageUrl,
-                  path: imagelist[i].path);
+              if (imageUrl != null) {
+                String imageId = controller.postRef.doc().id;
+                mImage = mImage.copyWith(
+                    id: imageId,
+                    postId: postId,
+                    uploaded: true,
+                    url: imageUrl,
+                    path: imagelist[i].path);
+              }
               imagelist[i] = mImage;
             }
-
-            // postData = await controller.fetchImages(imagelist);
 
             PostData newPostData = PostData.create(
               postImages: imagelist,
@@ -93,8 +96,8 @@ class AddPostScreen extends GetView<NewPostController> {
               createdTime: DateTime.now(),
             );
 
-            controller.postRef
-                .doc()
+            await controller.postRef
+                .doc(postId)
                 .set(newPostData.toMap())
                 .then((value) async {
               newPostData = PostData.fromMap(newPostData.toFirebaseMap());
@@ -162,12 +165,12 @@ class AddPostScreen extends GetView<NewPostController> {
 
   Widget addpostWidget(BuildContext context, pickImageController pickController,
       NewPostController controller) {
-
     return SingleChildScrollView(
       child: Column(
         children: [
           GestureDetector(
             onTap: () async {
+              // TODO: check below each condition
               await pickController.pickPostImage();
               controller.postImageFile =
                   await pickController.croppedPostFile!.path.obs;
@@ -253,6 +256,8 @@ class AddPostScreen extends GetView<NewPostController> {
               textCapitalization: TextCapitalization.sentences,
               autofocus: false,
               maxLength: 500,
+              minLines: 1,
+              maxLines: 5,
               controller: controller.description,
               cursorColor: AppColors.grey,
               decoration: InputDecoration(

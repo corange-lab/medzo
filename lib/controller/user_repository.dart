@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medzo/model/user_model.dart';
 
@@ -10,6 +11,7 @@ class UserRepository {
   final CollectionReference _usersCollection =
       FirebaseFirestore.instance.collection('users');
 
+  DocumentSnapshot? allUserLastDocument;
   /*
   * private constructor to make a singleton object
   * */
@@ -47,7 +49,8 @@ class UserRepository {
         .where(UserModelField.email, isEqualTo: email)
         .get();
     if (querySnapshot.docs.isNotEmpty) {
-      return UserModel.fromMap(querySnapshot.docs.first.data() as Map<String, dynamic>);
+      return UserModel.fromMap(
+          querySnapshot.docs.first.data() as Map<String, dynamic>);
     }
     return null;
   }
@@ -61,5 +64,50 @@ class UserRepository {
           .toList();
     }
     return null;
+  }
+
+  Future<UserModel> fetchUser(String id) async {
+    DocumentSnapshot documentSnapshot = await _usersCollection.doc(id).get();
+    return UserModel.fromMap(documentSnapshot.data()! as Map<String, dynamic>);
+  }
+
+  Stream<List<UserModel>> streamAllUser() {
+    // Query query = _usersCollection.orderBy('createdTime', descending: false);
+    // if (allUserLastDocument != null) {
+    //   query = query.startAfterDocument(allUserLastDocument!);
+    // }
+    // Stream<List<UserModel>> data = query.snapshots().map((querySnapshot) {
+    //   return querySnapshot.docs
+    //       .map((documentSnapshot) => UserModel.fromMap(
+    //           documentSnapshot.data()! as Map<String, dynamic>))
+    //       .toList();
+    // });
+
+    // get last documentSnapshot from the list
+    // query.snapshots().listen((querySnapshot) {
+    //   if (querySnapshot.docs.isNotEmpty) {
+    //     allUserLastDocument = querySnapshot.docs.last;
+    //   }
+    // });
+    // return data;
+
+    return _usersCollection.snapshots().map((querySnapshot) {
+      return querySnapshot.docs
+          .map((documentSnapshot) => UserModel.fromMap(
+              documentSnapshot.data()! as Map<String, dynamic>))
+          .toList();
+    });
+  }
+
+  // create a method to update user data when update on firestore in stream and convert it to UserModel
+  Stream<UserModel> streamUser(String id) {
+    return _usersCollection.doc(id).snapshots().map((documentSnapshot) =>
+        UserModel.fromMap(documentSnapshot.data()! as Map<String, dynamic>));
+  }
+
+  void handleUI() {
+    streamUser('id').listen((event) {
+      print(event);
+    });
   }
 }

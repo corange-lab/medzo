@@ -28,7 +28,7 @@ class pickImageController extends GetxController {
     final XFile? pickedFile =
         await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile!.path.isNotEmpty) {
+    if (pickedFile?.path != null && pickedFile!.path.isNotEmpty) {
       File imageFile = File(pickedFile.path);
       croppedPostFile = await ImageCropper().cropImage(
         sourcePath: imageFile.path,

@@ -6,10 +6,9 @@ class PostData {
   final String? id;
   final String? creatorId;
   final String? description;
-
-  final List<PostImageData>? postImages;
-  final List<CommentData>? postComments;
-  final List<String?>? likedUsers;
+  List<PostImageData>? postImages;
+  List<CommentData>? postComments;
+  List<String?>? likedUsers;
   bool? isFavourite;
   final DateTime? createdTime;
   final DateTime? updatedTime;
@@ -110,11 +109,15 @@ class PostData {
     if (this.postImages != null) {
       data['postImages'] = this
           .postImages!
-          .map((image) => image is Map<String, dynamic> ? image : image.toMap())
+          .map((image) =>
+              image is Map<String, dynamic> ? image : image.toFirebaseMap())
           .toList();
-      data['postImages'] = this
-          .postImages!
-          .map((image) => image is Map<String, dynamic> ? image : image.toMap())
+    }
+    if (this.postComments != null) {
+      data['postComments'] = this
+          .postComments!
+          .map((comment) =>
+              comment is Map<String, dynamic> ? comment : comment.toMap())
           .toList();
     }
     if (this.likedUsers != null) {
@@ -129,6 +132,7 @@ class PostData {
 
   PostData copyWith({
     String? id,
+    String? creatorId,
     String? description,
     List<PostImageData>? postImages,
     List<CommentData>? postComments,
@@ -139,6 +143,7 @@ class PostData {
   }) {
     return PostData._(
       id: id ?? this.id,
+      creatorId: creatorId ?? this.creatorId,
       description: description ?? this.description,
       postImages: postImages ?? this.postImages,
       postComments: postComments ?? this.postComments,

@@ -1,15 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/auth_controller.dart';
 import 'package:medzo/controller/global_config_controller.dart';
 import 'package:medzo/controller/network_handling_service.dart';
+import 'package:medzo/controller/user_controller.dart';
 import 'package:medzo/firebase_options.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/theme/colors_theme.dart';
 import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/view/splash_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,9 +37,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(onTap: () {
-      FocusManager.instance.primaryFocus?.unfocus();
-    },
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           enableLog: true,
@@ -54,7 +56,7 @@ class MyApp extends StatelessWidget {
           transitionDuration: const Duration(milliseconds: 500),
           defaultGlobalState: true,
           themeMode: ThemeMode.light,
-          home:  SplashScreen()),
+          home: SplashScreen()),
     );
   }
 }
@@ -63,6 +65,7 @@ class GlobalBindings extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => AuthController(), fenix: true);
+    Get.lazyPut(() => UserController(), fenix: true);
     Get.put(NetworkHandlingService(), permanent: true);
     Get.lazyPut(() => GlobalConfigController(), fenix: true);
   }

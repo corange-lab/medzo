@@ -17,6 +17,7 @@ import 'package:medzo/view/post_screen.dart';
 import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/view/search_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/user/my_name_text_widget.dart';
 
 class HomeScreen extends GetView<HomeController> {
   HomeScreen({Key? key}) : super(key: key);
@@ -76,41 +77,31 @@ class HomeScreen extends GetView<HomeController> {
           elevation: 3,
           shadowColor: AppColors.splashdetail.withOpacity(0.1),
           scrolledUnderElevation: 3,
-          leading: ClipOval(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 5, bottom: 5),
-              child: Container(
-                height: 40,
-                width: 40,
-                child: Image.asset("assets/user.jpg"),
+          title: Row(
+            children: [
+              Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: MyProfilePicWidget(size: Size(45, 45))),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextWidget(
+                      "Hellow🖐",
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          fontSize: Responsive.sp(3.8, context),
+                          letterSpacing: 0),
+                    ),
+                    SizedBox(
+                      height: Responsive.height(0.5, context),
+                    ),
+                    MyNameTextWidget()
+                  ],
+                ),
               ),
-            ),
-          ),
-          title: Align(
-            alignment: Alignment.topLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextWidget(
-                  "Hellow🖐",
-                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      fontSize: Responsive.sp(3.8, context), letterSpacing: 0),
-                ),
-                SizedBox(
-                  height: Responsive.height(0.5, context),
-                ),
-                TextWidget(
-                  "Henry, Arthur",
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        fontSize: Responsive.sp(4.5, context),
-                        fontFamily: AppFont.fontBold,
-                        letterSpacing: 0,
-                        color: AppColors.darkPrimaryColor,
-                      ),
-                ),
-              ],
-            ),
+            ],
           ),
           actions: [
             IconButton(

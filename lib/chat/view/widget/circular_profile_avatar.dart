@@ -168,7 +168,7 @@ class _CircularProfileAvatarState extends State<CircularProfileAvatar> {
                   : (context, url, downloadProgress) =>
                       CircularProgressIndicator(
                         value: downloadProgress.progress,
-                        color: Colors.black12,
+                        color: AppColors.primaryColor,
                       ),
             ),
           )
