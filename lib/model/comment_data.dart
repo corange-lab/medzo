@@ -5,6 +5,7 @@ class CommentData {
   String? content;
   String? commentUserId;
   List<String?>? likedUsers;
+  List<CommentData>? commentComments;
   DateTime? createdTime;
   DateTime? updatedTime;
 
@@ -13,6 +14,7 @@ class CommentData {
     required this.content,
     required this.commentUserId,
     this.likedUsers,
+    this.commentComments,
     this.createdTime,
     this.updatedTime,
   });
@@ -24,6 +26,10 @@ class CommentData {
       commentUserId: json['commentUserId'],
       likedUsers: json['likedUsers'] != null
           ? List<String?>.from(json['likedUsers'])
+          : null,
+      commentComments: json['commentComments'] != null
+          ? List<CommentData>.from(
+              json['commentComments'].map((x) => CommentData.fromJson(x)))
           : null,
       createdTime: json['createdTime'] != null
           ? FirebaseUtils.timestampToDateTime(json['createdTime'])
@@ -42,6 +48,13 @@ class CommentData {
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;
     }
+    if (this.commentComments != null) {
+      data['commentComments'] = this
+          .commentComments!
+          .map((comment) =>
+              comment is Map<String, dynamic> ? comment : comment.toMap())
+          .toList();
+    }
     if (this.createdTime != null) {
       data['createdTime'] = this.createdTime;
     }
@@ -51,16 +64,24 @@ class CommentData {
     return data;
   }
 
-  // Named constructor "create"
-  factory CommentData.create({
-    required String content,
-    required String commentUserId,
+  // TODO: generate copyWith
+  CommentData copyWith({
+    String? id,
+    String? content,
+    String? commentUserId,
+    List<String?>? likedUsers,
+    List<CommentData>? commentComments,
     DateTime? createdTime,
+    DateTime? updatedTime,
   }) {
     return CommentData(
-      content: content,
-      commentUserId: commentUserId,
-      createdTime: createdTime,
+      id: id ?? this.id,
+      content: content ?? this.content,
+      commentUserId: commentUserId ?? this.commentUserId,
+      likedUsers: likedUsers ?? this.likedUsers,
+      commentComments: commentComments ?? this.commentComments,
+      createdTime: createdTime ?? this.createdTime,
+      updatedTime: updatedTime ?? this.updatedTime,
     );
   }
 

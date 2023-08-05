@@ -131,4 +131,67 @@ class PostController extends GetxController {
     await postRef.doc(postData.id).update(postData.toFirebaseMap());
     return postData;
   }
+
+  // add Comment Of Comment as similar to add comment in the post. CommentData will have a comments
+  Future<PostData> addCommentOfComment(
+      PostData postData, CommentData commentData) async {
+    // same as above add Comment Of Comment as similar to add comment in the post. CommentData will have a comments
+
+    String commentId = postRef.doc().id;
+    // alter existing comment and add new comment
+    commentData = commentData.copyWith(commentComments: [
+      ...commentData.commentComments ?? [],
+      CommentData(
+          id: commentId,
+          content: commentController.text.trim(),
+          commentUserId: userController.loggedInUser.value.id,
+          createdTime: DateTime.now())
+    ]);
+
+    // update commentData into the postData
+    // postData = postData
+    //     .copyWith(postComments: [...postData.postComments ?? [], commentData]);
+    if (postData.postComments == null) {
+      postData.postComments = [];
+    }
+    int index = postData.postComments!
+        .indexWhere((element) => element.id == commentData.id);
+    postData.postComments![index] = commentData;
+    // clear comment controller
+    commentController.clear();
+    await postRef.doc(postData.id).update(postData.toFirebaseMap());
+    return postData;
+  }
+
+  bool hasLikedThisCommentOfComment(commentData) {
+    if (commentData.likedUsers != null && commentData.likedUsers!.isNotEmpty) {
+      return commentData.likedUsers!
+          .contains(userController.loggedInUser.value.id);
+    }
+    return false;
+  }
+
+  Future<void> addLikeOnCommentOfComment(PostData postData,
+      CommentData parentCommentData, String commentId) async {
+    // alter existing comment and add new comment
+
+    CommentData? commentData = (parentCommentData.commentComments ?? [])
+        .toList()
+        .firstWhereOrNull((element) => element.id == commentId);
+    if (commentData?.likedUsers != null &&
+        commentData!.likedUsers!.isNotEmpty) {
+      if (commentData.likedUsers!
+          .contains(userController.loggedInUser.value.id)) {
+        commentData.likedUsers!.remove(userController.loggedInUser.value.id);
+      } else {
+        commentData.likedUsers!.add(userController.loggedInUser.value.id);
+      }
+    } else {
+      commentData?.likedUsers = [];
+      commentData?.likedUsers?.add(userController.loggedInUser.value.id);
+    }
+
+    update([postData.id ?? 'post${postData.id}']);
+    return postRef.doc(postData.id).update(postData.toFirebaseMap());
+  }
 }
