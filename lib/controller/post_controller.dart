@@ -46,7 +46,11 @@ class PostController extends GetxController {
   }
 
   Stream<QuerySnapshot<Object?>> fetchAllPosts() {
-    return postRef.where('creatorId', isNull: false).get().asStream();
+    return postRef
+        .where('creatorId', isNotEqualTo: null)
+        .orderBy('createdTime', descending: true)
+        .get()
+        .asStream();
   }
 
   //TODO; fetch favourite post of logged in user
