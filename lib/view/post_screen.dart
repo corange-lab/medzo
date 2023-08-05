@@ -714,7 +714,7 @@ class PostScreen extends GetView<PostController> {
       ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 5,
+        itemCount: 2,
         itemBuilder: (context, index) {
           return GestureDetector(
             // onTap: () {
