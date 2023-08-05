@@ -142,6 +142,7 @@ class ProfileScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextWidget(
+                              // FIXME: add User Followers
                               "893 Followers",
                               style: Theme.of(context)
                                   .textTheme
@@ -163,6 +164,7 @@ class ProfileScreen extends StatelessWidget {
                               width: Responsive.width(2, context),
                             ),
                             TextWidget(
+                              // FIXME: add Following User
                               "101 Following",
                               style: Theme.of(context)
                                   .textTheme
@@ -205,6 +207,7 @@ class ProfileScreen extends StatelessWidget {
                           height: Responsive.height(2, context),
                         ),
                         TextWidget(
+                          // FIXME: add User Details
                           "4 year member, 41, Caucasian Female",
                           style: Theme.of(context)
                               .textTheme

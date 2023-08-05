@@ -15,6 +15,7 @@ migrate_working_dir/
 *.ipr
 *.iws
 .idea/
+.idea_tool/
 .idea/libraries/
 .idea/libraries/Dart_SDK.xml
 .idea/libraries/Flutter_Plugins.xml
@@ -31,6 +32,7 @@ migrate_working_dir/
 .dart_tool/package_config.json
 .dart_tool/package_config_subset
 .flutter-plugins
+/.flutter-plugins
 .flutter-plugins-dependencies
 .packages
 .pub-cache/
@@ -47,3 +49,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/.dart_tool/
+/.idea/

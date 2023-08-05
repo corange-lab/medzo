@@ -88,6 +88,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 height: Responsive.height(0.5, context),
               ),
               TextWidget(
+                // FIXME: add Medicine Name
                 "Azithromycin",
                 style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontSize: Responsive.sp(4.5, context),

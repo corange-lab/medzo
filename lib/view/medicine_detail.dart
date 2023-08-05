@@ -55,6 +55,7 @@ class _MedicineDetailState extends State<MedicineDetail>
           child: Padding(
             padding: const EdgeInsets.only(right: 10),
             child: TextWidget(
+              // FIXME: add Medicine Name
               "Azithromycin",
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontSize: Responsive.sp(4.5, context),
@@ -114,6 +115,7 @@ Container medicineWidget(BuildContext context, TabController tabController,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextWidget(
+                            // FIXME: add Medicine Name
                             "Azithromycin",
                             style: Theme.of(context)
                                 .textTheme
@@ -128,6 +130,7 @@ Container medicineWidget(BuildContext context, TabController tabController,
                             height: Responsive.height(0.3, context),
                           ),
                           TextWidget(
+                            // FIXME: add Medicine details
                             "A fast acting antibiotic.\nTackles infections effectively",
                             textAlign: TextAlign.start,
                             style: Theme.of(context)
@@ -187,6 +190,7 @@ Container medicineWidget(BuildContext context, TabController tabController,
                                 width: Responsive.width(1.5, context),
                               ),
                               TextWidget(
+                                // FIXME: add Medicine Type
                                 ConstString.antibiotic,
                                 style: Theme.of(context)
                                     .textTheme
@@ -211,6 +215,7 @@ Container medicineWidget(BuildContext context, TabController tabController,
                                 width: Responsive.width(1.5, context),
                               ),
                               TextWidget(
+                                // FIXME: add Medicine Type
                                 ConstString.prescribed,
                                 style: Theme.of(context)
                                     .textTheme
@@ -364,6 +369,7 @@ Container warningWidget(context) {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: TextWidget(
+              // FIXME: add Medicine warning
               "Cetirizine, in general, has a low potential for interactions with other drugs. However, certain substances could potentially interact with cetirizine, including",
               style: Theme.of(context).textTheme.displayMedium!.copyWith(
                     fontSize: Responsive.sp(3.6, context),
@@ -530,6 +536,7 @@ Container aboutWidget(context) {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: TextWidget(
+                // FIXME: add Details about Medicine
                 "Cetirizine is an over-the-counter antihistamine used to relieve allergy symptoms such as runny nose, sneezing, itching, watery eyes, and itching of the nose or throat. It also can help relieve itching and swelling caused by chronic urticaria (hives). Cetirizine works by blocking the effects of histamine, a substance in the body that causes allergy symptoms.",
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(
                       fontSize: Responsive.sp(3.6, context),
@@ -546,7 +553,7 @@ Container aboutWidget(context) {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: TextWidget(
+              child: TextWidget(// FIXME: add Medicine details
                 "Although Cetirizine is generally considered safe for use, the manufacturers often list several",
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(
                       fontSize: Responsive.sp(3.5, context),
@@ -561,6 +568,7 @@ Container aboutWidget(context) {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: TextWidget(
+                  // FIXME: add Medicine Details
                   "potential warnings and precautions",
                   style: Theme.of(context).textTheme.displayMedium!.copyWith(
                         fontSize: Responsive.sp(3.6, context),
@@ -710,6 +718,7 @@ Container aboutWidget(context) {
 }
 
 Container questionWidget(context, TabController tabQuestionController) {
+  //TODO : Remove Q&A Tab
   return Container(
       child: Padding(
     padding: const EdgeInsets.all(8.0),
@@ -953,6 +962,7 @@ Container popularQuestionWidget(context) {
                           Align(
                             alignment: Alignment.topLeft,
                             child: TextWidget(
+                              // FIXME: add Name of Review User
                               "John Doe",
                               style: Theme.of(context)
                                   .textTheme
@@ -969,6 +979,7 @@ Container popularQuestionWidget(context) {
                           Align(
                             alignment: Alignment.topLeft,
                             child: TextWidget(
+                              // FIXME: add Review Time
                               "2 Days Ago",
                               style: Theme.of(context)
                                   .textTheme
@@ -999,6 +1010,7 @@ Container popularQuestionWidget(context) {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: TextWidget(
+                          // FIXME: add User Review
                           "How much does should my 7 years old son take ?",
                           textAlign: TextAlign.start,
                           style: Theme.of(context)
@@ -1307,6 +1319,7 @@ Container reviewWidget(context) {
                                 width: Responsive.width(1.5, context),
                               ),
                               TextWidget(
+                                // FIXME: add review rating
                                 "3.9/5",
                                 style: Theme.of(context)
                                     .textTheme
@@ -1350,6 +1363,7 @@ Container reviewWidget(context) {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextWidget(
+                                  // FIXME: add name of review user
                                   "John Doe",
                                   style: Theme.of(context)
                                       .textTheme
@@ -1363,6 +1377,7 @@ Container reviewWidget(context) {
                                   height: Responsive.height(0.5, context),
                                 ),
                                 TextWidget(
+                                  // FIXME: add review details
                                   "Closest Match • Caucasian Male, 61",
                                   style: Theme.of(context)
                                       .textTheme
@@ -1416,6 +1431,7 @@ Container reviewWidget(context) {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: TextWidget(
+                          // FIXME: add User Review
                           "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                           style: Theme.of(context)
                               .textTheme
@@ -1477,6 +1493,7 @@ Container reviewWidget(context) {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextWidget(
+                                  // FIXME: add name of review user
                                   "John Doe",
                                   style: Theme.of(context)
                                       .textTheme
@@ -1490,6 +1507,7 @@ Container reviewWidget(context) {
                                   height: Responsive.height(0.5, context),
                                 ),
                                 TextWidget(
+                                  // FIXME: add Review user
                                   "Closest Match • Caucasian Male, 61",
                                   style: Theme.of(context)
                                       .textTheme
@@ -1543,6 +1561,7 @@ Container reviewWidget(context) {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: TextWidget(
+                          // FIXME: add Review Details
                           "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                           style: Theme.of(context)
                               .textTheme

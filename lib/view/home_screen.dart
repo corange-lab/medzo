@@ -565,6 +565,7 @@ class HomeScreen extends GetView<HomeController> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       TextWidget(
+                                        // FIXME: add Medicine Name
                                         "Azithromycin",
                                         style: Theme.of(context)
                                             .textTheme
@@ -581,6 +582,7 @@ class HomeScreen extends GetView<HomeController> {
                                         height: Responsive.height(0.3, context),
                                       ),
                                       TextWidget(
+                                        // FIXME: add Medicine Details
                                         "A fast acting antibiotic.\nTackles infections effectively",
                                         textAlign: TextAlign.start,
                                         style: Theme.of(context)
@@ -649,6 +651,7 @@ class HomeScreen extends GetView<HomeController> {
                                                 Responsive.width(1.5, context),
                                           ),
                                           TextWidget(
+                                            // FIXME: add Medicine Type
                                             ConstString.antibiotic,
                                             style: Theme.of(context)
                                                 .textTheme
@@ -677,6 +680,7 @@ class HomeScreen extends GetView<HomeController> {
                                                 Responsive.width(1.5, context),
                                           ),
                                           TextWidget(
+                                            // FIXME: add Medicine Type
                                             ConstString.prescribed,
                                             style: Theme.of(context)
                                                 .textTheme

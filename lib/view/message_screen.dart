@@ -54,6 +54,7 @@ class MessageScreen extends StatelessWidget {
               child: Container(
                 height: 50,
                 width: 50,
+                // FIXME: add User Image
                 child: index % 2 == 0
                     ? Image.asset("assets/user2.jpg")
                     : Image.asset("assets/user4.jpg"),
@@ -63,6 +64,7 @@ class MessageScreen extends StatelessWidget {
             title: Align(
               alignment: Alignment.topLeft,
               child: TextWidget(
+                // FIXME: add User name
                 index % 2 == 0 ? "Cameron Williamson" : "Dianne Russell",
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     fontFamily: AppFont.fontBold,
@@ -72,6 +74,7 @@ class MessageScreen extends StatelessWidget {
             subtitle: Align(
               alignment: Alignment.topLeft,
               child: TextWidget(
+                // FIXME: add User Last Message
                 index % 2 == 0
                     ? "Hello? interested in this loads?"
                     : "It's really nice working with you",
