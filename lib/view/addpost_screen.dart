@@ -10,6 +10,7 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/widgets/pick_image.dart';
@@ -51,46 +52,50 @@ class AddPostScreen extends GetView<NewPostController> {
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      body: addpostWidget(context, pickController, controller),
+      body: addPostWidget(context, pickController, controller),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
         child: ElevatedButton(
           onPressed: () async {
-            //FIXME: add validation for description
-
-            progressDialogue(context, title: "Post Uploading");
-            List<PostImageData> imagelist = [];
-
-            for (var i = 0; i < controller.selectedMultiImages.length; i++) {
-              PostImageData image = PostImageData(
-                path: controller.selectedMultiImages[i].path,
-                uploaded: false,
-              );
-              imagelist.add(image);
+            if (controller.description.text.trim().isEmpty) {
+              toast(message: "Please add description");
+              return;
             }
+            progressDialogue(context, title: "Post Uploading");
+            List<PostImageData> imageList = [];
 
             final postId = controller.postRef.doc().id;
 
             PostImageData mImage = PostImageData();
 
-            for (int i = 0; i < imagelist.length; i++) {
-              mImage = imagelist.elementAt(i);
-              String? imageUrl = await controller.uploadImage(mImage);
-              if (imageUrl != null) {
-                String imageId = controller.postRef.doc().id;
-                mImage = mImage.copyWith(
-                    id: imageId,
-                    postId: postId,
-                    uploaded: true,
-                    url: imageUrl,
-                    path: imagelist[i].path);
+            if (controller.selectedMultiImages.length > 0) {
+              for (var i = 0; i < controller.selectedMultiImages.length; i++) {
+                PostImageData image = PostImageData(
+                  path: controller.selectedMultiImages[i].path,
+                  uploaded: false,
+                );
+                imageList.add(image);
               }
-              imagelist[i] = mImage;
+
+              for (int i = 0; i < imageList.length; i++) {
+                mImage = imageList.elementAt(i);
+                String? imageUrl = await controller.uploadImage(mImage);
+                if (imageUrl != null) {
+                  String imageId = controller.postRef.doc().id;
+                  mImage = mImage.copyWith(
+                      id: imageId,
+                      postId: postId,
+                      uploaded: true,
+                      url: imageUrl,
+                      path: imageList[i].path);
+                }
+                imageList[i] = mImage;
+              }
             }
 
             PostData newPostData = PostData.create(
-              postImages: imagelist,
-              description: controller.description.text,
+              postImages: imageList,
+              description: controller.description.text.trim(),
               creatorId: controller.loggedInUserId,
               id: postId,
               createdTime: DateTime.now(),
@@ -105,7 +110,7 @@ class AddPostScreen extends GetView<NewPostController> {
               newPostData = newPostData.copyWith(id: postId);
               controller.selectedMultiImages.clear();
 
-              if (imagelist.every((element) => element.uploaded == true)) {
+              if (imageList.every((element) => element.uploaded == true)) {
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -163,7 +168,7 @@ class AddPostScreen extends GetView<NewPostController> {
   //   controller.update();
   // }
 
-  Widget addpostWidget(BuildContext context, pickImageController pickController,
+  Widget addPostWidget(BuildContext context, pickImageController pickController,
       NewPostController controller) {
     return SingleChildScrollView(
       child: Column(

@@ -32,6 +32,13 @@ class PostController extends GetxController {
 
   TextEditingController commentController = TextEditingController();
 
+  final FocusNode commentFocusNode = FocusNode();
+
+  CommentData? replyingCommentData;
+  UserModel? replyingCommentUser;
+
+  PostData? currentPostData;
+
   @override
   void onInit() {
     super.onInit();
@@ -81,7 +88,9 @@ class PostController extends GetxController {
     }
 
     update([postData.id ?? 'post${postData.id}']);
-    return postRef.doc(postData.id).update(postData.toFirebaseMap());
+    return postRef
+        .doc(postData.id)
+        .set(postData.toFirebaseMap(), SetOptions(merge: true));
   }
 
   // check whether my PostData has been liked by current user or not
@@ -109,14 +118,22 @@ class PostController extends GetxController {
 
     // add comment to current postData
     update([postData.id ?? 'post${postData.id}']);
-    return postRef.doc(postData.id).update(postData.toFirebaseMap());
+    return postRef
+        .doc(postData.id)
+        .set(postData.toFirebaseMap(), SetOptions(merge: true));
   }
 
-  Future<PostData> addComment(PostData postData) async {
+  Future<PostData?> addComment() async {
+    var value = await postRef.doc(currentPostData!.id).get();
+    if (value.data() == null) {
+      return null;
+    }
+    currentPostData = PostData.fromMap(value.data()! as Map<String, dynamic>);
+
     String commentId = postRef.doc().id;
     // alter existing comment and add new comment
-    postData = postData.copyWith(postComments: [
-      ...postData.postComments ?? [],
+    currentPostData = currentPostData!.copyWith(postComments: [
+      ...currentPostData!.postComments ?? [],
       CommentData(
           id: commentId,
           content: commentController.text.trim(),
@@ -128,14 +145,21 @@ class PostController extends GetxController {
 
     // clear comment controller
     commentController.clear();
-    await postRef.doc(postData.id).update(postData.toFirebaseMap());
-    return postData;
+    await postRef
+        .doc(currentPostData!.id)
+        .set(currentPostData!.toFirebaseMap(), SetOptions(merge: true));
+    return currentPostData!;
   }
 
   // add Comment Of Comment as similar to add comment in the post. CommentData will have a comments
-  Future<PostData> addCommentOfComment(
-      PostData postData, CommentData commentData) async {
+  Future<PostData?> addCommentOfComment(CommentData commentData) async {
     // same as above add Comment Of Comment as similar to add comment in the post. CommentData will have a comments
+
+    var value = await postRef.doc(currentPostData!.id).get();
+    if (value.data() == null) {
+      return null;
+    }
+    currentPostData = PostData.fromMap(value.data()! as Map<String, dynamic>);
 
     String commentId = postRef.doc().id;
     // alter existing comment and add new comment
@@ -151,16 +175,18 @@ class PostController extends GetxController {
     // update commentData into the postData
     // postData = postData
     //     .copyWith(postComments: [...postData.postComments ?? [], commentData]);
-    if (postData.postComments == null) {
-      postData.postComments = [];
+    if (currentPostData!.postComments == null) {
+      currentPostData!.postComments = [];
     }
-    int index = postData.postComments!
+    int index = currentPostData!.postComments!
         .indexWhere((element) => element.id == commentData.id);
-    postData.postComments![index] = commentData;
+    currentPostData!.postComments![index] = commentData;
     // clear comment controller
     commentController.clear();
-    await postRef.doc(postData.id).update(postData.toFirebaseMap());
-    return postData;
+    await postRef
+        .doc(currentPostData!.id)
+        .set(currentPostData!.toFirebaseMap(), SetOptions(merge: true));
+    return currentPostData!;
   }
 
   bool hasLikedThisCommentOfComment(commentData) {
@@ -171,8 +197,8 @@ class PostController extends GetxController {
     return false;
   }
 
-  Future<void> addLikeOnCommentOfComment(PostData postData,
-      CommentData parentCommentData, String commentId) async {
+  Future<void> addLikeOnCommentOfComment(CommentData parentCommentData,
+      CommentData childCommentData, String commentId) async {
     // alter existing comment and add new comment
 
     CommentData? commentData = (parentCommentData.commentComments ?? [])
@@ -191,7 +217,37 @@ class PostController extends GetxController {
       commentData?.likedUsers?.add(userController.loggedInUser.value.id);
     }
 
+    update([currentPostData!.id ?? 'post${currentPostData!.id}']);
+    return postRef
+        .doc(currentPostData!.id)
+        .set(currentPostData!.toFirebaseMap(), SetOptions(merge: true));
+  }
+
+  Future<void> deleteCommentOfComment(CommentData parentCommentData,
+      CommentData childCommentData, String commentId) async {
+    CommentData? commentData = (parentCommentData.commentComments ?? [])
+        .toList()
+        .firstWhereOrNull((element) => element.id == commentId);
+
+    if (commentData != null) {
+      parentCommentData.commentComments!.remove(commentData);
+    }
+
+    update([currentPostData!.id ?? 'post${currentPostData!.id}']);
+    return postRef
+        .doc(currentPostData!.id)
+        .set(currentPostData!.toFirebaseMap(), SetOptions(merge: true));
+  }
+
+  Future<void> deleteComment(PostData postData, CommentData commentData) {
+    postData.postComments!.remove(commentData);
     update([postData.id ?? 'post${postData.id}']);
-    return postRef.doc(postData.id).update(postData.toFirebaseMap());
+    return postRef
+        .doc(postData.id)
+        .set(postData.toFirebaseMap(), SetOptions(merge: true));
+  }
+
+  bool replyActionEnabled() {
+    return (replyingCommentUser != null && replyingCommentData != null);
   }
 }

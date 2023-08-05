@@ -52,7 +52,7 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
       print("---list--$value");
       if (value != null) {
         mUsers.value = value.users ?? [];
-        mUsers.value.insertAll(0, invitedUsers);
+        mUsers.insertAll(0, invitedUsers);
       }
     } catch (err) {
       debugPrint('Something went wrong');
@@ -304,8 +304,7 @@ class _CreateGroupBottomSheetState extends State<CreateGroupBottomSheet> {
                                 itemCount:
                                     (mUsers.length /*+ invitedUsers.length*/),
                                 itemBuilder: (_, index) {
-                                  UserModel userData =
-                                      mUsers.value.elementAt(index);
+                                  UserModel userData = mUsers.elementAt(index);
                                   if (userData.id ==
                                       FirebaseAuth.instance.currentUser?.uid) {
                                     return const SizedBox();

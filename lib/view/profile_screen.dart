@@ -143,6 +143,7 @@ class ProfileScreen extends StatelessWidget {
                           children: [
                             TextWidget(
                               "893 Followers",
+                              // FIXME:
                               style: Theme.of(context)
                                   .textTheme
                                   .labelSmall!

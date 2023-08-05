@@ -249,7 +249,10 @@ class _PostListScreenState extends State<PostListScreen> {
         builder: (ctrl) {
           return GestureDetector(
             onTap: () async {
-              await Get.to(() => PostDetailScreen(postData: postData));
+              controller.currentPostData = postData;
+              await Get.to(() => PostDetailScreen())?.whenComplete(() {
+                controller.currentPostData = null;
+              });
             },
             child: Container(
               color: AppColors.white,
