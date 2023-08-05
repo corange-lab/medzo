@@ -18,9 +18,10 @@ import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 import 'package:sizer/sizer.dart';
 
+// ignore: must_be_immutable
 class PostDetailScreen extends GetWidget<PostController> {
-  final PostData postData;
-  const PostDetailScreen({super.key, required this.postData});
+  PostData postData;
+  PostDetailScreen({super.key, required this.postData});
 
   /// this screen is used to show post detail same as shown in the post List, UI will have similar to post single element and other details should be added like user can comment and like the post
 
@@ -61,12 +62,14 @@ class PostDetailScreen extends GetWidget<PostController> {
           ),
 
           // add TextField to add comment
-          InputCommentWidget(context, controller, postData),
+          InputCommentWidget(context, controller),
 
           Expanded(
             child: GetBuilder<PostController>(
                 id: postData.id ?? 'post${postData.id}',
                 builder: (ctrl) {
+                  print(
+                      'updates-- ${postData.postComments?.length.toString()}');
                   return CommentListWidget(
                       context: context,
                       controller: controller,
@@ -256,8 +259,7 @@ class PostDetailScreen extends GetWidget<PostController> {
     );
   }
 
-  Widget InputCommentWidget(
-      BuildContext context, PostController controller, PostData postData) {
+  Widget InputCommentWidget(BuildContext context, PostController controller) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
@@ -289,7 +291,10 @@ class PostDetailScreen extends GetWidget<PostController> {
                 return;
               }
 
-              await controller.addComment(postData);
+              PostData mPostData = await controller.addComment(postData);
+              postData = mPostData;
+              controller.update([postData.id ?? 'post${postData.id}']);
+              print('poooo ${postData.postComments.toString()}');
             },
             child: Container(
               height: 6.5.h,
@@ -347,23 +352,39 @@ class PostDetailScreen extends GetWidget<PostController> {
                         fontSize: Responsive.sp(3.4, context)),
                   ),
                 ),
-                IconButton(
-                  onPressed: () async {
-                    await controller.addLikeOnComment(
-                        postData, commentData.id!);
-                  },
-                  icon: controller.hasLikedThisComment(commentData!)
-                      ? Icon(
-                          Icons.favorite_rounded,
-                          color: AppColors.primaryColor,
-                          size: 15,
-                        )
-                      : SvgPicture.asset(
-                          SvgIcon.likePost,
-                          height: 15,
-                        ),
-                  iconSize: 15,
-                  splashColor: Colors.transparent,
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        await controller.addLikeOnComment(
+                            postData, commentData.id!);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: controller.hasLikedThisComment(commentData!)
+                            ? Icon(
+                                Icons.favorite_rounded,
+                                color: AppColors.primaryColor,
+                                size: 15,
+                              )
+                            : SvgPicture.asset(
+                                SvgIcon.likePost,
+                                height: 15,
+                              ),
+                      ),
+                      // iconSize: 15,
+                      // splashColor: Colors.transparent,
+                    ),
+                    Text(
+                      commentData.likedUsers?.length.toString() ?? "0",
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: AppColors.txtlike,
+                          letterSpacing: 0.3,
+                          fontSize: 8.sp,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: AppFont.fontFamily),
+                    ),
+                  ],
                 )
               ],
             ),

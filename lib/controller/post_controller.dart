@@ -112,7 +112,7 @@ class PostController extends GetxController {
     return postRef.doc(postData.id).update(postData.toFirebaseMap());
   }
 
-  Future<void> addComment(PostData postData) async {
+  Future<PostData> addComment(PostData postData) async {
     String commentId = postRef.doc().id;
     // alter existing comment and add new comment
     postData = postData.copyWith(postComments: [
@@ -128,7 +128,7 @@ class PostController extends GetxController {
 
     // clear comment controller
     commentController.clear();
-    update([postData.id ?? 'post${postData.id}']);
-    return postRef.doc(postData.id).update(postData.toFirebaseMap());
+    await postRef.doc(postData.id).update(postData.toFirebaseMap());
+    return postData;
   }
 }
