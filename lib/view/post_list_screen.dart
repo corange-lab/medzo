@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -209,7 +210,7 @@ class _PostListScreenState extends State<PostListScreen> {
               return ListView.separated(
                   itemBuilder: (context, index) => PostItemWidget(context,
                       controller, postDataList.elementAt(index), index),
-                  separatorBuilder: (context, index) => Divider(),
+                  separatorBuilder: (context, index) => Divider(color: Colors.transparent,),
                   itemCount: postDataList.length);
             } else {
               // TODO: show No Post data found
@@ -270,7 +271,7 @@ class _PostListScreenState extends State<PostListScreen> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                     child: TextWidget(
                       postData.description ?? '',
                       textAlign: TextAlign.start,
@@ -285,61 +286,66 @@ class _PostListScreenState extends State<PostListScreen> {
                   ),
                   (postData.postImages ?? []).isNotEmpty
                       ? Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 8),
-                          child: Container(
-                            height: 18.h,
-                            alignment: Alignment.center,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                // TODO: on Image click open a IMAGE IN NEW SCREEN
-                                return GestureDetector(
-                                  onTap: () {
-                                    if (postData.postImages
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      child: Container(
+                        height: 20.h,
+                        alignment: Alignment.center,
+                        child: CarouselSlider.builder(
+                          itemCount: (postData.postImages ?? []).length,
+                          itemBuilder: (BuildContext context, int index,
+                              int pageViewIndex) =>
+                              GestureDetector(
+                                onTap: () {
+                                  if (postData.postImages
+                                      ?.elementAt(index)
+                                      .url !=
+                                      null) {
+                                    Get.to(() => ImagePreviewScreen.withUrl(
+                                        postData.postImages
                                             ?.elementAt(index)
-                                            .url !=
-                                        null) {
-                                      Get.to(() => ImagePreviewScreen.withUrl(
-                                          postData.postImages
-                                                  ?.elementAt(index)
-                                                  .url ??
-                                              ''));
-                                    }
-                                  },
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
-                                        // TODO: handle image null an error
-                                        child: CachedNetworkImage(
-                                          imageUrl: postData.postImages
-                                                  ?.elementAt(index)
-                                                  .url ??
-                                              '',
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Center(
+                                            .url ??
+                                            ''));
+                                  }
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  // TODO: handle image null an error
+                                  child: CachedNetworkImage(
+                                    imageUrl: postData.postImages
+                                        ?.elementAt(index)
+                                        .url ??
+                                        '',
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                        SizedBox(
+                                          width: 120,
+                                          child: Center(
                                             child: CupertinoActivityIndicator(
                                               color: AppColors.primaryColor,
                                               animating: true,
                                               radius: 14,
                                             ),
                                           ),
-                                          fit: BoxFit.contain,
-                                        )),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.dark.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(5)),
+                                        ),
+                                    fit: BoxFit.fill,
                                   ),
-                                );
-                              },
-                              itemCount: (postData.postImages ?? []).length,
-                            ),
-                          ))
+                                  // clipBehavior: Clip.antiAliasWithSaveLayer,
+                                ),
+                              ),
+                          options: CarouselOptions(
+                            initialPage: 0,
+                            enableInfiniteScroll: false,
+                            aspectRatio: 16 / 9,
+                            enlargeCenterPage: true,
+                            viewportFraction: 0.95,
+                            disableCenter: true,
+                            height: 500,
+                          ),
+                        ),
+                      ))
                       : SizedBox(),
                   Container(
                     height: 0.18.h,
@@ -347,59 +353,64 @@ class _PostListScreenState extends State<PostListScreen> {
                     color: AppColors.grey.withOpacity(0.1),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        IconButton(
-                          onPressed: () async {
+                        GestureDetector(
+                          onTap: () async {
                             await controller.addLike(postData);
                           },
-                          icon: controller.isLiked(postData)
-                              ? Icon(
-                                  Icons.favorite_rounded,
-                                  color: AppColors.primaryColor,
-                                )
+                          child: controller.isLiked(postData)
+                              ? SvgPicture.asset(
+                            SvgIcon.likePost,
+                            height: 2.4.h,
+                            color: AppColors.primaryColor,
+                          )
                               : SvgPicture.asset(
-                                  SvgIcon.likePost,
-                                  height: 2.5.h,
-                                ),
-                          splashColor: Colors.transparent,
-                        ),
-                        Text(
-                          postData.likedUsers?.length.toString() ?? "0",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(
-                                  color: AppColors.txtlike,
-                                  letterSpacing: 0.3,
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: AppFont.fontFamily),
+                            SvgIcon.likePost,
+                            height: 2.4.h,
+                          ),
                         ),
                         SizedBox(
                           width: 2.w,
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
+                        Text(
+                          postData.likedUsers?.length.toString() ?? "0",
+                          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                              color: AppColors.txtlike,
+                              letterSpacing: 0.3,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: AppFont.fontFamily),
+                        ),
+                        SizedBox(
+                          width: 4.w,
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            controller.currentPostData = postData;
+                            await Get.to(() => PostDetailScreen())
+                                ?.whenComplete(() {
+                              controller.currentPostData = null;
+                            });
+                          },
+                          child: SvgPicture.asset(
                             SvgIcon.commentPost,
-                            height: 2.8.h,
+                            height: 2.5.h,
                           ),
-                          splashColor: Colors.transparent,
+                        ),
+                        SizedBox(
+                          width: 1.5.w,
                         ),
                         Text(
                           postData.postComments?.length.toString() ?? "0",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(
-                                  color: AppColors.txtlike,
-                                  letterSpacing: 0.3,
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: AppFont.fontFamily),
+                          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                              color: AppColors.txtlike,
+                              letterSpacing: 0.3,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: AppFont.fontFamily),
                         ),
                       ],
                     ),
@@ -416,7 +427,7 @@ class _PostListScreenState extends State<PostListScreen> {
     return ListTile(
       horizontalTitleGap: 10,
       leading:
-          OtherProfilePicWidget(profilePictureUrl: thisPostUser.profilePicture),
+      OtherProfilePicWidget(profilePictureUrl: thisPostUser.profilePicture),
       title: Align(
         alignment: Alignment.topLeft,
         child: TextWidget(

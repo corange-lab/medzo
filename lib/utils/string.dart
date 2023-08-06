@@ -213,6 +213,7 @@ class ConstString {
   static const String uploadpost = "Upload Post";
   static const String postlist = "Post List";
   static const String newpost = "New Post";
+  static const String postdetail = "Post Detail";
   static const String preview = "Preview";
   static const String bookmarkpost = "Bookmark Posts";
   static const String allpost = "All Posts";

@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
+import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/image_preview_screen.dart';
 import 'package:medzo/view/medicine_detail.dart';
 import 'package:medzo/view/post_detail_screen.dart';
@@ -51,10 +53,14 @@ class PostScreen extends GetView<PostController> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextWidget(
-                  "Hellow🖐",
-                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      fontSize: Responsive.sp(3.8, context), letterSpacing: 0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 2),
+                  child: TextWidget(
+                    "Hellow🖐",
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        fontSize: Responsive.sp(3.8, context),
+                        letterSpacing: 0),
+                  ),
                 ),
                 SizedBox(
                   height: Responsive.height(0.5, context),
@@ -134,103 +140,105 @@ class PostScreen extends GetView<PostController> {
     return GetBuilder<PostController>(
         id: postData.id ?? 'post${postData.id}',
         builder: (ctrl) {
-          return Container(
-            color: AppColors.white,
-            padding: const EdgeInsets.only(bottom: 3),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                PostHeaderWidget(context, postData,
-                    controller.findUser(postData.creatorId!)),
-                Container(
-                  height: 0.18.h,
-                  width: SizerUtil.width,
-                  color: AppColors.grey.withOpacity(0.1),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    controller.currentPostData = postData;
-                    await Get.to(() => PostDetailScreen())?.whenComplete(() {
-                      controller.currentPostData = null;
-                    });
-                  },
-                  child: Padding(
+          return GestureDetector(
+            // onTap: () async {
+            //   controller.currentPostData = postData;
+            //   await Get.to(() => PostDetailScreen())?.whenComplete(() {
+            //     controller.currentPostData = null;
+            //   });
+            // },
+            child: Container(
+              color: AppColors.white,
+              padding: const EdgeInsets.only(bottom: 3),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  PostHeaderWidget(context, postData,
+                      controller.findUser(postData.creatorId!)),
+                  Container(
+                    height: 0.18.h,
+                    width: SizerUtil.width,
+                    color: AppColors.grey.withOpacity(0.1),
+                  ),
+                  Padding(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                    child: TextWidget(
-                      postData.description ?? '',
-                      textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontSize: Responsive.sp(3.8, context),
-                          fontFamily: AppFont.fontMedium,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0,
-                          color: AppColors.dark.withOpacity(0.9),
-                          height: 1.5),
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextWidget(
+                        postData.description ?? '',
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: Responsive.sp(3.8, context),
+                            fontFamily: AppFont.fontMedium,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0,
+                            color: AppColors.dark.withOpacity(0.9),
+                            height: 1.5),
+                      ),
                     ),
                   ),
-                ),
-                  (controller.currentPostData?.postImages ?? []).isNotEmpty
+                  (postData.postImages ?? []).isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 8),
+                              horizontal: 12, vertical: 8),
                           child: Container(
-                            height: 18.h,
+                            height: 20.h,
                             alignment: Alignment.center,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                // TODO: on Image click open a IMAGE IN NEW SCREEN
-                                return GestureDetector(
-                                  onTap: () {
-                                    if (postData.postImages
-                                            ?.elementAt(index)
-                                            .url !=
-                                        null) {
-                                      Get.to(() => ImagePreviewScreen.withUrl(
-                                          postData.postImages
-                                                  ?.elementAt(index)
-                                                  .url ??
-                                              ''));
-                                    }
-                                  },
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(5),
-                                      // TODO: handle image null an error
-                                      child: CachedNetworkImage(
-                                        imageUrl: postData.postImages
+                            child: CarouselSlider.builder(
+                              itemCount: (postData.postImages ?? []).length,
+                              itemBuilder: (BuildContext context, int index,
+                                      int pageViewIndex) =>
+                                  GestureDetector(
+                                onTap: () {
+                                  if (postData.postImages
+                                          ?.elementAt(index)
+                                          .url !=
+                                      null) {
+                                    Get.to(() => ImagePreviewScreen.withUrl(
+                                        postData.postImages
                                                 ?.elementAt(index)
                                                 .url ??
-                                            '',
-                                        errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
-                                        progressIndicatorBuilder:
-                                            (context, url, downloadProgress) =>
-                                                SizedBox(
-                                          width: 150,
-                                          child: Center(
-                                            child: CupertinoActivityIndicator(
-                                              color: AppColors.primaryColor,
-                                              animating: true,
-                                              radius: 14,
-                                            ),
-                                          ),
+                                            ''));
+                                  }
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  // TODO: handle image null an error
+                                  child: CachedNetworkImage(
+                                    imageUrl: postData.postImages
+                                            ?.elementAt(index)
+                                            .url ??
+                                        '',
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            SizedBox(
+                                      width: 120,
+                                      child: Center(
+                                        child: CupertinoActivityIndicator(
+                                          color: AppColors.primaryColor,
+                                          animating: true,
+                                          radius: 14,
                                         ),
-                                        fit: BoxFit.contain,
                                       ),
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
                                     ),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.dark.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(5)),
+                                    fit: BoxFit.fill,
                                   ),
-                                );
-                              },
-                              itemCount: (postData.postImages ?? []).length,
+                                  // clipBehavior: Clip.antiAliasWithSaveLayer,
+                                ),
+                              ),
+                              options: CarouselOptions(
+                                initialPage: 0,
+                                enableInfiniteScroll: false,
+                                aspectRatio: 16 / 9,
+                                enlargeCenterPage: true,
+                                viewportFraction: 0.95,
+                                disableCenter: true,
+                                height: 500,
+                              ),
                             ),
                           ))
                       : SizedBox(),
@@ -240,24 +248,27 @@ class PostScreen extends GetView<PostController> {
                     color: AppColors.grey.withOpacity(0.1),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        IconButton(
-                          onPressed: () async {
+                        GestureDetector(
+                          onTap: () async {
                             await controller.addLike(postData);
                           },
-                          icon: controller.isLiked(postData)
-                              ? Icon(
-                                  Icons.favorite_rounded,
+                          child: controller.isLiked(postData)
+                              ? SvgPicture.asset(
+                                  SvgIcon.likePost,
+                                  height: 2.4.h,
                                   color: AppColors.primaryColor,
                                 )
                               : SvgPicture.asset(
                                   SvgIcon.likePost,
-                                  height: 2.5.h,
+                                  height: 2.4.h,
                                 ),
-                          splashColor: Colors.transparent,
+                        ),
+                        SizedBox(
+                          width: 2.w,
                         ),
                         Text(
                           postData.likedUsers?.length.toString() ?? "0",
@@ -272,15 +283,23 @@ class PostScreen extends GetView<PostController> {
                                   fontFamily: AppFont.fontFamily),
                         ),
                         SizedBox(
-                          width: 2.w,
+                          width: 4.w,
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
+                        GestureDetector(
+                          onTap: () async {
+                            controller.currentPostData = postData;
+                            await Get.to(() => PostDetailScreen())
+                                ?.whenComplete(() {
+                              controller.currentPostData = null;
+                            });
+                          },
+                          child: SvgPicture.asset(
                             SvgIcon.commentPost,
-                            height: 2.8.h,
+                            height: 2.5.h,
                           ),
-                          splashColor: Colors.transparent,
+                        ),
+                        SizedBox(
+                          width: 1.5.w,
                         ),
                         Text(
                           postData.postComments?.length.toString() ?? "0",
@@ -299,6 +318,7 @@ class PostScreen extends GetView<PostController> {
                   )
                 ],
               ),
+            ),
           );
         });
   }
@@ -308,7 +328,7 @@ class PostScreen extends GetView<PostController> {
     return ListTile(
       horizontalTitleGap: 10,
       leading:
-      OtherProfilePicWidget(profilePictureUrl: thisPostUser.profilePicture),
+          OtherProfilePicWidget(profilePictureUrl: thisPostUser.profilePicture),
       title: Align(
         alignment: Alignment.topLeft,
         child: TextWidget(
@@ -320,13 +340,16 @@ class PostScreen extends GetView<PostController> {
               fontSize: Responsive.sp(4.2, context)),
         ),
       ),
-      subtitle: Align(
-        alignment: Alignment.topLeft,
-        child: TextWidget(
-          timeAgo(postData.createdTime ?? DateTime.now()),
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: AppColors.grey.withOpacity(0.8),
-              fontSize: Responsive.sp(3.4, context)),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(left: 2),
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: TextWidget(
+            timeAgo(postData.createdTime ?? DateTime.now()),
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: AppColors.grey.withOpacity(0.8),
+                fontSize: Responsive.sp(3.4, context)),
+          ),
         ),
       ),
     );
@@ -416,26 +439,23 @@ class PostScreen extends GetView<PostController> {
                               child: SizedBox(
                                 height: 45,
                                 width: 45,
-                                // FIXME: add User Image
                                 child: Image.asset("assets/user5.jpg"),
-                                // child: SvgPicture.asset("assets/user.svg",height: 50,),
                               ),
                             ),
                             SizedBox(
                               height: Responsive.height(1, context),
                             ),
                             TextWidget(
-                              // FIXME: add User Name
                               "Brookln Simons",
                               // FIXME: add name
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                  fontSize: Responsive.sp(3, context),
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: AppFont.fontMedium,
-                                  color: AppColors.dark.withOpacity(0.5)),
+                                      fontSize: Responsive.sp(3, context),
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppFont.fontMedium,
+                                      color: AppColors.dark.withOpacity(0.5)),
                             )
                           ],
                         ),
@@ -456,7 +476,6 @@ class PostScreen extends GetView<PostController> {
                               child: SizedBox(
                                 height: 45,
                                 width: 45,
-                                // FIXME: add User Image
                                 child: Image.asset("assets/user6.jpg"),
                                 // child: SvgPicture.asset("assets/user.svg",height: 50,),
                               ),
@@ -465,16 +484,15 @@ class PostScreen extends GetView<PostController> {
                               height: Responsive.height(1, context),
                             ),
                             TextWidget(
-                              // FIXME: add User Name
                               "Arlene McCoy",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                  fontSize: Responsive.sp(3, context),
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: AppFont.fontMedium,
-                                  color: AppColors.dark.withOpacity(0.5)),
+                                      fontSize: Responsive.sp(3, context),
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppFont.fontMedium,
+                                      color: AppColors.dark.withOpacity(0.5)),
                             )
                           ],
                         ),
@@ -495,7 +513,6 @@ class PostScreen extends GetView<PostController> {
                               child: SizedBox(
                                 height: 45,
                                 width: 45,
-                                // FIXME: add User Image
                                 child: Image.asset("assets/user7.jpg"),
                                 // child: SvgPicture.asset("assets/user.svg",height: 50,),
                               ),
@@ -504,16 +521,15 @@ class PostScreen extends GetView<PostController> {
                               height: Responsive.height(1, context),
                             ),
                             TextWidget(
-                              // FIXME: add User Name
                               "Theresa Webb",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                  fontSize: Responsive.sp(3, context),
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: AppFont.fontMedium,
-                                  color: AppColors.dark.withOpacity(0.5)),
+                                      fontSize: Responsive.sp(3, context),
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppFont.fontMedium,
+                                      color: AppColors.dark.withOpacity(0.5)),
                             )
                           ],
                         ),
@@ -540,7 +556,6 @@ class PostScreen extends GetView<PostController> {
                               child: SizedBox(
                                 height: 45,
                                 width: 45,
-                                // FIXME: add User Image
                                 child: Image.asset("assets/user8.jpg"),
                                 // child: SvgPicture.asset("assets/user.svg",height: 50,),
                               ),
@@ -549,16 +564,15 @@ class PostScreen extends GetView<PostController> {
                               height: Responsive.height(1, context),
                             ),
                             TextWidget(
-                              // FIXME: add User Name
                               "Wade Warren",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                  fontSize: Responsive.sp(3, context),
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: AppFont.fontMedium,
-                                  color: AppColors.dark.withOpacity(0.5)),
+                                      fontSize: Responsive.sp(3, context),
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppFont.fontMedium,
+                                      color: AppColors.dark.withOpacity(0.5)),
                             )
                           ],
                         ),
@@ -579,7 +593,6 @@ class PostScreen extends GetView<PostController> {
                               child: SizedBox(
                                 height: 45,
                                 width: 45,
-                                // FIXME: add User Image
                                 child: Image.asset("assets/user9.jpg"),
                                 // child: SvgPicture.asset("assets/user.svg",height: 50,),
                               ),
@@ -588,16 +601,15 @@ class PostScreen extends GetView<PostController> {
                               height: Responsive.height(1, context),
                             ),
                             TextWidget(
-                              // FIXME: add User Name
                               "Darrell Steward",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                  fontSize: Responsive.sp(3, context),
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: AppFont.fontMedium,
-                                  color: AppColors.dark.withOpacity(0.5)),
+                                      fontSize: Responsive.sp(3, context),
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppFont.fontMedium,
+                                      color: AppColors.dark.withOpacity(0.5)),
                             )
                           ],
                         ),
@@ -618,7 +630,6 @@ class PostScreen extends GetView<PostController> {
                               child: SizedBox(
                                 height: 45,
                                 width: 45,
-                                // FIXME: add User Image
                                 child: Image.asset("assets/user10.jpg"),
                                 // child: SvgPicture.asset("assets/user.svg",height: 50,),
                               ),
@@ -627,16 +638,15 @@ class PostScreen extends GetView<PostController> {
                               height: Responsive.height(1, context),
                             ),
                             TextWidget(
-                              // FIXME: add User Name
                               "Jenny Wilson",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                  fontSize: Responsive.sp(3, context),
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: AppFont.fontMedium,
-                                  color: AppColors.dark.withOpacity(0.5)),
+                                      fontSize: Responsive.sp(3, context),
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppFont.fontMedium,
+                                      color: AppColors.dark.withOpacity(0.5)),
                             )
                           ],
                         ),
@@ -651,7 +661,7 @@ class PostScreen extends GetView<PostController> {
         ),
       ),
       Obx(
-            () => Padding(
+        () => Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -659,21 +669,21 @@ class PostScreen extends GetView<PostController> {
               for (int i = 0; i < 2; i++)
                 controller.pageIndex.value == i
                     ? Container(
-                  height: 5,
-                  width: 17,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(10)),
-                )
+                        height: 5,
+                        width: 17,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(10)),
+                      )
                     : Container(
-                  height: 5,
-                  width: 6,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                      color: Colors.black26,
-                      borderRadius: BorderRadius.circular(10)),
-                ),
+                        height: 5,
+                        width: 6,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        decoration: BoxDecoration(
+                            color: Colors.black26,
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
             ],
           ),
         ),
@@ -691,16 +701,16 @@ class PostScreen extends GetView<PostController> {
             TextWidget(
               ConstString.bookmarkpost,
               style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                color: AppColors.darkPrimaryColor,
-                fontFamily: AppFont.fontFamily,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.5,
-                fontSize: Responsive.sp(4.2, context),
-              ),
+                    color: AppColors.darkPrimaryColor,
+                    fontFamily: AppFont.fontFamily,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.5,
+                    fontSize: Responsive.sp(4.2, context),
+                  ),
             ),
             TextButton(
                 onPressed: () async {
-                  await Get.to(() => const MedicineDetail());
+                  await Get.to(() => const BookmarkScreen());
                 },
                 child: Row(
                   children: [
@@ -767,33 +777,31 @@ class PostScreen extends GetView<PostController> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             TextWidget(
-                              // FIXME: add Medicine Name
                               "Azithromycin",
                               style: Theme.of(context)
                                   .textTheme
                                   .labelSmall!
                                   .copyWith(
-                                  fontSize: Responsive.sp(4, context),
-                                  color: AppColors.darkPrimaryColor,
-                                  fontFamily: AppFont.fontBold,
-                                  letterSpacing: 0),
+                                      fontSize: Responsive.sp(4, context),
+                                      color: AppColors.darkPrimaryColor,
+                                      fontFamily: AppFont.fontBold,
+                                      letterSpacing: 0),
                             ),
                             SizedBox(
                               height: Responsive.height(0.3, context),
                             ),
                             TextWidget(
-                              // FIXME: add Medicine Description
                               "A fast acting antibiotic.\nTackles infections effectively",
                               textAlign: TextAlign.start,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                  height: 1.5,
-                                  color: AppColors.grey,
-                                  fontFamily: AppFont.fontFamily,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: Responsive.sp(3.2, context)),
+                                      height: 1.5,
+                                      color: AppColors.grey,
+                                      fontFamily: AppFont.fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: Responsive.sp(3.2, context)),
                             ),
                             SizedBox(
                               height: Responsive.height(0.5, context),
@@ -842,18 +850,17 @@ class PostScreen extends GetView<PostController> {
                                   width: Responsive.width(1.5, context),
                                 ),
                                 TextWidget(
-                                  // FIXME: add Medicine Type
                                   ConstString.antibiotic,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall!
                                       .copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontFamily: AppFont.fontFamily,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 0.2,
-                                    fontSize: Responsive.sp(3.2, context),
-                                  ),
+                                        color: AppColors.primaryColor,
+                                        fontFamily: AppFont.fontFamily,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.2,
+                                        fontSize: Responsive.sp(3.2, context),
+                                      ),
                                 ),
                                 SizedBox(
                                   width: Responsive.width(3, context),
@@ -867,17 +874,16 @@ class PostScreen extends GetView<PostController> {
                                   width: Responsive.width(1.5, context),
                                 ),
                                 TextWidget(
-                                  // FIXME: add Medicine Type
                                   ConstString.prescribed,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall!
                                       .copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 0.2,
-                                    fontSize: Responsive.sp(3.2, context),
-                                  ),
+                                        color: AppColors.primaryColor,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.2,
+                                        fontSize: Responsive.sp(3.2, context),
+                                      ),
                                 ),
                               ],
                             ),
@@ -902,11 +908,11 @@ class PostScreen extends GetView<PostController> {
                                               color: AppColors.grey
                                                   .withOpacity(0.1)),
                                           borderRadius:
-                                          BorderRadius.circular(30))),
+                                              BorderRadius.circular(30))),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       TextWidget(
                                         ConstString.viewmoredetails,
@@ -914,11 +920,11 @@ class PostScreen extends GetView<PostController> {
                                             .textTheme
                                             .titleSmall!
                                             .copyWith(
-                                            fontSize:
-                                            Responsive.sp(3.2, context),
-                                            color: AppColors.dark,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: AppFont.fontMedium),
+                                                fontSize:
+                                                    Responsive.sp(3.2, context),
+                                                color: AppColors.dark,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: AppFont.fontMedium),
                                       ),
                                       SizedBox(
                                         width: Responsive.width(1, context),
@@ -936,7 +942,7 @@ class PostScreen extends GetView<PostController> {
                       ),
                       const Spacer(),
                       Obx(
-                            () => GestureDetector(
+                        () => GestureDetector(
                           onTap: () {
                             if (controller.isSaveMedicine[index]) {
                               controller.isSaveMedicine[index] = false;
@@ -1090,34 +1096,34 @@ class PostScreen extends GetView<PostController> {
                     separatorBuilder: (context, index) =>
                         Divider(color: Colors.transparent),
                     itemCount:
-                    postDataList.length < 3 ? postDataList.length : 3),
+                        postDataList.length < 3 ? postDataList.length : 3),
                 postDataList.length > 3
                     ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          await Get.to(() => PostListScreen());
-                        },
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            fixedSize: Size(Responsive.width(40, context),
-                                Responsive.height(5.5, context)),
-                            backgroundColor: AppColors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30))),
-                        child: TextWidget(
-                          ConstString.morePosts,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                              color: AppColors.buttontext,
-                              fontSize: 12.sp),
-                        )),
-                  ),
-                )
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                await Get.to(() => PostListScreen());
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  fixedSize: Size(Responsive.width(40, context),
+                                      Responsive.height(5.5, context)),
+                                  backgroundColor: AppColors.black,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30))),
+                              child: TextWidget(
+                                ConstString.morePosts,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        color: AppColors.buttontext,
+                                        fontSize: 12.sp),
+                              )),
+                        ),
+                      )
                     : SizedBox()
               ],
             );
@@ -1147,7 +1153,6 @@ class PostScreen extends GetView<PostController> {
                 ],
               ),
             );
-            ;
           }
         });
   }

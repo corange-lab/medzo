@@ -44,6 +44,7 @@ class AppColors {
   static Color chatgrey = const Color(0xff666668);
   static Color dark = const Color(0xff474747);
   static Color grey = const Color(0xff818181);
+  static Color listtile = const Color(0xffF8FAFB);
   static Color lightGrey = const Color(0xffBABABA);
   static Color lightwGrey = const Color(0xddbababa);
   static Color darkGrey = const Color(0xdd4B5665);

@@ -23,7 +23,7 @@ class AuthApi extends GetConnectImpl {
   static final AuthApi instance = AuthApi._internal();
 
   final CollectionReference _userCollection =
-      FirebaseFirestore.instance.collection('users');
+  FirebaseFirestore.instance.collection('users');
 
   Future<UserModel?> getLoggedInUserData() async {
     if (FirebaseAuth.instance.currentUser?.uid == null) return null;
@@ -31,7 +31,7 @@ class AuthApi extends GetConnectImpl {
     if (userId.isEmpty) return null;
 
     final DocumentSnapshot<Object?> userData =
-        await _userCollection.doc(userId).get();
+    await _userCollection.doc(userId).get();
     if (userData.exists) {
       return UserModel.fromMap(userData.data() as Map<String, dynamic>);
     }
@@ -40,7 +40,7 @@ class AuthApi extends GetConnectImpl {
 
   Future<UserModel?> getUserData({required String userId}) async {
     final DocumentSnapshot<Object?> userData =
-        await _userCollection.doc(userId).get();
+    await _userCollection.doc(userId).get();
     if (userData.exists) {
       return UserModel.fromMap(userData.data() as Map<String, dynamic>);
     }
@@ -184,7 +184,7 @@ class AuthApi extends GetConnectImpl {
 
       String url = APIRequest.getUserUrl(userId);
       final response =
-          await get(url, headers: APIDefaults.defaultHeaders(idToken));
+      await get(url, headers: APIDefaults.defaultHeaders(idToken));
 
       Map bodyMap = {};
       String message = '';
