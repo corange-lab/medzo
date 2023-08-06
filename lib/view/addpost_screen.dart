@@ -178,7 +178,7 @@ class AddPostScreen extends GetView<NewPostController> {
               // TODO: check below each condition
               await pickController.pickPostImage();
               controller.postImageFile =
-                  await pickController.croppedPostFile!.path.obs;
+              await pickController.croppedPostFile!.path.obs;
               controller.selectedMultiImages
                   .add(File(controller.postImageFile.value));
               print(controller.selectedMultiImages);
@@ -191,7 +191,7 @@ class AddPostScreen extends GetView<NewPostController> {
                   color: AppColors.tilecolor,
                   borderRadius: BorderRadius.circular(7),
                   border:
-                      Border.all(color: AppColors.primaryColor, width: 0.5)),
+                  Border.all(color: AppColors.primaryColor, width: 0.5)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -215,27 +215,27 @@ class AddPostScreen extends GetView<NewPostController> {
             ),
           ),
           Obx(
-            () => controller.selectedMultiImages.isNotEmpty
+                () => controller.selectedMultiImages.isNotEmpty
                 ? Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    child: Container(
-                      height: 15.h,
-                      width: SizerUtil.width,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: controller.selectedMultiImages.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Image.file(
-                                      controller.selectedMultiImages[index])));
-                        },
-                      ),
-                    ),
-                  )
+              padding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: Container(
+                height: 15.h,
+                width: SizerUtil.width,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.selectedMultiImages.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Image.file(
+                                controller.selectedMultiImages[index])));
+                  },
+                ),
+              ),
+            )
                 : SizedBox(),
           ),
           SizedBox(
@@ -276,22 +276,22 @@ class AddPostScreen extends GetView<NewPostController> {
                     .copyWith(fontSize: Responsive.sp(4, context)),
                 border: OutlineInputBorder(
                   borderSide:
-                      BorderSide(color: AppColors.whitehome, width: 0.5),
+                  BorderSide(color: AppColors.whitehome, width: 0.5),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(color: AppColors.whitehome, width: 0.5),
+                  BorderSide(color: AppColors.whitehome, width: 0.5),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(color: AppColors.whitehome, width: 0.5),
+                  BorderSide(color: AppColors.whitehome, width: 0.5),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(color: AppColors.whitehome, width: 0.5),
+                  BorderSide(color: AppColors.whitehome, width: 0.5),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 contentPadding: const EdgeInsets.symmetric(

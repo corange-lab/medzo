@@ -65,6 +65,7 @@ class ExpertProfileScreen extends StatelessWidget {
               ),
             ),
             TextWidget(
+              // FIXME: add User Name
               "Melissa Jones",
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     fontSize: Responsive.sp(4.5, context),
@@ -80,6 +81,7 @@ class ExpertProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextWidget(
+                  // FIXME: add User Follower
                   "893 Followers",
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: AppColors.sky,
@@ -98,6 +100,7 @@ class ExpertProfileScreen extends StatelessWidget {
                   width: Responsive.width(2, context),
                 ),
                 TextWidget(
+                  // FIXME: add Following User
                   "101 Following",
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: AppColors.sky,
@@ -114,6 +117,7 @@ class ExpertProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextWidget(
+                  // FIXME: add User Prefession
                   "Pharmacist @ CVS",
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: AppColors.dark,
@@ -134,6 +138,7 @@ class ExpertProfileScreen extends StatelessWidget {
               height: Responsive.height(2, context),
             ),
             TextWidget(
+              // FIXME: add User Details
               "4 year member, 41, Caucasian Female",
               style: Theme.of(context).textTheme.labelSmall!.copyWith(
                   color: AppColors.grey,
@@ -278,6 +283,7 @@ class ExpertProfileScreen extends StatelessWidget {
                         child: SizedBox(
                           height: 45,
                           width: 45,
+                          // FIXME: add User Image
                           child: Image.asset("assets/user1.jpg"),
                           // child: SvgPicture.asset("assets/user.svg",height: 50,),
                         ),
@@ -293,6 +299,7 @@ class ExpertProfileScreen extends StatelessWidget {
                       title: Align(
                         alignment: Alignment.topLeft,
                         child: TextWidget(
+                          // FIXME: add User Name
                           "Ralph Edwards",
                           style: Theme.of(context)
                               .textTheme
@@ -309,6 +316,7 @@ class ExpertProfileScreen extends StatelessWidget {
                           child: RichText(
                               text: TextSpan(children: [
                             TextSpan(
+                              // FIXME: add Active Timing of User
                               text: "12hr",
                               style: Theme.of(context)
                                   .textTheme
@@ -363,6 +371,7 @@ class ExpertProfileScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: TextWidget(
+                        // FIXME: add Medicine Description
                         "Turns out avocados make the best supplements, an article on Vox claimed them to be the best providers for Vitamin C, start bulking up on them! Who cares how expensive they are!?",
                         textAlign: TextAlign.start,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -385,6 +394,7 @@ class ExpertProfileScreen extends StatelessWidget {
                                   height: Responsive.height(14, context),
                                   color: Colors.black12,
                                   child: Image.asset(
+                                    // FIXME: add Medicine Image
                                     "assets/frame1.jpg",
                                     fit: BoxFit.fill,
                                   ),
@@ -398,6 +408,7 @@ class ExpertProfileScreen extends StatelessWidget {
                                   height: Responsive.height(14, context),
                                   color: Colors.black12,
                                   child: Image.asset(
+                                    // FIXME: add Medicine Image
                                     "assets/frame2.jpg",
                                     fit: BoxFit.cover,
                                   ),

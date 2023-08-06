@@ -48,6 +48,7 @@ class ChatScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextWidget(
+                    // FIXME: add User Name
                     "Cameron Williamson",
                     style: Theme.of(context).textTheme.labelLarge!.copyWith(
                           fontSize: Responsive.sp(4.5, context),
@@ -60,6 +61,7 @@ class ChatScreen extends StatelessWidget {
                     height: Responsive.height(1, context),
                   ),
                   TextWidget(
+                    // FIXME: add User Profession
                     "Pharmacist",
                     style: Theme.of(context).textTheme.labelSmall!.copyWith(
                         letterSpacing: 0, fontSize: Responsive.sp(3.5, context)),
@@ -233,6 +235,7 @@ class ChatScreen extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: Padding(
                           padding: const EdgeInsets.only(top: 5, left: 7),
+                          // FIXME: add Chat Message
                           child: TextWidget("Anyone on for lunch today",
                               style: Theme.of(context)
                                   .textTheme
@@ -269,6 +272,7 @@ class ChatScreen extends StatelessWidget {
                     child: SizedBox(
                       height: 30,
                       width: 30,
+                      // FIXME: add User Image
                       child: Image.asset("assets/user5.jpg"),
                     ),
                   ),
@@ -296,6 +300,7 @@ class ChatScreen extends StatelessWidget {
                               child: Row(
                                 children: [
                                   TextWidget(
+                                    // FIXME: add user Name
                                     "Jav",
                                     style: Theme.of(context)
                                         .textTheme
@@ -310,6 +315,7 @@ class ChatScreen extends StatelessWidget {
                                     width: 8,
                                   ),
                                   TextWidget(
+                                    // FIXME: add user Prefession
                                     "Engineering",
                                     style: Theme.of(context)
                                         .textTheme
@@ -328,6 +334,7 @@ class ChatScreen extends StatelessWidget {
                               alignment: Alignment.topLeft,
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 5, left: 7),
+                                // FIXME: add Chat Message
                                 child: TextWidget("I’m down! Any ideas??",
                                     style: Theme.of(context)
                                         .textTheme
@@ -383,6 +390,7 @@ class ChatScreen extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: Padding(
                           padding: const EdgeInsets.only(top: 5, left: 7),
+                          // FIXME: add Chat Message
                           child: TextWidget("Let me know",
                               style: Theme.of(context)
                                   .textTheme

@@ -86,6 +86,7 @@ class BookmarkScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               TextWidget(
+                                // FIXME: add Medicine Name
                                 "Azithromycin",
                                 style: Theme.of(context)
                                     .textTheme
@@ -100,6 +101,7 @@ class BookmarkScreen extends StatelessWidget {
                                 height: Responsive.height(0.3, context),
                               ),
                               TextWidget(
+                                // FIXME: add Medicine detail
                                 "A fast acting antibiotic.\nTackles infections effectively",
                                 textAlign: TextAlign.start,
                                 style: Theme.of(context)
@@ -160,6 +162,7 @@ class BookmarkScreen extends StatelessWidget {
                                     width: Responsive.width(1.5, context),
                                   ),
                                   TextWidget(
+                                    // FIXME: add Medicine Type
                                     ConstString.antibiotic,
                                     style: Theme.of(context)
                                         .textTheme
@@ -184,6 +187,7 @@ class BookmarkScreen extends StatelessWidget {
                                     width: Responsive.width(1.5, context),
                                   ),
                                   TextWidget(
+                                    // FIXME: add Medicine Type
                                     ConstString.prescribed,
                                     style: Theme.of(context)
                                         .textTheme
