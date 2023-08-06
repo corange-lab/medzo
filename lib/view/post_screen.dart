@@ -170,7 +170,8 @@ class PostScreen extends GetView<PostController> {
                           height: 1.5),
                     ),
                   ),
-                  (postData.postImages ?? []).isNotEmpty
+                ),
+                  (controller.currentPostData?.postImages ?? []).isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 5, vertical: 8),
@@ -298,7 +299,6 @@ class PostScreen extends GetView<PostController> {
                   )
                 ],
               ),
-            ),
           );
         });
   }
