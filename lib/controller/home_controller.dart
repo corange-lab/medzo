@@ -82,8 +82,9 @@ class HomeController extends GetxController {
     update();
   }
 
-  Future<void> signOut() async {
+  static Future<void> signOut() async {
     try {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
       await googleSignIn.signOut();
     } catch (e) {
       log(e.toString());

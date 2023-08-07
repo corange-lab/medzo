@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/controller/profile_controller.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
@@ -21,11 +20,7 @@ import 'package:medzo/widgets/user/my_name_text_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileScreen extends StatelessWidget {
-  HomeController homeController = Get.put(HomeController());
-
-  // String? name;
-  // String? profession;
-  // String? imgurl;
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
               actions: [
                 IconButton(
                     onPressed: () async {
-                      logoutDialogue(context, homeController);
+                      logoutDialogue(context);
                     },
                     icon: SvgPicture.asset(
                       SvgIcon.signout,
@@ -72,10 +67,9 @@ class ProfileScreen extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      ));
+                    color: AppColors.primaryColor,
+                  ));
                 }
-                String? name = snapshot.data?.docs[0]['name'] ?? "";
                 String? profession = snapshot.data?.docs[0]['profession'] ?? "";
                 String? imgUrl = snapshot.data?.docs[0]['profile_picture'];
                 if (snapshot.hasData) {
@@ -90,34 +84,34 @@ class ProfileScreen extends StatelessWidget {
                                 child: imgUrl == null
                                     ? AppWidget.noProfileWidget(context)
                                     : Image.network(
-                                  imgUrl,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null)
-                                      return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                            .expectedTotalBytes !=
-                                            null
-                                            ? loadingProgress
-                                            .cumulativeBytesLoaded /
-                                            loadingProgress
-                                                .expectedTotalBytes!
-                                            : null,
-                                        color: AppColors.white,
-                                        strokeWidth: 3,
+                                        imgUrl,
+                                        fit: BoxFit.cover,
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes!
+                                                  : null,
+                                              color: AppColors.white,
+                                              strokeWidth: 3,
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder:
+                                            (context, exception, stackTrack) =>
+                                                Icon(
+                                          Icons.error,
+                                        ),
                                       ),
-                                    );
-                                  },
-                                  errorBuilder:
-                                      (context, exception, stackTrack) =>
-                                      Icon(
-                                        Icons.error,
-                                      ),
-                                ),
                                 height: 14.h,
                                 width: 14.h,
                                 color: AppColors.tilecolor,
@@ -130,11 +124,11 @@ class ProfileScreen extends StatelessWidget {
                                 .textTheme
                                 .labelLarge!
                                 .copyWith(
-                              fontSize: Responsive.sp(4.5, context),
-                              fontFamily: AppFont.fontBold,
-                              letterSpacing: 0,
-                              color: AppColors.darkPrimaryColor,
-                            )),
+                                  fontSize: Responsive.sp(4.5, context),
+                                  fontFamily: AppFont.fontBold,
+                                  letterSpacing: 0,
+                                  color: AppColors.darkPrimaryColor,
+                                )),
                         SizedBox(
                           height: Responsive.height(2, context),
                         ),
@@ -148,9 +142,9 @@ class ProfileScreen extends StatelessWidget {
                                   .textTheme
                                   .labelSmall!
                                   .copyWith(
-                                  color: AppColors.sky,
-                                  letterSpacing: 0,
-                                  fontSize: Responsive.sp(3.8, context)),
+                                      color: AppColors.sky,
+                                      letterSpacing: 0,
+                                      fontSize: Responsive.sp(3.8, context)),
                             ),
                             SizedBox(
                               width: Responsive.width(2, context),
@@ -169,9 +163,9 @@ class ProfileScreen extends StatelessWidget {
                                   .textTheme
                                   .labelSmall!
                                   .copyWith(
-                                  color: AppColors.sky,
-                                  letterSpacing: 0,
-                                  fontSize: Responsive.sp(3.8, context)),
+                                      color: AppColors.sky,
+                                      letterSpacing: 0,
+                                      fontSize: Responsive.sp(3.8, context)),
                             ),
                           ],
                         ),
@@ -188,9 +182,9 @@ class ProfileScreen extends StatelessWidget {
                                   .textTheme
                                   .labelSmall!
                                   .copyWith(
-                                  color: AppColors.dark,
-                                  fontSize: Responsive.sp(3.5, context),
-                                  letterSpacing: 0),
+                                      color: AppColors.dark,
+                                      fontSize: Responsive.sp(3.5, context),
+                                      letterSpacing: 0),
                             ),
                             SizedBox(
                               width: Responsive.width(1, context),
@@ -211,9 +205,9 @@ class ProfileScreen extends StatelessWidget {
                               .textTheme
                               .labelSmall!
                               .copyWith(
-                              color: AppColors.grey,
-                              letterSpacing: 0,
-                              fontSize: Responsive.sp(3.5, context)),
+                                  color: AppColors.grey,
+                                  letterSpacing: 0,
+                                  fontSize: Responsive.sp(3.5, context)),
                         ),
                         SizedBox(
                           height: Responsive.height(3, context),
@@ -222,12 +216,12 @@ class ProfileScreen extends StatelessWidget {
                           onPressed: () async {
                             await Get.to(() => EditProfileScreen(
                                 UserModel.fromMap(snapshot.data!.docs[0].data()
-                                as Map<String, dynamic>)));
+                                    as Map<String, dynamic>)));
                           },
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               fixedSize:
-                              Size(Responsive.width(40, context), 48),
+                                  Size(Responsive.width(40, context), 48),
                               backgroundColor: AppColors.primaryColor,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30))),
@@ -237,10 +231,10 @@ class ProfileScreen extends StatelessWidget {
                                 .textTheme
                                 .displayMedium!
                                 .copyWith(
-                              color: AppColors.black,
-                              fontSize: Responsive.sp(4, context),
-                              fontFamily: AppFont.fontBold,
-                            ),
+                                  color: AppColors.black,
+                                  fontSize: Responsive.sp(4, context),
+                                  fontFamily: AppFont.fontBold,
+                                ),
                           ),
                         ),
                         SizedBox(
@@ -284,12 +278,12 @@ class ProfileScreen extends StatelessWidget {
                                       .textTheme
                                       .labelLarge!
                                       .copyWith(
-                                      color: AppColors.white,
-                                      fontSize: Responsive.sp(3.8, context),
-                                      height: 1.7,
-                                      letterSpacing: 0.3,
-                                      fontFamily: AppFont.fontFamilysemi,
-                                      wordSpacing: 0.3),
+                                          color: AppColors.white,
+                                          fontSize: Responsive.sp(3.8, context),
+                                          height: 1.7,
+                                          letterSpacing: 0.3,
+                                          fontFamily: AppFont.fontFamilysemi,
+                                          wordSpacing: 0.3),
                                 ),
                               )
                             ],

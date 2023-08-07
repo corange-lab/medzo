@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medzo/model/age_group.dart';
 import 'package:medzo/model/allergies.dart';
 import 'package:medzo/model/current_medication.dart';
@@ -132,6 +133,40 @@ class UserModel {
 
   @override
   int get hashCode => id.hashCode;
+
+  factory UserModel.fromDocumentSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic> map = snapshot.data() as Map<String, dynamic>;
+    return UserModel(
+      id: map['id'],
+      name: map['name'],
+      email: map['email'],
+      fcmToken: map['fcmToken'],
+      gender: map['gender'],
+      profilePicture: map['profile_picture'],
+      profession: map['profession'],
+      enablePushNotification: map['enablePushNotification'],
+      healthCondition: map['health_condition'] == null
+          ? null
+          : (map['health_condition'] is bool)
+              ? map['health_condition']
+              : HealthCondition.fromMap(map['health_condition']),
+      currentMedication: map['current_medication'] == null
+          ? null
+          : (map['current_medication'] is bool)
+              ? map['current_medication']
+              : CurrentMedication.fromMap(map['current_medication']),
+      ageGroup: map['age_group'] == null
+          ? null
+          : (map['age_group'] is bool)
+              ? map['age_group']
+              : AgeGroup.fromMap(map['age_group']),
+      allergies: map['allergies'] == null
+          ? null
+          : (map['allergies'] is bool)
+              ? map['allergies']
+              : Allergies.fromMap(map['allergies']),
+    );
+  }
 }
 
 class UserModelField {

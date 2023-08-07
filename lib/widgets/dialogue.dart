@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -45,7 +46,7 @@ Future progressDialogue(context, {required String title}) {
   );
 }
 
-Future logoutDialogue(context, controller) {
+Future logoutDialogue(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -92,7 +93,7 @@ Future logoutDialogue(context, controller) {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      await controller.signOut();
+                      await HomeController.signOut();
                     },
                     style: ElevatedButton.styleFrom(
                         fixedSize: Size(20, Responsive.height(7, context)),
