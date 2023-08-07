@@ -22,6 +22,7 @@ import 'package:medzo/view/image_preview_screen.dart';
 import 'package:medzo/view/medicine_detail.dart';
 import 'package:medzo/view/post_detail_screen.dart';
 import 'package:medzo/view/post_list_screen.dart';
+import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/my_name_text_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
@@ -154,8 +155,13 @@ class PostScreen extends GetView<PostController> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  PostHeaderWidget(context, postData,
-                      controller.findUser(postData.creatorId!)),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => ProfileScreen(postData.creatorId!));
+                    },
+                    child: PostHeaderWidget(context, postData,
+                        controller.findUser(postData.creatorId!)),
+                  ),
                   Container(
                     height: 0.18.h,
                     width: SizerUtil.width,
@@ -200,7 +206,9 @@ class PostScreen extends GetView<PostController> {
                                         postData.postImages
                                                 ?.elementAt(index)
                                                 .url ??
-                                            ''));
+                                            '',
+                                        postData,
+                                        index));
                                   }
                                 },
                                 child: ClipRRect(
@@ -231,11 +239,12 @@ class PostScreen extends GetView<PostController> {
                                 ),
                               ),
                               options: CarouselOptions(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
                                 initialPage: 0,
                                 enableInfiniteScroll: false,
                                 aspectRatio: 16 / 9,
                                 enlargeCenterPage: true,
-                                viewportFraction: 0.95,
+                                viewportFraction: 0.96,
                                 disableCenter: true,
                                 height: 500,
                               ),

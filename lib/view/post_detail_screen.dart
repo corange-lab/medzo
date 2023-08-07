@@ -1,5 +1,6 @@
 // this screen is used to show post detail same as shown in the post List
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,6 +16,7 @@ import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/image_preview_screen.dart';
+import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -28,7 +30,7 @@ class PostDetailScreen extends GetWidget<PostController> {
   Widget build(BuildContext context) {
     /// UI is similar to post single element and other details should be added like user can comment and like the post
     return Scaffold(
-      backgroundColor: AppColors.whitehome,
+      backgroundColor: AppColors.white,
       appBar: AppBar(
         titleSpacing: 0,
         backgroundColor: AppColors.white,
@@ -154,8 +156,13 @@ class PostDetailScreen extends GetWidget<PostController> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PostHeaderWidget(
-              context, postData, controller.findUser(postData.creatorId!)),
+          GestureDetector(
+            onTap: () {
+              Get.to(() => ProfileScreen(postData.creatorId!));
+            },
+            child: PostHeaderWidget(
+                context, postData, controller.findUser(postData.creatorId!)),
+          ),
           Container(
             height: 0.18.h,
             width: SizerUtil.width,
@@ -178,53 +185,56 @@ class PostDetailScreen extends GetWidget<PostController> {
           (postData.postImages ?? []).isNotEmpty
               ? Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Container(
-                    height: 18.h,
+                    height: 20.h,
                     alignment: Alignment.center,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        // TODO: on Image click open a IMAGE IN NEW SCREEN
-                        return GestureDetector(
-                          onTap: () {
-                            if (postData.postImages?.elementAt(index).url !=
-                                null) {
-                              Get.to(() => ImagePreviewScreen.withUrl(
-                                  postData.postImages?.elementAt(index).url ??
-                                      ''));
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                // TODO: handle image null an error
-                                child: CachedNetworkImage(
-                                  imageUrl: postData.postImages
-                                          ?.elementAt(index)
-                                          .url ??
-                                      '',
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          Center(
-                                    child: CupertinoActivityIndicator(
-                                      color: AppColors.primaryColor,
-                                      animating: true,
-                                      radius: 14,
-                                    ),
-                                  ),
-                                  fit: BoxFit.contain,
-                                )),
-                            decoration: BoxDecoration(
-                                color: AppColors.dark.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(5)),
-                          ),
-                        );
-                      },
+                    child: CarouselSlider.builder(
                       itemCount: (postData.postImages ?? []).length,
+                      itemBuilder: (BuildContext context, int index,
+                              int pageViewIndex) =>
+                          GestureDetector(
+                        onTap: () {
+                          if (postData.postImages?.elementAt(index).url !=
+                              null) {
+                            Get.to(() => ImagePreviewScreen.withUrl(
+                                postData.postImages?.elementAt(index).url ??
+                                    '',postData,index));
+                          }
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          // TODO: handle image null an error
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                postData.postImages?.elementAt(index).url ?? '',
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) => SizedBox(
+                              width: 120,
+                              child: Center(
+                                child: CupertinoActivityIndicator(
+                                  color: AppColors.primaryColor,
+                                  animating: true,
+                                  radius: 14,
+                                ),
+                              ),
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                          // clipBehavior: Clip.antiAliasWithSaveLayer,
+                        ),
+                      ),
+                      options: CarouselOptions(
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        aspectRatio: 16 / 9,
+                        enlargeCenterPage: true,
+                        viewportFraction: 0.95,
+                        disableCenter: true,
+                        height: 500,
+                      ),
                     ),
                   ))
               : SizedBox(),
@@ -233,7 +243,7 @@ class PostDetailScreen extends GetWidget<PostController> {
             width: SizerUtil.width,
             color: AppColors.grey.withOpacity(0.1),
           ),
-          SizedBox(height : 0.5.h),
+          SizedBox(height: 0.5.h),
           GetBuilder<PostController>(
               id: postData.id ?? 'post${postData.id}',
               builder: (ctrl) {
@@ -330,44 +340,38 @@ class PostDetailScreen extends GetWidget<PostController> {
   }
 
   Widget InputCommentWidget(BuildContext context, PostController controller) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15, left: 10, right: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: Container(
-              height: 6.5.h,
-              // decoration: BoxDecoration(
-              //     color: AppColors.grey.withOpacity(0.1),
-              //     borderRadius: BorderRadius.circular(5)),
-              child: TextField(
-                controller: controller.commentController,
-                focusNode: controller.commentFocusNode,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: AppColors.grey.withOpacity(0.1),
-                  hintText: 'Write a comment...',
-                  hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: AppColors.grey.withOpacity(0.8),
-                      fontSize: Responsive.sp(3.4, context)),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.white, width: 0.5),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.white, width: 0.5),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.white, width: 0.5),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 17,
-                  ),
+            child: TextField(
+              controller: controller.commentController,
+              focusNode: controller.commentFocusNode,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                filled: true,
+                fillColor: AppColors.grey.withOpacity(0.1),
+                hintText: 'Write a comment...',
+                hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: AppColors.grey.withOpacity(0.8),
+                    fontSize: Responsive.sp(3.4, context)),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.white, width: 0.5),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.white, width: 0.5),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.white, width: 0.5),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 17,
                 ),
               ),
             ),
@@ -463,7 +467,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 1.h,
+                        height: 0.8.h,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
@@ -513,6 +517,9 @@ class PostDetailScreen extends GetWidget<PostController> {
                                   fontSize: Responsive.sp(3.4, context),
                                   fontFamily: AppFont.fontFamily),
                         ),
+                      ),
+                      SizedBox(
+                        height: 1.h,
                       ),
                     ],
                   ),
@@ -615,7 +622,9 @@ class PostDetailScreen extends GetWidget<PostController> {
                             return CommentOfCommentWidget(commentData,
                                 commentOfCommentData!, commentedUser, context);
                           },
-                          separatorBuilder: (context, index) => Divider(),
+                          separatorBuilder: (context, index) => Divider(
+                                color: Colors.transparent,
+                              ),
                           itemCount: commentData.commentComments?.length ?? 0),
                     ),
                   ),
@@ -637,7 +646,7 @@ class PostDetailScreen extends GetWidget<PostController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Card(
-          margin: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius:
@@ -645,7 +654,7 @@ class PostDetailScreen extends GetWidget<PostController> {
           ),
           child: ListTile(
             tileColor: AppColors.listtile,
-            contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             dense: true,
             horizontalTitleGap: 0,
             leading: SizedBox(
@@ -678,7 +687,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                 Padding(
                   padding: const EdgeInsets.only(left: 3),
                   child: TextWidget(
-                      timeAgo(commentData.createdTime ?? DateTime.now()),
+                    timeAgo(commentData.createdTime ?? DateTime.now()),
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         fontSize: Responsive.sp(3.4, context),
                         color: AppColors.dark),
@@ -695,8 +704,12 @@ class PostDetailScreen extends GetWidget<PostController> {
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: AppColors.grey.withOpacity(0.8),
                         fontFamily: AppFont.fontFamily,
+                        letterSpacing: 0,
                         fontSize: Responsive.sp(3.4, context)),
                   ),
+                ),
+                SizedBox(
+                  height: 1.h,
                 ),
               ],
             ),

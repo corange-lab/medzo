@@ -32,7 +32,7 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight),
                       image: const DecorationImage(
-                          image: AssetImage(AppImages.splashback))),
+                          image: AssetImage(AppImages.splashback),fit: BoxFit.fill)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,

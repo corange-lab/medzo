@@ -22,10 +22,10 @@ class PostController extends GetxController {
   String loggedInUserId = FirebaseAuth.instance.currentUser!.uid;
 
   final CollectionReference postRef =
-  FirebaseFirestore.instance.collection('posts');
+      FirebaseFirestore.instance.collection('posts');
 
   final CollectionReference favouritesRef =
-  FirebaseFirestore.instance.collection('favourites');
+      FirebaseFirestore.instance.collection('favourites');
 
   AllUserController allUserController = Get.find<AllUserController>();
   UserController userController = Get.find<UserController>();
@@ -56,7 +56,7 @@ class PostController extends GetxController {
   //TODO; fetch favourite post of logged in user
   Stream<QuerySnapshot<Object?>> fetchFavouritePosts() {
     return favouritesRef.get().asStream().where((event) =>
-    event.docs.where((element) => element.id == loggedInUserId).isNotEmpty);
+        event.docs.where((element) => element.id == loggedInUserId).isNotEmpty);
   }
 
   UserModel findUser(String userId) {

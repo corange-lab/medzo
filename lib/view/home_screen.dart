@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,8 @@ class HomeScreen extends GetView<HomeController> {
   HomeScreen({Key? key}) : super(key: key);
 
   final FocusNode fNode = FocusNode();
+
+  String LoggedInUser = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +61,7 @@ class HomeScreen extends GetView<HomeController> {
           );
         }
         return Scaffold(
-          body: ProfileScreen(),
+          body: ProfileScreen(LoggedInUser),
           bottomNavigationBar: bottomNavigationBar(controller, context),
         );
       },

@@ -6,6 +6,7 @@ import 'package:medzo/model/user_model.dart';
 
 class ProfileController extends GetxController {
   final String? uId;
+
   ProfileController(this.uId);
 
   TextEditingController nameController = TextEditingController();
@@ -15,15 +16,17 @@ class ProfileController extends GetxController {
   Rx<UserModel> get user => _user;
   Rx<UserModel> _user = UserModel().obs;
 
+  Stream<QuerySnapshot>? dataSnapShot;
+
   @override
   void onInit() {
-    final dataSnapShot = FirebaseFirestore.instance
+    dataSnapShot = FirebaseFirestore.instance
         .collection('users')
         .where('id', isEqualTo: uId ?? FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
 
     super.onInit();
-    dataSnapShot.listen((event) {
+    dataSnapShot!.listen((event) {
       _user.value = UserModel.fromDocumentSnapshot(event.docs.first);
       nameController.text = _user.value.name ?? '';
       professionController.text = _user.value.profession ?? '';

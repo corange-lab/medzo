@@ -186,6 +186,7 @@ class ConstString {
   static const String accountDetails = "Account details";
   static const String appSetting = "App settings";
   static const String nodata = "No Data Found";
+  static const String nouser = "No User Found";
   static const String error = "An Error Occured!";
   static const String enablePushNotification = "Enable push notifications";
   static const String social = "Social";

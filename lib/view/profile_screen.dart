@@ -1,8 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:ui' as ui;
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -13,19 +12,23 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/view/chat_screen.dart';
 import 'package:medzo/view/editprofile_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
-import 'package:medzo/widgets/user/my_name_text_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  final String userId;
+
+  ProfileScreen(this.userId);
+
+  String currentUser = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(
-      init: ProfileController(),
+      init: ProfileController(userId),
       builder: (controller) {
         return Scaffold(
             backgroundColor: AppColors.whitehome,
@@ -70,8 +73,11 @@ class ProfileScreen extends StatelessWidget {
                     color: AppColors.primaryColor,
                   ));
                 }
+                String? userId = snapshot.data?.docs[0]['id'] ?? "";
+                String? name = snapshot.data?.docs[0]['name'] ?? "";
                 String? profession = snapshot.data?.docs[0]['profession'] ?? "";
                 String? imgUrl = snapshot.data?.docs[0]['profile_picture'];
+
                 if (snapshot.hasData) {
                   return SingleChildScrollView(
                     child: Column(
@@ -119,8 +125,8 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        MyNameTextWidget(
-                            textStyle: Theme.of(context)
+                        TextWidget(name!,
+                            style: Theme.of(context)
                                 .textTheme
                                 .labelLarge!
                                 .copyWith(
@@ -159,6 +165,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             TextWidget(
                               "101 Following",
+                              // FIXME:
                               style: Theme.of(context)
                                   .textTheme
                                   .labelSmall!
@@ -200,6 +207,7 @@ class ProfileScreen extends StatelessWidget {
                           height: Responsive.height(2, context),
                         ),
                         TextWidget(
+                          // FIXME : add user details
                           "4 year member, 41, Caucasian Female",
                           style: Theme.of(context)
                               .textTheme
@@ -212,31 +220,128 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(
                           height: Responsive.height(3, context),
                         ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            await Get.to(() => EditProfileScreen(
-                                UserModel.fromMap(snapshot.data!.docs[0].data()
-                                    as Map<String, dynamic>)));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              fixedSize:
-                                  Size(Responsive.width(40, context), 48),
-                              backgroundColor: AppColors.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30))),
-                          child: TextWidget(
-                            ConstString.editprofile,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(
-                                  color: AppColors.black,
-                                  fontSize: Responsive.sp(4, context),
-                                  fontFamily: AppFont.fontBold,
+                        currentUser == userId
+                            ? ElevatedButton(
+                                onPressed: () async {
+                                  await Get.to(() => EditProfileScreen(
+                                      UserModel.fromMap(snapshot.data!.docs[0]
+                                          .data() as Map<String, dynamic>)));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    fixedSize:
+                                        Size(Responsive.width(40, context), 48),
+                                    backgroundColor: AppColors.primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30))),
+                                child: TextWidget(
+                                  ConstString.editprofile,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium!
+                                      .copyWith(
+                                        color: AppColors.black,
+                                        fontSize: Responsive.sp(4, context),
+                                        fontFamily: AppFont.fontBold,
+                                      ),
                                 ),
-                          ),
-                        ),
+                              )
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 25),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 7),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            Get.to(const ChatScreen());
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 0,
+                                              fixedSize: Size(
+                                                  Responsive.width(30, context),
+                                                  48),
+                                              backgroundColor:
+                                                  AppColors.splashdetail,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30))),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SvgPicture.asset(
+                                                SvgIcon.chat,
+                                                height: Responsive.height(
+                                                    2.8, context),
+                                              ),
+                                              SizedBox(
+                                                width: Responsive.width(
+                                                    2, context),
+                                              ),
+                                              TextWidget(
+                                                ConstString.chat,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .displayMedium!
+                                                    .copyWith(
+                                                        color: AppColors.dark,
+                                                        fontSize: Responsive.sp(
+                                                            4, context),
+                                                        fontFamily: AppFont
+                                                            .fontFamilysemi,
+                                                        letterSpacing: 0,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 7),
+                                        child: ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 0,
+                                              fixedSize: Size(
+                                                  Responsive.width(50, context),
+                                                  48),
+                                              backgroundColor:
+                                                  AppColors.primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30))),
+                                          child: TextWidget(
+                                            ConstString.follownow,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .displayMedium!
+                                                .copyWith(
+                                                    color: AppColors.black,
+                                                    fontSize: Responsive.sp(
+                                                        4, context),
+                                                    fontFamily:
+                                                        AppFont.fontFamilysemi,
+                                                    letterSpacing: 0,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                         SizedBox(
                           height: Responsive.height(2, context),
                         ),
@@ -294,12 +399,30 @@ class ProfileScreen extends StatelessWidget {
                   );
                 } else {
                   return Center(
-                    child: Text(
-                      ConstString.nodata,
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelLarge!
-                          .copyWith(color: AppColors.black, fontSize: 12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          child: Image.asset(
+                            SvgIcon.nodata,
+                            scale: 0.5,
+                          ),
+                          width: 20.w,
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        Text(
+                          ConstString.nouser,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: AppColors.black,
+                                  fontSize: 15.sp,
+                                  fontFamily: AppFont.fontBold),
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -315,32 +438,15 @@ class AppWidget {
     return Stack(
       children: [
         Positioned.fill(
-          child: ImageFiltered(
-            imageFilter: ui.ImageFilter.blur(sigmaX: 1, sigmaY: 2),
-            child: SizedBox(
-              width: 40,
-              height: 40,
-              child: CircleAvatar(
-                backgroundImage: AssetImage(AppImages.profile_picture),
-                radius: 50,
-                backgroundColor: AppColors.tilecolor,
-              ),
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: CircleAvatar(
+              backgroundImage: AssetImage(AppImages.profile_picture),
+              radius: 50,
+              backgroundColor: AppColors.tilecolor,
             ),
           ),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.warning_amber_outlined,
-              color: AppColors.primaryColor,
-            ),
-            Text(
-              'No Profile Picture',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
-          ],
         ),
       ],
     );
