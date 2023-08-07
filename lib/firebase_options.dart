@@ -63,8 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '129258897545',
     projectId: 'medzo-18785',
     storageBucket: 'medzo-18785.appspot.com',
-    androidClientId: '129258897545-n4lbioqk0lbofvet1jpprb1s7eu2ou21.apps.googleusercontent.com',
-    iosClientId: '129258897545-806hv1i52hgkbmjn58tev9gm0i4noltd.apps.googleusercontent.com',
+    androidClientId: '129258897545-2pptudmm7og9mc4riakalcc53psg5b03.apps.googleusercontent.com',
+    iosClientId: '129258897545-41t8gqfb0lglsbtbtigqjnbbrvjp2rqe.apps.googleusercontent.com',
     iosBundleId: 'com.corange.medzo',
   );
 }
