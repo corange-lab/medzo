@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/all_user_controller.dart';
+import 'package:medzo/model/post_model.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/model/user_relationship.dart';
 
@@ -20,95 +21,31 @@ class ProfileController extends GetxController {
   Rx<UserModel> _user = UserModel().obs;
 
   Stream<QuerySnapshot>? dataSnapShot;
+  late final Stream<List<UserRelationship>> followersStream;
+  late final Stream<List<UserRelationship>> followingStream;
+  late final Stream<bool> isFollowingStream;
 
   @override
   void onInit() {
+    String uId = this.uId ?? FirebaseAuth.instance.currentUser!.uid;
     dataSnapShot = FirebaseFirestore.instance
         .collection('users')
-        .where('id', isEqualTo: uId ?? FirebaseAuth.instance.currentUser!.uid)
+        .where('id', isEqualTo: uId)
         .snapshots();
 
     super.onInit();
+
+    followersStream = streamFollowers(uId);
+    followingStream = streamFollowing(uId);
+    final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    isFollowingStream = streamIsFollowing(currentUserId, uId);
+
     dataSnapShot!.listen((event) {
       _user.value = UserModel.fromDocumentSnapshot(event.docs.first);
       nameController.text = _user.value.name ?? '';
       professionController.text = _user.value.profession ?? '';
       update();
     });
-  }
-
-  Future<void> followUser(String targetUserId) async {
-    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
-
-    final userFollowingRef = FirebaseFirestore.instance
-        .collection('followers')
-        .doc(currentUserId)
-        .collection('user_following');
-    final targetFollowerRef = FirebaseFirestore.instance
-        .collection('followers')
-        .doc(targetUserId)
-        .collection('user_followers');
-
-    await userFollowingRef.doc(targetUserId).set({
-      'timestamp': FieldValue.serverTimestamp(),
-    });
-
-    await targetFollowerRef.doc(currentUserId).set({
-      'timestamp': FieldValue.serverTimestamp(),
-    });
-  }
-
-  Future<void> unfollowUser(String targetUserId) async {
-    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
-    final userFollowingRef = FirebaseFirestore.instance
-        .collection('followers')
-        .doc(currentUserId)
-        .collection('user_following');
-    final targetFollowerRef = FirebaseFirestore.instance
-        .collection('followers')
-        .doc(targetUserId)
-        .collection('user_followers');
-
-    await userFollowingRef.doc(targetUserId).delete();
-    await targetFollowerRef.doc(currentUserId).delete();
-  }
-
-  Future<List<UserRelationship>> getUsersFollowing(String userId) async {
-    final userFollowingRef = FirebaseFirestore.instance
-        .collection('followers')
-        .doc(userId)
-        .collection('user_following');
-    final followingSnapshot = await userFollowingRef.get();
-    return parseFollowing(followingSnapshot);
-  }
-
-  Future<List<UserRelationship>> getUsersFollowers(String userId) async {
-    final userFollowersRef = FirebaseFirestore.instance
-        .collection('followers')
-        .doc(userId)
-        .collection('user_followers');
-    final followersSnapshot = await userFollowersRef.get();
-    return parseFollowers(followersSnapshot);
-  }
-
-  List<UserRelationship> parseFollowing(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      return UserRelationship(
-        userId: doc.id,
-        timestamp: data['timestamp'].toDate(),
-      );
-    }).toList();
-  }
-
-  List<UserRelationship> parseFollowers(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      return UserRelationship(
-        userId: doc.id,
-        timestamp: data['timestamp'].toDate(),
-      );
-    }).toList();
   }
 
   Stream<List<UserRelationship>> streamFollowers(String userId) {
@@ -131,22 +68,7 @@ class ProfileController extends GetxController {
     });
   }
 
-  // Future<bool> checkIsFollowing(String targetUserId) async {
-  //   return await isFollowing(targetUserId);
-  // }
-
-  // Future<bool> isFollowing(String targetUserId) async {
-  //   String currentUserId = FirebaseAuth.instance.currentUser!.uid;
-  //   final userFollowingRef = FirebaseFirestore.instance
-  //       .collection('followers')
-  //       .doc(currentUserId)
-  //       .collection('user_following');
-  //   final followingSnapshot = await userFollowingRef.doc(targetUserId).get();
-  //   return followingSnapshot.exists;
-  // }
-
-  Stream<bool> isFollowing(String targetUserId) {
-    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  Stream<bool> streamIsFollowing(String currentUserId, String targetUserId) {
     final userFollowingRef = FirebaseFirestore.instance
         .collection('followers')
         .doc(currentUserId)
@@ -154,5 +76,77 @@ class ProfileController extends GetxController {
     return userFollowingRef.doc(targetUserId).snapshots().map((snapshot) {
       return snapshot.exists;
     });
+  }
+
+  Future<void> followUser(String targetUserId) async {
+    final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+    final userFollowingRef = FirebaseFirestore.instance
+        .collection('followers')
+        .doc(currentUserId)
+        .collection('user_following');
+    final targetFollowerRef = FirebaseFirestore.instance
+        .collection('followers')
+        .doc(targetUserId)
+        .collection('user_followers');
+
+    await userFollowingRef.doc(targetUserId).set({
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+
+    await targetFollowerRef.doc(currentUserId).set({
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> unfollowUser(String targetUserId) async {
+    final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    final userFollowingRef = FirebaseFirestore.instance
+        .collection('followers')
+        .doc(currentUserId)
+        .collection('user_following');
+    final targetFollowerRef = FirebaseFirestore.instance
+        .collection('followers')
+        .doc(targetUserId)
+        .collection('user_followers');
+
+    await userFollowingRef.doc(targetUserId).delete();
+    await targetFollowerRef.doc(currentUserId).delete();
+  }
+
+  List<UserRelationship> parseFollowers(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return UserRelationship(
+        userId: doc.id,
+        timestamp: data['timestamp'].toDate(),
+      );
+    }).toList();
+  }
+
+  List<UserRelationship> parseFollowing(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return UserRelationship(
+        userId: doc.id,
+        timestamp: data['timestamp'].toDate(),
+      );
+    }).toList();
+  }
+
+  // Stream<List<PostData>> getPosts()
+
+  Stream<List<PostData>> getPosts() {
+    var data = FirebaseFirestore.instance
+        .collection('posts')
+        .where('creatorId', isEqualTo: uId)
+        .snapshots()
+        .map((event) {
+      return event.docs.map((e) {
+        return PostData.fromMap(e.data() as Map<String, dynamic>);
+      }).toList();
+    });
+    print('asfasf ${data.length}');
+    return data;
   }
 }

@@ -6,7 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/post_controller.dart';
 import 'package:medzo/controller/profile_controller.dart';
+import 'package:medzo/model/post_model.dart';
 import 'package:medzo/model/user_relationship.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -16,12 +18,14 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/chat_screen.dart';
 import 'package:medzo/view/editprofile_screen.dart';
 import 'package:medzo/view/follow_users_screen.dart';
+import 'package:medzo/view/post_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileScreen extends StatelessWidget {
   final String userId;
+  final PostController postController = Get.find<PostController>();
 
   ProfileScreen(this.userId);
 
@@ -54,14 +58,17 @@ class ProfileScreen extends StatelessWidget {
               elevation: 3,
               shadowColor: AppColors.splashdetail.withOpacity(0.1),
               actions: [
-                IconButton(
-                    onPressed: () async {
-                      logoutDialogue(context);
-                    },
-                    icon: SvgPicture.asset(
-                      SvgIcon.signout,
-                      height: Responsive.height(3, context),
-                    ))
+                Visibility(
+                  visible: FirebaseAuth.instance.currentUser!.uid == userId,
+                  child: IconButton(
+                      onPressed: () async {
+                        logoutDialogue(context);
+                      },
+                      icon: SvgPicture.asset(
+                        SvgIcon.signout,
+                        height: Responsive.height(3, context),
+                      )),
+                )
               ],
             ),
             body: StreamBuilder<QuerySnapshot>(
@@ -140,47 +147,33 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(
                           height: Responsive.height(2, context),
                         ),
-                        FollowFollowingWidget(context, controller),
-                        SizedBox(
-                          height: Responsive.height(2, context),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            TextWidget(
-                              "${controller.user.value.profession ?? '-'}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall!
-                                  .copyWith(
-                                      color: AppColors.dark,
-                                      fontSize: Responsive.sp(3.5, context),
-                                      letterSpacing: 0),
-                            ),
-                            SizedBox(
-                              width: Responsive.width(1, context),
-                            ),
-                            SvgPicture.asset(
-                              SvgIcon.verify,
-                              color: AppColors.blue,
-                              height: Responsive.height(1.8, context),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: Responsive.height(2, context),
-                        ),
-                        TextWidget(
-                          // FIXME : add user details
-                          "4 year member, 41, Caucasian Female",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall!
-                              .copyWith(
-                                  color: AppColors.grey,
-                                  letterSpacing: 0,
-                                  fontSize: Responsive.sp(3.5, context)),
+                        Visibility(
+                          visible: controller.user.value.profession != null &&
+                              controller.user.value.profession!.isNotEmpty,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              TextWidget(
+                                "${controller.user.value.profession ?? '-'}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall!
+                                    .copyWith(
+                                        color: AppColors.dark,
+                                        fontSize: Responsive.sp(3.5, context),
+                                        letterSpacing: 0),
+                              ),
+                              SizedBox(
+                                width: Responsive.width(1, context),
+                              ),
+                              SvgPicture.asset(
+                                SvgIcon.verify,
+                                color: AppColors.blue,
+                                height: Responsive.height(1.8, context),
+                              )
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: Responsive.height(3, context),
@@ -211,121 +204,8 @@ class ProfileScreen extends StatelessWidget {
                                       ),
                                 ),
                               )
-                            : Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 25),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 7),
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            Get.to(const ChatScreen());
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              elevation: 0,
-                                              fixedSize: Size(
-                                                  Responsive.width(30, context),
-                                                  48),
-                                              backgroundColor:
-                                                  AppColors.splashdetail,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30))),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              SvgPicture.asset(
-                                                SvgIcon.chat,
-                                                height: Responsive.height(
-                                                    2.8, context),
-                                              ),
-                                              SizedBox(
-                                                width: Responsive.width(
-                                                    2, context),
-                                              ),
-                                              TextWidget(
-                                                ConstString.chat,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .displayMedium!
-                                                    .copyWith(
-                                                        color: AppColors.dark,
-                                                        fontSize: Responsive.sp(
-                                                            4, context),
-                                                        fontFamily: AppFont
-                                                            .fontFamilysemi,
-                                                        letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 7),
-                                        child: StreamBuilder<bool>(
-                                          stream:
-                                              controller.isFollowing(userId),
-                                          builder: (context, snapshot) {
-                                            bool isFollowing =
-                                                snapshot.data ?? false;
-                                            return ElevatedButton(
-                                              onPressed: () async {
-                                                // TODO: follow user
-                                                if (isFollowing) {
-                                                  await controller
-                                                      .unfollowUser(userId);
-                                                } else {
-                                                  await controller
-                                                      .followUser(userId);
-                                                }
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  elevation: 0,
-                                                  fixedSize: Size(
-                                                      Responsive.width(
-                                                          50, context),
-                                                      48),
-                                                  backgroundColor:
-                                                      AppColors.primaryColor,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30))),
-                                              child: TextWidget(
-                                                isFollowing
-                                                    ? ConstString.unfollow
-                                                    : ConstString.follownow,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .displayMedium!
-                                                    .copyWith(
-                                                        color: AppColors.black,
-                                                        fontSize: Responsive.sp(
-                                                            4, context),
-                                                        fontFamily: AppFont
-                                                            .fontFamilysemi,
-                                                        letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            : SizedBox(),
+                        userFollowActions(controller),
                         SizedBox(
                           height: Responsive.height(2, context),
                         ),
@@ -377,7 +257,100 @@ class ProfileScreen extends StatelessWidget {
                               )
                             ],
                           ),
-                        )
+                        ),
+
+                        SizedBox(
+                          height: Responsive.height(2, context),
+                        ),
+
+                        // create List of post from posts collection where creator id == userId -> PostData is Model class
+                        StreamBuilder<List<PostData>>(
+                          stream: controller.getPosts(),
+                          builder: (context, snapshot) {
+                            // getPosts is a method in controller which returns stream of QuerySnapshot
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: TextWidget(
+                                  'Something went wrong',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              );
+                            }
+                            if (snapshot.hasData) {
+                              if ((snapshot.data ?? []).isEmpty) {
+                                return Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        child: Image.asset(
+                                          SvgIcon.nodata,
+                                          scale: 0.5,
+                                        ),
+                                        width: 20.w,
+                                      ),
+                                      SizedBox(
+                                        height: 2.h,
+                                      ),
+                                      Text(
+                                        ConstString.nopost,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .copyWith(
+                                                color: AppColors.black,
+                                                fontFamily:
+                                                    AppFont.fontFamilysemi,
+                                                fontSize: Responsive.sp(
+                                                    3.5, context)),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                              return ListView.separated(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) =>
+                                      PostItemComponent(
+                                        postData:
+                                            snapshot.data!.elementAt(index),
+                                        controller: postController,
+                                      ),
+                                  separatorBuilder: (context, index) =>
+                                      Divider(color: Colors.transparent),
+                                  itemCount: snapshot.data!.length);
+                            } else {
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      child: Image.asset(
+                                        SvgIcon.nodata,
+                                        scale: 0.5,
+                                      ),
+                                      width: 20.w,
+                                    ),
+                                    SizedBox(
+                                      height: 2.h,
+                                    ),
+                                    Text(
+                                      ConstString.nopost,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                              color: AppColors.black,
+                                              fontSize: 15.sp,
+                                              fontFamily: AppFont.fontBold),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ],
                     ),
                   );
@@ -412,6 +385,108 @@ class ProfileScreen extends StatelessWidget {
                 }
               },
             ));
+      },
+    );
+  }
+
+  StreamBuilder<bool> userFollowActions(ProfileController controller) {
+    return StreamBuilder<bool>(
+      stream: controller.isFollowingStream,
+      initialData: false,
+      builder: (context, snapshot) {
+        final isFollowing = snapshot.data ?? false;
+        return Column(
+          children: [
+            SizedBox(
+              height: Responsive.height(2, context),
+            ),
+            FollowFollowingWidget(context, controller),
+            SizedBox(
+              height: Responsive.height(2, context),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 7),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.to(const ChatScreen());
+                        },
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            fixedSize: Size(Responsive.width(30, context), 48),
+                            backgroundColor: AppColors.splashdetail,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              SvgIcon.chat,
+                              height: Responsive.height(2.8, context),
+                            ),
+                            SizedBox(
+                              width: Responsive.width(2, context),
+                            ),
+                            TextWidget(
+                              ConstString.chat,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                      color: AppColors.dark,
+                                      fontSize: Responsive.sp(4, context),
+                                      fontFamily: AppFont.fontFamilysemi,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 7),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (isFollowing) {
+                            await controller.unfollowUser(userId);
+                          } else {
+                            await controller.followUser(userId);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            fixedSize: Size(Responsive.width(50, context), 48),
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
+                        child: TextWidget(
+                          isFollowing
+                              ? ConstString.unfollow
+                              : ConstString.follownow,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayMedium!
+                              .copyWith(
+                                  color: AppColors.black,
+                                  fontSize: Responsive.sp(4, context),
+                                  fontFamily: AppFont.fontFamilysemi,
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
       },
     );
   }

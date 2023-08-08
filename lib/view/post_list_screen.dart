@@ -268,6 +268,8 @@ class _PostListScreenState extends State<PostListScreen> {
                   GestureDetector(
                     onTap: () {
                       Get.to(() => ProfileScreen(postData.creatorId!));
+                      // Get.to(() =>
+                      //     UserProfileScreen(targetUserId: postData.creatorId!));
                     },
                     child: PostHeaderWidget(context, postData,
                         controller.findUser(postData.creatorId!)),
