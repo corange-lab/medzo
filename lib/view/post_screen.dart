@@ -58,14 +58,13 @@ class PostScreen extends GetView<PostController> {
                   padding: const EdgeInsets.only(left: 2),
                   child: TextWidget(
                     "Hellow🖐",
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall!
-                        .copyWith(fontSize: 14, letterSpacing: 0),
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        fontSize: Responsive.sp(3.8, context),
+                        letterSpacing: 0),
                   ),
                 ),
                 SizedBox(
-                  height: 5,
+                  height: Responsive.height(0.5, context),
                 ),
                 MyNameTextWidget()
               ],
@@ -984,7 +983,6 @@ class PostScreen extends GetView<PostController> {
 class PostItemComponent extends StatelessWidget {
   final PostData postData;
   final PostController controller;
-
   const PostItemComponent(
       {super.key, required this.postData, required this.controller});
 
@@ -1017,7 +1015,7 @@ class PostItemComponent extends StatelessWidget {
                 postData.description ?? '',
                 textAlign: TextAlign.start,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontSize: 14,
+                    fontSize: Responsive.sp(3.8, context),
                     fontFamily: AppFont.fontMedium,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0,
@@ -1031,7 +1029,7 @@ class PostItemComponent extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Container(
-                    height: 160,
+                    height: 20.h,
                     alignment: Alignment.center,
                     child: CarouselSlider.builder(
                       itemCount: (postData.postImages ?? []).length,
@@ -1101,28 +1099,28 @@ class PostItemComponent extends StatelessWidget {
                   child: controller.isLiked(postData)
                       ? SvgPicture.asset(
                           SvgIcon.likePost,
-                          height: 20,
+                          height: 2.4.h,
                           color: AppColors.primaryColor,
                         )
                       : SvgPicture.asset(
                           SvgIcon.likePost,
-                          height: 20,
+                          height: 2.4.h,
                         ),
                 ),
                 SizedBox(
-                  width: 8,
+                  width: 2.w,
                 ),
                 Text(
                   postData.likedUsers?.length.toString() ?? "0",
                   style: Theme.of(context).textTheme.labelLarge!.copyWith(
                       color: AppColors.txtlike,
                       letterSpacing: 0.3,
-                      fontSize: 16,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
                       fontFamily: AppFont.fontFamily),
                 ),
                 SizedBox(
-                  width: 15,
+                  width: 4.w,
                 ),
                 GestureDetector(
                   onTap: () async {
@@ -1133,18 +1131,18 @@ class PostItemComponent extends StatelessWidget {
                   },
                   child: SvgPicture.asset(
                     SvgIcon.commentPost,
-                    height: 20,
+                    height: 2.5.h,
                   ),
                 ),
                 SizedBox(
-                  width: 6,
+                  width: 1.5.w,
                 ),
                 Text(
                   postData.postComments?.length.toString() ?? "0",
                   style: Theme.of(context).textTheme.labelLarge!.copyWith(
                       color: AppColors.txtlike,
                       letterSpacing: 0.3,
-                      fontSize: 16,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
                       fontFamily: AppFont.fontFamily),
                 ),
@@ -1170,7 +1168,7 @@ class PostItemComponent extends StatelessWidget {
               fontFamily: AppFont.fontFamilysemi,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.3,
-              fontSize: 15),
+              fontSize: Responsive.sp(4.2, context)),
         ),
       ),
       subtitle: Padding(
@@ -1180,7 +1178,8 @@ class PostItemComponent extends StatelessWidget {
           child: TextWidget(
             timeAgo(postData.createdTime ?? DateTime.now()),
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: AppColors.grey.withOpacity(0.8), fontSize: 12.5),
+                color: AppColors.grey.withOpacity(0.8),
+                fontSize: Responsive.sp(3.4, context)),
           ),
         ),
       ),
