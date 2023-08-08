@@ -175,6 +175,8 @@ class ConstString {
   static const String socialLogin = "Social logins";
   static const String unfollow = "Unfollow";
   static const String follow = "Follow";
+  static const String followings = "Followings";
+  static const String followers = "Followers";
   static const String review = "Review";
   static const String addreview = "Add Review";
   static const String leavereview = "Leave a review here";

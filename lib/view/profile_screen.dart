@@ -2,11 +2,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/profile_controller.dart';
-import 'package:medzo/model/user_model.dart';
+import 'package:medzo/model/user_relationship.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -14,6 +15,7 @@ import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/chat_screen.dart';
 import 'package:medzo/view/editprofile_screen.dart';
+import 'package:medzo/view/follow_users_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
 import 'package:sizer/sizer.dart';
@@ -22,8 +24,6 @@ class ProfileScreen extends StatelessWidget {
   final String userId;
 
   ProfileScreen(this.userId);
-
-  String currentUser = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +73,10 @@ class ProfileScreen extends StatelessWidget {
                     color: AppColors.primaryColor,
                   ));
                 }
-                String? userId = snapshot.data?.docs[0]['id'] ?? "";
-                String? name = snapshot.data?.docs[0]['name'] ?? "";
-                String? profession = snapshot.data?.docs[0]['profession'] ?? "";
-                String? imgUrl = snapshot.data?.docs[0]['profile_picture'];
+                // String? userId = snapshot.data?.docs[0]['id'] ?? "";
+                // String? name = snapshot.data?.docs[0]['name'] ?? "";
+                // String? profession = snapshot.data?.docs[0]['profession'] ?? "";
+                // String? imgUrl = snapshot.data?.docs[0]['profile_picture'];
 
                 if (snapshot.hasData) {
                   return SingleChildScrollView(
@@ -87,10 +87,12 @@ class ProfileScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(15.0),
                             child: ClipOval(
                               child: Container(
-                                child: imgUrl == null
+                                child: controller.user.value.profilePicture ==
+                                        null
                                     ? AppWidget.noProfileWidget(context)
                                     : Image.network(
-                                        imgUrl,
+                                        controller.user.value.profilePicture ??
+                                            '',
                                         fit: BoxFit.cover,
                                         loadingBuilder: (BuildContext context,
                                             Widget child,
@@ -125,7 +127,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        TextWidget(name!,
+                        TextWidget(controller.user.value.name ?? '-',
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge!
@@ -138,44 +140,7 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(
                           height: Responsive.height(2, context),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextWidget(
-                              "893 Followers",
-                              // FIXME:
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall!
-                                  .copyWith(
-                                      color: AppColors.sky,
-                                      letterSpacing: 0,
-                                      fontSize: Responsive.sp(3.8, context)),
-                            ),
-                            SizedBox(
-                              width: Responsive.width(2, context),
-                            ),
-                            Container(
-                              height: 15,
-                              width: 1,
-                              color: AppColors.grey.withOpacity(0.2),
-                            ),
-                            SizedBox(
-                              width: Responsive.width(2, context),
-                            ),
-                            TextWidget(
-                              "101 Following",
-                              // FIXME:
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall!
-                                  .copyWith(
-                                      color: AppColors.sky,
-                                      letterSpacing: 0,
-                                      fontSize: Responsive.sp(3.8, context)),
-                            ),
-                          ],
-                        ),
+                        FollowFollowingWidget(context, controller),
                         SizedBox(
                           height: Responsive.height(2, context),
                         ),
@@ -184,7 +149,7 @@ class ProfileScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             TextWidget(
-                              "${profession}",
+                              "${controller.user.value.profession ?? '-'}",
                               style: Theme.of(context)
                                   .textTheme
                                   .labelSmall!
@@ -220,12 +185,11 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(
                           height: Responsive.height(3, context),
                         ),
-                        currentUser == userId
+                        FirebaseAuth.instance.currentUser!.uid == userId
                             ? ElevatedButton(
                                 onPressed: () async {
-                                  await Get.to(() => EditProfileScreen(
-                                      UserModel.fromMap(snapshot.data!.docs[0]
-                                          .data() as Map<String, dynamic>)));
+                                  await Get.to(() =>
+                                      EditProfileScreen(controller.user.value));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     elevation: 0,
@@ -308,34 +272,54 @@ class ProfileScreen extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 7),
-                                        child: ElevatedButton(
-                                          onPressed: () {},
-                                          style: ElevatedButton.styleFrom(
-                                              elevation: 0,
-                                              fixedSize: Size(
-                                                  Responsive.width(50, context),
-                                                  48),
-                                              backgroundColor:
-                                                  AppColors.primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30))),
-                                          child: TextWidget(
-                                            ConstString.follownow,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .displayMedium!
-                                                .copyWith(
-                                                    color: AppColors.black,
-                                                    fontSize: Responsive.sp(
-                                                        4, context),
-                                                    fontFamily:
-                                                        AppFont.fontFamilysemi,
-                                                    letterSpacing: 0,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                          ),
+                                        child: StreamBuilder<bool>(
+                                          stream:
+                                              controller.isFollowing(userId),
+                                          builder: (context, snapshot) {
+                                            bool isFollowing =
+                                                snapshot.data ?? false;
+                                            return ElevatedButton(
+                                              onPressed: () async {
+                                                // TODO: follow user
+                                                if (isFollowing) {
+                                                  await controller
+                                                      .unfollowUser(userId);
+                                                } else {
+                                                  await controller
+                                                      .followUser(userId);
+                                                }
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  elevation: 0,
+                                                  fixedSize: Size(
+                                                      Responsive.width(
+                                                          50, context),
+                                                      48),
+                                                  backgroundColor:
+                                                      AppColors.primaryColor,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30))),
+                                              child: TextWidget(
+                                                isFollowing
+                                                    ? ConstString.unfollow
+                                                    : ConstString.follownow,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .displayMedium!
+                                                    .copyWith(
+                                                        color: AppColors.black,
+                                                        fontSize: Responsive.sp(
+                                                            4, context),
+                                                        fontFamily: AppFont
+                                                            .fontFamilysemi,
+                                                        letterSpacing: 0,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                              ),
+                                            );
+                                          },
                                         ),
                                       ),
                                     ),
@@ -429,6 +413,98 @@ class ProfileScreen extends StatelessWidget {
               },
             ));
       },
+    );
+  }
+
+  Widget FollowFollowingWidget(
+      BuildContext context, ProfileController controller) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        StreamBuilder<List<UserRelationship>>(
+          stream: controller.streamFollowers(userId),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return SizedBox();
+            }
+            if (!snapshot.hasData) {
+              return CupertinoActivityIndicator(
+                color: AppColors.primaryColor,
+                animating: true,
+                radius: 10,
+              );
+            }
+            final followers = snapshot.data!;
+            return GestureDetector(
+              onTap: () async {
+                await Get.to(() => FollowUsersScreen(userId: userId));
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextWidget(
+                    '${followers.length} Followers',
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: AppColors.sky,
+                        letterSpacing: 0,
+                        fontSize: Responsive.sp(3.8, context)),
+                  ),
+                  // for (UserRelationship follower in followers)
+                  //   Text(
+                  //       'Follower: ${follower.userId}, Timestamp: ${follower.timestamp}'),
+                ],
+              ),
+            );
+          },
+        ),
+        SizedBox(
+          width: Responsive.width(2, context),
+        ),
+        Container(
+          height: 15,
+          width: 1,
+          color: AppColors.grey.withOpacity(0.2),
+        ),
+        SizedBox(
+          width: Responsive.width(2, context),
+        ),
+        StreamBuilder<List<UserRelationship>>(
+          stream: controller.streamFollowing(userId),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return SizedBox();
+            }
+            if (!snapshot.hasData) {
+              return CupertinoActivityIndicator(
+                color: AppColors.primaryColor,
+                animating: true,
+                radius: 10,
+              );
+            }
+            final following = snapshot.data!;
+            return GestureDetector(
+              onTap: () async {
+                await Get.to(() => FollowUsersScreen(userId: userId));
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextWidget(
+                    '${following.length} Following',
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: AppColors.sky,
+                        letterSpacing: 0,
+                        fontSize: Responsive.sp(3.8, context)),
+                  ),
+                  // for (UserRelationship followedUser in following)
+                  //   Text(
+                  //       'Following: ${followedUser.userId}, Timestamp: ${followedUser.timestamp}'),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }
