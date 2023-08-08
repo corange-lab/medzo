@@ -33,6 +33,7 @@ class OtherProfilePicWidget extends StatelessWidget {
           errorWidget: (context, url, error) =>
               Icon(Icons.error, color: AppColors.primaryColor),
         ),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
       ),
     );
   }

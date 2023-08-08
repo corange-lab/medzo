@@ -9,11 +9,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/post_controller.dart';
 import 'package:medzo/controller/profile_controller.dart';
-import 'package:medzo/model/post_model.dart';
 import 'package:medzo/model/user_relationship.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/chat_screen.dart';
 import 'package:medzo/view/editprofile_screen.dart';
@@ -41,21 +41,34 @@ class ProfileScreen extends StatelessWidget {
             appBar: AppBar(
               titleSpacing: 0,
               backgroundColor: AppColors.white,
-              automaticallyImplyLeading: false,
-              title: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: TextWidget(
-                    ConstString.profile,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: 17.5,
-                        fontFamily: AppFont.fontBold,
-                        letterSpacing: 0,
-                        color: AppColors.black),
-                  ),
-                ),
-              ),
+              automaticallyImplyLeading: true,
+              centerTitle: true,
+              title: FirebaseAuth.instance.currentUser!.uid == userId
+                  ? Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: TextWidget(
+                          ConstString.profile,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  fontSize: 17.5,
+                                  fontFamily: AppFont.fontBold,
+                                  letterSpacing: 0,
+                                  color: AppColors.black),
+                        ),
+                      ),
+                    )
+                  : TextWidget(
+                      controller.user.value.name ?? '',
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontSize: 17.5,
+                          fontFamily: AppFont.fontBold,
+                          letterSpacing: 0,
+                          color: AppColors.black),
+                    ),
               elevation: 3,
               shadowColor: AppColors.splashdetail.withOpacity(0.1),
               actions: [
@@ -205,7 +218,6 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                               )
                             : userFollowActions(controller),
-
                         SizedBox(
                           height: 15,
                         ),
@@ -258,97 +270,12 @@ class ProfileScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-
                         SizedBox(
                           height: 15,
                         ),
-
-                        // create List of post from posts collection where creator id == userId -> PostData is Model class
-                        StreamBuilder<List<PostData>>(
-                          stream: controller.getPosts(),
-                          builder: (context, snapshot) {
-                            // getPosts is a method in controller which returns stream of QuerySnapshot
-                            if (snapshot.hasError) {
-                              return Center(
-                                child: TextWidget(
-                                  'Something went wrong',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              );
-                            }
-                            if (snapshot.hasData) {
-                              if ((snapshot.data ?? []).isEmpty) {
-                                return Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        child: Image.asset(
-                                          SvgIcon.nodata,
-                                          scale: 0.5,
-                                        ),
-                                        width: 20.w,
-                                      ),
-                                      SizedBox(
-                                        height: 2.h,
-                                      ),
-                                      Text(
-                                        ConstString.nopost,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge!
-                                            .copyWith(
-                                                color: AppColors.black,
-                                                fontFamily:
-                                                    AppFont.fontFamilysemi,
-                                                fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                              return ListView.separated(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) =>
-                                      PostItemComponent(
-                                        postData:
-                                            snapshot.data!.elementAt(index),
-                                        controller: postController,
-                                      ),
-                                  separatorBuilder: (context, index) =>
-                                      Divider(color: Colors.transparent),
-                                  itemCount: snapshot.data!.length);
-                            } else {
-                              return Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      child: Image.asset(
-                                        SvgIcon.nodata,
-                                        scale: 0.5,
-                                      ),
-                                      width: 20.w,
-                                    ),
-                                    SizedBox(
-                                      height: 2.h,
-                                    ),
-                                    Text(
-                                      ConstString.nopost,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(
-                                              color: AppColors.black,
-                                              fontSize: 15.sp,
-                                              fontFamily: AppFont.fontBold),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          },
+                        PostListWidget(
+                          streamQuery: postController.streamUserPosts(userId),
+                          type: PostFetchType.userPosts,
                         ),
                       ],
                     ),

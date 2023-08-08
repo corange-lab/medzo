@@ -108,7 +108,7 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
                   ),
                 ),
               ),
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
             // clipBehavior: Clip.antiAliasWithSaveLayer,
           ),

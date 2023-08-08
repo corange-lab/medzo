@@ -30,7 +30,7 @@ class _ChatGroupInfoState extends State<ChatGroupInfo> {
         errorWidget: (_, __, ___) {
           return Image(
             image: const AssetImage(AppImages.errorImage),
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
             color: Colors.grey,
             height: size.height,
             width: size.width,

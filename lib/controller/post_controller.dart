@@ -39,11 +39,11 @@ class PostController extends GetxController {
 
   PostData? currentPostData;
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchAllPosts();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   // fetchAllPosts();
+  // }
 
   Stream<QuerySnapshot<Object?>> fetchAllPosts() {
     return postRef
@@ -53,10 +53,20 @@ class PostController extends GetxController {
         .asStream();
   }
 
-  //TODO; fetch favourite post of logged in user
-  Stream<QuerySnapshot<Object?>> fetchFavouritePosts() {
-    return favouritesRef.get().asStream().where((event) =>
-        event.docs.where((element) => element.id == loggedInUserId).isNotEmpty);
+  Stream<QuerySnapshot<Object?>> fetchDashboardPosts() {
+    return postRef
+        .where('creatorId', isNotEqualTo: null)
+        .orderBy('createdTime', descending: true)
+        .limit(4)
+        .get()
+        .asStream();
+  }
+
+  Stream<QuerySnapshot<Object?>> streamUserPosts(String userId) {
+    return postRef
+        .where('creatorId', isEqualTo: userId, isNotEqualTo: null)
+        .orderBy('createdTime', descending: true)
+        .snapshots();
   }
 
   UserModel findUser(String userId) {

@@ -14,6 +14,7 @@ import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
@@ -34,7 +35,7 @@ class PostScreen extends GetView<PostController> {
 
   @override
   Widget build(BuildContext context) {
-    PostController controller = Get.isRegistered<PostController>()
+    Get.isRegistered<PostController>()
         ? Get.find<PostController>()
         : Get.put(PostController());
     return Scaffold(
@@ -87,7 +88,10 @@ class PostScreen extends GetView<PostController> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PostListWidget(context),
+            PostListWidget(
+              streamQuery: controller.fetchDashboardPosts(),
+              type: PostFetchType.dashboardPosts,
+            ),
             SizedBox(
               height: 10,
             ),
@@ -132,47 +136,6 @@ class PostScreen extends GetView<PostController> {
                   ),
                 ],
               )),
-        ),
-      ),
-    );
-  }
-
-  Widget PostItemWidget(BuildContext context, PostController controller,
-      PostData postData, int index) {
-    return GetBuilder<PostController>(
-        id: postData.id ?? 'post${postData.id}',
-        builder: (ctrl) {
-          return PostItemComponent(postData: postData, controller: controller);
-        });
-  }
-
-  ListTile PostHeaderWidget(
-      BuildContext context, PostData postData, UserModel thisPostUser) {
-    return ListTile(
-      horizontalTitleGap: 10,
-      leading:
-          OtherProfilePicWidget(profilePictureUrl: thisPostUser.profilePicture),
-      title: Align(
-        alignment: Alignment.topLeft,
-        child: TextWidget(
-          thisPostUser.name ?? '',
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              fontFamily: AppFont.fontFamilysemi,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.3,
-              fontSize: Responsive.sp(4.2, context)),
-        ),
-      ),
-      subtitle: Padding(
-        padding: const EdgeInsets.only(left: 2),
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: TextWidget(
-            timeAgo(postData.createdTime ?? DateTime.now()),
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: AppColors.grey.withOpacity(0.8),
-                fontSize: Responsive.sp(3.4, context)),
-          ),
         ),
       ),
     );
@@ -809,176 +772,6 @@ class PostScreen extends GetView<PostController> {
       )
     ];
   }
-
-  Widget PostListWidget(BuildContext context) {
-    return StreamBuilder<QuerySnapshot<Object?>>(
-        stream: controller.fetchAllPosts(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // TODO: shimmer loading for 3 items in list
-            return Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: Column(
-                children: [
-                  // Replace this with your Shimmer placeholder widgets
-                  Container(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: ListTile(
-                            leading: CircleAvatar(),
-                            trailing: Icon(Icons.comment),
-                            title: Text("MEDZO"),
-                          ),
-                        ),
-                        Container(
-                          height: 12.h,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColors.whitehome),
-                        )
-                      ],
-                    ),
-                    margin: EdgeInsets.all(3),
-                  ),
-                  Divider(
-                    height: 3,
-                  ),
-                  Container(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: ListTile(
-                            leading: CircleAvatar(),
-                            trailing: Icon(Icons.comment),
-                            title: Text("MEDZO"),
-                          ),
-                        ),
-                        Container(
-                          height: 12.h,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColors.whitehome),
-                        )
-                      ],
-                    ),
-                    margin: EdgeInsets.all(3),
-                  ),
-                  Divider(
-                    height: 3,
-                  ),
-                  Container(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: ListTile(
-                            leading: CircleAvatar(),
-                            trailing: Icon(Icons.comment),
-                            title: Text("MEDZO"),
-                          ),
-                        ),
-                        Container(
-                          height: 12.h,
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColors.whitehome),
-                        )
-                      ],
-                    ),
-                    margin: EdgeInsets.all(3),
-                  ),
-                  Divider(
-                    height: 3,
-                  ),
-                ],
-              ),
-            );
-          }
-
-          if (snapshot.hasData) {
-            List<PostData> postDataList = snapshot.data!.docs.map((doc) {
-              return PostData.fromMap(doc.data() as Map<String, dynamic>);
-            }).toList();
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => PostItemWidget(context,
-                        controller, postDataList.elementAt(index), index),
-                    separatorBuilder: (context, index) =>
-                        Divider(color: Colors.transparent),
-                    itemCount:
-                        postDataList.length < 3 ? postDataList.length : 3),
-                postDataList.length > 3
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                await Get.to(() => PostListScreen());
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  fixedSize: Size(Responsive.width(40, context),
-                                      Responsive.height(5.5, context)),
-                                  backgroundColor: AppColors.black,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30))),
-                              child: TextWidget(
-                                ConstString.morePosts,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(
-                                        color: AppColors.buttontext,
-                                        fontSize: 12.sp),
-                              )),
-                        ),
-                      )
-                    : SizedBox()
-              ],
-            );
-          } else {
-            // TODO: show No Post data found
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    child: Image.asset(
-                      SvgIcon.nodata,
-                      scale: 0.5,
-                    ),
-                    width: 20.w,
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Text(
-                    ConstString.nodata,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: AppColors.black,
-                        fontSize: 15.sp,
-                        fontFamily: AppFont.fontBold),
-                  ),
-                ],
-              ),
-            );
-          }
-        });
-  }
 }
 
 class PostItemComponent extends StatelessWidget {
@@ -1009,20 +802,28 @@ class PostItemComponent extends StatelessWidget {
             width: SizerUtil.width,
             color: AppColors.grey.withOpacity(0.1),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TextWidget(
-                postData.description ?? '',
-                textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontSize: 14,
-                    fontFamily: AppFont.fontMedium,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0,
-                    color: AppColors.dark.withOpacity(0.9),
-                    height: 1.5),
+          GestureDetector(
+            onTap: () async {
+              controller.currentPostData = postData;
+              await Get.to(() => PostDetailScreen())?.whenComplete(() {
+                controller.currentPostData = null;
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TextWidget(
+                  postData.description ?? '',
+                  textAlign: TextAlign.start,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontSize: 14,
+                      fontFamily: AppFont.fontMedium,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0,
+                      color: AppColors.dark.withOpacity(0.9),
+                      height: 1.5),
+                ),
               ),
             ),
           ),
@@ -1066,7 +867,7 @@ class PostItemComponent extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                           ),
                           // clipBehavior: Clip.antiAliasWithSaveLayer,
                         ),
@@ -1181,6 +982,248 @@ class PostItemComponent extends StatelessWidget {
             timeAgo(postData.createdTime ?? DateTime.now()),
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: AppColors.grey.withOpacity(0.8), fontSize: 12.5),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PostListWidget extends GetWidget<PostController> {
+  final Stream<QuerySnapshot>? streamQuery;
+
+  final PostFetchType type;
+  const PostListWidget({super.key, this.streamQuery, required this.type});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot<Object?>>(
+        stream: streamQuery,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Column(
+                children: [
+                  // Replace this with your Shimmer placeholder widgets
+                  Container(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: ListTile(
+                            leading: CircleAvatar(),
+                            trailing: Icon(Icons.comment),
+                            title: Text("MEDZO"),
+                          ),
+                        ),
+                        Container(
+                          height: 12.h,
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.whitehome),
+                        )
+                      ],
+                    ),
+                    margin: EdgeInsets.all(3),
+                  ),
+                  Divider(
+                    height: 3,
+                  ),
+                  Container(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: ListTile(
+                            leading: CircleAvatar(),
+                            trailing: Icon(Icons.comment),
+                            title: Text("MEDZO"),
+                          ),
+                        ),
+                        Container(
+                          height: 12.h,
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.whitehome),
+                        )
+                      ],
+                    ),
+                    margin: EdgeInsets.all(3),
+                  ),
+                  Divider(
+                    height: 3,
+                  ),
+                  Container(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: ListTile(
+                            leading: CircleAvatar(),
+                            trailing: Icon(Icons.comment),
+                            title: Text("MEDZO"),
+                          ),
+                        ),
+                        Container(
+                          height: 12.h,
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.whitehome),
+                        )
+                      ],
+                    ),
+                    margin: EdgeInsets.all(3),
+                  ),
+                  Divider(
+                    height: 3,
+                  ),
+                ],
+              ),
+            );
+          }
+
+          if (snapshot.hasError) {
+            print('error ${snapshot.error}');
+            return Center(
+              child: TextWidget(
+                snapshot.error.toString(),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: AppColors.grey.withOpacity(0.8), fontSize: 12.5),
+              ),
+            );
+          }
+          if (snapshot.hasData) {
+            List<PostData> postDataList = snapshot.data!.docs.map((doc) {
+              return PostData.fromMap(doc.data() as Map<String, dynamic>);
+            }).toList();
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ListView.separated(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => PostItemWidget(context,
+                        controller, postDataList.elementAt(index), index),
+                    separatorBuilder: (context, index) =>
+                        Divider(color: Colors.transparent),
+                    itemCount: itemCount(postDataList)),
+                getBottomWidget(postDataList, context)
+              ],
+            );
+          } else {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    child: Image.asset(
+                      SvgIcon.nodata,
+                      scale: 0.5,
+                    ),
+                    width: 20.w,
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Text(
+                    ConstString.nodata,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: AppColors.black,
+                        fontSize: 15.sp,
+                        fontFamily: AppFont.fontBold),
+                  ),
+                ],
+              ),
+            );
+          }
+        });
+  }
+
+  Widget getBottomWidget(List<PostData> postDataList, BuildContext context) {
+    if (type == PostFetchType.userPosts || type == PostFetchType.allPosts) {
+      return SizedBox();
+    }
+    return postDataList.length > 3
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                  onPressed: () async {
+                    await Get.to(() => PostListScreen());
+                  },
+                  style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      fixedSize: Size(Responsive.width(40, context),
+                          Responsive.height(5.5, context)),
+                      backgroundColor: AppColors.black,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30))),
+                  child: TextWidget(
+                    ConstString.morePosts,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: AppColors.buttontext, fontSize: 12.sp),
+                  )),
+            ),
+          )
+        : SizedBox();
+  }
+
+  int itemCount(List<PostData> postDataList) {
+    if (type == PostFetchType.allPosts) {
+      return postDataList.length;
+    } else if (type == PostFetchType.dashboardPosts) {
+      return postDataList.length < 3 ? postDataList.length : 3;
+    } else if (type == PostFetchType.userPosts) {
+      return postDataList.length;
+    }
+    return postDataList.length;
+  }
+
+  Widget PostItemWidget(BuildContext context, PostController controller,
+      PostData postData, int index) {
+    return GetBuilder<PostController>(
+        id: postData.id ?? 'post${postData.id}',
+        builder: (ctrl) {
+          return PostItemComponent(postData: postData, controller: controller);
+        });
+  }
+
+  ListTile PostHeaderWidget(
+      BuildContext context, PostData postData, UserModel thisPostUser) {
+    return ListTile(
+      horizontalTitleGap: 10,
+      leading:
+          OtherProfilePicWidget(profilePictureUrl: thisPostUser.profilePicture),
+      title: Align(
+        alignment: Alignment.topLeft,
+        child: TextWidget(
+          thisPostUser.name ?? '',
+          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+              fontFamily: AppFont.fontFamilysemi,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.3,
+              fontSize: Responsive.sp(4.2, context)),
+        ),
+      ),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(left: 2),
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: TextWidget(
+            timeAgo(postData.createdTime ?? DateTime.now()),
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: AppColors.grey.withOpacity(0.8),
+                fontSize: Responsive.sp(3.4, context)),
           ),
         ),
       ),

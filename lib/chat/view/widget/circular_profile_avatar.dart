@@ -6,7 +6,15 @@ part of './widget.dart';
 class CircularProfileAvatar extends StatefulWidget {
   const CircularProfileAvatar(this.imageUrl,
       {Key? key,
-      this.initialsText = const Text(''),
+      this.initialsText = const Text(
+        'MEDZO\nUSER',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 8,
+          color: Color(0x70F29D38),
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       this.cacheImage = true,
       this.radius = 50.0,
       this.borderWidth = 0.0,

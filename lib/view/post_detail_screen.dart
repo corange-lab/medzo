@@ -222,7 +222,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                                 ),
                               ),
                             ),
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                           ),
                           // clipBehavior: Clip.antiAliasWithSaveLayer,
                         ),

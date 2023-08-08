@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,14 +11,15 @@ import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/image_preview_screen.dart';
 import 'package:medzo/view/post_detail_screen.dart';
+import 'package:medzo/view/post_screen.dart';
 import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class PostListScreen extends StatefulWidget {
@@ -63,184 +63,12 @@ class _PostListScreenState extends State<PostListScreen> {
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      body: StreamBuilder<QuerySnapshot<Object?>>(
-          stream: controller.fetchAllPosts(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: ListView(
-                  children: [
-                    // Replace this with your Shimmer placeholder widgets
-                    Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: ListTile(
-                              leading: CircleAvatar(),
-                              trailing: Icon(Icons.comment),
-                              title: Text("MEDZO"),
-                            ),
-                          ),
-                          Container(
-                            height: 15.h,
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppColors.whitehome),
-                          )
-                        ],
-                      ),
-                      margin: EdgeInsets.all(3),
-                    ),
-                    Divider(
-                      height: 3,
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: ListTile(
-                              leading: CircleAvatar(),
-                              trailing: Icon(Icons.comment),
-                              title: Text("MEDZO"),
-                            ),
-                          ),
-                          Container(
-                            height: 15.h,
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppColors.whitehome),
-                          )
-                        ],
-                      ),
-                      margin: EdgeInsets.all(3),
-                    ),
-                    Divider(
-                      height: 3,
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: ListTile(
-                              leading: CircleAvatar(),
-                              trailing: Icon(Icons.comment),
-                              title: Text("MEDZO"),
-                            ),
-                          ),
-                          Container(
-                            height: 15.h,
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppColors.whitehome),
-                          )
-                        ],
-                      ),
-                      margin: EdgeInsets.all(3),
-                    ),
-                    Divider(
-                      height: 3,
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: ListTile(
-                              leading: CircleAvatar(),
-                              trailing: Icon(Icons.comment),
-                              title: Text("MEDZO"),
-                            ),
-                          ),
-                          Container(
-                            height: 15.h,
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppColors.whitehome),
-                          )
-                        ],
-                      ),
-                      margin: EdgeInsets.all(3),
-                    ),
-                    Divider(
-                      height: 3,
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: ListTile(
-                              leading: CircleAvatar(),
-                              trailing: Icon(Icons.comment),
-                              title: Text("MEDZO"),
-                            ),
-                          ),
-                          Container(
-                            height: 15.h,
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppColors.whitehome),
-                          )
-                        ],
-                      ),
-                      margin: EdgeInsets.all(3),
-                    ),
-                    Divider(
-                      height: 3,
-                    ),
-                  ],
-                ),
-              );
-            }
-            if (snapshot.hasData) {
-              List<PostData> postDataList = snapshot.data!.docs.map((doc) {
-                return PostData.fromMap(doc.data() as Map<String, dynamic>);
-              }).toList();
-
-              return ListView.separated(
-                  itemBuilder: (context, index) => PostItemWidget(context,
-                      controller, postDataList.elementAt(index), index),
-                  separatorBuilder: (context, index) => Divider(
-                        color: Colors.transparent,
-                      ),
-                  itemCount: postDataList.length);
-            } else {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      child: Image.asset(
-                        SvgIcon.nodata,
-                        scale: 0.5,
-                      ),
-                      width: 20.w,
-                    ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Text(
-                      ConstString.nodata,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: AppColors.black,
-                          fontSize: 15.sp,
-                          fontFamily: AppFont.fontBold),
-                    ),
-                  ],
-                ),
-              );
-            }
-          }),
+      body: SingleChildScrollView(
+        child: PostListWidget(
+          streamQuery: controller.fetchAllPosts(),
+          type: PostFetchType.allPosts,
+        ),
+      ),
     );
   }
 
@@ -339,7 +167,7 @@ class _PostListScreenState extends State<PostListScreen> {
                                         ),
                                       ),
                                     ),
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.cover,
                                   ),
                                   // clipBehavior: Clip.antiAliasWithSaveLayer,
                                 ),
