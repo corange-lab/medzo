@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "129258897545-n4lbioqk0lbofvet1jpprb1s7eu2ou21.apps.googleusercontent.com",
+          "client_id": "129258897545-2pptudmm7og9mc4riakalcc53psg5b03.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.corange.medzo",
@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "129258897545-u51o8e319fm4ob8dkfia9hnoo8ndd2sq.apps.googleusercontent.com",
+          "client_id": "129258897545-dl05gtu2v6d64i3ojccp4trm3dtrqsof.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,11 +35,11 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "129258897545-8md0bnuotcu87049dc04j38khngstvst.apps.googleusercontent.com",
+              "client_id": "129258897545-dl05gtu2v6d64i3ojccp4trm3dtrqsof.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "129258897545-806hv1i52hgkbmjn58tev9gm0i4noltd.apps.googleusercontent.com",
+              "client_id": "129258897545-41t8gqfb0lglsbtbtigqjnbbrvjp2rqe.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.corange.medzo"

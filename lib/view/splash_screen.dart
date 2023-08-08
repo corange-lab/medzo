@@ -1,4 +1,4 @@
-import 'dart:ui';
+// Responsive
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,8 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight),
                       image: const DecorationImage(
-                          image: AssetImage(AppImages.splashback),fit: BoxFit.fill)),
+                          image: AssetImage(AppImages.splashback),
+                          fit: BoxFit.fill)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,18 +43,18 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                           BounceInDown(
                             child: Image.asset(
                               AppImages.medicineBox1,
-                              height: Responsive.height(20, context),
+                              height: 140,
                             ),
                             duration: Duration(seconds: 2),
                             delay: Duration(seconds: 2),
                           ),
                           SizedBox(
-                            height: Responsive.height(1, context),
+                            height: 10,
                           ),
                           ZoomIn(
                             child: Image.asset(
                               AppImages.medzoLineLogo1,
-                              height: Responsive.height(10, context),
+                              height: 70,
                             ),
                             duration: Duration(seconds: 1),
                           ),
@@ -70,11 +71,7 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                                 horizontal: 15, vertical: 15),
                             child: TextWidget(
                               "Disclaimer: The reviews and ratings on this app are solely the opinions of the users and are not intended to replace professional medical advice. The information provided on this app should not be used for diagnosis or treatment of any health problem or disease. Please consult your healthcare provider before taking any medication.",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displaySmall!
-                                  .copyWith(
-                                      fontSize: Responsive.sp(2.3, context)),
+                              style: Theme.of(context).textTheme.displaySmall!,
                               textAlign: TextAlign.center,
                             ),
                           ),

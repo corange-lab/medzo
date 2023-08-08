@@ -1,3 +1,4 @@
+//Responsive
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -42,16 +43,15 @@ class NewPassword extends GetView {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(AppImages.logo,
-                              height: Responsive.height(5, context)),
+                          Image.asset(AppImages.logo, height: 40),
                           SizedBox(
-                            width: Responsive.width(2, context),
+                            width: 7,
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: SvgPicture.asset(
                               AppImages.medzo,
-                              height: Responsive.height(2.8, context),
+                              height: 23,
                             ),
                           ),
                         ],
@@ -60,12 +60,10 @@ class NewPassword extends GetView {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: TextWidget(
                           ConstString.exploreandknowaboutmedicine,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(
-                                  color: AppColors.white,
-                                  fontSize: Responsive.sp(4, context)),
+                          style:
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: AppColors.white,
+                                  ),
                         ),
                       )
                     ],
@@ -105,6 +103,9 @@ class NewPassword extends GetView {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 5,
+              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
@@ -114,7 +115,7 @@ class NewPassword extends GetView {
                 ),
               ),
               SizedBox(
-                height: Responsive.height(2, context),
+                height: 15,
               ),
               Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 5),
@@ -145,11 +146,11 @@ class NewPassword extends GetView {
                             icon: controller.hidepass.value
                                 ? SvgPicture.asset(
                                     SvgIcon.pass_eye,
-                                    height: Responsive.height(2.5, context),
+                                    height: 20,
                                   )
                                 : Icon(
                                     Icons.visibility_off_outlined,
-                                    size: Responsive.height(2.5, context),
+                                    size: 20,
                                     color: Colors.black38,
                                   )),
                         fillColor: fNode.hasFocus
@@ -213,11 +214,11 @@ class NewPassword extends GetView {
                             icon: controller.hidepass2.value
                                 ? SvgPicture.asset(
                                     SvgIcon.pass_eye,
-                                    height: Responsive.height(2.5, context),
+                                    height: 20,
                                   )
                                 : Icon(
                                     Icons.visibility_off_outlined,
-                                    size: Responsive.height(2.5, context),
+                                    size: 20,
                                     color: Colors.black38,
                                   )),
                         fillColor: fNode1.hasFocus
@@ -253,7 +254,7 @@ class NewPassword extends GetView {
                     ),
                   )),
               SizedBox(
-                height: Responsive.height(2, context),
+                height: 15,
               ),
               Align(
                 alignment: Alignment.centerLeft,
@@ -261,7 +262,7 @@ class NewPassword extends GetView {
                   TextSpan(
                       text: ConstString.passwordstrength,
                       style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                          fontSize: Responsive.sp(2.8, context),
+                          fontSize: 11,
                           letterSpacing: 0,
                           fontWeight: FontWeight.w500,
                           fontFamily: AppFont.fontMedium)),
@@ -273,17 +274,17 @@ class NewPassword extends GetView {
                 ])),
               ),
               SizedBox(
-                height: Responsive.height(3, context),
+                height: 25,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
                     SvgIcon.fillcheck,
-                    height: Responsive.height(2.3, context),
+                    height: 18,
                   ),
                   SizedBox(
-                    width: Responsive.width(3, context),
+                    width: 10,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 1),
@@ -302,10 +303,10 @@ class NewPassword extends GetView {
                 children: [
                   SvgPicture.asset(
                     SvgIcon.fillcheck,
-                    height: Responsive.height(2.3, context),
+                    height: 18,
                   ),
                   SizedBox(
-                    width: Responsive.width(3, context),
+                    width: 10,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 1),
@@ -324,10 +325,10 @@ class NewPassword extends GetView {
                 children: [
                   SvgPicture.asset(
                     SvgIcon.fillcheck,
-                    height: Responsive.height(2.3, context),
+                    height: 18,
                   ),
                   SizedBox(
-                    width: Responsive.width(3, context),
+                    width: 10,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 1),
@@ -339,7 +340,7 @@ class NewPassword extends GetView {
                 ],
               ),
               SizedBox(
-                height: Responsive.height(4.5, context),
+                height: 40,
               ),
               ElevatedButton(
                 onPressed: () async {

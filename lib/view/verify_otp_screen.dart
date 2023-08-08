@@ -1,3 +1,4 @@
+// Responsive
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -42,16 +43,15 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset(AppImages.logo,
-                          height: Responsive.height(5, context)),
+                      Image.asset(AppImages.logo, height: 40),
                       SizedBox(
-                        width: Responsive.width(2, context),
+                        width: 7,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 5),
                         child: SvgPicture.asset(
                           AppImages.medzo,
-                          height: Responsive.height(2.8, context),
+                          height: 23,
                         ),
                       ),
                     ],
@@ -61,8 +61,8 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                     child: TextWidget(
                       ConstString.exploreandknowaboutmedicine,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: AppColors.white,
-                          fontSize: Responsive.sp(4, context)),
+                            color: AppColors.white,
+                          ),
                     ),
                   )
                 ],
@@ -99,6 +99,9 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
             Align(
               alignment: Alignment.centerLeft,
               child: TextWidget(
@@ -109,7 +112,7 @@ class VerifyOTPScreen extends GetView<ForgotController> {
               ),
             ),
             SizedBox(
-              height: Responsive.height(4, context),
+              height: 30,
             ),
             SizedBox(
               height: Responsive.height(7, context),
@@ -156,7 +159,7 @@ class VerifyOTPScreen extends GetView<ForgotController> {
               ),
             ),
             SizedBox(
-              height: Responsive.height(1.5, context),
+              height: 12,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -167,7 +170,7 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall!
-                        .copyWith(fontSize: 10.sp),
+                        .copyWith(fontSize: 12),
                   ),
                 ),
                 SizedBox(
@@ -182,7 +185,8 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                             // showInSnackBar("Resend code in your register Email",
                             //     position: SnackPosition.BOTTOM,
                             //     isSuccess: true);
-                            toast(message: "Resend code in your register Email");
+                            toast(
+                                message: "Resend code in your register Email");
                           });
                         },
                         child: Text.rich(TextSpan(children: [
@@ -192,7 +196,7 @@ class VerifyOTPScreen extends GetView<ForgotController> {
                           TextSpan(
                             text: ConstString.resendit,
                             style: TextStyle(
-                              fontSize: 10.sp,
+                              fontSize: 12,
                               fontFamily: AppFont.fontFamily,
                               letterSpacing: 0.5,
                               fontWeight: FontWeight.w600,
@@ -205,7 +209,7 @@ class VerifyOTPScreen extends GetView<ForgotController> {
               ],
             ),
             SizedBox(
-              height: Responsive.height(3, context),
+              height: 25,
             ),
             // ElevatedButton(
             //   onPressed: () async {

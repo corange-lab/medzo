@@ -1,3 +1,4 @@
+// Responsive
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -40,16 +41,15 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Image.asset(AppImages.logo,
-                                height: Responsive.height(5, context)),
+                            Image.asset(AppImages.logo, height: 40),
                             SizedBox(
-                              width: Responsive.width(2, context),
+                              width: 7,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 5),
                               child: SvgPicture.asset(
                                 AppImages.medzo,
-                                height: Responsive.height(2.8, context),
+                                height: 23,
                               ),
                             ),
                           ],
@@ -62,8 +62,8 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                                    color: AppColors.white,
-                                    fontSize: Responsive.sp(4, context)),
+                              color: AppColors.white,
+                            ),
                           ),
                         )
                       ],
@@ -111,9 +111,6 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              // SizedBox(
-              //   height: Responsive.height(0.5, context),
-              // ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
@@ -124,6 +121,7 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
                   ),
                 ),
               ),
+              SizedBox(height: 5,),
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(

@@ -67,7 +67,6 @@ class _PostListScreenState extends State<PostListScreen> {
           stream: controller.fetchAllPosts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              // TODO: shimmer loading for 3 items in list
               return Shimmer.fromColors(
                 baseColor: Colors.grey[300]!,
                 highlightColor: Colors.grey[100]!,
@@ -216,7 +215,6 @@ class _PostListScreenState extends State<PostListScreen> {
                       ),
                   itemCount: postDataList.length);
             } else {
-              // TODO: show No Post data found
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -268,6 +266,8 @@ class _PostListScreenState extends State<PostListScreen> {
                   GestureDetector(
                     onTap: () {
                       Get.to(() => ProfileScreen(postData.creatorId!));
+                      // Get.to(() =>
+                      //     UserProfileScreen(targetUserId: postData.creatorId!));
                     },
                     child: PostHeaderWidget(context, postData,
                         controller.findUser(postData.creatorId!)),
@@ -320,7 +320,6 @@ class _PostListScreenState extends State<PostListScreen> {
                                 },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(5),
-                                  // TODO: handle image null an error
                                   child: CachedNetworkImage(
                                     imageUrl: postData.postImages
                                             ?.elementAt(index)

@@ -1632,7 +1632,6 @@ Container reviewWidget(context) {
                           .headlineMedium!
                           .copyWith(
                               color: AppColors.buttontext,
-                              fontSize: Responsive.sp(3.8, context),
                               letterSpacing: 0.3,
                               fontFamily: AppFont.fontMedium),
                     )),

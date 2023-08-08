@@ -1,3 +1,4 @@
+//Responsive
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,6 @@ import 'package:medzo/model/current_medication.dart';
 import 'package:medzo/model/health_condition.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
@@ -46,7 +46,7 @@ class QuestionScreen extends GetView<QuestionController> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: Responsive.height(7, context),
+                          height: 55,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -67,12 +67,11 @@ class QuestionScreen extends GetView<QuestionController> {
                                           .titleMedium!
                                           .copyWith(
                                               color: AppColors.darkyellow,
-                                              fontSize:
-                                                  Responsive.sp(3.8, context)),
+                                              fontSize: 13.5),
                                     ),
                                     Icon(
                                       CupertinoIcons.right_chevron,
-                                      size: Responsive.height(2, context),
+                                      size: 17,
                                       color: AppColors.darkyellow,
                                     )
                                   ],
@@ -81,7 +80,7 @@ class QuestionScreen extends GetView<QuestionController> {
                             ],
                           ),
                         ),
-                        SizedBox(height: Responsive.height(3, context)),
+                        SizedBox(height: 25),
                         screenProgressBar(context, controller)
                       ],
                     ),
@@ -190,10 +189,8 @@ class QuestionScreen extends GetView<QuestionController> {
     return Obx(
       () => TextWidget(
         controller.questionTopic[controller.selectedPageIndex.value],
-        style: Theme.of(context)
-            .textTheme
-            .labelLarge!
-            .copyWith(fontSize: Responsive.sp(4.3, context), letterSpacing: 0),
+        style:
+            Theme.of(context).textTheme.labelLarge!.copyWith(letterSpacing: 0),
       ),
     );
   }
@@ -201,7 +198,7 @@ class QuestionScreen extends GetView<QuestionController> {
   Obx screenProgressBar(BuildContext context, QuestionController controller) {
     return Obx(() => GFProgressBar(
           lineHeight: 6,
-          width: Responsive.width(86, context),
+          width: 310,
           percentage: controller.selectedPageIndex.value == 0
               ? 0.25
               : controller.selectedPageIndex.value == 1
@@ -313,7 +310,7 @@ class QuestionScreen extends GetView<QuestionController> {
                       return Column(
                         children: [
                           SizedBox(
-                            height: Responsive.height(2, context),
+                            height: 15,
                           ),
                           Align(
                               alignment: Alignment.centerLeft,
@@ -390,7 +387,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                   }),
                           ),
                           SizedBox(
-                            height: Responsive.height(1.5, context),
+                            height: 12,
                           ),
                           Align(
                             alignment: Alignment.centerLeft,
@@ -400,7 +397,7 @@ class QuestionScreen extends GetView<QuestionController> {
                             ),
                           ),
                           SizedBox(
-                            height: Responsive.height(1, context),
+                            height: 10,
                           ),
                           ctrl.selectedPageIndex.value == 0 ||
                                   ctrl.selectedPageIndex.value == 1
@@ -411,7 +408,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                       ? ageGroupWidget(context, ctrl)
                                       : const SizedBox(),
                           SizedBox(
-                            height: Responsive.height(2.5, context),
+                            height: 20,
                           ),
                           ctrl.selectedPageIndex.value != 3
                               ? Align(
@@ -425,7 +422,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                   ))
                               : const SizedBox(),
                           SizedBox(
-                            height: Responsive.height(1, context),
+                            height: 10,
                           ),
                           ctrl.selectedPageIndex.value != 3
                               ? ctrl.selectedPageIndex.value == 0 ||
@@ -435,7 +432,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                             color: AppColors.splashdetail,
                                             borderRadius:
                                                 BorderRadius.circular(30)),
-                                        height: Responsive.height(6, context),
+                                        height: 45,
                                         width: SizerUtil.width,
                                         child: DropdownButton(
                                           underline: const SizedBox(),
@@ -448,8 +445,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                                     .textTheme
                                                     .labelSmall!
                                                     .copyWith(
-                                                        fontSize: Responsive.sp(
-                                                            3.8, context),
+                                                        fontSize: 14,
                                                         color: AppColors.black),
                                               ),
                                             );
@@ -459,7 +455,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                           },
                                           icon: Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 215),
+                                                left: 210),
                                             child: Icon(
                                               Icons.keyboard_arrow_down,
                                               color: AppColors.grey,
@@ -468,9 +464,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleMedium!
-                                              .copyWith(
-                                                  fontSize: Responsive.sp(
-                                                      3.5, context)),
+                                              .copyWith(fontSize: 14),
                                           value: ctrl.yearDropdown.value,
                                           padding:
                                               const EdgeInsets.only(left: 15),
@@ -497,7 +491,7 @@ class QuestionScreen extends GetView<QuestionController> {
           decoration: BoxDecoration(
               color: AppColors.splashdetail,
               borderRadius: BorderRadius.circular(30)),
-          height: Responsive.height(6, context),
+          height: 45,
           width: SizerUtil.width,
           child: DropdownButton(
             underline: const SizedBox(),
@@ -506,9 +500,10 @@ class QuestionScreen extends GetView<QuestionController> {
                 value: items,
                 child: TextWidget(
                   items,
-                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      fontSize: Responsive.sp(3.8, context),
-                      color: AppColors.black),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelSmall!
+                      .copyWith(fontSize: 14, color: AppColors.black),
                 ),
               );
             }).toList(),
@@ -522,10 +517,8 @@ class QuestionScreen extends GetView<QuestionController> {
                 color: AppColors.grey,
               ),
             ),
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(fontSize: Responsive.sp(3.5, context)),
+            style:
+                Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14),
             value: ctrl.healthDropdown.value,
             padding: const EdgeInsets.only(left: 15),
           ),
@@ -569,7 +562,7 @@ class QuestionScreen extends GetView<QuestionController> {
 
   SizedBox ageGroupWidget(BuildContext context, QuestionController ctrl) {
     return SizedBox(
-      height: Responsive.height(10, context),
+      height: 90,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: GridView.builder(
@@ -667,7 +660,7 @@ class QuestionScreen extends GetView<QuestionController> {
         TextWidget(
           "No",
           style: TextStyle(
-              fontSize: Responsive.sp(3.3, context),
+              fontSize: 13,
               fontFamily: AppFont.fontFamily,
               letterSpacing: 0.5,
               height: 1.4,
@@ -677,7 +670,7 @@ class QuestionScreen extends GetView<QuestionController> {
               fontWeight: FontWeight.w600),
         ),
         SizedBox(
-          width: Responsive.width(3, context),
+          width: 18,
         ),
         Radio(
           value: true,
@@ -691,7 +684,7 @@ class QuestionScreen extends GetView<QuestionController> {
         TextWidget(
           "Yes",
           style: TextStyle(
-              fontSize: Responsive.sp(3.3, context),
+              fontSize: 13,
               fontFamily: AppFont.fontFamily,
               letterSpacing: 0.5,
               height: 1.4,

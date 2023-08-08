@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
-import 'package:medzo/utils/responsive.dart';
 
 class ThemeColor {
   static ThemeData mThemeData(BuildContext context, {bool isDark = false}) {
@@ -193,62 +192,60 @@ class ThemeColor {
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       displayMedium: TextStyle(
-          fontSize: Responsive.sp(3.5, context),
-          // 50
+          fontSize: 13.5,
           color: isDark ? Colors.white : AppColors.extralightgrey,
           fontWeight: FontWeight.w500,
           fontFamily: AppFont.fontMedium,
           letterSpacing: 0),
       displaySmall: TextStyle(
-          fontSize: Responsive.sp(2.3, context),
+          fontSize: 9,
           fontFamily: AppFont.fontFamily,
           color: AppColors.splashdetail,
           letterSpacing: 0,
           height: 1.7,
           fontWeight: FontWeight.w500),
       headlineLarge: TextStyle(
-          fontSize: Responsive.sp(5.5, context),
+          fontSize: 19.5,
           fontFamily: AppFont.fontMedium,
           color: AppColors.darkPrimaryColor,
           letterSpacing: 0,
           fontWeight: FontWeight.w500),
       headlineMedium: TextStyle(
-        fontSize: Responsive.sp(3.2, context),
-        // 35
+        fontSize: 14,
         color: isDark ? AppColors.darkPrimaryColor : AppColors.white,
         fontWeight: FontWeight.w600,
         fontFamily: AppFont.fontFamily,
       ),
       headlineSmall: TextStyle(
-          fontSize: Responsive.sp(3.5, context),
+          fontSize: 13,
           fontFamily: AppFont.fontMedium,
           height: 1.4,
           letterSpacing: 0,
           color: AppColors.grey,
           fontWeight: FontWeight.w500),
       titleLarge: TextStyle(
-          fontSize: Responsive.sp(3.5, context),
+          fontSize: 13,
           fontFamily: AppFont.fontMedium,
           height: 1.4,
           letterSpacing: 0,
           color: AppColors.darkPrimaryColor,
           fontWeight: FontWeight.w500),
       bodyLarge: TextStyle(
-        fontSize: Responsive.sp(3.8, context),
+        fontSize: 14.5,
         fontFamily: AppFont.fontMedium,
         letterSpacing: 0,
         fontWeight: FontWeight.w500,
         color: isDark ? Colors.white : AppColors.dark,
       ),
       bodyMedium: TextStyle(
-        fontSize: Responsive.sp(4, context),
+        fontSize: 15,
         fontFamily: AppFont.fontMedium,
         letterSpacing: 0,
         fontWeight: FontWeight.w500,
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       bodySmall: TextStyle(
-        fontSize: Responsive.sp(3.5, context),
+        fontSize: 12.5,
         fontFamily: AppFont.fontMedium,
         letterSpacing: 0,
         fontWeight: FontWeight.w500,
@@ -258,33 +255,31 @@ class ThemeColor {
         fontFamily: AppFont.fontMedium,
         fontWeight: FontWeight.w600,
         letterSpacing: 0,
-        fontSize: Responsive.sp(4, context),
+        fontSize: 15,
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       titleSmall: TextStyle(
-        fontSize: 10,
+        fontSize: 11,
         fontFamily: AppFont.fontFamily,
         fontWeight: FontWeight.bold,
         letterSpacing: 0,
         color: isDark ? Colors.white : AppColors.darkPrimaryColor,
       ),
       labelSmall: TextStyle(
-          fontSize: Responsive.sp(3.5, context),
+          fontSize: 13,
           fontFamily: AppFont.fontMedium,
           fontWeight: FontWeight.w600,
           letterSpacing: 0,
           color: AppColors.grey),
       labelLarge: TextStyle(
-        fontSize: Responsive.sp(3.8, context),
-        // 35
+        fontSize: 15.5,
         fontFamily: AppFont.fontFamily,
         fontWeight: FontWeight.w600,
         letterSpacing: 0,
         color: isDark ? Colors.white : AppColors.black,
       ),
       labelMedium: TextStyle(
-        fontSize: Responsive.sp(3.5, context),
-        // 50
+        fontSize: 13,
         fontFamily: AppFont.fontMedium,
         fontWeight: FontWeight.w600,
         letterSpacing: 0,

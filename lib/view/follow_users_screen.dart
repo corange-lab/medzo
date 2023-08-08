@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/profile_controller.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/model/user_relationship.dart';
+import 'package:medzo/theme/colors.dart';
+import 'package:medzo/utils/app_font.dart';
+import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/responsive.dart';
+import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 
 class FollowUsersScreen extends GetWidget<ProfileController> {
   final String userId;
+
   const FollowUsersScreen({super.key, required this.userId});
 
   // this screen will have two tabs one is followers and other is following for specific user, where user can follow unfollow from the following screen
@@ -16,17 +23,38 @@ class FollowUsersScreen extends GetWidget<ProfileController> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: AppColors.whitehome,
         appBar: AppBar(
-          title: Text(
-            controller.allUserController
-                    .findSingleUserFromAllUser(userId)
-                    .name ??
-                '',
-            //TODO: style
+          titleSpacing: 0,
+          backgroundColor: AppColors.white,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: SvgPicture.asset(
+                SvgIcon.backarrow,
+                height: Responsive.height(2, context),
+              )),
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: TextWidget(
+              controller.allUserController
+                      .findSingleUserFromAllUser(userId)
+                      .name ??
+                  '',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontSize: Responsive.sp(4.8, context),
+                  fontFamily: AppFont.fontBold,
+                  letterSpacing: 0,
+                  color: AppColors.black),
+            ),
           ),
+          elevation: 3,
+          shadowColor: AppColors.splashdetail.withOpacity(0.1),
           bottom: TabBar(
             tabs: [
-              Tab(text: 'Followers', icon: Icon(Icons.people)),
+              Tab(text: 'Followers', icon: Icon(Icons.people),),
               Tab(
                   text: 'Following',
                   icon: Icon(Icons.person_add_alt_1_outlined)),
@@ -35,9 +63,9 @@ class FollowUsersScreen extends GetWidget<ProfileController> {
               borderSide: BorderSide(width: 3.0),
               insets: EdgeInsets.symmetric(horizontal: 16.0),
             ),
-            labelColor: Colors.black,
+            labelColor: AppColors.black,
             unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.black,
+            indicatorColor: AppColors.black,
           ),
         ),
         body: TabBarView(
@@ -53,6 +81,7 @@ class FollowUsersScreen extends GetWidget<ProfileController> {
 
 class FollowersScreen extends GetWidget<ProfileController> {
   final String userId;
+
   const FollowersScreen({super.key, required this.userId});
 
   @override
@@ -114,6 +143,7 @@ class FollowersScreen extends GetWidget<ProfileController> {
 
 class FollowingScreen extends GetWidget<ProfileController> {
   final String userId;
+
   const FollowingScreen({super.key, required this.userId});
 
   @override

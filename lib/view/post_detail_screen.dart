@@ -198,8 +198,9 @@ class PostDetailScreen extends GetWidget<PostController> {
                           if (postData.postImages?.elementAt(index).url !=
                               null) {
                             Get.to(() => ImagePreviewScreen.withUrl(
-                                postData.postImages?.elementAt(index).url ??
-                                    '',postData,index));
+                                postData.postImages?.elementAt(index).url ?? '',
+                                postData,
+                                index));
                           }
                         },
                         child: ClipRRect(

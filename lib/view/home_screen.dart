@@ -1,3 +1,4 @@
+//Responsive
 // ignore_for_file: deprecated_member_use
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -91,14 +92,17 @@ class HomeScreen extends GetView<HomeController> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextWidget(
-                      "Hellow🖐",
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                          fontSize: Responsive.sp(3.8, context),
-                          letterSpacing: 0),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 3),
+                      child: TextWidget(
+                        "Hellow🖐",
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                            fontSize: 14,
+                            letterSpacing: 0),
+                      ),
                     ),
                     SizedBox(
-                      height: Responsive.height(0.5, context),
+                      height: 5,
                     ),
                     MyNameTextWidget()
                   ],
@@ -113,7 +117,7 @@ class HomeScreen extends GetView<HomeController> {
                 },
                 icon: SvgPicture.asset(
                   SvgIcon.chathome,
-                  height: Responsive.height(2.8, context),
+                  height: 22,
                 ))
           ],
         ),
@@ -139,7 +143,7 @@ class HomeScreen extends GetView<HomeController> {
                             top: 16, bottom: 16, left: 10),
                         child: SvgPicture.asset(
                           SvgIcon.search,
-                          height: Responsive.height(2, context),
+                          height: 16,
                         ),
                       ),
                       fillColor: AppColors.splashdetail,
@@ -149,7 +153,7 @@ class HomeScreen extends GetView<HomeController> {
                           .headlineSmall!
                           .copyWith(
                               fontFamily: AppFont.fontMedium,
-                              fontSize: Responsive.sp(4, context)),
+                              fontSize: 14.5),
                       border: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: AppColors.whitehome, width: 0.5),
@@ -190,7 +194,7 @@ class HomeScreen extends GetView<HomeController> {
                                   fontFamily: AppFont.fontFamily,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 0.5,
-                                  fontSize: Responsive.sp(4.2, context),
+                                  fontSize: 15.5,
                                 ),
                       ),
                       TextButton(
@@ -208,13 +212,13 @@ class HomeScreen extends GetView<HomeController> {
                                     .copyWith(
                                         color: AppColors.primaryColor,
                                         fontWeight: FontWeight.w600,
-                                        fontSize: Responsive.sp(3.8, context)),
+                                        fontSize: 14),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 2),
                                 child: SvgPicture.asset(
                                   SvgIcon.arrowright,
-                                  height: Responsive.height(2.2, context),
+                                  height: 18,
                                 ),
                               )
                             ],
@@ -223,7 +227,7 @@ class HomeScreen extends GetView<HomeController> {
                   ),
                 ),
                 SizedBox(
-                  height: Responsive.height(18, context),
+                  height: 150,
                   child: PageView.builder(
                     controller: controller.pageController.value,
                     onPageChanged: (value) {
@@ -238,7 +242,7 @@ class HomeScreen extends GetView<HomeController> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SizedBox(
-                                width: Responsive.width(20, context),
+                                width: 70,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -246,10 +250,10 @@ class HomeScreen extends GetView<HomeController> {
                                   children: [
                                     SvgPicture.asset(
                                       AppImages.painkiller,
-                                      height: Responsive.height(4.5, context),
+                                      height: 35,
                                     ),
                                     SizedBox(
-                                      height: Responsive.height(1.3, context),
+                                      height: 10,
                                     ),
                                     TextWidget(
                                       ConstString.painkillar,
@@ -258,7 +262,7 @@ class HomeScreen extends GetView<HomeController> {
                                           .labelSmall!
                                           .copyWith(
                                               fontSize:
-                                                  Responsive.sp(3, context),
+                                                  11.5,
                                               fontFamily: AppFont.fontMedium,
                                               letterSpacing: 0.3,
                                               color: AppColors.grey),
@@ -268,10 +272,10 @@ class HomeScreen extends GetView<HomeController> {
                                 // color: Colors.black12,
                               ),
                               SizedBox(
-                                width: Responsive.width(2, context),
+                                width: 15,
                               ),
                               SizedBox(
-                                width: Responsive.width(30, context),
+                                width: 100,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -279,10 +283,10 @@ class HomeScreen extends GetView<HomeController> {
                                   children: [
                                     SvgPicture.asset(
                                       AppImages.antidepreset,
-                                      height: Responsive.height(4.5, context),
+                                      height: 35,
                                     ),
                                     SizedBox(
-                                      height: Responsive.height(1.3, context),
+                                      height: 10,
                                     ),
                                     TextWidget(
                                       ConstString.antidepresant,
@@ -291,7 +295,7 @@ class HomeScreen extends GetView<HomeController> {
                                           .labelSmall!
                                           .copyWith(
                                               fontSize:
-                                                  Responsive.sp(3, context),
+                                                  11,
                                               fontFamily: AppFont.fontMedium,
                                               letterSpacing: 0.3,
                                               color: AppColors.grey),
@@ -301,10 +305,10 @@ class HomeScreen extends GetView<HomeController> {
                                 // color: Colors.black12,
                               ),
                               SizedBox(
-                                width: Responsive.width(2, context),
+                                width: 15,
                               ),
                               SizedBox(
-                                width: Responsive.width(20, context),
+                                width: 70,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -312,10 +316,10 @@ class HomeScreen extends GetView<HomeController> {
                                   children: [
                                     SvgPicture.asset(
                                       AppImages.antibiotic,
-                                      height: Responsive.height(4.5, context),
+                                      height: 35,
                                     ),
                                     SizedBox(
-                                      height: Responsive.height(1.3, context),
+                                      height: 10,
                                     ),
                                     TextWidget(
                                       ConstString.antibiotic,
@@ -324,7 +328,7 @@ class HomeScreen extends GetView<HomeController> {
                                           .labelSmall!
                                           .copyWith(
                                               fontSize:
-                                                  Responsive.sp(3, context),
+                                                  11.5,
                                               fontFamily: AppFont.fontMedium,
                                               letterSpacing: 0.3,
                                               color: AppColors.grey),
@@ -336,14 +340,14 @@ class HomeScreen extends GetView<HomeController> {
                             ],
                           ),
                           SizedBox(
-                            height: Responsive.height(2, context),
+                            height: 15,
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               SizedBox(
-                                width: Responsive.width(20, context),
+                                width: 70,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -351,10 +355,10 @@ class HomeScreen extends GetView<HomeController> {
                                   children: [
                                     SvgPicture.asset(
                                       AppImages.hypnotics,
-                                      height: Responsive.height(4.5, context),
+                                      height: 35,
                                     ),
                                     SizedBox(
-                                      height: Responsive.height(1.3, context),
+                                      height: 10,
                                     ),
                                     TextWidget(
                                       ConstString.hypnotics,
@@ -363,7 +367,7 @@ class HomeScreen extends GetView<HomeController> {
                                           .labelSmall!
                                           .copyWith(
                                               fontSize:
-                                                  Responsive.sp(3, context),
+                                                 11.5,
                                               fontFamily: AppFont.fontMedium,
                                               letterSpacing: 0.3,
                                               color: AppColors.grey),
@@ -373,10 +377,10 @@ class HomeScreen extends GetView<HomeController> {
                                 // color: Colors.black12,
                               ),
                               SizedBox(
-                                width: Responsive.width(2, context),
+                                width: 15,
                               ),
                               SizedBox(
-                                width: Responsive.width(30, context),
+                                width: 100,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -384,10 +388,10 @@ class HomeScreen extends GetView<HomeController> {
                                   children: [
                                     SvgPicture.asset(
                                       AppImages.supplements,
-                                      height: Responsive.height(4.5, context),
+                                      height: 35,
                                     ),
                                     SizedBox(
-                                      height: Responsive.height(1.3, context),
+                                      height: 10,
                                     ),
                                     TextWidget(
                                       ConstString.supplements,
@@ -396,7 +400,7 @@ class HomeScreen extends GetView<HomeController> {
                                           .labelSmall!
                                           .copyWith(
                                               fontSize:
-                                                  Responsive.sp(3, context),
+                                                  11.5,
                                               fontFamily: AppFont.fontMedium,
                                               letterSpacing: 0.3,
                                               color: AppColors.grey),
@@ -406,10 +410,10 @@ class HomeScreen extends GetView<HomeController> {
                                 // color: Colors.black12,
                               ),
                               SizedBox(
-                                width: Responsive.width(2, context),
+                                width: 15,
                               ),
                               SizedBox(
-                                width: Responsive.width(20, context),
+                                width: 70,
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -417,10 +421,10 @@ class HomeScreen extends GetView<HomeController> {
                                   children: [
                                     SvgPicture.asset(
                                       AppImages.alergies,
-                                      height: Responsive.height(4.5, context),
+                                      height: 35,
                                     ),
                                     SizedBox(
-                                      height: Responsive.height(1.3, context),
+                                      height: 10,
                                     ),
                                     TextWidget(
                                       ConstString.allergies,
@@ -429,7 +433,7 @@ class HomeScreen extends GetView<HomeController> {
                                           .labelSmall!
                                           .copyWith(
                                               fontSize:
-                                                  Responsive.sp(3, context),
+                                                  11.5,
                                               fontFamily: AppFont.fontMedium,
                                               letterSpacing: 0.3,
                                               color: AppColors.grey),
@@ -473,7 +477,7 @@ class HomeScreen extends GetView<HomeController> {
                   ),
                 ),
                 SizedBox(
-                  height: Responsive.height(2, context),
+                  height: 15,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -488,7 +492,7 @@ class HomeScreen extends GetView<HomeController> {
                                   fontFamily: AppFont.fontFamily,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 0.5,
-                                  fontSize: Responsive.sp(4.2, context),
+                                  fontSize: 15.5,
                                 ),
                       ),
                       TextButton(
@@ -506,13 +510,13 @@ class HomeScreen extends GetView<HomeController> {
                                         color: AppColors.primaryColor,
                                         height: 1.4,
                                         fontWeight: FontWeight.w600,
-                                        fontSize: Responsive.sp(3.8, context)),
+                                        fontSize: 14),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 2),
                                 child: SvgPicture.asset(
                                   SvgIcon.arrowright,
-                                  height: Responsive.height(2.2, context),
+                                  height: 18,
                                 ),
                               )
                             ],
@@ -523,7 +527,7 @@ class HomeScreen extends GetView<HomeController> {
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 5,
+                  itemCount: 2,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       // onTap: () {
@@ -533,7 +537,7 @@ class HomeScreen extends GetView<HomeController> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 5, horizontal: 5),
                         child: Container(
-                          height: Responsive.height(22, context),
+                          height: 175,
                           decoration: BoxDecoration(
                               border: Border.all(
                                   width: 1, color: AppColors.splashdetail),
@@ -546,17 +550,17 @@ class HomeScreen extends GetView<HomeController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: Responsive.width(3, context),
+                                  width: 10,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8),
                                   child: SizedBox(
-                                    height: Responsive.height(7, context),
+                                    height: 55,
                                     child: Image.asset(AppImages.pill),
                                   ),
                                 ),
                                 SizedBox(
-                                  width: Responsive.width(1, context),
+                                  width: 5,
                                 ),
                                 Padding(
                                   padding:
@@ -575,14 +579,14 @@ class HomeScreen extends GetView<HomeController> {
                                             .labelSmall!
                                             .copyWith(
                                                 fontSize:
-                                                    Responsive.sp(4, context),
+                                                    14.5,
                                                 color:
                                                     AppColors.darkPrimaryColor,
                                                 fontFamily: AppFont.fontBold,
                                                 letterSpacing: 0),
                                       ),
                                       SizedBox(
-                                        height: Responsive.height(0.3, context),
+                                        height: 3,
                                       ),
                                       TextWidget(
                                         // FIXME: add Medicine Details
@@ -596,11 +600,10 @@ class HomeScreen extends GetView<HomeController> {
                                                 color: AppColors.grey,
                                                 fontFamily: AppFont.fontFamily,
                                                 fontWeight: FontWeight.w400,
-                                                fontSize: Responsive.sp(
-                                                    3.2, context)),
+                                                fontSize: 11.5),
                                       ),
                                       SizedBox(
-                                        height: Responsive.height(0.5, context),
+                                        height: 3,
                                       ),
                                       Row(
                                         children: [
@@ -608,36 +611,36 @@ class HomeScreen extends GetView<HomeController> {
                                             Icons.star_rounded,
                                             color: AppColors.primaryColor,
                                             size:
-                                                Responsive.height(2.5, context),
+                                                20,
                                           ),
                                           Icon(
                                             Icons.star_rounded,
                                             color: AppColors.primaryColor,
                                             size:
-                                                Responsive.height(2.5, context),
+                                                20,
                                           ),
                                           Icon(
                                             Icons.star_rounded,
                                             color: AppColors.primaryColor,
                                             size:
-                                                Responsive.height(2.5, context),
+                                                20,
                                           ),
                                           Icon(
                                             Icons.star_rounded,
                                             color: AppColors.primaryColor,
                                             size:
-                                                Responsive.height(2.5, context),
+                                                20,
                                           ),
                                           Icon(
                                             Icons.star_outline_rounded,
                                             color: AppColors.primaryColor,
                                             size:
-                                                Responsive.height(2.5, context),
+                                                20,
                                           ),
                                         ],
                                       ),
                                       SizedBox(
-                                        height: Responsive.height(1, context),
+                                        height: 10,
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -647,11 +650,11 @@ class HomeScreen extends GetView<HomeController> {
                                             SvgIcon.pill,
                                             color: AppColors.primaryColor,
                                             height:
-                                                Responsive.height(1.8, context),
+                                                14,
                                           ),
                                           SizedBox(
                                             width:
-                                                Responsive.width(1.5, context),
+                                                5,
                                           ),
                                           TextWidget(
                                             // FIXME: add Medicine Type
@@ -665,22 +668,21 @@ class HomeScreen extends GetView<HomeController> {
                                                       AppFont.fontFamily,
                                                   fontWeight: FontWeight.w500,
                                                   letterSpacing: 0.2,
-                                                  fontSize: Responsive.sp(
-                                                      3.2, context),
+                                                  fontSize: 12,
                                                 ),
                                           ),
                                           SizedBox(
-                                            width: Responsive.width(3, context),
+                                            width: 10,
                                           ),
                                           SvgPicture.asset(
                                             SvgIcon.Rx,
                                             color: AppColors.primaryColor,
                                             height:
-                                                Responsive.height(1.6, context),
+                                                14,
                                           ),
                                           SizedBox(
                                             width:
-                                                Responsive.width(1.5, context),
+                                                5,
                                           ),
                                           TextWidget(
                                             // FIXME: add Medicine Type
@@ -692,17 +694,16 @@ class HomeScreen extends GetView<HomeController> {
                                                   color: AppColors.primaryColor,
                                                   fontWeight: FontWeight.w500,
                                                   letterSpacing: 0.2,
-                                                  fontSize: Responsive.sp(
-                                                      3.2, context),
+                                                  fontSize: 12,
                                                 ),
                                           ),
                                         ],
                                       ),
                                       SizedBox(
-                                        height: Responsive.height(1, context),
+                                        height: 10,
                                       ),
                                       SizedBox(
-                                        height: Responsive.height(4.4, context),
+                                        height: 35,
                                         child: ElevatedButton(
                                             onPressed: () {
                                               Get.to(const MedicineDetail());
@@ -713,8 +714,7 @@ class HomeScreen extends GetView<HomeController> {
                                                     .splashdetail
                                                     .withOpacity(0.7),
                                                 fixedSize: Size(
-                                                    Responsive.width(
-                                                        43, context),
+                                                    160,
                                                     0),
                                                 shape: RoundedRectangleBorder(
                                                     side: BorderSide(
@@ -737,8 +737,7 @@ class HomeScreen extends GetView<HomeController> {
                                                       .titleSmall!
                                                       .copyWith(
                                                           fontSize:
-                                                              Responsive.sp(
-                                                                  3, context),
+                                                              11,
                                                           color: AppColors.dark,
                                                           fontWeight:
                                                               FontWeight.w500,
@@ -746,13 +745,11 @@ class HomeScreen extends GetView<HomeController> {
                                                               .fontMedium),
                                                 ),
                                                 SizedBox(
-                                                  width: Responsive.width(
-                                                      1, context),
+                                                  width: 5,
                                                 ),
                                                 Icon(
                                                   Icons.arrow_forward_rounded,
-                                                  size: Responsive.height(
-                                                      1.8, context),
+                                                  size: 15,
                                                   color: AppColors.dark,
                                                 )
                                               ],
@@ -792,7 +789,7 @@ class HomeScreen extends GetView<HomeController> {
                                                 ? SvgIcon.bookmark
                                                 : SvgIcon.fillbookmark,
                                             height:
-                                                Responsive.height(2, context),
+                                                20,
                                             color:
                                                 controller.isSaveMedicine[index]
                                                     ? Colors.black
@@ -827,7 +824,7 @@ class HomeScreen extends GetView<HomeController> {
       id: 'PageUpdate',
       builder: (controller) {
         return Container(
-          height: Responsive.height(9, context),
+          height: 70,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             boxShadow: [
@@ -846,13 +843,13 @@ class HomeScreen extends GetView<HomeController> {
               currentIndex: controller.pageIndex.value,
               showUnselectedLabels: true,
               selectedLabelStyle: TextStyle(
-                  fontSize: Responsive.sp(3.2, context),
+                  fontSize: 12,
                   fontFamily: AppFont.fontFamily,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0,
                   color: AppColors.primaryColor),
               unselectedLabelStyle: TextStyle(
-                  fontSize: Responsive.sp(3.2, context),
+                  fontSize: 12,
                   fontFamily: AppFont.fontFamily,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 0,
@@ -872,7 +869,7 @@ class HomeScreen extends GetView<HomeController> {
                         color: controller.pageIndex.value == 0
                             ? AppColors.primaryColor
                             : AppColors.grey,
-                        height: Responsive.height(2.8, context),
+                        height: 22,
                       ),
                     ),
                     label: "Home"),
@@ -885,7 +882,7 @@ class HomeScreen extends GetView<HomeController> {
                         color: controller.pageIndex.value == 1
                             ? AppColors.primaryColor
                             : AppColors.grey,
-                        height: Responsive.height(1.9, context),
+                        height: 15,
                       ),
                     ),
                     label: "Post"),
@@ -898,7 +895,7 @@ class HomeScreen extends GetView<HomeController> {
                         color: controller.pageIndex.value == 2
                             ? AppColors.primaryColor
                             : AppColors.grey,
-                        height: Responsive.height(2.8, context),
+                        height: 22,
                       ),
                     ),
                     label: "QR Code"),
@@ -911,7 +908,7 @@ class HomeScreen extends GetView<HomeController> {
                         color: controller.pageIndex.value == 3
                             ? AppColors.primaryColor
                             : AppColors.grey,
-                        height: Responsive.height(2.8, context),
+                        height: 22,
                       ),
                     ),
                     label: "Bookmarks"),
@@ -924,7 +921,7 @@ class HomeScreen extends GetView<HomeController> {
                         color: controller.pageIndex.value == 4
                             ? AppColors.primaryColor
                             : AppColors.grey,
-                        height: Responsive.height(2.8, context),
+                        height: 22,
                       ),
                     ),
                     label: "Profile"),

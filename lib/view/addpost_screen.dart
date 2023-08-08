@@ -1,3 +1,4 @@
+// Responsive
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:medzo/model/post_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
@@ -36,14 +36,14 @@ class AddPostScreen extends GetView<NewPostController> {
             },
             icon: SvgPicture.asset(
               SvgIcon.backarrow,
-              height: Responsive.height(2, context),
+              height: 15,
             )),
         title: Align(
           alignment: Alignment.centerLeft,
           child: TextWidget(
             ConstString.newpost,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: Responsive.sp(4.8, context),
+                fontSize: 17.5,
                 fontFamily: AppFont.fontBold,
                 letterSpacing: 0,
                 color: AppColors.black),
@@ -147,14 +147,14 @@ class AddPostScreen extends GetView<NewPostController> {
           },
           style: ElevatedButton.styleFrom(
               elevation: 0,
-              fixedSize: Size(Responsive.width(50, context), 60),
+              fixedSize: Size(160, 60),
               backgroundColor: AppColors.black,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30))),
           child: TextWidget(
             ConstString.uploadpost,
             style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                fontSize: Responsive.sp(4, context),
+                fontSize: 15,
                 color: AppColors.buttontext,
                 fontFamily: AppFont.fontMedium),
           ),
@@ -178,7 +178,7 @@ class AddPostScreen extends GetView<NewPostController> {
               // TODO: check below each condition
               await pickController.pickPostImage();
               controller.postImageFile =
-              await pickController.croppedPostFile!.path.obs;
+                  await pickController.croppedPostFile!.path.obs;
               controller.selectedMultiImages
                   .add(File(controller.postImageFile.value));
               print(controller.selectedMultiImages);
@@ -186,21 +186,21 @@ class AddPostScreen extends GetView<NewPostController> {
             child: Container(
               margin: const EdgeInsets.all(20),
               width: SizerUtil.width,
-              height: Responsive.height(20, context),
+              height: 160,
               decoration: BoxDecoration(
                   color: AppColors.tilecolor,
                   borderRadius: BorderRadius.circular(7),
                   border:
-                  Border.all(color: AppColors.primaryColor, width: 0.5)),
+                      Border.all(color: AppColors.primaryColor, width: 0.5)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
                     SvgIcon.upload_image,
-                    height: Responsive.height(4, context),
+                    height: 32,
                   ),
                   SizedBox(
-                    height: Responsive.height(2, context),
+                    height: 15,
                   ),
                   TextWidget(
                     ConstString.uploadimage,
@@ -208,38 +208,38 @@ class AddPostScreen extends GetView<NewPostController> {
                         color: AppColors.darkyellow.withOpacity(0.9),
                         fontFamily: AppFont.fontFamilysemi,
                         fontWeight: FontWeight.w600,
-                        fontSize: Responsive.sp(4, context)),
+                        fontSize: 15),
                   )
                 ],
               ),
             ),
           ),
           Obx(
-                () => controller.selectedMultiImages.isNotEmpty
+            () => controller.selectedMultiImages.isNotEmpty
                 ? Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: Container(
-                height: 15.h,
-                width: SizerUtil.width,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.selectedMultiImages.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child: Image.file(
-                                controller.selectedMultiImages[index])));
-                  },
-                ),
-              ),
-            )
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: Container(
+                      height: 110,
+                      width: SizerUtil.width,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: controller.selectedMultiImages.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.file(
+                                      controller.selectedMultiImages[index])));
+                        },
+                      ),
+                    ),
+                  )
                 : SizedBox(),
           ),
           SizedBox(
-            height: Responsive.height(1, context),
+            height: 10,
           ),
           Align(
             alignment: Alignment.topLeft,
@@ -248,7 +248,7 @@ class AddPostScreen extends GetView<NewPostController> {
               child: TextWidget(
                 ConstString.description,
                 style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                    fontSize: Responsive.sp(3.8, context),
+                    fontSize: 14,
                     letterSpacing: 0,
                     fontWeight: FontWeight.w500,
                     fontFamily: AppFont.fontMedium),
@@ -273,25 +273,25 @@ class AddPostScreen extends GetView<NewPostController> {
                 hintStyle: Theme.of(context)
                     .textTheme
                     .headlineSmall!
-                    .copyWith(fontSize: Responsive.sp(4, context)),
+                    .copyWith(fontSize: 14),
                 border: OutlineInputBorder(
                   borderSide:
-                  BorderSide(color: AppColors.whitehome, width: 0.5),
+                      BorderSide(color: AppColors.whitehome, width: 0.5),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide:
-                  BorderSide(color: AppColors.whitehome, width: 0.5),
+                      BorderSide(color: AppColors.whitehome, width: 0.5),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderSide:
-                  BorderSide(color: AppColors.whitehome, width: 0.5),
+                      BorderSide(color: AppColors.whitehome, width: 0.5),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide:
-                  BorderSide(color: AppColors.whitehome, width: 0.5),
+                      BorderSide(color: AppColors.whitehome, width: 0.5),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 contentPadding: const EdgeInsets.symmetric(

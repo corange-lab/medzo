@@ -1,3 +1,4 @@
+// Responsive
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -5,7 +6,6 @@ import 'package:medzo/controller/auth_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/input_email_forgot_password_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
@@ -40,16 +40,15 @@ class LoginScreen extends GetView<AuthController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Image.asset(AppImages.logo,
-                                height: Responsive.height(5, context)),
+                            Image.asset(AppImages.logo, height: 40),
                             SizedBox(
-                              width: Responsive.width(2, context),
+                              width: 7,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 5),
                               child: SvgPicture.asset(
                                 AppImages.medzo,
-                                height: Responsive.height(2.8, context),
+                                height: 23,
                               ),
                             ),
                           ],
@@ -62,8 +61,8 @@ class LoginScreen extends GetView<AuthController> {
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                                    color: AppColors.white,
-                                    fontSize: Responsive.sp(4, context)),
+                                  color: AppColors.white,
+                                ),
                           ),
                         )
                       ],
@@ -91,9 +90,6 @@ class LoginScreen extends GetView<AuthController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              // SizedBox(
-              //   height: Responsive.height(0.5, context),
-              // ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
@@ -104,6 +100,7 @@ class LoginScreen extends GetView<AuthController> {
                   ),
                 ),
               ),
+              SizedBox(height: 5),
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
@@ -112,7 +109,7 @@ class LoginScreen extends GetView<AuthController> {
                 ),
               ),
               SizedBox(
-                height: Responsive.height(2, context),
+                height: 15,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7),
@@ -192,11 +189,11 @@ class LoginScreen extends GetView<AuthController> {
                             icon: ctrl.hidepass.value
                                 ? SvgPicture.asset(
                                     SvgIcon.pass_eye,
-                                    height: Responsive.height(2.5, context),
+                                    height: 20,
                                   )
                                 : Icon(
                                     Icons.visibility_off_outlined,
-                                    size: Responsive.height(2.5, context),
+                                    size: 20,
                                     color: Colors.black38,
                                   )),
                         fillColor: fNode1.hasFocus
@@ -240,19 +237,18 @@ class LoginScreen extends GetView<AuthController> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 22),
-                      child: TextWidget(
-                        ConstString.forgotpassword,
-                        style: TextStyle(
-                            fontFamily: AppFont.fontMedium,
-                            fontSize: Responsive.sp(3.5, context),
-                            color: AppColors.blue,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0),
-                      ),
+                      child: TextWidget(ConstString.forgotpassword,
+                          style:
+                              Theme.of(context).textTheme.labelSmall!.copyWith(
+                                    fontFamily: AppFont.fontMedium,
+                                    fontSize: 13,
+                                    color: AppColors.blue,
+                                    fontWeight: FontWeight.w600,
+                                  )),
                     )),
               ),
               SizedBox(
-                height: Responsive.height(1, context),
+                height: 5,
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -272,7 +268,7 @@ class LoginScreen extends GetView<AuthController> {
                 ),
               ),
               SizedBox(
-                height: Responsive.height(5, context),
+                height: 40,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -314,7 +310,7 @@ class LoginScreen extends GetView<AuthController> {
                 ],
               ),
               SizedBox(
-                height: Responsive.height(5, context),
+                height: 40,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -329,13 +325,13 @@ class LoginScreen extends GetView<AuthController> {
                               borderRadius: BorderRadius.circular(30)),
                           elevation: 0,
                           backgroundColor: AppColors.splashdetail,
-                          fixedSize: Size(0, Responsive.height(6.5, context))),
+                          fixedSize: Size(0, 50)),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
                               AppImages.google,
-                              height: Responsive.height(2.8, context),
+                              height: 23,
                             ),
                             const SizedBox(
                               width: 5,
@@ -360,13 +356,13 @@ class LoginScreen extends GetView<AuthController> {
                               borderRadius: BorderRadius.circular(30)),
                           elevation: 0,
                           backgroundColor: AppColors.splashdetail,
-                          fixedSize: Size(0, Responsive.height(6.5, context))),
+                          fixedSize: Size(0, 50)),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
                               AppImages.apple,
-                              height: Responsive.height(2.8, context),
+                              height: 23,
                             ),
                             const SizedBox(
                               width: 5,
@@ -381,7 +377,7 @@ class LoginScreen extends GetView<AuthController> {
                 ],
               ),
               SizedBox(
-                height: Responsive.height(13, context),
+                height: 100,
               ),
               TextButton(
                 onPressed: () {

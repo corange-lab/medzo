@@ -1,3 +1,4 @@
+// Responsive
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +13,6 @@ import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
@@ -21,6 +21,7 @@ import 'package:medzo/widgets/pick_image.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final UserModel userModel;
+
   EditProfileScreen(this.userModel);
 
   @override
@@ -59,14 +60,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             },
             icon: SvgPicture.asset(
               SvgIcon.backarrow,
-              height: Responsive.height(2, context),
+              height: 15,
             )),
         title: Align(
           alignment: Alignment.centerLeft,
           child: TextWidget(
             ConstString.editprofile,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: Responsive.sp(4.8, context),
+                fontSize: 17.5,
                 fontFamily: AppFont.fontBold,
                 letterSpacing: 0,
                 color: AppColors.black),
@@ -93,15 +94,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         horizontal: 15, vertical: 20),
                     child: pickController.selectedImage.isEmpty
                         ? CircleAvatar(
-                            maxRadius: Responsive.height(7, context),
+                            maxRadius: 55,
                             backgroundColor: AppColors.blue.withOpacity(0.1),
                             backgroundImage:
                                 AssetImage(AppImages.profile_picture),
                           )
                         : Obx(() => ClipOval(
                               child: Container(
-                                height: 105,
-                                width: 105,
+                                height: 110,
+                                width: 110,
                                 child: Image.file(
                                   File(pickController.selectedImage),
                                   fit: BoxFit.cover,
@@ -110,7 +111,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ))),
               ),
               SizedBox(
-                height: Responsive.height(4, context),
+                height: 30,
               ),
               Align(
                 alignment: Alignment.topLeft,
@@ -121,7 +122,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppColors.grey.withOpacity(0.9),
-                        fontSize: Responsive.sp(4, context),
+                        fontSize: 15,
                         letterSpacing: 0,
                         fontFamily: AppFont.fontMedium),
                   ),
@@ -144,7 +145,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     hintStyle: Theme.of(context)
                         .textTheme
                         .headlineSmall!
-                        .copyWith(fontSize: Responsive.sp(3.8, context)),
+                        .copyWith(fontSize: 14),
                     border: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
@@ -173,7 +174,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               SizedBox(
-                height: Responsive.height(1.5, context),
+                height: 12,
               ),
               Align(
                 alignment: Alignment.topLeft,
@@ -184,7 +185,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppColors.grey.withOpacity(0.9),
-                        fontSize: Responsive.sp(4, context),
+                        fontSize: 15,
                         letterSpacing: 0,
                         fontFamily: AppFont.fontMedium),
                   ),
@@ -206,7 +207,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     hintStyle: Theme.of(context)
                         .textTheme
                         .headlineSmall!
-                        .copyWith(fontSize: Responsive.sp(3.8, context)),
+                        .copyWith(fontSize: 14),
                     border: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppColors.whitehome, width: 0.5),
@@ -235,7 +236,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               SizedBox(
-                height: Responsive.height(5, context),
+                height: 40,
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -303,16 +304,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(Responsive.width(50, context),
-                        Responsive.height(7, context)),
+                    fixedSize: Size(180, 55),
                     backgroundColor: AppColors.black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30))),
                 child: TextWidget(
                   ConstString.save,
-                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                      color: AppColors.buttontext,
-                      fontSize: Responsive.sp(4.2, context)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayMedium!
+                      .copyWith(color: AppColors.buttontext, fontSize: 15),
                 ),
               )
             ],
@@ -336,7 +337,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   padding: const EdgeInsets.all(12.0),
                   child: SvgPicture.asset(
                     SvgIcon.pencil,
-                    height: Responsive.height(2.5, context),
+                    height: 20,
                   ),
                 ),
               ),
