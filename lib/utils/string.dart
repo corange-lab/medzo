@@ -190,6 +190,8 @@ class ConstString {
   static const String nodata = "No Data Found";
   static const String nopost = "No Post Data Found!";
   static const String nouser = "No User Found";
+  static const String noFollowing = "No Following Found";
+  static const String noFollower = "No Follower Found";
   static const String error = "An Error Occured!";
   static const String enablePushNotification = "Enable push notifications";
   static const String social = "Social";

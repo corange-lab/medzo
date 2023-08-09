@@ -1,4 +1,4 @@
-// Responsive
+
 // ignore_for_file: deprecated_member_use
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -41,8 +41,10 @@ class ProfileScreen extends StatelessWidget {
             appBar: AppBar(
               titleSpacing: 0,
               backgroundColor: AppColors.white,
-              automaticallyImplyLeading: true,
-              centerTitle: true,
+              automaticallyImplyLeading: false,
+              centerTitle: FirebaseAuth.instance.currentUser!.uid == userId
+                  ? false
+                  : true,
               title: FirebaseAuth.instance.currentUser!.uid == userId
                   ? Align(
                       alignment: Alignment.centerLeft,

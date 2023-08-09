@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -5,7 +7,6 @@ import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
@@ -28,14 +29,14 @@ class SearchScreen extends StatelessWidget {
                   },
                   icon: SvgPicture.asset(
                     SvgIcon.backarrow,
-                    height: Responsive.height(2, context),
+                    height: 15,
                   )),
               title: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: SizedBox(
-                    height: Responsive.height(6, context),
+                    height: 45,
                     child: TextFormField(
                       autofocus: false,
                       controller: controller.searchController,
@@ -51,7 +52,7 @@ class SearchScreen extends StatelessWidget {
                             },
                             icon: Icon(
                               Icons.close,
-                              size: Responsive.height(3, context),
+                              size: 22,
                             ),
                           ),
                         ),
@@ -60,7 +61,7 @@ class SearchScreen extends StatelessWidget {
                               top: 15, bottom: 15, left: 10),
                           child: SvgPicture.asset(
                             SvgIcon.search,
-                            height: Responsive.height(2, context),
+                            height: 15,
                           ),
                         ),
                         fillColor: AppColors.splashdetail,
@@ -68,7 +69,7 @@ class SearchScreen extends StatelessWidget {
                         hintStyle: Theme.of(context)
                             .textTheme
                             .headlineSmall!
-                            .copyWith(fontSize: Responsive.sp(4, context)),
+                            .copyWith(fontSize: 14),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: AppColors.whitehome, width: 0.5),
@@ -105,7 +106,7 @@ class SearchScreen extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(
-                    height: Responsive.height(45, context),
+                    height: 350,
                     child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: controller.searchList.length,
@@ -118,7 +119,7 @@ class SearchScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: SvgPicture.asset(
                               controller.searchIcons[index],
-                              height: Responsive.height(3, context),
+                              height: 23,
                             ),
                           ),
                           title: TextWidget(
@@ -131,11 +132,11 @@ class SearchScreen extends StatelessWidget {
                                     color: AppColors.darkPrimaryColor,
                                     fontFamily: AppFont.fontFamilysemi,
                                     letterSpacing: 0,
-                                    fontSize: Responsive.sp(4.2, context)),
+                                    fontSize: 15),
                           ),
                           trailing: Icon(
                             Icons.arrow_forward_ios_rounded,
-                            size: Responsive.height(2, context),
+                            size: 15,
                             color: AppColors.lightGrey,
                           ),
                           subtitle: TextWidget(
@@ -149,7 +150,7 @@ class SearchScreen extends StatelessWidget {
                                   fontFamily: AppFont.fontMedium,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: 0,
-                                  fontSize: Responsive.sp(3.2, context),
+                                  fontSize: 12.3,
                                 ),
                           ),
                         );
@@ -164,8 +165,7 @@ class SearchScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: AppColors.primaryColor,
                             height: 2,
-                            fontSize: Responsive.sp(4, context),
-                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
                             fontFamily: AppFont.fontFamilysemi),
                       ))
                 ],

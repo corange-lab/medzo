@@ -1,10 +1,11 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/chat_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
@@ -25,14 +26,14 @@ class MessageScreen extends StatelessWidget {
             },
             icon: SvgPicture.asset(
               SvgIcon.backarrow,
-              height: Responsive.height(2, context),
+              height: 15,
             )),
         title: Align(
           alignment: Alignment.centerLeft,
           child: TextWidget(
             ConstString.message,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: Responsive.sp(4.8, context),
+                fontSize: 17.5,
                 fontFamily: AppFont.fontBold,
                 letterSpacing: 0,
                 color: AppColors.black),
@@ -66,9 +67,10 @@ class MessageScreen extends StatelessWidget {
               child: TextWidget(
                 // FIXME: add User name
                 index % 2 == 0 ? "Cameron Williamson" : "Dianne Russell",
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    fontFamily: AppFont.fontBold,
-                    fontSize: Responsive.sp(4.2, context)),
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge!
+                    .copyWith(fontFamily: AppFont.fontBold, fontSize: 15),
               ),
             ),
             subtitle: Align(
@@ -84,7 +86,7 @@ class MessageScreen extends StatelessWidget {
                         : AppFont.fontMedium,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.3,
-                    fontSize: Responsive.sp(3.5, context),
+                    fontSize: 12.5,
                     color: index % 2 == 0
                         ? AppColors.dark
                         : AppColors.grey.withOpacity(0.7)),
@@ -92,9 +94,10 @@ class MessageScreen extends StatelessWidget {
             ),
             trailing: TextWidget(
               index % 2 == 0 ? "10:32 pm" : "04:15 am",
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: AppColors.darkGrey,
-                  fontSize: Responsive.sp(3, context)),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: AppColors.darkGrey, fontSize: 10),
             ),
           );
         },

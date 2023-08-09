@@ -7,10 +7,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:sizer/sizer.dart';
 
 class pickImageController extends GetxController {
   final _selectedImage = "".obs;
@@ -63,7 +63,7 @@ class pickImageController extends GetxController {
       context: context,
       builder: (context) {
         return Container(
-          height: Responsive.height(22, context),
+          height: 170,
           margin: EdgeInsets.symmetric(horizontal: 5),
           padding: EdgeInsets.symmetric(horizontal: 15),
           decoration: BoxDecoration(
@@ -75,29 +75,29 @@ class pickImageController extends GetxController {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                height: Responsive.height(3, context),
+                height: 25,
               ),
               TextWidget(
                 ConstString.selectchoice,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontSize: Responsive.sp(4.8, context),
+                    fontSize: 16,
                     color: AppColors.black,
                     fontFamily: AppFont.fontFamilysemi),
               ),
               SizedBox(
-                height: Responsive.height(1, context),
+                height: 10,
               ),
               Container(
                 margin: EdgeInsets.all(5),
                 height: 1,
-                width: Responsive.width(80, context),
+                width: SizerUtil.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: AppColors.splashdetail,
                 ),
               ),
               SizedBox(
-                height: Responsive.height(2, context),
+                height: 15,
               ),
               Row(
                 children: [
@@ -143,12 +143,17 @@ class pickImageController extends GetxController {
                       child: Container(
                         child: Column(
                           children: [
-                            Image.asset(SvgIcon.camerapng,
-                                height: Responsive.height(5.5, context)),
+                            Image.asset(SvgIcon.camerapng, height: 45),
                             SizedBox(
-                              height: Responsive.height(1.3, context),
+                              height: 10,
                             ),
-                            TextWidget(ConstString.camera)
+                            TextWidget(
+                              ConstString.camera,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(fontSize: 14.5,color: AppColors.black),
+                            )
                           ],
                         ),
                         // height: Responsive.height(8, context),
@@ -198,12 +203,17 @@ class pickImageController extends GetxController {
                       // height: Responsive.height(8, context),
                       child: Column(
                         children: [
-                          Image.asset(SvgIcon.gallerypng,
-                              height: Responsive.height(5.5, context)),
+                          Image.asset(SvgIcon.gallerypng, height: 45),
                           SizedBox(
-                            height: Responsive.height(1.3, context),
+                            height: 10,
                           ),
-                          TextWidget(ConstString.gallery)
+                          TextWidget(
+                            ConstString.gallery,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(fontSize: 14.5,color: AppColors.black),
+                          )
                         ],
                       ),
                     ),

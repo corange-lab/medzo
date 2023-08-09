@@ -1,3 +1,5 @@
+
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +10,6 @@ import 'package:medzo/model/post_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -47,14 +48,14 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
               },
               icon: SvgPicture.asset(
                 SvgIcon.backarrow,
-                height: Responsive.height(2, context),
+                height: 15,
               )),
           title: Align(
             alignment: Alignment.centerLeft,
             child: TextWidget(
               ConstString.preview,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontSize: Responsive.sp(4.8, context),
+                  fontSize: 17.5,
                   fontFamily: AppFont.fontBold,
                   letterSpacing: 0,
                   color: AppColors.black),

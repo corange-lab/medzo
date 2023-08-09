@@ -569,10 +569,8 @@ void toast(
     Color? color}) {
   Fluttertoast.showToast(
       msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      // backgroundColor: isSuccess
-      //     ? Colors.green.withOpacity(0.6)
-      //     : color ?? Colors.red.withOpacity(0.6),
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: AppColors.black.withOpacity(0.8),
       textColor: AppColors.white);
 }

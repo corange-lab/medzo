@@ -1,10 +1,11 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -16,8 +17,8 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
-        titleSpacing:-12,
-        toolbarHeight: Responsive.height(7, context),
+        titleSpacing: -12,
+        toolbarHeight: 60,
         backgroundColor: AppColors.white,
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
@@ -27,7 +28,7 @@ class ChatScreen extends StatelessWidget {
             },
             icon: SvgPicture.asset(
               SvgIcon.backarrow,
-              height: Responsive.height(2, context),
+              height: 15,
             )),
         title: Align(
           alignment: Alignment.centerLeft,
@@ -41,7 +42,7 @@ class ChatScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: Responsive.width(1.5, context),
+                width: 10,
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,20 +52,22 @@ class ChatScreen extends StatelessWidget {
                     // FIXME: add User Name
                     "Cameron Williamson",
                     style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                          fontSize: Responsive.sp(4.5, context),
+                          fontSize: 15.5,
                           fontFamily: AppFont.fontBold,
                           letterSpacing: 0,
                           color: AppColors.darkPrimaryColor,
                         ),
                   ),
                   SizedBox(
-                    height: Responsive.height(1, context),
+                    height: 8,
                   ),
                   TextWidget(
                     // FIXME: add User Profession
                     "Pharmacist",
-                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                        letterSpacing: 0, fontSize: Responsive.sp(3.5, context)),
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelSmall!
+                        .copyWith(letterSpacing: 0, fontSize: 12.5),
                   ),
                 ],
               ),
@@ -76,13 +79,13 @@ class ChatScreen extends StatelessWidget {
               onPressed: () {},
               icon: SvgPicture.asset(
                 SvgIcon.more,
-                height: Responsive.height(2, context),
+                height: 16,
               ))
         ],
       ),
       body: chatWidget(context),
       bottomSheet: Container(
-        height: Responsive.height(10, context),
+        height: 80,
         width: SizerUtil.width,
         decoration: BoxDecoration(color: AppColors.white, boxShadow: [
           BoxShadow(
@@ -114,7 +117,7 @@ class ChatScreen extends StatelessWidget {
                   hintStyle: Theme.of(context)
                       .textTheme
                       .headlineSmall!
-                      .copyWith(fontSize: Responsive.sp(3.8, context)),
+                      .copyWith(fontSize: 14),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
@@ -132,7 +135,7 @@ class ChatScreen extends StatelessWidget {
                   onPressed: () {},
                   icon: SvgPicture.asset(
                     SvgIcon.at_icon,
-                    height: Responsive.height(2.8, context),
+                    height: 22,
                   )),
             ),
             Expanded(
@@ -141,11 +144,11 @@ class ChatScreen extends StatelessWidget {
                   onPressed: () {},
                   icon: SvgPicture.asset(
                     SvgIcon.send,
-                    height: Responsive.height(2.8, context),
+                    height: 22,
                   )),
             ),
             SizedBox(
-              width: Responsive.width(4, context),
+              width: 15,
             )
           ],
         ),
@@ -171,8 +174,8 @@ class ChatScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 3),
                 child: Container(
                   margin: const EdgeInsets.only(right: 10),
-                  height: Responsive.height(5.5, context),
-                  width: Responsive.width(36, context),
+                  height: 45,
+                  width: 130,
                   decoration: BoxDecoration(
                       color: AppColors.primaryColor,
                       borderRadius: const BorderRadius.only(
@@ -191,8 +194,7 @@ class ChatScreen extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
-                                      color: AppColors.black,
-                                      fontSize: Responsive.sp(3.8, context))),
+                                      color: AppColors.black, fontSize: 14)),
                         ),
                       ),
                       Align(
@@ -205,7 +207,7 @@ class ChatScreen extends StatelessWidget {
                                   .bodySmall!
                                   .copyWith(
                                       color: AppColors.darkyellow,
-                                      fontSize: Responsive.sp(2.8, context))),
+                                      fontSize: 10)),
                         ),
                       ),
                     ],
@@ -219,8 +221,8 @@ class ChatScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 3),
                 child: Container(
                   margin: const EdgeInsets.only(right: 10),
-                  height: Responsive.height(5.5, context),
-                  width: Responsive.width(66, context),
+                  height: 45,
+                  width: 240,
                   decoration: BoxDecoration(
                       color: AppColors.primaryColor,
                       borderRadius: const BorderRadius.only(
@@ -241,8 +243,7 @@ class ChatScreen extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
-                                      color: AppColors.black,
-                                      fontSize: Responsive.sp(3.8, context))),
+                                      color: AppColors.black, fontSize: 14)),
                         ),
                       ),
                       Align(
@@ -255,7 +256,7 @@ class ChatScreen extends StatelessWidget {
                                   .bodySmall!
                                   .copyWith(
                                       color: AppColors.darkyellow,
-                                      fontSize: Responsive.sp(2.8, context))),
+                                      fontSize: 10)),
                         ),
                       ),
                     ],
@@ -283,8 +284,8 @@ class ChatScreen extends StatelessWidget {
                           vertical: 3, horizontal: 7),
                       child: Container(
                         margin: const EdgeInsets.only(right: 10),
-                        height: Responsive.height(8, context),
-                        width: Responsive.width(58, context),
+                        height: 60,
+                        width: 220,
                         decoration: BoxDecoration(
                             color: AppColors.splashdetail,
                             borderRadius: const BorderRadius.only(
@@ -306,7 +307,7 @@ class ChatScreen extends StatelessWidget {
                                         .textTheme
                                         .labelSmall!
                                         .copyWith(
-                                            fontSize: Responsive.sp(3.8, context),
+                                            fontSize: 14,
                                             color: AppColors.black,
                                             fontFamily: AppFont.fontBold,
                                             letterSpacing: 0),
@@ -321,8 +322,7 @@ class ChatScreen extends StatelessWidget {
                                         .textTheme
                                         .labelSmall!
                                         .copyWith(
-                                            fontSize:
-                                                Responsive.sp(3, context),
+                                            fontSize: 11.5,
                                             color: AppColors.chatgrey
                                                 .withOpacity(0.7),
                                             letterSpacing: 0),
@@ -341,8 +341,7 @@ class ChatScreen extends StatelessWidget {
                                         .bodySmall!
                                         .copyWith(
                                             color: AppColors.black,
-                                            fontSize:
-                                                Responsive.sp(3.8, context))),
+                                            fontSize: 14)),
                               ),
                             ),
                             Align(
@@ -356,8 +355,7 @@ class ChatScreen extends StatelessWidget {
                                         .bodySmall!
                                         .copyWith(
                                             color: AppColors.grey,
-                                            fontSize:
-                                                Responsive.sp(2.8, context))),
+                                            fontSize: 10)),
                               ),
                             ),
                           ],
@@ -374,8 +372,8 @@ class ChatScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 3, bottom: 3, left: 42),
                 child: Container(
                   margin: const EdgeInsets.only(right: 10),
-                  height: Responsive.height(5, context),
-                  width: Responsive.width(42, context),
+                  height: 45,
+                  width: 150,
                   decoration: BoxDecoration(
                       color: AppColors.splashdetail,
                       borderRadius: const BorderRadius.only(
@@ -396,8 +394,7 @@ class ChatScreen extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
-                                      color: AppColors.black,
-                                      fontSize: Responsive.sp(3.8, context))),
+                                      color: AppColors.black, fontSize: 14)),
                         ),
                       ),
                       Align(
@@ -409,8 +406,7 @@ class ChatScreen extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
-                                      color: AppColors.grey,
-                                      fontSize: Responsive.sp(2.8, context))),
+                                      color: AppColors.grey, fontSize: 10)),
                         ),
                       ),
                     ],

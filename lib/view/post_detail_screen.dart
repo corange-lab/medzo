@@ -1,3 +1,5 @@
+
+
 // this screen is used to show post detail same as shown in the post List
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -13,7 +15,6 @@ import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/image_preview_screen.dart';
 import 'package:medzo/view/profile_screen.dart';
@@ -41,14 +42,14 @@ class PostDetailScreen extends GetWidget<PostController> {
             },
             icon: SvgPicture.asset(
               SvgIcon.backarrow,
-              height: Responsive.height(2, context),
+              height: 15,
             )),
         title: Align(
           alignment: Alignment.centerLeft,
           child: TextWidget(
             ConstString.postdetail,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: Responsive.sp(4.8, context),
+                fontSize: 17.5,
                 fontFamily: AppFont.fontBold,
                 letterSpacing: 0,
                 color: AppColors.black),
@@ -57,7 +58,6 @@ class PostDetailScreen extends GetWidget<PostController> {
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      // FIXME: rendering issue
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
@@ -115,7 +115,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                                     fontFamily: AppFont.fontFamilysemi,
                                     fontWeight: FontWeight.w500,
                                     letterSpacing: 0.3,
-                                    fontSize: Responsive.sp(4.2, context)),
+                                    fontSize: 15),
                           ),
                         ),
                         subtitle: TextWidget(
@@ -128,7 +128,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                               .bodySmall!
                               .copyWith(
                                   color: AppColors.grey.withOpacity(0.8),
-                                  fontSize: Responsive.sp(3.4, context)),
+                                  fontSize: 13),
                         ),
                         trailing: IconButton(
                           icon: Icon(
@@ -174,7 +174,7 @@ class PostDetailScreen extends GetWidget<PostController> {
               postData.description ?? '',
               textAlign: TextAlign.start,
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  fontSize: Responsive.sp(3.8, context),
+                  fontSize: 13.6,
                   fontFamily: AppFont.fontMedium,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0,
@@ -187,7 +187,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Container(
-                    height: 20.h,
+                    height: 160,
                     alignment: Alignment.center,
                     child: CarouselSlider.builder(
                       itemCount: (postData.postImages ?? []).length,
@@ -205,7 +205,6 @@ class PostDetailScreen extends GetWidget<PostController> {
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
-                          // TODO: handle image null an error
                           child: CachedNetworkImage(
                             imageUrl:
                                 postData.postImages?.elementAt(index).url ?? '',
@@ -244,7 +243,7 @@ class PostDetailScreen extends GetWidget<PostController> {
             width: SizerUtil.width,
             color: AppColors.grey.withOpacity(0.1),
           ),
-          SizedBox(height: 0.5.h),
+          SizedBox(height: 5),
           GetBuilder<PostController>(
               id: postData.id ?? 'post${postData.id}',
               builder: (ctrl) {
@@ -260,12 +259,12 @@ class PostDetailScreen extends GetWidget<PostController> {
                         child: controller.isLiked(postData)
                             ? SvgPicture.asset(
                                 SvgIcon.likePost,
-                                height: 2.4.h,
+                                height: 20,
                                 color: AppColors.primaryColor,
                               )
                             : SvgPicture.asset(
                                 SvgIcon.likePost,
-                                height: 2.4.h,
+                                height: 20,
                               ),
                       ),
                       SizedBox(
@@ -276,7 +275,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                         style: Theme.of(context).textTheme.labelLarge!.copyWith(
                             color: AppColors.txtlike,
                             letterSpacing: 0.3,
-                            fontSize: 13.sp,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                             fontFamily: AppFont.fontFamily),
                       ),
@@ -287,18 +286,18 @@ class PostDetailScreen extends GetWidget<PostController> {
                         onTap: () async {},
                         child: SvgPicture.asset(
                           SvgIcon.commentPost,
-                          height: 2.5.h,
+                          height: 20,
                         ),
                       ),
                       SizedBox(
-                        width: 1.5.w,
+                        width: 6,
                       ),
                       Text(
                         postData.postComments?.length.toString() ?? "0",
                         style: Theme.of(context).textTheme.labelLarge!.copyWith(
                             color: AppColors.txtlike,
                             letterSpacing: 0.3,
-                            fontSize: 13.sp,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                             fontFamily: AppFont.fontFamily),
                       ),
@@ -325,16 +324,17 @@ class PostDetailScreen extends GetWidget<PostController> {
               fontFamily: AppFont.fontFamilysemi,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.3,
-              fontSize: Responsive.sp(4.2, context)),
+              fontSize: 15),
         ),
       ),
       subtitle: Align(
         alignment: Alignment.topLeft,
         child: TextWidget(
           timeAgo(postData.createdTime ?? DateTime.now()),
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: AppColors.grey.withOpacity(0.8),
-              fontSize: Responsive.sp(3.4, context)),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: AppColors.grey.withOpacity(0.8), fontSize: 12.5),
         ),
       ),
     );
@@ -356,8 +356,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                 fillColor: AppColors.grey.withOpacity(0.1),
                 hintText: 'Write a comment...',
                 hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: AppColors.grey.withOpacity(0.8),
-                    fontSize: Responsive.sp(3.4, context)),
+                    color: AppColors.grey.withOpacity(0.8), fontSize: 13),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.white, width: 0.5),
                   borderRadius: BorderRadius.circular(30),
@@ -372,7 +371,6 @@ class PostDetailScreen extends GetWidget<PostController> {
                 ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 15,
-                  vertical: 17,
                 ),
               ),
             ),
@@ -404,15 +402,15 @@ class PostDetailScreen extends GetWidget<PostController> {
               }
             },
             child: Container(
-              height: 5.5.h,
-              width: 5.5.h,
+              height: 42,
+              width: 42,
               decoration: BoxDecoration(
                   color: AppColors.primaryColor,
                   borderRadius: BorderRadius.circular(30)),
               child: Icon(
                 Icons.send_rounded,
                 color: AppColors.white,
-                size: 3.h,
+                size: 22,
               ),
             ),
           ),
@@ -483,12 +481,12 @@ class PostDetailScreen extends GetWidget<PostController> {
                                     fontFamily: AppFont.fontFamilysemi,
                                     fontWeight: FontWeight.w500,
                                     letterSpacing: 0.3,
-                                    fontSize: Responsive.sp(4.2, context)),
+                                    fontSize: 15),
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: 1.h,
+                        height: 8,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 3),
@@ -497,13 +495,11 @@ class PostDetailScreen extends GetWidget<PostController> {
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall!
-                              .copyWith(
-                                  fontSize: Responsive.sp(3.4, context),
-                                  color: AppColors.dark),
+                              .copyWith(fontSize: 12, color: AppColors.dark),
                         ),
                       ),
                       SizedBox(
-                        height: 1.h,
+                        height: 8,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 3),
@@ -515,12 +511,12 @@ class PostDetailScreen extends GetWidget<PostController> {
                               .bodySmall!
                               .copyWith(
                                   color: AppColors.grey,
-                                  fontSize: Responsive.sp(3.4, context),
+                                  fontSize: 12.5,
                                   fontFamily: AppFont.fontFamily),
                         ),
                       ),
                       SizedBox(
-                        height: 1.h,
+                        height: 8,
                       ),
                     ],
                   ),
@@ -531,7 +527,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                 ),
               ),
               SizedBox(
-                height: 1.h,
+                height: 8,
               ),
               Row(
                 children: [
@@ -551,11 +547,11 @@ class PostDetailScreen extends GetWidget<PostController> {
                               ? Icon(
                                   Icons.favorite_rounded,
                                   color: AppColors.primaryColor,
-                                  size: 2.h,
+                                  size: 18,
                                 )
                               : SvgPicture.asset(
                                   SvgIcon.likePost,
-                                  height: 1.8.h,
+                                  height: 14,
                                 ),
                         ),
                       ),
@@ -565,7 +561,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                         style: Theme.of(context).textTheme.labelLarge!.copyWith(
                             color: AppColors.txtlike,
                             letterSpacing: 0.3,
-                            fontSize: 11.sp,
+                            fontSize: 13,
                             fontWeight: FontWeight.w500,
                             fontFamily: AppFont.fontFamily),
                       ),
@@ -576,7 +572,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                     children: [
                       SvgPicture.asset(
                         SvgIcon.commentPost,
-                        height: 2.h,
+                        height: 16,
                       ),
                       SizedBox(
                         width: 1.w,
@@ -597,7 +593,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                               color: AppColors.blacktxt,
                               fontFamily: AppFont.fontFamilysemi,
                               decoration: TextDecoration.underline,
-                              fontSize: 10.sp,
+                              fontSize: 12,
                             ),
                           ),
                         ),
@@ -679,23 +675,24 @@ class PostDetailScreen extends GetWidget<PostController> {
                         fontFamily: AppFont.fontFamilysemi,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.3,
-                        fontSize: Responsive.sp(4, context)),
+                        fontSize: 14.8),
                   ),
                 ),
                 SizedBox(
-                  height: 1.h,
+                  height: 8,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 3),
                   child: TextWidget(
                     timeAgo(commentData.createdTime ?? DateTime.now()),
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: Responsive.sp(3.4, context),
-                        color: AppColors.dark),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(fontSize: 12, color: AppColors.dark),
                   ),
                 ),
                 SizedBox(
-                  height: 1.h,
+                  height: 8,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 3),
@@ -706,11 +703,11 @@ class PostDetailScreen extends GetWidget<PostController> {
                         color: AppColors.grey.withOpacity(0.8),
                         fontFamily: AppFont.fontFamily,
                         letterSpacing: 0,
-                        fontSize: Responsive.sp(3.4, context)),
+                        fontSize: 12.5),
                   ),
                 ),
                 SizedBox(
-                  height: 1.h,
+                  height: 8,
                 ),
               ],
             ),
@@ -721,7 +718,7 @@ class PostDetailScreen extends GetWidget<PostController> {
           ),
         ),
         SizedBox(
-          height: 1.h,
+          height: 8,
         ),
         Row(
           children: [
@@ -739,11 +736,11 @@ class PostDetailScreen extends GetWidget<PostController> {
                         ? Icon(
                             Icons.favorite_rounded,
                             color: AppColors.primaryColor,
-                            size: 2.h,
+                            size: 18,
                           )
                         : SvgPicture.asset(
                             SvgIcon.likePost,
-                            height: 1.8.h,
+                            height: 14,
                           ),
                   ),
                 ),
@@ -754,7 +751,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                     style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: AppColors.txtlike,
                         letterSpacing: 0.3,
-                        fontSize: 11.sp,
+                        fontSize: 13,
                         fontWeight: FontWeight.w500,
                         fontFamily: AppFont.fontFamily),
                   ),
@@ -768,7 +765,7 @@ class PostDetailScreen extends GetWidget<PostController> {
               children: [
                 SvgPicture.asset(
                   SvgIcon.commentPost,
-                  height: 2.h,
+                  height: 16,
                 ),
                 SizedBox(
                   width: 1.w,
@@ -790,7 +787,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                       color: AppColors.blacktxt,
                       fontFamily: AppFont.fontFamilysemi,
                       decoration: TextDecoration.underline,
-                      fontSize: 10.sp,
+                      fontSize: 12,
                     ),
                   ),
                 ),

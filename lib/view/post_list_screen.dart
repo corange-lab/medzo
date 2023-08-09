@@ -1,3 +1,4 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +13,6 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/enumeration.dart';
-import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/image_preview_screen.dart';
 import 'package:medzo/view/post_detail_screen.dart';
@@ -47,14 +47,14 @@ class _PostListScreenState extends State<PostListScreen> {
             },
             icon: SvgPicture.asset(
               SvgIcon.backarrow,
-              height: Responsive.height(2, context),
+              height: 15,
             )),
         title: Align(
           alignment: Alignment.centerLeft,
           child: TextWidget(
             ConstString.postlist,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: Responsive.sp(4.8, context),
+                fontSize: 17.5,
                 fontFamily: AppFont.fontBold,
                 letterSpacing: 0,
                 color: AppColors.black),
@@ -72,6 +72,7 @@ class _PostListScreenState extends State<PostListScreen> {
     );
   }
 
+  // PostItemWidget No used everywhere
   Widget PostItemWidget(BuildContext context, PostController controller,
       PostData postData, int index) {
     return GetBuilder<PostController>(
@@ -112,7 +113,7 @@ class _PostListScreenState extends State<PostListScreen> {
                       postData.description ?? '',
                       textAlign: TextAlign.start,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontSize: Responsive.sp(3.8, context),
+                          fontSize: 14,
                           fontFamily: AppFont.fontMedium,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0,
@@ -279,16 +280,17 @@ class _PostListScreenState extends State<PostListScreen> {
               fontFamily: AppFont.fontFamilysemi,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.3,
-              fontSize: Responsive.sp(4.2, context)),
+              fontSize: 15),
         ),
       ),
       subtitle: Align(
         alignment: Alignment.topLeft,
         child: TextWidget(
           timeAgo(postData.createdTime ?? DateTime.now()),
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: AppColors.grey.withOpacity(0.8),
-              fontSize: Responsive.sp(3.4, context)),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: AppColors.grey.withOpacity(0.8), fontSize: 13.5),
         ),
       ),
     );

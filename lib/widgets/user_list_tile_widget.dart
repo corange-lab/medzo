@@ -4,6 +4,7 @@ import 'package:medzo/model/users_filter_search_respons.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/widgets/user_profile_widget.dart';
 
+// Not Used
 class UserListTile extends StatelessWidget {
   UserFilterSearchModel user;
   UserListTile({Key? key, required this.user}) : super(key: key);
