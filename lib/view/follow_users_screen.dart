@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -12,6 +10,7 @@ import 'package:medzo/utils/assets.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../utils/string.dart';
 
 class FollowUsersScreen extends GetWidget<ProfileController> {
@@ -146,42 +145,48 @@ class FollowersScreen extends GetWidget<ProfileController> {
                   )));
         }
         if (snapshot.hasData && snapshot.data!.length > 0) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              UserModel user = controller.allUserController
-                  .findSingleUserFromAllUser(snapshot.data![index].userId);
-              return ListTile(
-                leading: OtherProfilePicWidget(
-                    profilePictureUrl: user.profilePicture),
-                title: Text(
-                  user.name ?? '',
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      fontFamily: AppFont.fontFamilysemi, fontSize: 15),
-                ),
-                subtitle: Text(
-                  user.profession ?? 'Developer',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontFamily: AppFont.fontMedium,
-                        letterSpacing: 0.3,
-                        fontSize: 12.5,
-                      ),
-                ),
-                // trailing: snapshot.data![index].isFollowing
-                //     ? TextButton(
-                //         onPressed: () {
-                //           controller.unfollowUser(
-                //               snapshot.data![index].id);
-                //         },
-                //         child: Text('Unfollow'),
-                //       )
-                //     : TextButton(
-                //         onPressed: () {
-                //           controller.followUser(snapshot.data![index].id);
-                //         },
-                //         child: Text('Follow'),
-                //       ),
-              );
+          return RefreshIndicator(
+            color: AppColors.primaryColor,
+            child: ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                UserModel user = controller.allUserController
+                    .findSingleUserFromAllUser(snapshot.data![index].userId);
+                return ListTile(
+                  leading: OtherProfilePicWidget(
+                      profilePictureUrl: user.profilePicture),
+                  title: Text(
+                    user.name ?? '',
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        fontFamily: AppFont.fontFamilysemi, fontSize: 15),
+                  ),
+                  subtitle: Text(
+                    user.profession ?? '-',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontFamily: AppFont.fontMedium,
+                          letterSpacing: 0.3,
+                          fontSize: 12.5,
+                        ),
+                  ),
+                  // trailing: snapshot.data![index].isFollowing
+                  //     ? TextButton(
+                  //         onPressed: () {
+                  //           controller.unfollowUser(
+                  //               snapshot.data![index].id);
+                  //         },
+                  //         child: Text('Unfollow'),
+                  //       )
+                  //     : TextButton(
+                  //         onPressed: () {
+                  //           controller.followUser(snapshot.data![index].id);
+                  //         },
+                  //         child: Text('Follow'),
+                  //       ),
+                );
+              },
+            ),
+            onRefresh: () async {
+              await Future.delayed(Duration(seconds: 2));
             },
           );
         } else {
@@ -260,28 +265,34 @@ class FollowingScreen extends GetWidget<ProfileController> {
                   )));
         }
         if (snapshot.hasData && snapshot.data!.length > 0) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              UserModel user = controller.allUserController
-                  .findSingleUserFromAllUser(snapshot.data![index].userId);
-              return ListTile(
-                leading: OtherProfilePicWidget(
-                    profilePictureUrl: user.profilePicture),
-                title: Text(
-                  user.name ?? '',
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      fontFamily: AppFont.fontFamilysemi, fontSize: 15),
-                ),
-                subtitle: Text(
-                  user.profession ?? 'Developer',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontFamily: AppFont.fontMedium,
-                        fontSize: 12.5,
-                      ),
-                ),
-              );
+          return RefreshIndicator(
+            child: ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                UserModel user = controller.allUserController
+                    .findSingleUserFromAllUser(snapshot.data![index].userId);
+                return ListTile(
+                  leading: OtherProfilePicWidget(
+                      profilePictureUrl: user.profilePicture),
+                  title: Text(
+                    user.name ?? '',
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        fontFamily: AppFont.fontFamilysemi, fontSize: 15),
+                  ),
+                  subtitle: Text(
+                    user.profession ?? '-',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontFamily: AppFont.fontMedium,
+                          fontSize: 12.5,
+                        ),
+                  ),
+                );
+              },
+            ),
+            onRefresh: () async {
+              await Future.delayed(Duration(seconds: 2));
             },
+            color: AppColors.primaryColor,
           );
         } else {
           return Center(

@@ -152,12 +152,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "custom_rating_bar",
-      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/custom_rating_bar-2.0.5",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "dbus",
       "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/dbus-0.7.8",
       "packageUri": "lib/",
@@ -710,6 +704,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "smooth_star_rating_null_safety",
+      "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/smooth_star_rating_null_safety-1.0.4+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "source_span",
       "rootUri": "file:///C:/Users/admin/AppData/Local/Pub/Cache/hosted/pub.dev/source_span-1.9.1",
       "packageUri": "lib/",
@@ -842,7 +842,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-08-08T10:20:06.131551Z",
+  "generated": "2023-08-10T09:40:57.447563Z",
   "generator": "pub",
   "generatorVersion": "3.0.5"
 }

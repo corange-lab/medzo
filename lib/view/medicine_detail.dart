@@ -1,10 +1,13 @@
 
 // ignore_for_file: deprecated_member_use
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/home_controller.dart';
+import 'package:medzo/model/medicine.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -12,9 +15,13 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/review_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
+import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 class MedicineDetail extends StatefulWidget {
-  const MedicineDetail({super.key});
+  Medicine? medicineDetails;
+
+
+  MedicineDetail({this.medicineDetails});
 
   @override
   State<MedicineDetail> createState() => _MedicineDetailState();
@@ -22,18 +29,21 @@ class MedicineDetail extends StatefulWidget {
 
 class _MedicineDetailState extends State<MedicineDetail>
     with TickerProviderStateMixin {
+
   late TabController tabController;
 
-  // late TabController tabQuestionController;
-
   HomeController homecontroller = Get.put(HomeController());
+
+  Medicine? medicineDetails;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     tabController = TabController(length: 3, vsync: this);
-    // tabQuestionController = TabController(length: 2, vsync: this);
+
+    medicineDetails =  widget.medicineDetails;
+
   }
 
   @override
@@ -57,7 +67,7 @@ class _MedicineDetailState extends State<MedicineDetail>
             padding: const EdgeInsets.only(right: 10),
             child: TextWidget(
               // FIXME: add Medicine Name
-              "Azithromycin",
+              "${medicineDetails!.medicineName}",
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontSize: 17.5,
                   fontFamily: AppFont.fontBold,
@@ -69,13 +79,13 @@ class _MedicineDetailState extends State<MedicineDetail>
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      body: medicineWidget(context, tabController, homecontroller),
+      body: medicineWidget(context, tabController, homecontroller,medicineDetails!),
     );
   }
 }
 
 Container medicineWidget(BuildContext context, TabController tabController,
-    HomeController homeController) {
+    HomeController homeController,Medicine medicineDetails) {
   return Container(
     child: Padding(
       padding: const EdgeInsets.all(10.0),
@@ -102,7 +112,30 @@ Container medicineWidget(BuildContext context, TabController tabController,
                       padding: const EdgeInsets.only(right: 8),
                       child: SizedBox(
                         height: 55,
-                        child: Image.asset(AppImages.pill),
+                        width: 55,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(7),
+                          child: CachedNetworkImage(
+                            imageUrl: medicineDetails.image!,
+                            errorWidget:
+                                (context, url, error) =>
+                                Icon(Icons.error),
+                            progressIndicatorBuilder: (context,
+                                url, downloadProgress) =>
+                                SizedBox(
+                                  width: 120,
+                                  child: Center(
+                                    child:
+                                    CupertinoActivityIndicator(
+                                      color: AppColors.primaryColor,
+                                      animating: true,
+                                      radius: 12,
+                                    ),
+                                  ),
+                                ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -116,7 +149,7 @@ Container medicineWidget(BuildContext context, TabController tabController,
                         children: [
                           TextWidget(
                             // FIXME: add Medicine Name
-                            "Azithromycin",
+                            "${medicineDetails.medicineName}",
                             style: Theme.of(context)
                                 .textTheme
                                 .labelSmall!
@@ -129,51 +162,41 @@ Container medicineWidget(BuildContext context, TabController tabController,
                           SizedBox(
                             height: 3,
                           ),
-                          TextWidget(
-                            // FIXME: add Medicine details
-                            "A fast acting antibiotic.\nTackles infections effectively",
-                            textAlign: TextAlign.start,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                    height: 1.5,
-                                    color: AppColors.grey,
-                                    fontFamily: AppFont.fontFamily,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 11.5),
+                          SizedBox(
+                            width: 160,
+                            height: 35,
+                            child: TextWidget(
+                              // FIXME: add Medicine details
+                              "${medicineDetails.shortDescription}",
+                              textAlign: TextAlign.start,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                      height: 1.5,
+                                      color: AppColors.grey,
+                                      fontFamily: AppFont.fontFamily,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11.5),
+                            ),
                           ),
                           SizedBox(
                             height: 3,
                           ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.star_rounded,
-                                color: AppColors.primaryColor,
-                                size: 20,
-                              ),
-                              Icon(
-                                Icons.star_rounded,
-                                color: AppColors.primaryColor,
-                                size: 20,
-                              ),
-                              Icon(
-                                Icons.star_rounded,
-                                color: AppColors.primaryColor,
-                                size: 20,
-                              ),
-                              Icon(
-                                Icons.star_rounded,
-                                color: AppColors.primaryColor,
-                                size: 20,
-                              ),
-                              Icon(
-                                Icons.star_outline_rounded,
-                                color: AppColors.primaryColor,
-                                size: 20,
-                              ),
-                            ],
+                          SmoothStarRating(
+                            rating: 4,
+                            allowHalfRating: true,
+                            defaultIconData:
+                            Icons.star_outline_rounded,
+                            filledIconData:
+                            Icons.star_rounded,
+                            halfFilledIconData:
+                            Icons.star_half_rounded,
+                            starCount: 5,
+                            size: 20,
+                            color: AppColors.primaryColor,
+                            borderColor:
+                            AppColors.primaryColor,
                           ),
                           SizedBox(
                             height: 10,
@@ -191,7 +214,7 @@ Container medicineWidget(BuildContext context, TabController tabController,
                               ),
                               TextWidget(
                                 // FIXME: add Medicine Type
-                                ConstString.antibiotic,
+                                "${medicineDetails.drugType}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleSmall!
@@ -341,7 +364,7 @@ Container medicineWidget(BuildContext context, TabController tabController,
             child: SizedBox(
                 height: 450,
                 child: TabBarView(controller: tabController, children: [
-                  reviewWidget(context),
+                  reviewWidget(context,medicineDetails),
                   // questionWidget(context, tabQuestionController),
                   aboutWidget(context),
                   warningWidget(context),
@@ -1254,7 +1277,7 @@ Container aboutWidget(context) {
 //   );
 // }
 
-Container reviewWidget(context) {
+Container reviewWidget(context,Medicine medicineDetails) {
   return Container(
     child: Stack(
       children: [
@@ -1383,34 +1406,20 @@ Container reviewWidget(context) {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.star_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                    Icon(
-                                      Icons.star_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                    Icon(
-                                      Icons.star_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                    Icon(
-                                      Icons.star_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                    Icon(
-                                      Icons.star_outline_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                  ],
+                                SmoothStarRating(
+                                  rating: 4,
+                                  allowHalfRating: true,
+                                  defaultIconData:
+                                  Icons.star_outline_rounded,
+                                  filledIconData:
+                                  Icons.star_rounded,
+                                  halfFilledIconData:
+                                  Icons.star_half_rounded,
+                                  starCount: 5,
+                                  size: 20,
+                                  color: AppColors.primaryColor,
+                                  borderColor:
+                                  AppColors.primaryColor,
                                 ),
                                 SizedBox(
                                   height: 8,
@@ -1509,34 +1518,20 @@ Container reviewWidget(context) {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.star_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                    Icon(
-                                      Icons.star_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                    Icon(
-                                      Icons.star_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                    Icon(
-                                      Icons.star_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                    Icon(
-                                      Icons.star_outline_rounded,
-                                      color: AppColors.primaryColor,
-                                      size: 20,
-                                    ),
-                                  ],
+                                SmoothStarRating(
+                                  rating: 4,
+                                  allowHalfRating: true,
+                                  defaultIconData:
+                                  Icons.star_outline_rounded,
+                                  filledIconData:
+                                  Icons.star_rounded,
+                                  halfFilledIconData:
+                                  Icons.star_half_rounded,
+                                  starCount: 5,
+                                  size: 20,
+                                  color: AppColors.primaryColor,
+                                  borderColor:
+                                  AppColors.primaryColor,
                                 ),
                                 SizedBox(
                                   height: 8,
@@ -1605,7 +1600,7 @@ Container reviewWidget(context) {
                 padding: const EdgeInsets.only(right: 18, top: 10),
                 child: ElevatedButton(
                     onPressed: () {
-                      Get.to(const ReviewScreen());
+                      Get.to(ReviewScreen(medicineDetails));
                     },
                     style: ElevatedButton.styleFrom(
                         elevation: 0,

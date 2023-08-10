@@ -188,6 +188,7 @@ class ConstString {
   static const String accountDetails = "Account details";
   static const String appSetting = "App settings";
   static const String nodata = "No Data Found";
+  static const String noMedicine = "No Medicine Found";
   static const String nopost = "No Post Data Found!";
   static const String nouser = "No User Found";
   static const String noFollowing = "No Following Found";

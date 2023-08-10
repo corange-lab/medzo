@@ -5,7 +5,6 @@ class TextWidget extends Text {
   final TextStyle? style;
   final TextOverflow? textOverflow;
   final TextAlign textAlign;
-
   final int? maxLine;
   final TextDecoration? decoration;
 

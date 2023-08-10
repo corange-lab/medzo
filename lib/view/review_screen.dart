@@ -1,25 +1,40 @@
-
-
-import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/medicine_controller.dart';
+import 'package:medzo/model/medicine.dart';
+import 'package:medzo/model/review.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
+import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 class ReviewScreen extends StatefulWidget {
-  const ReviewScreen({super.key});
+  Medicine? medicineDetails;
+
+  ReviewScreen(this.medicineDetails);
 
   @override
   State<ReviewScreen> createState() => _ReviewScreenState();
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
-  var rating = 0.0;
+  Medicine? medicineDetails;
+
+  MedicineController medicineController = Get.put(MedicineController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    medicineDetails = widget.medicineDetails;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,16 +96,35 @@ class _ReviewScreenState extends State<ReviewScreen> {
               SizedBox(
                 height: 15,
               ),
-              Image.asset(
-                AppImages.pillw,
+              SizedBox(
                 height: 100,
+                width: 100,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(7),
+                  child: CachedNetworkImage(
+                    imageUrl: medicineDetails!.image!,
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => SizedBox(
+                      width: 120,
+                      child: Center(
+                        child: CupertinoActivityIndicator(
+                          color: AppColors.primaryColor,
+                          animating: true,
+                          radius: 12,
+                        ),
+                      ),
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
               SizedBox(
                 height: 5,
               ),
               TextWidget(
                 // FIXME: add Medicine Name
-                "Azithromycin",
+                "${medicineDetails!.medicineName}",
                 style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontSize: 15.5,
                     letterSpacing: 0,
@@ -115,17 +149,24 @@ class _ReviewScreenState extends State<ReviewScreen> {
               SizedBox(
                 height: 10,
               ),
-              RatingBar(
-                filledIcon: Icons.star_rounded,
-                emptyIcon: Icons.star_outline_rounded,
-                onRatingChanged: (v) {
-                  setState(() {
-                    rating = v;
-                  });
-                },
-                filledColor: AppColors.primaryColor,
-                emptyColor: AppColors.primaryColor,
-                size: 30,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: SmoothStarRating(
+                  rating: medicineController.rating,
+                  allowHalfRating: true,
+                  defaultIconData: Icons.star_outline_rounded,
+                  filledIconData: Icons.star_rounded,
+                  halfFilledIconData: Icons.star_half_rounded,
+                  starCount: 5,
+                  onRatingChanged: (rating) {
+                    setState(() {
+                      medicineController.rating = rating;
+                    });
+                  },
+                  size: 30,
+                  color: AppColors.primaryColor,
+                  borderColor: AppColors.primaryColor,
+                ),
               ),
               SizedBox(
                 height: 15,
@@ -154,6 +195,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: TextFormField(
+                  controller: medicineController.reviewText,
+                  textCapitalization: TextCapitalization.sentences,
                   autofocus: false,
                   maxLines: 5,
                   cursorColor: AppColors.grey,
@@ -208,22 +251,45 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return successDialogue(
-                        titleText: "Successful",
-                        subtitle:
-                            "Your review has been summited \nsuccessfully.",
-                        iconDialogue: SvgIcon.check_circle,
-                        btntext: "Continue",
-                        onPressed: () {
-                          Get.back();
-                          Get.back();
-                        },
-                      );
-                    },
-                  );
+                  progressDialogue(context, title: "Uploading Review");
+
+                  double ratingValue = double.parse(
+                      medicineController.rating.toStringAsFixed(1));
+
+                  String medicineId = medicineDetails!.id!;
+                  final reviewId = medicineController.reviewRef.doc().id;
+                  final userId = FirebaseAuth.instance.currentUser!.uid;
+
+                  Review review = Review(
+                      id: reviewId,
+                      medicineId: medicineId,
+                      userId: userId,
+                      rating: ratingValue,
+                      review: medicineController.reviewText.text);
+
+                  medicineController.reviewRef
+                      .doc(reviewId)
+                      .set(review.toMap())
+                      .then((value) {
+                    medicineController.reviewText.clear();
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return successDialogue(
+                          titleText: "Successful",
+                          subtitle:
+                              "Your review has been summited \nsuccessfully.",
+                          iconDialogue: SvgIcon.check_circle,
+                          btntext: "Continue",
+                          onPressed: () {
+                            Get.back();
+                            Get.back();
+                            Get.back();
+                          },
+                        );
+                      },
+                    );
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                     elevation: 0,
