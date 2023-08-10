@@ -1,3 +1,4 @@
+
 // ignore_for_file: deprecated_member_use
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -491,7 +492,7 @@ class PostScreen extends GetView<PostController> {
             ),
             TextButton(
                 onPressed: () async {
-                  await Get.to(() => BookmarkScreen());
+                  await Get.to(() =>  BookmarkScreen());
                 },
                 child: Row(
                   children: [
@@ -675,7 +676,7 @@ class PostScreen extends GetView<PostController> {
                               height: 35,
                               child: ElevatedButton(
                                   onPressed: () async {
-                                    await Get.to(() => MedicineDetail());
+                                    await Get.to(() =>  MedicineDetail());
                                   },
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
@@ -998,9 +999,10 @@ class PostListWidget extends GetWidget<PostController> {
             return Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
               highlightColor: Colors.grey[100]!,
-              child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (context, index) {
+              child: Container(
+                height: 400,
+                child: ListView.builder(physics: NeverScrollableScrollPhysics(),
+                  itemCount : 3,itemBuilder: (context, index) {
                   return Column(
                     children: [
                       // Replace this with your Shimmer placeholder widgets
@@ -1031,7 +1033,7 @@ class PostListWidget extends GetWidget<PostController> {
                       ),
                     ],
                   );
-                },
+                },),
               ),
             );
           }
