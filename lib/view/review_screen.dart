@@ -11,6 +11,7 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
@@ -251,6 +252,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  if (medicineController.reviewText.text.trim().isEmpty) {
+                    toast(message: "Please add review");
+                    return;
+                  }
+
                   progressDialogue(context, title: "Uploading Review");
 
                   double ratingValue = double.parse(
@@ -265,7 +271,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       medicineId: medicineId,
                       userId: userId,
                       rating: ratingValue,
-                      review: medicineController.reviewText.text);
+                      review: medicineController.reviewText.text,
+                      createdTime: DateTime.now());
 
                   medicineController.reviewRef
                       .doc(reviewId)

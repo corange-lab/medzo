@@ -12,14 +12,16 @@ import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
 import 'package:sizer/sizer.dart';
 
+
 class LoginScreen extends GetView<AuthController> {
-  final FocusNode fNode = FocusNode();
-  final FocusNode fNode1 = FocusNode();
+  final FocusNode fNodeEmail = FocusNode();
+  final FocusNode fNodePass = FocusNode();
 
   LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return GetBuilder<AuthController>(
         init: AuthController(),
         builder: (ctrl) {
@@ -114,8 +116,8 @@ class LoginScreen extends GetView<AuthController> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7),
                 child: TextFormField(
-                  autofocus: false,
-                  focusNode: fNode,
+                  // autofocus: false,
+                  focusNode: fNodeEmail,
                   cursorColor: AppColors.grey,
                   enabled: true,
                   controller: ctrl.emailTextController,
@@ -130,7 +132,7 @@ class LoginScreen extends GetView<AuthController> {
                         width: 5,
                       ),
                     ),
-                    fillColor: fNode.hasFocus
+                    fillColor: fNodeEmail.hasFocus
                         ? AppColors.tilecolor
                         : AppColors.splashdetail,
                     hintText: "Enter Email Address",
@@ -166,9 +168,9 @@ class LoginScreen extends GetView<AuthController> {
                   padding: const EdgeInsets.only(top: 10),
                   child: Obx(
                     () => TextFormField(
-                      autofocus: false,
+                      // autofocus: false,
                       obscureText: ctrl.hidepass.value,
-                      focusNode: fNode1,
+                      focusNode: fNodePass,
                       cursorColor: AppColors.grey,
                       controller: ctrl.passwordTextController,
                       // style: Theme.of(context).textTheme.bodyMedium,
@@ -196,7 +198,7 @@ class LoginScreen extends GetView<AuthController> {
                                     size: 20,
                                     color: Colors.black38,
                                   )),
-                        fillColor: fNode1.hasFocus
+                        fillColor: fNodePass.hasFocus
                             ? AppColors.tilecolor
                             : AppColors.splashdetail,
                         hintText: "Enter Password",

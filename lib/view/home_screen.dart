@@ -23,6 +23,8 @@ import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/view/search_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/my_name_text_widget.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -75,6 +77,29 @@ class HomeScreen extends GetView<HomeController> {
 
   Container homeWidget(HomeController controller, BuildContext context) {
     MedicineController medicineController = Get.put(MedicineController());
+
+    final itemsPerPage = 6;
+    final List<String> allCategoryItems = [
+      ConstString.painkillar,
+      ConstString.antidepresant,
+      ConstString.antibiotic,
+      ConstString.cardiovascular,
+      ConstString.supplements,
+      ConstString.allergies,
+      ConstString.devices,
+      ConstString.hypnotics,
+    ];
+
+    final List allCategoryImages = [
+      AppImages.painkiller,
+      AppImages.antidepreset,
+      AppImages.antibiotic,
+      AppImages.cardiovascular,
+      AppImages.supplements,
+      AppImages.alergies,
+      AppImages.devices,
+      AppImages.hypnotics,
+    ];
 
     return Container(
       color: AppColors.whitehome,
@@ -239,221 +264,63 @@ class HomeScreen extends GetView<HomeController> {
                     onPageChanged: (value) {
                       onPageChanged(controller, value);
                     },
-                    itemCount: 2,
+                    itemCount: (allCategoryItems.length / itemsPerPage).ceil(),
                     itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 70,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppImages.painkiller,
-                                      height: 35,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    TextWidget(
-                                      ConstString.painkillar,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall!
-                                          .copyWith(
-                                              fontSize: 11.5,
-                                              fontFamily: AppFont.fontMedium,
-                                              letterSpacing: 0.3,
-                                              color: AppColors.grey),
-                                    )
-                                  ],
+                      int start = index * itemsPerPage;
+                      int end = start + itemsPerPage;
+                      if (end > allCategoryItems.length)
+                        end = allCategoryItems.length;
+
+                      return GridView.builder(
+                        itemCount: end - start,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 3 / 2,
+                        ),
+                        itemBuilder: (context, gridIndex) {
+                          return SizedBox(
+                            width: 70,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  allCategoryImages[start + gridIndex],
+                                  height: 35,
                                 ),
-                                // color: Colors.black12,
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              SizedBox(
-                                width: 100,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppImages.antidepreset,
-                                      height: 35,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    TextWidget(
-                                      ConstString.antidepresant,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall!
-                                          .copyWith(
-                                              fontSize: 11,
-                                              fontFamily: AppFont.fontMedium,
-                                              letterSpacing: 0.3,
-                                              color: AppColors.grey),
-                                    )
-                                  ],
+                                SizedBox(
+                                  height: 10,
                                 ),
-                                // color: Colors.black12,
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              SizedBox(
-                                width: 70,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppImages.antibiotic,
-                                      height: 35,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    TextWidget(
-                                      ConstString.antibiotic,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall!
-                                          .copyWith(
-                                              fontSize: 11.5,
-                                              fontFamily: AppFont.fontMedium,
-                                              letterSpacing: 0.3,
-                                              color: AppColors.grey),
-                                    )
-                                  ],
-                                ),
-                                // color: Colors.black12,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                width: 70,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppImages.hypnotics,
-                                      height: 35,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    TextWidget(
-                                      ConstString.hypnotics,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall!
-                                          .copyWith(
-                                              fontSize: 11.5,
-                                              fontFamily: AppFont.fontMedium,
-                                              letterSpacing: 0.3,
-                                              color: AppColors.grey),
-                                    )
-                                  ],
-                                ),
-                                // color: Colors.black12,
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              SizedBox(
-                                width: 100,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppImages.supplements,
-                                      height: 35,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    TextWidget(
-                                      ConstString.supplements,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall!
-                                          .copyWith(
-                                              fontSize: 11.5,
-                                              fontFamily: AppFont.fontMedium,
-                                              letterSpacing: 0.3,
-                                              color: AppColors.grey),
-                                    )
-                                  ],
-                                ),
-                                // color: Colors.black12,
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              SizedBox(
-                                width: 70,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppImages.alergies,
-                                      height: 35,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    TextWidget(
-                                      ConstString.allergies,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall!
-                                          .copyWith(
-                                              fontSize: 11.5,
-                                              fontFamily: AppFont.fontMedium,
-                                              letterSpacing: 0.3,
-                                              color: AppColors.grey),
-                                    )
-                                  ],
-                                ),
-                                // color: Colors.black12,
-                              ),
-                            ],
-                          ),
-                        ],
+                                TextWidget(
+                                  allCategoryItems[start + gridIndex],
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall!
+                                      .copyWith(
+                                          fontSize: 11.5,
+                                          fontFamily: AppFont.fontMedium,
+                                          letterSpacing: 0.3,
+                                          color: AppColors.grey),
+                                )
+                              ],
+                            ),
+                            // color: Colors.black12,
+                          );
+                        },
                       );
                     },
                   ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Obx(
                   () => Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      for (int i = 0; i < 2; i++)
+                      for (int i = 0;
+                          i < (allCategoryItems.length / itemsPerPage).ceil();
+                          i++)
                         controller.pageIndex.value == i
                             ? Container(
                                 height: 5.5,
@@ -528,9 +395,54 @@ class HomeScreen extends GetView<HomeController> {
                   stream: medicineController.fetchMedicine(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(
+                          height: 500,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  // Replace this with your Shimmer placeholder widgets
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: ListTile(
+                                            leading: CircleAvatar(),
+                                            trailing: SvgPicture.asset(
+                                                SvgIcon.fillbookmark),
+                                            title: Text("MEDZO"),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 12.h,
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: AppColors.whitehome),
+                                        )
+                                      ],
+                                    ),
+                                    margin: EdgeInsets.all(3),
+                                  ),
+                                  Divider(
+                                    height: 3,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      );
                     }
-                    if (snapshot.hasData) {
+                    if (!snapshot.hasData) {
                       Object? map = snapshot.data!.docs[0].data();
 
                       Medicine medicineDetails =
@@ -852,7 +764,36 @@ class HomeScreen extends GetView<HomeController> {
                         },
                       );
                     } else {
-                      return Center(child: Text("No Medicine Found"));
+                      return Container(
+                        height: 200,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                child: Image.asset(
+                                  SvgIcon.nodata,
+                                  scale: 0.5,
+                                ),
+                                width: 50,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                ConstString.noMedicine,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                        color: AppColors.black,
+                                        fontSize: 15,
+                                        fontFamily: AppFont.fontBold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     }
                   },
                 )

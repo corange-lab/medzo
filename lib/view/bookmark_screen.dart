@@ -172,7 +172,6 @@ class BookmarkScreen extends StatelessWidget {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         TextWidget(
-                                          // FIXME: add Medicine Name
                                           "${medicineDetails.medicineName}",
                                           style: Theme.of(context)
                                               .textTheme
@@ -191,7 +190,6 @@ class BookmarkScreen extends StatelessWidget {
                                           width: 160,
                                           height: 35,
                                           child: TextWidget(
-                                            // FIXME: add Medicine Details
                                             "${medicineDetails.shortDescription}",
                                             textAlign: TextAlign.start,
                                             style: Theme.of(context)
@@ -238,7 +236,6 @@ class BookmarkScreen extends StatelessWidget {
                                               width: 5,
                                             ),
                                             TextWidget(
-                                              // FIXME: add Medicine Type
                                               "${medicineDetails.drugType}",
                                               style: Theme.of(context)
                                                   .textTheme
@@ -265,7 +262,6 @@ class BookmarkScreen extends StatelessWidget {
                                               width: 5,
                                             ),
                                             TextWidget(
-                                              // FIXME: add Medicine Type
                                               ConstString.prescribed,
                                               style: Theme.of(context)
                                                   .textTheme

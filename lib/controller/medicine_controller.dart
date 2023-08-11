@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/model/review.dart';
+import 'package:medzo/model/user_model.dart';
 
 class MedicineController extends GetxController {
   TextEditingController reviewText = TextEditingController();
   double rating = 0.0;
+
+  AllUserController userController = Get.put(AllUserController());
 
   @override
   void onInit() {
@@ -20,14 +24,22 @@ class MedicineController extends GetxController {
   final CollectionReference medicineRef =
       FirebaseFirestore.instance.collection('medicines');
 
+  final CollectionReference categoryRef =
+      FirebaseFirestore.instance.collection('categories');
+
   Stream<QuerySnapshot<Object?>> fetchMedicine() {
     return medicineRef.get().asStream();
+  }
+
+  Stream<QuerySnapshot<Object?>> fetchCategory() {
+    return categoryRef.get().asStream();
   }
 
   Stream<List<Review>> getReview(String medicineId) {
     var data = FirebaseFirestore.instance
         .collection('reviews')
         .where('medicineId', isEqualTo: medicineId)
+        .orderBy('createdTime', descending: true)
         .snapshots()
         .map((event) {
       return event.docs.map((e) {
@@ -35,5 +47,19 @@ class MedicineController extends GetxController {
       }).toList();
     });
     return data;
+  }
+
+  UserModel findUser(String userId) {
+    return userController.findSingleUserFromAllUser(userId);
+  }
+
+  String findMedicineRating(List<double> ratingList) {
+    double sumRating = 0;
+    for (var i in ratingList) {
+      sumRating += i;
+    }
+
+    double averageRating = sumRating / ratingList.length;
+    return averageRating.toStringAsFixed(1);
   }
 }
