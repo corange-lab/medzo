@@ -1,13 +1,12 @@
-
-// ignore_for_file: deprecated_member_use
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/home_controller.dart';
+import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/model/medicine.dart';
+import 'package:medzo/model/review.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -18,9 +17,7 @@ import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 class MedicineDetail extends StatefulWidget {
-  Medicine? medicineDetails;
-
-
+  final Medicine? medicineDetails;
   MedicineDetail({this.medicineDetails});
 
   @override
@@ -29,10 +26,10 @@ class MedicineDetail extends StatefulWidget {
 
 class _MedicineDetailState extends State<MedicineDetail>
     with TickerProviderStateMixin {
-
   late TabController tabController;
 
-  HomeController homecontroller = Get.put(HomeController());
+  HomeController homeController = Get.put(HomeController());
+  MedicineController medicineController = Get.put(MedicineController());
 
   Medicine? medicineDetails;
 
@@ -42,8 +39,7 @@ class _MedicineDetailState extends State<MedicineDetail>
     super.initState();
     tabController = TabController(length: 3, vsync: this);
 
-    medicineDetails =  widget.medicineDetails;
-
+    medicineDetails = widget.medicineDetails;
   }
 
   @override
@@ -79,13 +75,18 @@ class _MedicineDetailState extends State<MedicineDetail>
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
-      body: medicineWidget(context, tabController, homecontroller,medicineDetails!),
+      body: medicineWidget(context, tabController, medicineController,
+          homeController, medicineDetails!),
     );
   }
 }
 
-Container medicineWidget(BuildContext context, TabController tabController,
-    HomeController homeController,Medicine medicineDetails) {
+Container medicineWidget(
+    BuildContext context,
+    TabController tabController,
+    MedicineController medicineController,
+    HomeController homeController,
+    Medicine medicineDetails) {
   return Container(
     child: Padding(
       padding: const EdgeInsets.all(10.0),
@@ -117,22 +118,19 @@ Container medicineWidget(BuildContext context, TabController tabController,
                           borderRadius: BorderRadius.circular(7),
                           child: CachedNetworkImage(
                             imageUrl: medicineDetails.image!,
-                            errorWidget:
-                                (context, url, error) =>
+                            errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
-                            progressIndicatorBuilder: (context,
-                                url, downloadProgress) =>
-                                SizedBox(
-                                  width: 120,
-                                  child: Center(
-                                    child:
-                                    CupertinoActivityIndicator(
-                                      color: AppColors.primaryColor,
-                                      animating: true,
-                                      radius: 12,
-                                    ),
-                                  ),
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) => SizedBox(
+                              width: 120,
+                              child: Center(
+                                child: CupertinoActivityIndicator(
+                                  color: AppColors.primaryColor,
+                                  animating: true,
+                                  radius: 12,
                                 ),
+                              ),
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -186,17 +184,13 @@ Container medicineWidget(BuildContext context, TabController tabController,
                           SmoothStarRating(
                             rating: 4,
                             allowHalfRating: true,
-                            defaultIconData:
-                            Icons.star_outline_rounded,
-                            filledIconData:
-                            Icons.star_rounded,
-                            halfFilledIconData:
-                            Icons.star_half_rounded,
+                            defaultIconData: Icons.star_outline_rounded,
+                            filledIconData: Icons.star_rounded,
+                            halfFilledIconData: Icons.star_half_rounded,
                             starCount: 5,
                             size: 20,
                             color: AppColors.primaryColor,
-                            borderColor:
-                            AppColors.primaryColor,
+                            borderColor: AppColors.primaryColor,
                           ),
                           SizedBox(
                             height: 10,
@@ -364,7 +358,7 @@ Container medicineWidget(BuildContext context, TabController tabController,
             child: SizedBox(
                 height: 450,
                 child: TabBarView(controller: tabController, children: [
-                  reviewWidget(context,medicineDetails),
+                  reviewWidget(context, medicineController, medicineDetails),
                   // questionWidget(context, tabQuestionController),
                   aboutWidget(context),
                   warningWidget(context),
@@ -1277,310 +1271,320 @@ Container aboutWidget(context) {
 //   );
 // }
 
-Container reviewWidget(context,Medicine medicineDetails) {
+Container reviewWidget(context, medicineController, Medicine medicineDetails) {
   return Container(
     child: Stack(
       children: [
-        ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: 490,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: AppColors.splashdetail),
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              TextWidget(ConstString.mostrecent,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                          color: AppColors.grey,
-                                          fontFamily: AppFont.fontMedium,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 13,
-                                          letterSpacing: 0.3)),
-                              SizedBox(
-                                width: 8,
+        StreamBuilder<List<Review>>(
+            stream: medicineController.getReview(medicineDetails.id),
+            builder: (context, snapshot) {
+              return ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: (snapshot.data ?? []).length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 490,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1, color: AppColors.splashdetail),
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 15),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    TextWidget(ConstString.mostrecent,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(
+                                                color: AppColors.grey,
+                                                fontFamily: AppFont.fontMedium,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 13,
+                                                letterSpacing: 0.3)),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    SvgPicture.asset(
+                                      SvgIcon.arrowdown,
+                                      height: 15,
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppColors.primaryColor,
+                                      size: 23,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    TextWidget(
+                                      // FIXME: add review rating
+                                      "3.9/5",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium!
+                                          .copyWith(
+                                              fontSize: 16,
+                                              fontFamily:
+                                                  AppFont.fontFamilysemi),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              height: 1,
+                              color: AppColors.grey.withOpacity(0.1),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 3),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CircleAvatar(
+                                    maxRadius: 22,
+                                    backgroundColor: AppColors.tilecolor,
+                                    child: Icon(
+                                      Icons.person,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TextWidget(
+                                        // FIXME: add name of review user
+                                        "John Doe",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge!
+                                            .copyWith(
+                                                fontFamily: AppFont.fontBold,
+                                                fontSize: 14),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      TextWidget(
+                                        // FIXME: add review details
+                                        "Closest Match • Caucasian Male, 61",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(
+                                                color: AppColors.grey,
+                                                fontFamily: AppFont.fontMedium,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 11),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      SmoothStarRating(
+                                        rating: 4,
+                                        allowHalfRating: true,
+                                        defaultIconData:
+                                            Icons.star_outline_rounded,
+                                        filledIconData: Icons.star_rounded,
+                                        halfFilledIconData:
+                                            Icons.star_half_rounded,
+                                        starCount: 5,
+                                        size: 20,
+                                        color: AppColors.primaryColor,
+                                        borderColor: AppColors.primaryColor,
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
-                              SvgPicture.asset(
-                                SvgIcon.arrowdown,
-                                height: 15,
-                              )
-                            ],
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.star_rounded,
-                                color: AppColors.primaryColor,
-                                size: 23,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              TextWidget(
-                                // FIXME: add review rating
-                                "3.9/5",
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: TextWidget(
+                                // FIXME: add User Review
+                                "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .labelMedium!
+                                    .titleSmall!
                                     .copyWith(
-                                        fontSize: 16,
-                                        fontFamily: AppFont.fontFamilysemi),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 1,
-                        color: AppColors.grey.withOpacity(0.1),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              maxRadius: 22,
-                              backgroundColor: AppColors.tilecolor,
-                              child: Icon(
-                                Icons.person,
-                                color: AppColors.primaryColor,
+                                        height: 1.7,
+                                        fontSize: 12.5,
+                                        fontFamily: AppFont.fontMedium,
+                                        letterSpacing: 0.2,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.dark),
+                                textAlign: TextAlign.start,
                               ),
                             ),
-                            SizedBox(
-                              width: 15,
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: TextButton(
+                                  onPressed: () {},
+                                  child: TextWidget(
+                                    ConstString.viewreply,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(
+                                            fontSize: 12.5,
+                                            fontFamily: AppFont.fontFamilysemi,
+                                            letterSpacing: 0.2),
+                                  )),
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TextWidget(
-                                  // FIXME: add name of review user
-                                  "John Doe",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelLarge!
-                                      .copyWith(
-                                          fontFamily: AppFont.fontBold,
-                                          fontSize: 14),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                TextWidget(
-                                  // FIXME: add review details
-                                  "Closest Match • Caucasian Male, 61",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                          color: AppColors.grey,
-                                          fontFamily: AppFont.fontMedium,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 11),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                SmoothStarRating(
-                                  rating: 4,
-                                  allowHalfRating: true,
-                                  defaultIconData:
-                                  Icons.star_outline_rounded,
-                                  filledIconData:
-                                  Icons.star_rounded,
-                                  halfFilledIconData:
-                                  Icons.star_half_rounded,
-                                  starCount: 5,
-                                  size: 20,
-                                  color: AppColors.primaryColor,
-                                  borderColor:
-                                  AppColors.primaryColor,
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            )
+                            Container(
+                              height: 1,
+                              width: 300,
+                              color: AppColors.grey.withOpacity(0.1),
+                            ),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 3),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CircleAvatar(
+                                    maxRadius: 22,
+                                    backgroundColor: AppColors.tilecolor,
+                                    child: Icon(
+                                      Icons.person,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TextWidget(
+                                        // FIXME: add name of review user
+                                        "John Doe",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge!
+                                            .copyWith(
+                                                fontFamily: AppFont.fontBold,
+                                                fontSize: 14),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      TextWidget(
+                                        // FIXME: add review details
+                                        "Closest Match • Caucasian Male, 61",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(
+                                                color: AppColors.grey,
+                                                fontFamily: AppFont.fontMedium,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 11),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      SmoothStarRating(
+                                        rating: 4,
+                                        allowHalfRating: true,
+                                        defaultIconData:
+                                            Icons.star_outline_rounded,
+                                        filledIconData: Icons.star_rounded,
+                                        halfFilledIconData:
+                                            Icons.star_half_rounded,
+                                        starCount: 5,
+                                        size: 20,
+                                        color: AppColors.primaryColor,
+                                        borderColor: AppColors.primaryColor,
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: TextWidget(
+                                // FIXME: add User Review
+                                "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                        height: 1.7,
+                                        fontSize: 12.5,
+                                        fontFamily: AppFont.fontMedium,
+                                        letterSpacing: 0.2,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.dark),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: TextButton(
+                                  onPressed: () {},
+                                  child: TextWidget(
+                                    ConstString.viewreply,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(
+                                            fontSize: 12.5,
+                                            fontFamily: AppFont.fontFamilysemi,
+                                            letterSpacing: 0.2),
+                                  )),
+                            ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: TextWidget(
-                          // FIXME: add User Review
-                          "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(
-                                  height: 1.7,
-                                  fontSize: 12.5,
-                                  fontFamily: AppFont.fontMedium,
-                                  letterSpacing: 0.2,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.dark),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextButton(
-                            onPressed: () {},
-                            child: TextWidget(
-                              ConstString.viewreply,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium!
-                                  .copyWith(
-                                      fontSize: 12.5,
-                                      fontFamily: AppFont.fontFamilysemi,
-                                      letterSpacing: 0.2),
-                            )),
-                      ),
-                      Container(
-                        height: 1,
-                        width: 300,
-                        color: AppColors.grey.withOpacity(0.1),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              maxRadius: 22,
-                              backgroundColor: AppColors.tilecolor,
-                              child: Icon(
-                                Icons.person,
-                                color: AppColors.primaryColor,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TextWidget(
-                                  // FIXME: add name of review user
-                                  "John Doe",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelLarge!
-                                      .copyWith(
-                                          fontFamily: AppFont.fontBold,
-                                          fontSize: 14),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                TextWidget(
-                                  // FIXME: add review details
-                                  "Closest Match • Caucasian Male, 61",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                          color: AppColors.grey,
-                                          fontFamily: AppFont.fontMedium,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 11),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                SmoothStarRating(
-                                  rating: 4,
-                                  allowHalfRating: true,
-                                  defaultIconData:
-                                  Icons.star_outline_rounded,
-                                  filledIconData:
-                                  Icons.star_rounded,
-                                  halfFilledIconData:
-                                  Icons.star_half_rounded,
-                                  starCount: 5,
-                                  size: 20,
-                                  color: AppColors.primaryColor,
-                                  borderColor:
-                                  AppColors.primaryColor,
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: TextWidget(
-                          // FIXME: add User Review
-                          "Anybody know if you can take Genexa with Tylenol? My 7 year old son is having a cold and headaches, any advice would be appreciated!",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(
-                                  height: 1.7,
-                                  fontSize: 12.5,
-                                  fontFamily: AppFont.fontMedium,
-                                  letterSpacing: 0.2,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.dark),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextButton(
-                            onPressed: () {},
-                            child: TextWidget(
-                              ConstString.viewreply,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium!
-                                  .copyWith(
-                                      fontSize: 12.5,
-                                      fontFamily: AppFont.fontFamilysemi,
-                                      letterSpacing: 0.2),
-                            )),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
+                    ),
+                  );
+                },
+              );
+            }),
         Positioned(
             bottom: 0,
             child: Container(

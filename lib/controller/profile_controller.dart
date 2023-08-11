@@ -143,7 +143,7 @@ class ProfileController extends GetxController {
         .snapshots()
         .map((event) {
       return event.docs.map((e) {
-        return PostData.fromMap(e.data() as Map<String, dynamic>);
+        return PostData.fromMap(e.data());
       }).toList();
     });
     print('asfasf ${data.length}');

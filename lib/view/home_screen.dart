@@ -30,7 +30,7 @@ class HomeScreen extends GetView<HomeController> {
 
   final FocusNode fNode = FocusNode();
 
-  String LoggedInUser = FirebaseAuth.instance.currentUser!.uid;
+  final String LoggedInUser = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -571,20 +571,23 @@ class HomeScreen extends GetView<HomeController> {
                                           height: 55,
                                           width: 55,
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(7),
+                                            borderRadius:
+                                                BorderRadius.circular(7),
                                             child: CachedNetworkImage(
                                               imageUrl: medicineDetails.image!,
                                               errorWidget:
                                                   (context, url, error) =>
                                                       Icon(Icons.error),
-                                              progressIndicatorBuilder: (context,
-                                                      url, downloadProgress) =>
-                                                  SizedBox(
+                                              progressIndicatorBuilder:
+                                                  (context, url,
+                                                          downloadProgress) =>
+                                                      SizedBox(
                                                 width: 120,
                                                 child: Center(
                                                   child:
                                                       CupertinoActivityIndicator(
-                                                    color: AppColors.primaryColor,
+                                                    color:
+                                                        AppColors.primaryColor,
                                                     animating: true,
                                                     radius: 12,
                                                   ),
