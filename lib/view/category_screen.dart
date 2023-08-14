@@ -1,15 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/home_controller.dart';
+import 'package:medzo/model/category.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/view/categorywise_medicine.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
 class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({super.key});
+  List<Category_Model>? CategoryList;
+
+  CategoryScreen(this.CategoryList);
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +60,14 @@ class CategoryScreen extends StatelessWidget {
       child: GridView.builder(
         padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: controller.categoryImage.length,
+        itemCount: CategoryList!.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, childAspectRatio: 1.4),
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => CategoryWiseMedicine(CategoryList, index));
+            },
             child: Padding(
               padding: const EdgeInsets.only(top: 13),
               child: Container(
@@ -67,15 +75,32 @@ class CategoryScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
-                      controller.categoryImage[index],
-                      height: 40,
+                    ClipRRect(
+                      child: CachedNetworkImage(
+                        height: 40,
+                        fadeInCurve: Curves.easeIn,
+                        imageUrl: CategoryList![index].image!,
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) => SizedBox(
+                          width: 120,
+                          child: Center(
+                            child: CupertinoActivityIndicator(
+                              color: AppColors.primaryColor,
+                              animating: true,
+                              radius: 12,
+                            ),
+                          ),
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(7),
                     ),
                     SizedBox(
                       height: 12,
                     ),
                     TextWidget(
-                      controller.categoryName[index],
+                      CategoryList![index].name!,
                       style: Theme.of(context).textTheme.labelSmall!.copyWith(
                           fontSize: 12,
                           fontFamily: AppFont.fontMedium,

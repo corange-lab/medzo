@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/all_user_controller.dart';
+import 'package:medzo/model/category.dart';
+import 'package:medzo/model/medicine.dart';
 import 'package:medzo/model/review.dart';
 import 'package:medzo/model/user_model.dart';
 
@@ -16,6 +18,7 @@ class MedicineController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     fetchMedicine();
+    fetchCategory();
   }
 
   final CollectionReference reviewRef =
@@ -27,12 +30,34 @@ class MedicineController extends GetxController {
   final CollectionReference categoryRef =
       FirebaseFirestore.instance.collection('categories');
 
-  Stream<QuerySnapshot<Object?>> fetchMedicine() {
-    return medicineRef.get().asStream();
+  Stream<List<Medicine>> fetchMedicine() {
+    var data =  medicineRef.snapshots().map((event) {
+      return event.docs.map((e){
+        return Medicine.fromMap(e.data() as Map<String,dynamic>);
+      }).toList();
+    });
+    return data;
   }
 
-  Stream<QuerySnapshot<Object?>> fetchCategory() {
-    return categoryRef.get().asStream();
+  Stream<List<Category_Model>> fetchCategory() {
+    var data = categoryRef.snapshots().map((event) {
+      return event.docs.map((e) {
+        return Category_Model.fromMap(e.data() as Map<String, dynamic>);
+      }).toList();
+    });
+    return data;
+  }
+
+  Stream<List<Medicine>> getCategoryWiseMedicine(String categoryId) {
+    var data = medicineRef
+        .where('categoryId', isEqualTo: categoryId)
+        .snapshots()
+        .map((event) {
+      return event.docs.map((e) {
+        return Medicine.fromMap(e.data() as Map<String, dynamic>);
+      }).toList();
+    });
+    return data;
   }
 
   Stream<List<Review>> getReview(String medicineId) {

@@ -1,11 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/widgets/chat_message_content.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -409,11 +408,13 @@ class ChatScreen extends StatelessWidget {
                                       color: AppColors.grey, fontSize: 10)),
                         ),
                       ),
+
                     ],
                   ),
                 ),
               ),
             ),
+            // MyChatWidget("Hi Team", "11:31 AM")
           ],
         ),
       ),

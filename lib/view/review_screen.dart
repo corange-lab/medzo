@@ -17,16 +17,17 @@ import 'package:medzo/widgets/dialogue.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 class ReviewScreen extends StatefulWidget {
-  Medicine? medicineDetails;
+  List<Medicine>? medicineDetails;
+  int index;
 
-  ReviewScreen(this.medicineDetails);
+  ReviewScreen(this.medicineDetails, this.index);
 
   @override
   State<ReviewScreen> createState() => _ReviewScreenState();
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
-  Medicine? medicineDetails;
+  List<Medicine>? medicineDetails;
 
   MedicineController medicineController = Get.put(MedicineController());
 
@@ -103,7 +104,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(7),
                   child: CachedNetworkImage(
-                    imageUrl: medicineDetails!.image!,
+                    imageUrl: medicineDetails![widget.index].image!,
                     errorWidget: (context, url, error) => Icon(Icons.error),
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) => SizedBox(
@@ -125,7 +126,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               TextWidget(
                 // FIXME: add Medicine Name
-                "${medicineDetails!.medicineName}",
+                "${medicineDetails![widget.index].medicineName}",
                 style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontSize: 15.5,
                     letterSpacing: 0,
@@ -262,7 +263,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   double ratingValue = double.parse(
                       medicineController.rating.toStringAsFixed(1));
 
-                  String medicineId = medicineDetails!.id!;
+                  String medicineId = medicineDetails![widget.index].id!;
                   final reviewId = medicineController.reviewRef.doc().id;
                   final userId = FirebaseAuth.instance.currentUser!.uid;
 
