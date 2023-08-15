@@ -628,9 +628,9 @@ class HomeScreen extends GetView<HomeController> {
                           shrinkWrap: true,
                           itemCount: 2,
                           itemBuilder: (context, index) {
-                            bool isFavourite = medicineController
-                                .currentMedicines
-                                .contains(medicineDetails[index].id!);
+                            bool isFavourite =
+                                medicineController.FavouriteMedicine.contains(
+                                    medicineDetails[index].id!);
                             return GestureDetector(
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -779,12 +779,7 @@ class HomeScreen extends GetView<HomeController> {
                                                                   .id!);
                                                     },
                                                     icon: SvgPicture.asset(
-                                                      medicineController
-                                                              .currentMedicines
-                                                              .contains(
-                                                                  medicineDetails[
-                                                                          index]
-                                                                      .id)
+                                                      isFavourite
                                                           ? SvgIcon.fillbookmark
                                                           : SvgIcon.bookmark,
                                                       height: 20,
