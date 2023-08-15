@@ -116,7 +116,7 @@ class FollowersScreen extends GetWidget<ProfileController> {
                   baseColor: Colors.grey[300]!,
                   highlightColor: Colors.grey[100]!,
                   child: ListView.builder(
-                    itemCount: 7,
+                    itemCount: 7, // TODO:
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
@@ -236,7 +236,7 @@ class FollowingScreen extends GetWidget<ProfileController> {
                   baseColor: Colors.grey[300]!,
                   highlightColor: Colors.grey[100]!,
                   child: ListView.builder(
-                    itemCount: 7,
+                    itemCount: 7, // TODO:
                     itemBuilder: (context, index) {
                       return Column(
                         children: [

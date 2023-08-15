@@ -13,17 +13,19 @@ class MedicineController extends GetxController {
   double rating = 0.0;
 
   List<dynamic> currentMedicines = [];
-  RxList FavouriteMedicine = [].obs;
+  RxList<String> favouriteMedicines = <String>[].obs;
 
   String currentUser = FirebaseAuth.instance.currentUser!.uid;
 
   AllUserController userController = Get.put(AllUserController());
 
+  RxString updatingId = ''.obs;
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    fetchMedicine();
+    // fetchMedicine();
     fetchCategory();
   }
 
@@ -48,10 +50,37 @@ class MedicineController extends GetxController {
     return data;
   }
 
-  Stream<List<Category_Model>> fetchCategory() {
+  Stream<List<Medicine>> fetchPopularMedicine() {
+    var data = medicineRef.limit(3).snapshots().map((event) {
+      return event.docs.map((e) {
+        return Medicine.fromMap(e.data() as Map<String, dynamic>);
+      }).toList();
+    });
+    return data;
+  }
+
+  Stream<List<Medicine>> fetchFavouriteMedicine() {
+    if (favouriteMedicines.isEmpty) {
+      return Stream.empty();
+    }
+    var data = medicineRef
+        .where(
+          'id',
+          whereIn: favouriteMedicines,
+        )
+        .snapshots()
+        .map((event) {
+      return event.docs.map((e) {
+        return Medicine.fromMap(e.data() as Map<String, dynamic>);
+      }).toList();
+    });
+    return data;
+  }
+
+  Stream<List<CategoryDataModel>> fetchCategory() {
     var data = categoryRef.snapshots().map((event) {
       return event.docs.map((e) {
-        return Category_Model.fromMap(e.data() as Map<String, dynamic>);
+        return CategoryDataModel.fromMap(e.data() as Map<String, dynamic>);
       }).toList();
     });
     return data;
@@ -59,7 +88,7 @@ class MedicineController extends GetxController {
 
   Stream<List<Medicine>> getCategoryWiseMedicine(String categoryId) {
     var data = medicineRef
-        .where('categoryId', isEqualTo: categoryId)
+        .where('categoryId', isEqualTo: categoryId.trim())
         .snapshots()
         .map((event) {
       return event.docs.map((e) {
@@ -115,7 +144,7 @@ class MedicineController extends GetxController {
     }
   }
 
-  Future<void> isFavouriteMedicine(String medicineId) async {
+  Future<void> addFavouriteMedicine(String medicineId) async {
     bool isFavourite = await isMedicineFavourite(medicineId);
 
     final userFavouritesDoc =
@@ -125,29 +154,33 @@ class MedicineController extends GetxController {
       "medicineId": medicineId,
       "timeStamp": DateTime.now()
     };
-
+    updatingId.value = medicineId;
+    update([medicineId + 'update']);
     final docSnapshot = await userFavouritesDoc.get();
 
     if (docSnapshot.exists) {
       currentMedicines = docSnapshot.data()?['medicine'] ?? [];
       if (!isFavourite) {
-        FavouriteMedicine.add(medicineId);
+        favouriteMedicines.add(medicineId);
         currentMedicines.add(medicineData);
+
+        userFavouritesDoc.update({'medicine': currentMedicines});
+        updatingId.value = '';
+        update([medicineId, medicineId + 'update']);
       } else {
-        isNotFavouriteMedicine(medicineId);
+        removeFavouriteMedicine(medicineId);
       }
-      userFavouritesDoc.update({'medicine': currentMedicines});
     } else {
       userFavouritesDoc.set({
         'medicine': [medicineData]
       });
+      update([medicineId]);
     }
-    ;
   }
 
-  Future<void> isNotFavouriteMedicine(String medicineId) async {
-    currentMedicines.remove(medicineId);
-    FavouriteMedicine.remove(medicineId);
+  Future<void> removeFavouriteMedicine(String medicineId) async {
+    currentMedicines.removeWhere((item) => item['medicineId'] == medicineId);
+    favouriteMedicines.remove(medicineId);
     final userFavouritesDoc =
         FirebaseFirestore.instance.collection('favourites').doc(currentUser);
 
@@ -159,8 +192,19 @@ class MedicineController extends GetxController {
       currentMedicines.removeWhere((item) => item['medicineId'] == medicineId);
 
       userFavouritesDoc.update({'medicine': currentMedicines});
+      updatingId.value = '';
+      update([medicineId, medicineId + 'update']);
+      return;
     } else {
       print("No favourites found for user $currentUser");
+      return;
     }
+  }
+
+  bool isFavourite(String? id) {
+    if (id == null) {
+      return false;
+    }
+    return favouriteMedicines.contains(id);
   }
 }

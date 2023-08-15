@@ -13,21 +13,21 @@ import 'package:medzo/model/medicine.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/category_screen.dart';
 import 'package:medzo/view/categorywise_medicine.dart';
-import 'package:medzo/view/medicine_detail.dart';
 import 'package:medzo/view/message_screen.dart';
 import 'package:medzo/view/post_screen.dart';
 import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/view/search_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/medicine_shimmer_widget.dart';
+import 'package:medzo/widgets/medicine_widget.dart';
 import 'package:medzo/widgets/user/my_name_text_widget.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:sizer/sizer.dart';
-import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 class HomeScreen extends GetView<HomeController> {
   HomeScreen({Key? key}) : super(key: key);
@@ -197,7 +197,7 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                     ),
                   ),
-                  StreamBuilder<List<Category_Model>>(
+                  StreamBuilder<List<CategoryDataModel>>(
                     stream: medicineController.fetchCategory(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -208,7 +208,7 @@ class HomeScreen extends GetView<HomeController> {
                             height: 175,
                             child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: 1,
+                              itemCount: 1, // TODO:
                               itemBuilder: (context, index) {
                                 return Column(
                                   mainAxisAlignment:
@@ -298,7 +298,7 @@ class HomeScreen extends GetView<HomeController> {
                         );
                       }
                       if (snapshot.hasData) {
-                        List<Category_Model>? CategoryList = snapshot.data!;
+                        List<CategoryDataModel>? CategoryList = snapshot.data!;
                         return Column(
                           children: [
                             Padding(
@@ -354,7 +354,7 @@ class HomeScreen extends GetView<HomeController> {
                               ),
                             ),
                             SizedBox(
-                              height: 150,
+                              height: 160,
                               child: PageView.builder(
                                 controller: controller.pageController.value,
                                 onPageChanged: (value) {
@@ -377,10 +377,10 @@ class HomeScreen extends GetView<HomeController> {
                                     ),
                                     itemBuilder: (context, gridIndex) {
                                       return InkWell(
-                                        onTap: () {
-                                          Get.to(() => CategoryWiseMedicine(
-                                              CategoryList,
-                                              (start + gridIndex)));
+                                        onTap: () async {
+                                          await Get.to(() =>
+                                              CategoryWiseMedicine(CategoryList,
+                                                  (start + gridIndex)));
                                         },
                                         child: SizedBox(
                                           width: 70,
@@ -570,55 +570,10 @@ class HomeScreen extends GetView<HomeController> {
                     ),
                   ),
                   StreamBuilder<List<Medicine>>(
-                    stream: medicineController.fetchMedicine(),
+                    stream: medicineController.fetchPopularMedicine(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: Container(
-                            height: 500,
-                            child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: 3,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    // Replace this with your Shimmer placeholder widgets
-                                    Container(
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: ListTile(
-                                              leading: CircleAvatar(),
-                                              trailing: SvgPicture.asset(
-                                                  SvgIcon.fillbookmark),
-                                              title: Text("MEDZO"),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 12.h,
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 20),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: AppColors.whitehome),
-                                          )
-                                        ],
-                                      ),
-                                      margin: EdgeInsets.all(3),
-                                    ),
-                                    Divider(
-                                      height: 3,
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                        );
+                        return MedicineShimmerWidget();
                       }
                       if (snapshot.hasData) {
                         List<Medicine> medicineDetails = snapshot.data!;
@@ -626,327 +581,11 @@ class HomeScreen extends GetView<HomeController> {
                         return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: 2,
+                          itemCount: medicineDetails.length,
                           itemBuilder: (context, index) {
-                            bool isFavourite =
-                                medicineController.FavouriteMedicine.contains(
-                                    medicineDetails[index].id!);
-                            return GestureDetector(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 0),
-                                child: Container(
-                                  height: 175,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1,
-                                          color: AppColors.splashdetail),
-                                      color: AppColors.white,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 13),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 8),
-                                              child: SizedBox(
-                                                height: 55,
-                                                width: 55,
-                                                child: SvgPicture.asset(
-                                                    AppImages.supplements),
-                                                // child: ClipRRect(
-                                                //   borderRadius:
-                                                //       BorderRadius.circular(7),
-                                                //   child: CachedNetworkImage(
-                                                //     imageUrl:
-                                                //         medicineDetails[index]
-                                                //             .image!,
-                                                //     errorWidget:
-                                                //         (context, url, error) =>
-                                                //             Icon(Icons.error),
-                                                //     progressIndicatorBuilder:
-                                                //         (context, url,
-                                                //                 downloadProgress) =>
-                                                //             SizedBox(
-                                                //       width: 120,
-                                                //       child: Center(
-                                                //         child:
-                                                //             CupertinoActivityIndicator(
-                                                //           color: AppColors
-                                                //               .primaryColor,
-                                                //           animating: true,
-                                                //           radius: 12,
-                                                //         ),
-                                                //       ),
-                                                //     ),
-                                                //     fit: BoxFit.cover,
-                                                //   ),
-                                                // ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  TextWidget(
-                                                    "${medicineDetails[index].medicineName!.length > 22 ? "${medicineDetails[index].medicineName!.substring(0, 20)}..." : medicineDetails[index].medicineName}",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .labelSmall!
-                                                        .copyWith(
-                                                            fontSize: 14.5,
-                                                            color: AppColors
-                                                                .darkPrimaryColor,
-                                                            fontFamily: AppFont
-                                                                .fontBold,
-                                                            letterSpacing: 0),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 3,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 160,
-                                                    height: 35,
-                                                    child: TextWidget(
-                                                      "${medicineDetails[index].shortDescription}",
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      textOverflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLine: 2,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleSmall!
-                                                          .copyWith(
-                                                              height: 1.5,
-                                                              color: AppColors
-                                                                  .grey,
-                                                              fontFamily: AppFont
-                                                                  .fontFamily,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 11.5),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                              child: Container(
-                                                height: 38,
-                                                width: 38,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                    color:
-                                                        AppColors.splashdetail),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(
-                                                      isFavourite ? 3 : 0),
-                                                  child: IconButton(
-                                                    onPressed: () async {
-                                                      medicineController
-                                                          .isFavouriteMedicine(
-                                                              medicineDetails[
-                                                                      index]
-                                                                  .id!);
-                                                    },
-                                                    icon: SvgPicture.asset(
-                                                      isFavourite
-                                                          ? SvgIcon.fillbookmark
-                                                          : SvgIcon.bookmark,
-                                                      height: 20,
-                                                      color: isFavourite
-                                                          ? AppColors
-                                                              .primaryColor
-                                                          : Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width:
-                                                  Responsive.width(1, context),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 3,
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 83),
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: SmoothStarRating(
-                                              rating: 4,
-                                              allowHalfRating: true,
-                                              defaultIconData:
-                                                  Icons.star_outline_rounded,
-                                              filledIconData:
-                                                  Icons.star_rounded,
-                                              halfFilledIconData:
-                                                  Icons.star_half_rounded,
-                                              starCount: 5,
-                                              size: 20,
-                                              color: AppColors.primaryColor,
-                                              borderColor:
-                                                  AppColors.primaryColor,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 85),
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                SvgPicture.asset(
-                                                  SvgIcon.pill,
-                                                  color: AppColors.primaryColor,
-                                                  height: 14,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                TextWidget(
-                                                  "${medicineDetails[index].genericName!.length > 20 ? "${medicineDetails[index].genericName!.substring(0, 20)}..." : medicineDetails[index].genericName}",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleSmall!
-                                                      .copyWith(
-                                                        color: AppColors
-                                                            .primaryColor,
-                                                        fontFamily:
-                                                            AppFont.fontFamily,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        letterSpacing: 0.2,
-                                                        fontSize: 12,
-                                                      ),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                // SvgPicture.asset(
-                                                //   SvgIcon.Rx,
-                                                //   color: AppColors.primaryColor,
-                                                //   height: 14,
-                                                // ),
-                                                // SizedBox(
-                                                //   width: 5,
-                                                // ),
-                                                // TextWidget(
-                                                //   ConstString.prescribed,
-                                                //   style: Theme.of(context)
-                                                //       .textTheme
-                                                //       .titleSmall!
-                                                //       .copyWith(
-                                                //         color: AppColors.primaryColor,
-                                                //         fontWeight: FontWeight.w500,
-                                                //         letterSpacing: 0.2,
-                                                //         fontSize: 12,
-                                                //       ),
-                                                // ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        SizedBox(
-                                          height: 35,
-                                          child: ElevatedButton(
-                                              onPressed: () {
-                                                Get.to(MedicineDetail(
-                                                    medicineDetails:
-                                                        medicineDetails,
-                                                    index: index));
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  elevation: 0,
-                                                  backgroundColor: AppColors
-                                                      .splashdetail
-                                                      .withOpacity(0.7),
-                                                  fixedSize: Size(160, 0),
-                                                  shape: RoundedRectangleBorder(
-                                                      side: BorderSide(
-                                                          width: 0.5,
-                                                          color: AppColors.grey
-                                                              .withOpacity(
-                                                                  0.1)),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30))),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  TextWidget(
-                                                    ConstString.viewmoredetails,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleSmall!
-                                                        .copyWith(
-                                                            fontSize: 11,
-                                                            color:
-                                                                AppColors.dark,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontFamily: AppFont
-                                                                .fontMedium),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Icon(
-                                                    Icons.arrow_forward_rounded,
-                                                    size: 15,
-                                                    color: AppColors.dark,
-                                                  )
-                                                ],
-                                              )),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            return MedicineWidget(
+                              medicineDetail: medicineDetails.elementAt(index),
+                              medicineBindPlace: MedicineBindPlace.dashboard,
                             );
                           },
                         );

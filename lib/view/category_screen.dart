@@ -13,7 +13,7 @@ import 'package:medzo/view/categorywise_medicine.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
 class CategoryScreen extends StatelessWidget {
-  List<Category_Model>? CategoryList;
+  List<CategoryDataModel>? CategoryList;
 
   CategoryScreen(this.CategoryList);
 

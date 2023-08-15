@@ -2,7 +2,6 @@ class Medicine {
   String? id;
   String? medicineName;
   String? shortDescription;
-  String? image;
   String? categoryId;
   String? genericName;
   String? about;
@@ -13,7 +12,6 @@ class Medicine {
       {this.id,
       this.medicineName,
       this.shortDescription,
-      this.image,
       this.categoryId,
       this.genericName,
       this.about,
@@ -24,7 +22,6 @@ class Medicine {
     id = map['id'];
     medicineName = map['medicineName'];
     shortDescription = map['shortDescription'];
-    image = map['image'];
     categoryId = map['categoryId'];
     genericName = map['genericName'];
     about = map['about'];
@@ -37,7 +34,6 @@ class Medicine {
     data['id'] = id;
     data['medicineName'] = medicineName;
     data['shortDescription'] = shortDescription;
-    data['image'] = image;
     data['categoryId'] = categoryId;
     data['genericName'] = genericName;
     data['about'] = about;

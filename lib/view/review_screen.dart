@@ -1,6 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -17,25 +15,23 @@ import 'package:medzo/widgets/dialogue.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 class ReviewScreen extends StatefulWidget {
-  List<Medicine>? medicineDetails;
-  int index;
+  final Medicine? medicineDetails;
 
-  ReviewScreen(this.medicineDetails, this.index);
+  ReviewScreen(this.medicineDetails);
 
   @override
   State<ReviewScreen> createState() => _ReviewScreenState();
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
-  List<Medicine>? medicineDetails;
+  Medicine? medicineDetails;
 
   MedicineController medicineController = Get.put(MedicineController());
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     medicineDetails = widget.medicineDetails;
+    super.initState();
   }
 
   @override
@@ -98,35 +94,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
               SizedBox(
                 height: 15,
               ),
-              SizedBox(
-                height: 100,
-                width: 100,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(7),
-                  child: CachedNetworkImage(
-                    imageUrl: medicineDetails![widget.index].image!,
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => SizedBox(
-                      width: 120,
-                      child: Center(
-                        child: CupertinoActivityIndicator(
-                          color: AppColors.primaryColor,
-                          animating: true,
-                          radius: 12,
-                        ),
-                      ),
-                    ),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
               TextWidget(
                 // FIXME: add Medicine Name
-                "${medicineDetails![widget.index].medicineName}",
+                medicineDetails?.medicineName ?? "-",
                 style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontSize: 15.5,
                     letterSpacing: 0,
@@ -263,7 +233,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   double ratingValue = double.parse(
                       medicineController.rating.toStringAsFixed(1));
 
-                  String medicineId = medicineDetails![widget.index].id!;
+                  String medicineId = medicineDetails!.id!;
                   final reviewId = medicineController.reviewRef.doc().id;
                   final userId = FirebaseAuth.instance.currentUser!.uid;
 

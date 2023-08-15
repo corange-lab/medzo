@@ -21,7 +21,7 @@ class TextWidget extends Text {
     // TODO: implement build
     return Text(
       text,
-      style: style,
+      style: style ?? Theme.of(context).textTheme.bodyMedium,
       maxLines: maxLines,
       textAlign: textAlign,
     );

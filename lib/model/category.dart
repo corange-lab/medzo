@@ -1,11 +1,11 @@
-class Category_Model {
+class CategoryDataModel {
   String? id;
   String? name;
   String? image;
 
-  Category_Model({this.id, this.name, this.image});
+  CategoryDataModel({this.id, this.name, this.image});
 
-  Category_Model.fromMap(Map<String, dynamic> map) {
+  CategoryDataModel.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     name = map['name'];
     image = map['image'];
