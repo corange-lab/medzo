@@ -65,8 +65,9 @@ class CategoryScreen extends StatelessWidget {
             crossAxisCount: 3, childAspectRatio: 1.4),
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: () {
-              Get.to(() => CategoryWiseMedicine(CategoryList, index));
+            onTap: () async {
+              await Get.to(
+                  () => CategoryWiseMedicine(CategoryList!.elementAt(index)));
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 13),

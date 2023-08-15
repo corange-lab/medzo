@@ -379,8 +379,9 @@ class HomeScreen extends GetView<HomeController> {
                                       return InkWell(
                                         onTap: () async {
                                           await Get.to(() =>
-                                              CategoryWiseMedicine(CategoryList,
-                                                  (start + gridIndex)));
+                                              CategoryWiseMedicine(
+                                                  CategoryList.elementAt(
+                                                      (start + gridIndex))));
                                         },
                                         child: SizedBox(
                                           width: 70,

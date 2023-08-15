@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -15,10 +13,9 @@ import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/medicine_widget.dart';
 
 class CategoryWiseMedicine extends StatelessWidget {
-  final List<CategoryDataModel>? categoryList;
-  final int index;
+  final CategoryDataModel? categoryDetail;
 
-  CategoryWiseMedicine(this.categoryList, this.index);
+  CategoryWiseMedicine(this.categoryDetail);
 
   final MedicineController medicineController = Get.put(MedicineController());
 
@@ -41,7 +38,7 @@ class CategoryWiseMedicine extends StatelessWidget {
         title: Align(
           alignment: Alignment.centerLeft,
           child: TextWidget(
-            "${categoryList![index].name}",
+            categoryDetail?.name ?? '-',
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontSize: 17.5,
                 fontFamily: AppFont.fontBold,
@@ -53,8 +50,7 @@ class CategoryWiseMedicine extends StatelessWidget {
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
       body: StreamBuilder(
-        stream: medicineController
-            .getCategoryWiseMedicine(categoryList![index].id!),
+        stream: medicineController.getCategoryWiseMedicine(categoryDetail!.id!),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
