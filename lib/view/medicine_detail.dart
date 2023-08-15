@@ -93,6 +93,8 @@ Container medicineWidget(
     HomeController homeController,
     List<Medicine> medicineDetails,
     int index) {
+  bool isFavourite =
+      medicineController.FavouriteMedicine.contains(medicineDetails[index].id!);
   return Container(
     child: Padding(
       padding: const EdgeInsets.all(10.0),
@@ -161,12 +163,10 @@ Container medicineWidget(
                                     .textTheme
                                     .labelSmall!
                                     .copyWith(
-                                    fontSize: 14.5,
-                                    color: AppColors
-                                        .darkPrimaryColor,
-                                    fontFamily:
-                                    AppFont.fontBold,
-                                    letterSpacing: 0),
+                                        fontSize: 14.5,
+                                        color: AppColors.darkPrimaryColor,
+                                        fontFamily: AppFont.fontBold,
+                                        letterSpacing: 0),
                               ),
                               SizedBox(
                                 height: 3,
@@ -203,11 +203,21 @@ Container medicineWidget(
                                   borderRadius: BorderRadius.circular(20),
                                   color: AppColors.splashdetail),
                               child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: SvgPicture.asset(
-                                  SvgIcon.fillbookmark,
-                                  height: 15,
-                                  color: AppColors.primaryColor,
+                                padding: EdgeInsets.all(isFavourite ? 3 : 0),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    medicineController.isFavouriteMedicine(
+                                        medicineDetails[index].id!);
+                                  },
+                                  icon: SvgPicture.asset(
+                                    isFavourite
+                                        ? SvgIcon.fillbookmark
+                                        : SvgIcon.bookmark,
+                                    height: 20,
+                                    color: isFavourite
+                                        ? AppColors.primaryColor
+                                        : Colors.black,
+                                  ),
                                 ),
                               ),
                             ),
@@ -246,8 +256,7 @@ Container medicineWidget(
                       child: Align(
                         alignment: Alignment.center,
                         child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SvgPicture.asset(
                               SvgIcon.pill,
@@ -263,13 +272,12 @@ Container medicineWidget(
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                color: AppColors.primaryColor,
-                                fontFamily:
-                                AppFont.fontFamily,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.2,
-                                fontSize: 12,
-                              ),
+                                    color: AppColors.primaryColor,
+                                    fontFamily: AppFont.fontFamily,
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 0.2,
+                                    fontSize: 12,
+                                  ),
                             ),
                             SizedBox(
                               width: 10,

@@ -98,6 +98,7 @@ class ChatScreen extends StatelessWidget {
             Expanded(
               flex: 8,
               child: TextFormField(
+                maxLines: null,
                 cursorColor: AppColors.grey,
                 decoration: InputDecoration(
                   filled: true,
@@ -167,102 +168,8 @@ class ChatScreen extends StatelessWidget {
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 3),
-                child: Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  height: 45,
-                  width: 130,
-                  decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(6),
-                          bottomLeft: Radius.circular(6),
-                          bottomRight: Radius.circular(6))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5, left: 7),
-                          child: TextWidget("Hi team 👋",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      color: AppColors.black, fontSize: 14)),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 2, right: 7),
-                          child: TextWidget("11:31 AM",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      color: AppColors.darkyellow,
-                                      fontSize: 10)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 3),
-                child: Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  height: 45,
-                  width: 240,
-                  decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(6),
-                          bottomLeft: Radius.circular(6),
-                          bottomRight: Radius.circular(6),
-                          topRight: Radius.circular(6))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5, left: 7),
-                          // FIXME: add Chat Message
-                          child: TextWidget("Anyone on for lunch today",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      color: AppColors.black, fontSize: 14)),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 2, right: 7),
-                          child: TextWidget("11:31 AM",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      color: AppColors.darkyellow,
-                                      fontSize: 10)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            MyChatWidget("Hi team 👋", "11:31 AM"),
+            MyChatWidget("Anyone on for lunch today", "11:31 AM"),
             Padding(
               padding: const EdgeInsets.only(left: 5, right: 5, top: 10),
               child: Row(
@@ -272,7 +179,6 @@ class ChatScreen extends StatelessWidget {
                     child: SizedBox(
                       height: 30,
                       width: 30,
-                      // FIXME: add User Image
                       child: Image.asset("assets/user5.jpg"),
                     ),
                   ),
@@ -408,13 +314,14 @@ class ChatScreen extends StatelessWidget {
                                       color: AppColors.grey, fontSize: 10)),
                         ),
                       ),
-
                     ],
                   ),
                 ),
               ),
             ),
-            // MyChatWidget("Hi Team", "11:31 AM")
+            SizedBox(
+              height: 80,
+            )
           ],
         ),
       ),

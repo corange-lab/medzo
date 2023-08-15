@@ -63,6 +63,9 @@ class CategoryWiseMedicine extends StatelessWidget {
             return ListView.builder(
               itemCount: medicineList!.length,
               itemBuilder: (context, index) {
+                bool isFavourite =
+                    medicineController.FavouriteMedicine.contains(
+                        medicineList[index].id!);
                 return Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -171,11 +174,23 @@ class CategoryWiseMedicine extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(20),
                                         color: AppColors.splashdetail),
                                     child: Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: SvgPicture.asset(
-                                        SvgIcon.fillbookmark,
-                                        height: 15,
-                                        color: AppColors.primaryColor,
+                                      padding:
+                                          EdgeInsets.all(isFavourite ? 3 : 0),
+                                      child: IconButton(
+                                        onPressed: () async {
+                                          medicineController
+                                              .isFavouriteMedicine(
+                                                  medicineList[index].id!);
+                                        },
+                                        icon: SvgPicture.asset(
+                                          isFavourite
+                                              ? SvgIcon.fillbookmark
+                                              : SvgIcon.bookmark,
+                                          height: 20,
+                                          color: isFavourite
+                                              ? AppColors.primaryColor
+                                              : Colors.black,
+                                        ),
                                       ),
                                     ),
                                   ),

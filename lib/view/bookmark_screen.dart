@@ -106,6 +106,9 @@ class BookmarkScreen extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: medicineDetails.length,
                     itemBuilder: (context, index) {
+                      bool isFavourite =
+                          medicineController.FavouriteMedicine.contains(
+                              medicineDetails[index].id!);
                       return GestureDetector(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -229,11 +232,24 @@ class BookmarkScreen extends StatelessWidget {
                                                     BorderRadius.circular(20),
                                                 color: AppColors.splashdetail),
                                             child: Padding(
-                                              padding: EdgeInsets.all(10),
-                                              child: SvgPicture.asset(
-                                                SvgIcon.fillbookmark,
-                                                height: 20,
-                                                color: AppColors.primaryColor,
+                                              padding: EdgeInsets.all(
+                                                  isFavourite ? 3 : 0),
+                                              child: IconButton(
+                                                onPressed: () async {
+                                                  medicineController
+                                                      .isFavouriteMedicine(
+                                                          medicineDetails[index]
+                                                              .id!);
+                                                },
+                                                icon: SvgPicture.asset(
+                                                  isFavourite
+                                                      ? SvgIcon.fillbookmark
+                                                      : SvgIcon.bookmark,
+                                                  height: 20,
+                                                  color: isFavourite
+                                                      ? AppColors.primaryColor
+                                                      : Colors.black,
+                                                ),
                                               ),
                                             ),
                                           ),
