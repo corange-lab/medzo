@@ -156,15 +156,17 @@ Container medicineWidget(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextWidget(
-                                "${medicineDetails[index].medicineName}",
+                                "${medicineDetails[index].medicineName!.length > 22 ? "${medicineDetails[index].medicineName!.substring(0, 20)}..." : medicineDetails[index].medicineName}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .labelSmall!
                                     .copyWith(
-                                        fontSize: 14.5,
-                                        color: AppColors.darkPrimaryColor,
-                                        fontFamily: AppFont.fontBold,
-                                        letterSpacing: 0),
+                                    fontSize: 14.5,
+                                    color: AppColors
+                                        .darkPrimaryColor,
+                                    fontFamily:
+                                    AppFont.fontBold,
+                                    letterSpacing: 0),
                               ),
                               SizedBox(
                                 height: 3,

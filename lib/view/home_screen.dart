@@ -542,7 +542,7 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                         TextButton(
                             onPressed: () {
-                              Get.to(()=> BookmarkScreen());
+                              Get.to(() => BookmarkScreen());
                             },
                             child: Row(
                               children: [
@@ -628,9 +628,9 @@ class HomeScreen extends GetView<HomeController> {
                           shrinkWrap: true,
                           itemCount: 2,
                           itemBuilder: (context, index) {
-                            bool isFavourite =
-                                medicineController.FavouriteMedicines.contains(
-                                    medicineDetails[index].id);
+                            bool isFavourite = medicineController
+                                .currentMedicines
+                                .contains(medicineDetails[index].id!);
                             return GestureDetector(
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -710,7 +710,7 @@ class HomeScreen extends GetView<HomeController> {
                                                         .spaceEvenly,
                                                 children: [
                                                   TextWidget(
-                                                    "${medicineDetails[index].medicineName}",
+                                                    "${medicineDetails[index].medicineName!.length > 22 ? "${medicineDetails[index].medicineName!.substring(0, 20)}..." : medicineDetails[index].medicineName}",
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .labelSmall!
@@ -754,45 +754,44 @@ class HomeScreen extends GetView<HomeController> {
                                               ),
                                             ),
                                             const Spacer(),
-                                            GestureDetector(
-                                              onTap: () {},
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 5),
-                                                child: Container(
-                                                  height: 38,
-                                                  width: 38,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                      color: AppColors
-                                                          .splashdetail),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(isFavourite ? 10 : 0),
-                                                    child: IconButton(
-                                                      onPressed: () {
-                                                        if (isFavourite) {
-                                                          medicineController
-                                                              .isFavouriteMedicine(
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              child: Container(
+                                                height: 38,
+                                                width: 38,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    color:
+                                                        AppColors.splashdetail),
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(
+                                                      isFavourite ? 3 : 0),
+                                                  child: IconButton(
+                                                    onPressed: () async {
+                                                      medicineController
+                                                          .isFavouriteMedicine(
+                                                              medicineDetails[
+                                                                      index]
+                                                                  .id!);
+                                                    },
+                                                    icon: SvgPicture.asset(
+                                                      medicineController
+                                                              .currentMedicines
+                                                              .contains(
                                                                   medicineDetails[
                                                                           index]
-                                                                      .id!);
-                                                        } else {
-                                                          medicineController
-                                                              .isNotFavouriteMedicine(
-                                                                  medicineDetails[
-                                                                          index]
-                                                                      .id!);
-                                                        }
-                                                      },
-                                                      icon: SvgPicture.asset(
-                                                        isFavourite ? SvgIcon.fillbookmark : SvgIcon.bookmark,
-                                                        height: 20,
-                                                        color: isFavourite ? AppColors
-                                                            .primaryColor : Colors.black,
-                                                      ),
+                                                                      .id)
+                                                          ? SvgIcon.fillbookmark
+                                                          : SvgIcon.bookmark,
+                                                      height: 20,
+                                                      color: isFavourite
+                                                          ? AppColors
+                                                              .primaryColor
+                                                          : Colors.black,
                                                     ),
                                                   ),
                                                 ),
@@ -832,13 +831,7 @@ class HomeScreen extends GetView<HomeController> {
                                           height: 10,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(
-                                              left: medicineDetails[index]
-                                                          .genericName!
-                                                          .length >=
-                                                      15
-                                                  ? 45
-                                                  : 85),
+                                          padding: EdgeInsets.only(left: 85),
                                           child: Align(
                                             alignment: Alignment.center,
                                             child: Row(
@@ -854,7 +847,7 @@ class HomeScreen extends GetView<HomeController> {
                                                   width: 5,
                                                 ),
                                                 TextWidget(
-                                                  "${medicineDetails[index].genericName}",
+                                                  "${medicineDetails[index].genericName!.length > 20 ? "${medicineDetails[index].genericName!.substring(0, 20)}..." : medicineDetails[index].genericName}",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .titleSmall!

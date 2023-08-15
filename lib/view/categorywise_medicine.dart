@@ -1,7 +1,5 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -91,27 +89,29 @@ class CategoryWiseMedicine extends StatelessWidget {
                                 child: SizedBox(
                                   height: 55,
                                   width: 55,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(7),
-                                    child: CachedNetworkImage(
-                                      imageUrl: medicineList[index].image!,
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                      progressIndicatorBuilder:
-                                          (context, url, downloadProgress) =>
-                                              SizedBox(
-                                        width: 120,
-                                        child: Center(
-                                          child: CupertinoActivityIndicator(
-                                            color: AppColors.primaryColor,
-                                            animating: true,
-                                            radius: 12,
-                                          ),
-                                        ),
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                  child:
+                                      SvgPicture.asset(AppImages.supplements),
+                                  // child: ClipRRect(
+                                  //   borderRadius: BorderRadius.circular(7),
+                                  //   child: CachedNetworkImage(
+                                  //     imageUrl: medicineList[index].image!,
+                                  //     errorWidget: (context, url, error) =>
+                                  //         Icon(Icons.error),
+                                  //     progressIndicatorBuilder:
+                                  //         (context, url, downloadProgress) =>
+                                  //             SizedBox(
+                                  //       width: 120,
+                                  //       child: Center(
+                                  //         child: CupertinoActivityIndicator(
+                                  //           color: AppColors.primaryColor,
+                                  //           animating: true,
+                                  //           radius: 12,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // ),
                                 ),
                               ),
                               SizedBox(
@@ -126,8 +126,7 @@ class CategoryWiseMedicine extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextWidget(
-                                      // FIXME: add Medicine Name
-                                      "${medicineList[index].medicineName}",
+                                      "${medicineList[index].medicineName!.length > 22 ? "${medicineList[index].medicineName!.substring(0, 20)}..." : medicineList[index].medicineName}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelSmall!
@@ -211,61 +210,58 @@ class CategoryWiseMedicine extends StatelessWidget {
                             height: 10,
                           ),
                           Padding(
-                            padding:  EdgeInsets.only(left: medicineList[index]
-                                .genericName!
-                                .length >=
-                                16
-                                ? 45
-                                : 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  SvgIcon.pill,
-                                  color: AppColors.primaryColor,
-                                  height: 14,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                TextWidget(
-                                  "${medicineList[index].genericName}",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                        color: AppColors.primaryColor,
-                                        fontFamily: AppFont.fontFamily,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.2,
-                                        fontSize: 12,
-                                      ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                SvgPicture.asset(
-                                  SvgIcon.Rx,
-                                  color: AppColors.primaryColor,
-                                  height: 14,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                TextWidget(
-                                  // FIXME: add Medicine Type
-                                  ConstString.prescribed,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                        color: AppColors.primaryColor,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.2,
-                                        fontSize: 12,
-                                      ),
-                                ),
-                              ],
+                            padding: EdgeInsets.only(left: 85),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SvgPicture.asset(
+                                    SvgIcon.pill,
+                                    color: AppColors.primaryColor,
+                                    height: 14,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  TextWidget(
+                                    "${medicineList[index].genericName!.length > 20 ? "${medicineList[index].genericName!.substring(0, 20)}..." : medicineList[index].genericName}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                          color: AppColors.primaryColor,
+                                          fontFamily: AppFont.fontFamily,
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: 0.2,
+                                          fontSize: 12,
+                                        ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  // SvgPicture.asset(
+                                  //   SvgIcon.Rx,
+                                  //   color: AppColors.primaryColor,
+                                  //   height: 14,
+                                  // ),
+                                  // SizedBox(
+                                  //   width: 5,
+                                  // ),
+                                  // TextWidget(
+                                  //   ConstString.prescribed,
+                                  //   style: Theme.of(context)
+                                  //       .textTheme
+                                  //       .titleSmall!
+                                  //       .copyWith(
+                                  //         color: AppColors.primaryColor,
+                                  //         fontWeight: FontWeight.w500,
+                                  //         letterSpacing: 0.2,
+                                  //         fontSize: 12,
+                                  //       ),
+                                  // ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

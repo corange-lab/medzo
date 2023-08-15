@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/model/category.dart';
-import 'package:medzo/model/favourite_medicine.dart';
 import 'package:medzo/model/medicine.dart';
 import 'package:medzo/model/review.dart';
 import 'package:medzo/model/user_model.dart';
@@ -13,7 +12,8 @@ class MedicineController extends GetxController {
   TextEditingController reviewText = TextEditingController();
   double rating = 0.0;
 
-  RxList<Medicine> FavouriteMedicines = <Medicine>[].obs;
+  List<dynamic> currentMedicines = [];
+  RxList FavouriteMedicine = [].obs;
 
   String currentUser = FirebaseAuth.instance.currentUser!.uid;
 
@@ -97,42 +97,70 @@ class MedicineController extends GetxController {
     return averageRating.toStringAsFixed(1);
   }
 
-  Future<void> isFavouriteMedicine(String medicineId) {
-    return favouriteRef.add(FavouriteMedicine(
-        userId: currentUser,
-        medicineId: medicineId,
-        timeStamp: DateTime.now()));
+  Future<bool> isMedicineFavourite(String medicineId) async {
+    final userFavouritesDoc =
+        FirebaseFirestore.instance.collection('favourites').doc(currentUser);
+
+    final docSnapshot = await userFavouritesDoc.get();
+
+    if (docSnapshot.exists) {
+      List<dynamic> currentMedicines = docSnapshot.data()?['medicine'] ?? [];
+
+      bool isFavourite =
+          currentMedicines.any((item) => item['medicineId'] == medicineId);
+
+      return isFavourite;
+    } else {
+      return false;
+    }
+  }
+
+  Future<void> isFavouriteMedicine(String medicineId) async {
+    bool isFavourite = await isMedicineFavourite(medicineId);
+
+    final userFavouritesDoc =
+        FirebaseFirestore.instance.collection('favourites').doc(currentUser);
+
+    Map<String, dynamic> medicineData = {
+      "medicineId": medicineId,
+      "timeStamp": DateTime.now()
+    };
+
+    final docSnapshot = await userFavouritesDoc.get();
+
+    if (docSnapshot.exists) {
+      currentMedicines = docSnapshot.data()?['medicine'] ?? [];
+      if (!isFavourite) {
+        FavouriteMedicine.add(medicineId);
+        currentMedicines.add(medicineData);
+      } else {
+        isNotFavouriteMedicine(medicineId);
+      }
+      userFavouritesDoc.update({'medicine': currentMedicines});
+    } else {
+      userFavouritesDoc.set({
+        'medicine': [medicineData]
+      });
+    }
+    ;
   }
 
   Future<void> isNotFavouriteMedicine(String medicineId) async {
-    QuerySnapshot query = await favouriteRef
-        .where('userId', isEqualTo: currentUser)
-        .where('medicineId', isEqualTo: medicineId)
-        .get();
+    currentMedicines.remove(medicineId);
+    FavouriteMedicine.remove(medicineId);
+    final userFavouritesDoc =
+        FirebaseFirestore.instance.collection('favourites').doc(currentUser);
 
-    for (var doc in query.docs) {
-      await favouriteRef.doc(doc.id).delete();
+    final docSnapshot = await userFavouritesDoc.get();
+
+    if (docSnapshot.exists) {
+      currentMedicines = docSnapshot.data()?['medicine'] ?? [];
+
+      currentMedicines.removeWhere((item) => item['medicineId'] == medicineId);
+
+      userFavouritesDoc.update({'medicine': currentMedicines});
+    } else {
+      print("No favourites found for user $currentUser");
     }
-  }
-
-  Future<RxList<Medicine>> getUserLikes() async {
-    QuerySnapshot query = await favouriteRef.where('userId',isEqualTo: currentUser).get();
-
-    for(var doc in query.docs){
-      FavouriteMedicines.add(doc['medicineId']);
-    }
-    return FavouriteMedicines;
-  }
-
-  Future<List<Medicine>> getFavouriteMedicines() async {
-    RxList<Medicine> likedMedicineId = await getUserLikes();
-
-    List<Medicine> likedMedicine = [];
-
-    for(var id in likedMedicineId){
-      Future<DocumentSnapshot<Object?>> medicine = medicineRef.doc(id as String?).get();
-      likedMedicine.add(medicine as Medicine);
-    }
-    return likedMedicine;
   }
 }
