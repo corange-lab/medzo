@@ -136,527 +136,266 @@ class HomeScreen extends GetView<HomeController> {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: TextFormField(
-                    readOnly: true,
-                    onTap: () {
-                      Get.to(const SearchScreen());
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      enabled: true,
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 16, bottom: 16, left: 10),
-                        child: SvgPicture.asset(
-                          SvgIcon.search,
-                          height: 16,
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(Duration(seconds: 2));
+            },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: TextFormField(
+                      readOnly: true,
+                      onTap: () {
+                        Get.to(const SearchScreen());
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        enabled: true,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 16, bottom: 16, left: 10),
+                          child: SvgPicture.asset(
+                            SvgIcon.search,
+                            height: 16,
+                          ),
                         ),
-                      ),
-                      fillColor: AppColors.splashdetail,
-                      hintText: "Search Drugs, Reviews, and Ratings...",
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(
-                              fontFamily: AppFont.fontMedium, fontSize: 14.5),
-                      border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColors.whitehome, width: 0.5),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColors.whitehome, width: 0.5),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      disabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColors.whitehome, width: 0.5),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColors.whitehome, width: 0.5),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 17,
+                        fillColor: AppColors.splashdetail,
+                        hintText: "Search Drugs, Reviews, and Ratings...",
+                        hintStyle: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(
+                                fontFamily: AppFont.fontMedium, fontSize: 14.5),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.whitehome, width: 0.5),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.whitehome, width: 0.5),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.whitehome, width: 0.5),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.whitehome, width: 0.5),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 17,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                StreamBuilder<List<Category_Model>>(
-                  stream: medicineController.fetchCategory(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: Container(
-                          height: 175,
-                          child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: 1,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  // Replace this with your Shimmer placeholder widgets
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                        maxRadius: 25,
-                                      ),
-                                      CircleAvatar(
-                                        maxRadius: 25,
-                                      ),
-                                      CircleAvatar(
-                                        maxRadius: 25,
-                                      ),
-                                    ],
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Medzo",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                      Text(
-                                        "Medzo",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                      Text(
-                                        "Medzo",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                    ],
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                  ),
-                                  SizedBox(
-                                    height: 25,
-                                  ),
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                        maxRadius: 25,
-                                      ),
-                                      CircleAvatar(
-                                        maxRadius: 25,
-                                      ),
-                                      CircleAvatar(
-                                        maxRadius: 25,
-                                      ),
-                                    ],
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Medzo",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                      Text(
-                                        "Medzo",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                      Text(
-                                        "Medzo",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                    ],
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    }
-                    if (snapshot.hasData) {
-                      List<Category_Model>? CategoryList = snapshot.data!;
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                TextWidget(
-                                  ConstString.category,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayMedium!
-                                      .copyWith(
-                                        color: AppColors.darkPrimaryColor,
-                                        fontFamily: AppFont.fontFamily,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.5,
-                                        fontSize: 15.5,
-                                      ),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      Get.to(CategoryScreen(CategoryList));
-                                    },
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        TextWidget(
-                                          ConstString.viewall,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .copyWith(
-                                                  color: AppColors.primaryColor,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 14),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 2),
-                                          child: SvgPicture.asset(
-                                            SvgIcon.arrowright,
-                                            height: 18,
-                                          ),
-                                        )
-                                      ],
-                                    ))
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 150,
-                            child: PageView.builder(
-                              controller: controller.pageController.value,
-                              onPageChanged: (value) {
-                                onPageChanged(controller, value);
-                              },
-                              itemCount:
-                                  (CategoryList.length / itemsPerPage).ceil(),
+                  StreamBuilder<List<Category_Model>>(
+                    stream: medicineController.fetchCategory(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(
+                            height: 175,
+                            child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 1,
                               itemBuilder: (context, index) {
-                                int start = index * itemsPerPage;
-                                int end = start + itemsPerPage;
-                                if (end > snapshot.data!.length)
-                                  end = snapshot.data!.length;
-
-                                return GridView.builder(
-                                  itemCount: end - start,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    childAspectRatio: 3 / 2,
-                                  ),
-                                  itemBuilder: (context, gridIndex) {
-                                    return InkWell(
-                                      onTap: () {
-                                        Get.to(() => CategoryWiseMedicine(
-                                            CategoryList, (start + gridIndex)));
-                                      },
-                                      child: SizedBox(
-                                        width: 70,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            ClipRRect(
-                                              child: CachedNetworkImage(
-                                                height: 40,
-                                                imageUrl: CategoryList[
-                                                        start + gridIndex]
-                                                    .image!,
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
-                                                progressIndicatorBuilder:
-                                                    (context, url,
-                                                            downloadProgress) =>
-                                                        SizedBox(
-                                                  width: 120,
-                                                  child: Center(
-                                                    child:
-                                                        CupertinoActivityIndicator(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      animating: true,
-                                                      radius: 12,
-                                                    ),
-                                                  ),
-                                                ),
-                                                fit: BoxFit.cover,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(7),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            TextWidget(
-                                              CategoryList[start + gridIndex]
-                                                  .name!,
-                                              // allCategoryItems[start + gridIndex],
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .labelSmall!
-                                                  .copyWith(
-                                                      fontSize: 11.5,
-                                                      fontFamily:
-                                                          AppFont.fontMedium,
-                                                      letterSpacing: 0.3,
-                                                      color: AppColors.grey),
-                                            )
-                                          ],
+                                return Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    // Replace this with your Shimmer placeholder widgets
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          maxRadius: 25,
                                         ),
-                                        // color: Colors.black12,
-                                      ),
-                                    );
-                                  },
+                                        CircleAvatar(
+                                          maxRadius: 25,
+                                        ),
+                                        CircleAvatar(
+                                          maxRadius: 25,
+                                        ),
+                                      ],
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Medzo",
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                        Text(
+                                          "Medzo",
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                        Text(
+                                          "Medzo",
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                      ],
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                    ),
+                                    SizedBox(
+                                      height: 25,
+                                    ),
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          maxRadius: 25,
+                                        ),
+                                        CircleAvatar(
+                                          maxRadius: 25,
+                                        ),
+                                        CircleAvatar(
+                                          maxRadius: 25,
+                                        ),
+                                      ],
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Medzo",
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                        Text(
+                                          "Medzo",
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                        Text(
+                                          "Medzo",
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                      ],
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                    ),
+                                  ],
                                 );
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Obx(
-                            () => Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                for (int i = 0;
-                                    i <
-                                        (snapshot.data!.length / itemsPerPage)
-                                            .ceil();
-                                    i++)
-                                  controller.pageIndex.value == i
-                                      ? Container(
-                                          height: 5.5,
-                                          width: 18,
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 2),
-                                          decoration: BoxDecoration(
-                                              color: AppColors.primaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                        )
-                                      : Container(
-                                          height: 5.5,
-                                          width: 5.5,
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 2),
-                                          decoration: BoxDecoration(
-                                              color: AppColors.grey
-                                                  .withOpacity(0.3),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                        ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return Container(
-                        height: 160,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                child: Image.asset(
-                                  SvgIcon.nodata,
-                                  scale: 0.5,
-                                ),
-                                width: 50,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                ConstString.noCategory,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                        color: AppColors.black,
-                                        fontSize: 15,
-                                        fontFamily: AppFont.fontBold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextWidget(
-                        ConstString.popularmedicine,
-                        style:
-                            Theme.of(context).textTheme.displayMedium!.copyWith(
-                                  color: AppColors.darkPrimaryColor,
-                                  fontFamily: AppFont.fontFamily,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.5,
-                                  fontSize: 15.5,
-                                ),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            Get.to(MedicineDetail());
-                          },
-                          child: Row(
-                            children: [
-                              TextWidget(
-                                ConstString.viewall,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(
-                                        color: AppColors.primaryColor,
-                                        height: 1.4,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 2),
-                                child: SvgPicture.asset(
-                                  SvgIcon.arrowright,
-                                  height: 18,
-                                ),
-                              )
-                            ],
-                          ))
-                    ],
-                  ),
-                ),
-                StreamBuilder<List<Medicine>>(
-                  stream: medicineController.fetchMedicine(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: Container(
-                          height: 500,
-                          child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: 3,
-                            itemBuilder: (context, index) {
-                              return Column(
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        List<Category_Model>? CategoryList = snapshot.data!;
+                        return Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Replace this with your Shimmer placeholder widgets
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: ListTile(
-                                            leading: CircleAvatar(),
-                                            trailing: SvgPicture.asset(
-                                                SvgIcon.fillbookmark),
-                                            title: Text("MEDZO"),
-                                          ),
+                                  TextWidget(
+                                    ConstString.category,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium!
+                                        .copyWith(
+                                          color: AppColors.darkPrimaryColor,
+                                          fontFamily: AppFont.fontFamily,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.5,
+                                          fontSize: 15.5,
                                         ),
-                                        Container(
-                                          height: 12.h,
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: AppColors.whitehome),
-                                        )
-                                      ],
-                                    ),
-                                    margin: EdgeInsets.all(3),
                                   ),
-                                  Divider(
-                                    height: 3,
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    }
-                    if (snapshot.hasData) {
-                      List<Medicine> medicineDetails = snapshot.data!;
-
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 2,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 0),
-                              child: Container(
-                                height: 175,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1,
-                                        color: AppColors.splashdetail),
-                                    color: AppColors.white,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 13),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                  TextButton(
+                                      onPressed: () {
+                                        Get.to(CategoryScreen(CategoryList));
+                                      },
+                                      child: Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            CrossAxisAlignment.center,
                                         children: [
-                                          SizedBox(
-                                            width: 10,
+                                          TextWidget(
+                                            ConstString.viewall,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge!
+                                                .copyWith(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 14),
                                           ),
                                           Padding(
                                             padding:
-                                                const EdgeInsets.only(right: 8),
-                                            child: SizedBox(
-                                              height: 55,
-                                              width: 55,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(7),
+                                                const EdgeInsets.only(top: 2),
+                                            child: SvgPicture.asset(
+                                              SvgIcon.arrowright,
+                                              height: 18,
+                                            ),
+                                          )
+                                        ],
+                                      ))
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 150,
+                              child: PageView.builder(
+                                controller: controller.pageController.value,
+                                onPageChanged: (value) {
+                                  onPageChanged(controller, value);
+                                },
+                                itemCount:
+                                    (CategoryList.length / itemsPerPage).ceil(),
+                                itemBuilder: (context, index) {
+                                  int start = index * itemsPerPage;
+                                  int end = start + itemsPerPage;
+                                  if (end > snapshot.data!.length)
+                                    end = snapshot.data!.length;
+
+                                  return GridView.builder(
+                                    itemCount: end - start,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      childAspectRatio: 3 / 2,
+                                    ),
+                                    itemBuilder: (context, gridIndex) {
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.to(() => CategoryWiseMedicine(
+                                              CategoryList,
+                                              (start + gridIndex)));
+                                        },
+                                        child: SizedBox(
+                                          width: 70,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              ClipRRect(
                                                 child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      medicineDetails[index]
-                                                          .image!,
+                                                  height: 40,
+                                                  imageUrl: CategoryList[
+                                                          start + gridIndex]
+                                                      .image!,
                                                   errorWidget:
                                                       (context, url, error) =>
                                                           Icon(Icons.error),
@@ -677,287 +416,588 @@ class HomeScreen extends GetView<HomeController> {
                                                   ),
                                                   fit: BoxFit.cover,
                                                 ),
+                                                borderRadius:
+                                                    BorderRadius.circular(7),
                                               ),
-                                            ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              TextWidget(
+                                                CategoryList[start + gridIndex]
+                                                    .name!,
+                                                // allCategoryItems[start + gridIndex],
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelSmall!
+                                                    .copyWith(
+                                                        fontSize: 11.5,
+                                                        fontFamily:
+                                                            AppFont.fontMedium,
+                                                        letterSpacing: 0.3,
+                                                        color: AppColors.grey),
+                                              )
+                                            ],
                                           ),
-                                          SizedBox(
-                                            width: 5,
+                                          // color: Colors.black12,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Obx(
+                              () => Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  for (int i = 0;
+                                      i <
+                                          (snapshot.data!.length / itemsPerPage)
+                                              .ceil();
+                                      i++)
+                                    controller.pageIndex.value == i
+                                        ? Container(
+                                            height: 5.5,
+                                            width: 18,
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 2),
+                                            decoration: BoxDecoration(
+                                                color: AppColors.primaryColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                          )
+                                        : Container(
+                                            height: 5.5,
+                                            width: 5.5,
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 2),
+                                            decoration: BoxDecoration(
+                                                color: AppColors.grey
+                                                    .withOpacity(0.3),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
                                           ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Container(
+                          height: 160,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  child: Image.asset(
+                                    SvgIcon.nodata,
+                                    scale: 0.5,
+                                  ),
+                                  width: 50,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  ConstString.noCategory,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          color: AppColors.black,
+                                          fontSize: 15,
+                                          fontFamily: AppFont.fontBold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextWidget(
+                          ConstString.popularmedicine,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayMedium!
+                              .copyWith(
+                                color: AppColors.darkPrimaryColor,
+                                fontFamily: AppFont.fontFamily,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.5,
+                                fontSize: 15.5,
+                              ),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              Get.to(()=> BookmarkScreen());
+                            },
+                            child: Row(
+                              children: [
+                                TextWidget(
+                                  ConstString.viewall,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                          color: AppColors.primaryColor,
+                                          height: 1.4,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2),
+                                  child: SvgPicture.asset(
+                                    SvgIcon.arrowright,
+                                    height: 18,
+                                  ),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  ),
+                  StreamBuilder<List<Medicine>>(
+                    stream: medicineController.fetchMedicine(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(
+                            height: 500,
+                            child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 3,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    // Replace this with your Shimmer placeholder widgets
+                                    Container(
+                                      child: Column(
+                                        children: [
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                TextWidget(
-                                                  // FIXME: add Medicine Name
-                                                  "${medicineDetails[index].medicineName}",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelSmall!
-                                                      .copyWith(
-                                                          fontSize: 14.5,
-                                                          color: AppColors
-                                                              .darkPrimaryColor,
-                                                          fontFamily:
-                                                              AppFont.fontBold,
-                                                          letterSpacing: 0),
-                                                ),
-                                                SizedBox(
-                                                  height: 3,
-                                                ),
-                                                SizedBox(
-                                                  width: 160,
-                                                  height: 35,
-                                                  child: TextWidget(
-                                                    "${medicineDetails[index].shortDescription}",
-                                                    textAlign: TextAlign.start,
-                                                    textOverflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLine: 2,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleSmall!
-                                                        .copyWith(
-                                                            height: 1.5,
-                                                            color:
-                                                                AppColors.grey,
-                                                            fontFamily: AppFont
-                                                                .fontFamily,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 11.5),
-                                                  ),
-                                                ),
-                                              ],
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: ListTile(
+                                              leading: CircleAvatar(),
+                                              trailing: SvgPicture.asset(
+                                                  SvgIcon.fillbookmark),
+                                              title: Text("MEDZO"),
                                             ),
                                           ),
-                                          const Spacer(),
-                                          GestureDetector(
-                                            onTap: () {},
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                              child: Container(
-                                                height: 38,
-                                                width: 38,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                    color:
-                                                        AppColors.splashdetail),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(10),
-                                                  child: SvgPicture.asset(
-                                                    SvgIcon.fillbookmark,
-                                                    height: 20,
-                                                    color:
-                                                        AppColors.primaryColor,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: Responsive.width(1, context),
+                                          Container(
+                                            height: 12.h,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: AppColors.whitehome),
                                           )
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 3,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 83),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: SmoothStarRating(
-                                            rating: 4,
-                                            allowHalfRating: true,
-                                            defaultIconData:
-                                                Icons.star_outline_rounded,
-                                            filledIconData: Icons.star_rounded,
-                                            halfFilledIconData:
-                                                Icons.star_half_rounded,
-                                            starCount: 5,
-                                            size: 20,
-                                            color: AppColors.primaryColor,
-                                            borderColor: AppColors.primaryColor,
+                                      margin: EdgeInsets.all(3),
+                                    ),
+                                    Divider(
+                                      height: 3,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        List<Medicine> medicineDetails = snapshot.data!;
+
+                        return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: 2,
+                          itemBuilder: (context, index) {
+                            bool isFavourite =
+                                medicineController.FavouriteMedicines.contains(
+                                    medicineDetails[index].id);
+                            return GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 0),
+                                child: Container(
+                                  height: 175,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1,
+                                          color: AppColors.splashdetail),
+                                      color: AppColors.white,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 13),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8),
+                                              child: SizedBox(
+                                                height: 55,
+                                                width: 55,
+                                                child: SvgPicture.asset(
+                                                    AppImages.supplements),
+                                                // child: ClipRRect(
+                                                //   borderRadius:
+                                                //       BorderRadius.circular(7),
+                                                //   child: CachedNetworkImage(
+                                                //     imageUrl:
+                                                //         medicineDetails[index]
+                                                //             .image!,
+                                                //     errorWidget:
+                                                //         (context, url, error) =>
+                                                //             Icon(Icons.error),
+                                                //     progressIndicatorBuilder:
+                                                //         (context, url,
+                                                //                 downloadProgress) =>
+                                                //             SizedBox(
+                                                //       width: 120,
+                                                //       child: Center(
+                                                //         child:
+                                                //             CupertinoActivityIndicator(
+                                                //           color: AppColors
+                                                //               .primaryColor,
+                                                //           animating: true,
+                                                //           radius: 12,
+                                                //         ),
+                                                //       ),
+                                                //     ),
+                                                //     fit: BoxFit.cover,
+                                                //   ),
+                                                // ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  TextWidget(
+                                                    "${medicineDetails[index].medicineName}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelSmall!
+                                                        .copyWith(
+                                                            fontSize: 14.5,
+                                                            color: AppColors
+                                                                .darkPrimaryColor,
+                                                            fontFamily: AppFont
+                                                                .fontBold,
+                                                            letterSpacing: 0),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 3,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 160,
+                                                    height: 35,
+                                                    child: TextWidget(
+                                                      "${medicineDetails[index].shortDescription}",
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                      textOverflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLine: 2,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleSmall!
+                                                          .copyWith(
+                                                              height: 1.5,
+                                                              color: AppColors
+                                                                  .grey,
+                                                              fontFamily: AppFont
+                                                                  .fontFamily,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 11.5),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            GestureDetector(
+                                              onTap: () {},
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                child: Container(
+                                                  height: 38,
+                                                  width: 38,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      color: AppColors
+                                                          .splashdetail),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(isFavourite ? 10 : 0),
+                                                    child: IconButton(
+                                                      onPressed: () {
+                                                        if (isFavourite) {
+                                                          medicineController
+                                                              .isFavouriteMedicine(
+                                                                  medicineDetails[
+                                                                          index]
+                                                                      .id!);
+                                                        } else {
+                                                          medicineController
+                                                              .isNotFavouriteMedicine(
+                                                                  medicineDetails[
+                                                                          index]
+                                                                      .id!);
+                                                        }
+                                                      },
+                                                      icon: SvgPicture.asset(
+                                                        isFavourite ? SvgIcon.fillbookmark : SvgIcon.bookmark,
+                                                        height: 20,
+                                                        color: isFavourite ? AppColors
+                                                            .primaryColor : Colors.black,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width:
+                                                  Responsive.width(1, context),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 3,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 83),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: SmoothStarRating(
+                                              rating: 4,
+                                              allowHalfRating: true,
+                                              defaultIconData:
+                                                  Icons.star_outline_rounded,
+                                              filledIconData:
+                                                  Icons.star_rounded,
+                                              halfFilledIconData:
+                                                  Icons.star_half_rounded,
+                                              starCount: 5,
+                                              size: 20,
+                                              color: AppColors.primaryColor,
+                                              borderColor:
+                                                  AppColors.primaryColor,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: medicineDetails[index]
-                                                        .drugType!
-                                                        .length >=
-                                                    16
-                                                ? 45
-                                                : 5),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              SvgPicture.asset(
-                                                SvgIcon.pill,
-                                                color: AppColors.primaryColor,
-                                                height: 14,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              TextWidget(
-                                                "${medicineDetails[index].drugType!}",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall!
-                                                    .copyWith(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      fontFamily:
-                                                          AppFont.fontFamily,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 11.5,
-                                                    ),
-                                              ),
-                                              SizedBox(
-                                                width: 7,
-                                              ),
-                                              SvgPicture.asset(
-                                                SvgIcon.Rx,
-                                                color: AppColors.primaryColor,
-                                                height: 14,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              TextWidget(
-                                                ConstString.prescribed,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall!
-                                                    .copyWith(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      letterSpacing: 0.2,
-                                                      fontSize: 11.5,
-                                                    ),
-                                              ),
-                                            ],
-                                          ),
+                                        SizedBox(
+                                          height: 10,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      SizedBox(
-                                        height: 35,
-                                        child: ElevatedButton(
-                                            onPressed: () {
-                                              Get.to(MedicineDetail(
-                                                  medicineDetails:
-                                                      medicineDetails,
-                                                  index: index));
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                elevation: 0,
-                                                backgroundColor: AppColors
-                                                    .splashdetail
-                                                    .withOpacity(0.7),
-                                                fixedSize: Size(160, 0),
-                                                shape: RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                        width: 0.5,
-                                                        color: AppColors.grey
-                                                            .withOpacity(0.1)),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30))),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: medicineDetails[index]
+                                                          .genericName!
+                                                          .length >=
+                                                      15
+                                                  ? 45
+                                                  : 85),
+                                          child: Align(
+                                            alignment: Alignment.center,
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                                  MainAxisAlignment.start,
                                               children: [
-                                                TextWidget(
-                                                  ConstString.viewmoredetails,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleSmall!
-                                                      .copyWith(
-                                                          fontSize: 11,
-                                                          color: AppColors.dark,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontFamily: AppFont
-                                                              .fontMedium),
+                                                SvgPicture.asset(
+                                                  SvgIcon.pill,
+                                                  color: AppColors.primaryColor,
+                                                  height: 14,
                                                 ),
                                                 SizedBox(
                                                   width: 5,
                                                 ),
-                                                Icon(
-                                                  Icons.arrow_forward_rounded,
-                                                  size: 15,
-                                                  color: AppColors.dark,
-                                                )
+                                                TextWidget(
+                                                  "${medicineDetails[index].genericName}",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleSmall!
+                                                      .copyWith(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        fontFamily:
+                                                            AppFont.fontFamily,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        letterSpacing: 0.2,
+                                                        fontSize: 12,
+                                                      ),
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                // SvgPicture.asset(
+                                                //   SvgIcon.Rx,
+                                                //   color: AppColors.primaryColor,
+                                                //   height: 14,
+                                                // ),
+                                                // SizedBox(
+                                                //   width: 5,
+                                                // ),
+                                                // TextWidget(
+                                                //   ConstString.prescribed,
+                                                //   style: Theme.of(context)
+                                                //       .textTheme
+                                                //       .titleSmall!
+                                                //       .copyWith(
+                                                //         color: AppColors.primaryColor,
+                                                //         fontWeight: FontWeight.w500,
+                                                //         letterSpacing: 0.2,
+                                                //         fontSize: 12,
+                                                //       ),
+                                                // ),
                                               ],
-                                            )),
-                                      )
-                                    ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        SizedBox(
+                                          height: 35,
+                                          child: ElevatedButton(
+                                              onPressed: () {
+                                                Get.to(MedicineDetail(
+                                                    medicineDetails:
+                                                        medicineDetails,
+                                                    index: index));
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  elevation: 0,
+                                                  backgroundColor: AppColors
+                                                      .splashdetail
+                                                      .withOpacity(0.7),
+                                                  fixedSize: Size(160, 0),
+                                                  shape: RoundedRectangleBorder(
+                                                      side: BorderSide(
+                                                          width: 0.5,
+                                                          color: AppColors.grey
+                                                              .withOpacity(
+                                                                  0.1)),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30))),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  TextWidget(
+                                                    ConstString.viewmoredetails,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleSmall!
+                                                        .copyWith(
+                                                            fontSize: 11,
+                                                            color:
+                                                                AppColors.dark,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontFamily: AppFont
+                                                                .fontMedium),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Icon(
+                                                    Icons.arrow_forward_rounded,
+                                                    size: 15,
+                                                    color: AppColors.dark,
+                                                  )
+                                                ],
+                                              )),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      return Container(
-                        height: 200,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                child: Image.asset(
-                                  SvgIcon.nodata,
-                                  scale: 0.5,
+                            );
+                          },
+                        );
+                      } else {
+                        return Container(
+                          height: 200,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  child: Image.asset(
+                                    SvgIcon.nodata,
+                                    scale: 0.5,
+                                  ),
+                                  width: 50,
                                 ),
-                                width: 50,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                ConstString.noMedicine,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                        color: AppColors.black,
-                                        fontSize: 15,
-                                        fontFamily: AppFont.fontBold),
-                              ),
-                            ],
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  ConstString.noMedicine,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          color: AppColors.black,
+                                          fontSize: 15,
+                                          fontFamily: AppFont.fontBold),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }
-                  },
-                )
-              ],
+                        );
+                      }
+                    },
+                  )
+                ],
+              ),
             ),
           ),
         ),

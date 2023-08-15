@@ -212,7 +212,7 @@ class CategoryWiseMedicine extends StatelessWidget {
                           ),
                           Padding(
                             padding:  EdgeInsets.only(left: medicineList[index]
-                                .drugType!
+                                .genericName!
                                 .length >=
                                 16
                                 ? 45
@@ -229,7 +229,7 @@ class CategoryWiseMedicine extends StatelessWidget {
                                   width: 5,
                                 ),
                                 TextWidget(
-                                  "${medicineList[index].drugType}",
+                                  "${medicineList[index].genericName}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall!

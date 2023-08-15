@@ -4,10 +4,9 @@ class Medicine {
   String? shortDescription;
   String? image;
   String? categoryId;
-  String? drugType;
+  String? genericName;
   String? about;
   String? warning;
-  String? factorsOrConditions;
   String? medicationsAndSubstances;
 
   Medicine(
@@ -16,10 +15,9 @@ class Medicine {
       this.shortDescription,
       this.image,
       this.categoryId,
-      this.drugType,
+      this.genericName,
       this.about,
       this.warning,
-      this.factorsOrConditions,
       this.medicationsAndSubstances});
 
   Medicine.fromMap(Map<String, dynamic> map) {
@@ -28,10 +26,9 @@ class Medicine {
     shortDescription = map['shortDescription'];
     image = map['image'];
     categoryId = map['categoryId'];
-    drugType = map['drugType'];
+    genericName = map['genericName'];
     about = map['about'];
     warning = map['warning'];
-    factorsOrConditions = map['factorsOrConditions'];
     medicationsAndSubstances = map['medicationsAndSubstances'];
   }
 
@@ -42,10 +39,9 @@ class Medicine {
     data['shortDescription'] = shortDescription;
     data['image'] = image;
     data['categoryId'] = categoryId;
-    data['drugType'] = drugType;
+    data['genericName'] = genericName;
     data['about'] = about;
     data['warning'] = warning;
-    data['factorsOrConditions'] = factorsOrConditions;
     data['medicationsAndSubstances'] = medicationsAndSubstances;
     return data;
   }

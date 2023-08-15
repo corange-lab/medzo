@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -124,27 +122,28 @@ Container medicineWidget(
                           child: SizedBox(
                             height: 55,
                             width: 55,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(7),
-                              child: CachedNetworkImage(
-                                imageUrl: medicineDetails[index].image!,
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) =>
-                                        SizedBox(
-                                  width: 120,
-                                  child: Center(
-                                    child: CupertinoActivityIndicator(
-                                      color: AppColors.primaryColor,
-                                      animating: true,
-                                      radius: 12,
-                                    ),
-                                  ),
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                            child: SvgPicture.asset(AppImages.supplements),
+                            // child: ClipRRect(
+                            //   borderRadius: BorderRadius.circular(7),
+                            //   child: CachedNetworkImage(
+                            //     imageUrl: medicineDetails[index].image!,
+                            //     errorWidget: (context, url, error) =>
+                            //         Icon(Icons.error),
+                            //     progressIndicatorBuilder:
+                            //         (context, url, downloadProgress) =>
+                            //             SizedBox(
+                            //       width: 120,
+                            //       child: Center(
+                            //         child: CupertinoActivityIndicator(
+                            //           color: AppColors.primaryColor,
+                            //           animating: true,
+                            //           radius: 12,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     fit: BoxFit.cover,
+                            //   ),
+                            // ),
                           ),
                         ),
                         SizedBox(
@@ -241,14 +240,12 @@ Container medicineWidget(
                       height: 10,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
-                          left: medicineDetails[index].drugType!.length >= 16
-                              ? 45
-                              : 5),
+                      padding: EdgeInsets.only(left: 85),
                       child: Align(
-                        alignment: Alignment.centerLeft,
+                        alignment: Alignment.center,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment:
+                          MainAxisAlignment.start,
                           children: [
                             SvgPicture.asset(
                               SvgIcon.pill,
@@ -259,41 +256,42 @@ Container medicineWidget(
                               width: 5,
                             ),
                             TextWidget(
-                              "${medicineDetails[index].drugType}",
+                              "${medicineDetails[index].genericName!.length > 20 ? "${medicineDetails[index].genericName!.substring(0, 20)}..." : medicineDetails[index].genericName}",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontFamily: AppFont.fontFamily,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 0.2,
-                                    fontSize: 12,
-                                  ),
+                                color: AppColors.primaryColor,
+                                fontFamily:
+                                AppFont.fontFamily,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.2,
+                                fontSize: 12,
+                              ),
                             ),
                             SizedBox(
                               width: 10,
                             ),
-                            SvgPicture.asset(
-                              SvgIcon.Rx,
-                              color: AppColors.primaryColor,
-                              height: 14,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            TextWidget(
-                              ConstString.prescribed,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 0.2,
-                                    fontSize: 12,
-                                  ),
-                            ),
+                            // SvgPicture.asset(
+                            //   SvgIcon.Rx,
+                            //   color: AppColors.primaryColor,
+                            //   height: 14,
+                            // ),
+                            // SizedBox(
+                            //   width: 5,
+                            // ),
+                            // TextWidget(
+                            //   ConstString.prescribed,
+                            //   style: Theme.of(context)
+                            //       .textTheme
+                            //       .titleSmall!
+                            //       .copyWith(
+                            //         color: AppColors.primaryColor,
+                            //         fontWeight: FontWeight.w500,
+                            //         letterSpacing: 0.2,
+                            //         fontSize: 12,
+                            //       ),
+                            // ),
                           ],
                         ),
                       ),
@@ -372,7 +370,7 @@ Container medicineWidget(
                       medicineDetails as List<Medicine>, index),
                   // questionWidget(context, tabQuestionController),
                   aboutWidget(context),
-                  warningWidget(context),
+                  warningWidget(context, medicineDetails, index),
                 ])),
           )
         ],
@@ -381,162 +379,170 @@ Container medicineWidget(
   );
 }
 
-Container warningWidget(context) {
+Container warningWidget(context, List<Medicine> medicineDetails, index) {
   return Container(
     // height: Responsive.height(10, context),
-    margin: const EdgeInsets.only(bottom: 200, left: 10, right: 10, top: 10),
+    margin: EdgeInsets.only(
+        bottom: medicineDetails[index].warning!.length > 300
+            ? 20
+            : (medicineDetails[index].warning!.length > 100 ? 200 : 260),
+        left: 10,
+        right: 10,
+        top: 10),
     decoration: BoxDecoration(
         border: Border.all(width: 1, color: AppColors.splashdetail),
         color: AppColors.white,
         borderRadius: BorderRadius.circular(6)),
     child: Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: TextWidget(
-              // FIXME: add Medicine warning
-              "Cetirizine, in general, has a low potential for interactions with other drugs. However, certain substances could potentially interact with cetirizine, including",
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: TextWidget(
+                // FIXME: add Medicine warning
+                "${medicineDetails[index].warning}",
+                style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                      fontSize: 13.2,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: AppFont.fontMedium,
+                      height: 1.6,
+                      color: AppColors.dark,
+                    ),
+                textAlign: TextAlign.start,
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: SizedBox(
+                        height: 70,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SvgPicture.asset(
+                              SvgIcon.alcohol,
+                              height: 25,
+                            ),
+                            TextWidget(
+                              ConstString.alcohol,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                      color: AppColors.grey, fontSize: 11.5),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: SizedBox(
+                        height: 70,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SvgPicture.asset(
+                              SvgIcon.pill,
+                              height: 25,
+                            ),
+                            TextWidget(
+                              ConstString.maoi,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                      color: AppColors.grey, fontSize: 11.5),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                      child: SizedBox(
+                        height: 70,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SvgPicture.asset(
+                              SvgIcon.snowflack,
+                              height: 25,
+                            ),
+                            TextWidget(
+                              ConstString.therphy,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                      color: AppColors.grey, fontSize: 10.9),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: SizedBox(
+                        height: 70,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SvgPicture.asset(
+                              SvgIcon.Rx,
+                              height: 25,
+                              color: AppColors.grey,
+                            ),
+                            TextWidget(
+                              ConstString.drugs,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                      color: AppColors.grey, fontSize: 11.5),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            TextWidget(
+              ConstString.clickicon,
               style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                    height: 1.5,
+                    fontFamily: AppFont.fontFamilysemi,
                     fontSize: 13.2,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: AppFont.fontMedium,
-                    height: 1.6,
-                    color: AppColors.dark,
+                    color: AppColors.orange,
                   ),
               textAlign: TextAlign.start,
             ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: SizedBox(
-                      height: 70,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SvgPicture.asset(
-                            SvgIcon.alcohol,
-                            height: 25,
-                          ),
-                          TextWidget(
-                            ConstString.alcohol,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(
-                                    color: AppColors.grey, fontSize: 11.5),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: SizedBox(
-                      height: 70,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SvgPicture.asset(
-                            SvgIcon.pill,
-                            height: 25,
-                          ),
-                          TextWidget(
-                            ConstString.maoi,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(
-                                    color: AppColors.grey, fontSize: 11.5),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: SizedBox(
-                      height: 70,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SvgPicture.asset(
-                            SvgIcon.snowflack,
-                            height: 25,
-                          ),
-                          TextWidget(
-                            ConstString.therphy,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(
-                                    color: AppColors.grey, fontSize: 10.9),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: SizedBox(
-                      height: 70,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SvgPicture.asset(
-                            SvgIcon.Rx,
-                            height: 25,
-                            color: AppColors.grey,
-                          ),
-                          TextWidget(
-                            ConstString.drugs,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(
-                                    color: AppColors.grey, fontSize: 11.5),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          TextWidget(
-            ConstString.clickicon,
-            style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                  height: 1.5,
-                  fontFamily: AppFont.fontFamilysemi,
-                  fontSize: 13.2,
-                  color: AppColors.orange,
-                ),
-            textAlign: TextAlign.start,
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
@@ -787,10 +793,10 @@ Container reviewWidget(
                   ),
                 );
               }
+              List<Review>? reviewList = snapshot.data!;
+              List<double> ratingList = [];
 
-              if (snapshot.hasData) {
-                List<Review>? reviewList = snapshot.data!;
-                List<double> ratingList = [];
+              if (snapshot.hasData && reviewList.isNotEmpty) {
                 for (var i = 0; i < reviewList.length; i++) {
                   ratingList.add(reviewList[i].rating!);
                 }
@@ -853,7 +859,7 @@ Container reviewWidget(
                                   Padding(
                                     padding: const EdgeInsets.only(top: 4),
                                     child: TextWidget(
-                                      "${medicineRating}/5",
+                                      "${medicineRating ?? "0"}/5",
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelMedium!

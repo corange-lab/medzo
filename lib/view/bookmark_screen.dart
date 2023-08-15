@@ -1,7 +1,5 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -65,8 +63,10 @@ class BookmarkScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(5.0),
                               child: ListTile(
                                 leading: CircleAvatar(),
-                                trailing:
-                                    SvgPicture.asset(SvgIcon.fillbookmark),
+                                trailing: IconButton(
+                                  onPressed: () {},
+                                  icon: SvgPicture.asset(SvgIcon.fillbookmark),
+                                ),
                                 title: Text("MEDZO"),
                               ),
                             ),
@@ -135,33 +135,35 @@ class BookmarkScreen extends StatelessWidget {
                                           child: SizedBox(
                                             height: 55,
                                             width: 55,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(7),
-                                              child: CachedNetworkImage(
-                                                imageUrl: medicineDetails[index]
-                                                    .image!,
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
-                                                progressIndicatorBuilder:
-                                                    (context, url,
-                                                            downloadProgress) =>
-                                                        SizedBox(
-                                                  width: 120,
-                                                  child: Center(
-                                                    child:
-                                                        CupertinoActivityIndicator(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      animating: true,
-                                                      radius: 12,
-                                                    ),
-                                                  ),
-                                                ),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
+                                            child: SvgPicture.asset(
+                                                AppImages.supplements),
+                                            // child: ClipRRect(
+                                            //   borderRadius:
+                                            //       BorderRadius.circular(7),
+                                            //   child: CachedNetworkImage(
+                                            //     imageUrl: medicineDetails[index]
+                                            //         .image!,
+                                            //     errorWidget:
+                                            //         (context, url, error) =>
+                                            //             Icon(Icons.error),
+                                            //     progressIndicatorBuilder:
+                                            //         (context, url,
+                                            //                 downloadProgress) =>
+                                            //             SizedBox(
+                                            //       width: 120,
+                                            //       child: Center(
+                                            //         child:
+                                            //             CupertinoActivityIndicator(
+                                            //           color: AppColors
+                                            //               .primaryColor,
+                                            //           animating: true,
+                                            //           radius: 12,
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //     fit: BoxFit.cover,
+                                            //   ),
+                                            // ),
                                           )),
                                       SizedBox(
                                         width: 5,
@@ -176,7 +178,7 @@ class BookmarkScreen extends StatelessWidget {
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             TextWidget(
-                                              "${medicineDetails[index].medicineName}",
+                                              "${medicineDetails[index].medicineName!.length > 22 ? "${medicineDetails[index].medicineName!.substring(0, 20)}..." : medicineDetails[index].medicineName}",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .labelSmall!
@@ -268,18 +270,12 @@ class BookmarkScreen extends StatelessWidget {
                                     height: 10,
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(
-                                        left: medicineDetails[index]
-                                                    .drugType!
-                                                    .length >=
-                                                16
-                                            ? 45
-                                            : 5),
+                                    padding: EdgeInsets.only(left: 85),
                                     child: Align(
-                                      alignment: Alignment.centerLeft,
+                                      alignment: Alignment.center,
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                            MainAxisAlignment.start,
                                         children: [
                                           SvgPicture.asset(
                                             SvgIcon.pill,
@@ -290,7 +286,7 @@ class BookmarkScreen extends StatelessWidget {
                                             width: 5,
                                           ),
                                           TextWidget(
-                                            "${medicineDetails[index].drugType}",
+                                            "${medicineDetails[index].genericName!.length > 20 ? "${medicineDetails[index].genericName!.substring(0, 20)}..." : medicineDetails[index].genericName}",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleSmall!
@@ -306,26 +302,26 @@ class BookmarkScreen extends StatelessWidget {
                                           SizedBox(
                                             width: 10,
                                           ),
-                                          SvgPicture.asset(
-                                            SvgIcon.Rx,
-                                            color: AppColors.primaryColor,
-                                            height: 14,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          TextWidget(
-                                            ConstString.prescribed,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall!
-                                                .copyWith(
-                                                  color: AppColors.primaryColor,
-                                                  fontWeight: FontWeight.w500,
-                                                  letterSpacing: 0.2,
-                                                  fontSize: 12,
-                                                ),
-                                          ),
+                                          // SvgPicture.asset(
+                                          //   SvgIcon.Rx,
+                                          //   color: AppColors.primaryColor,
+                                          //   height: 14,
+                                          // ),
+                                          // SizedBox(
+                                          //   width: 5,
+                                          // ),
+                                          // TextWidget(
+                                          //   ConstString.prescribed,
+                                          //   style: Theme.of(context)
+                                          //       .textTheme
+                                          //       .titleSmall!
+                                          //       .copyWith(
+                                          //         color: AppColors.primaryColor,
+                                          //         fontWeight: FontWeight.w500,
+                                          //         letterSpacing: 0.2,
+                                          //         fontSize: 12,
+                                          //       ),
+                                          // ),
                                         ],
                                       ),
                                     ),

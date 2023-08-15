@@ -1,4 +1,3 @@
-
 // ignore_for_file: deprecated_member_use
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -492,7 +491,7 @@ class PostScreen extends GetView<PostController> {
             ),
             TextButton(
                 onPressed: () async {
-                  await Get.to(() =>  BookmarkScreen());
+                  await Get.to(() => BookmarkScreen());
                 },
                 child: Row(
                   children: [
@@ -676,7 +675,7 @@ class PostScreen extends GetView<PostController> {
                               height: 35,
                               child: ElevatedButton(
                                   onPressed: () async {
-                                    await Get.to(() =>  MedicineDetail());
+                                    await Get.to(() => MedicineDetail());
                                   },
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
@@ -1001,39 +1000,42 @@ class PostListWidget extends GetWidget<PostController> {
               highlightColor: Colors.grey[100]!,
               child: Container(
                 height: 400,
-                child: ListView.builder(physics: NeverScrollableScrollPhysics(),
-                  itemCount : 3,itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      // Replace this with your Shimmer placeholder widgets
-                      Container(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: ListTile(
-                                leading: CircleAvatar(),
-                                trailing: Icon(Icons.comment),
-                                title: Text("MEDZO"),
+                child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        // Replace this with your Shimmer placeholder widgets
+                        Container(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: ListTile(
+                                  leading: CircleAvatar(),
+                                  trailing: Icon(Icons.comment),
+                                  title: Text("MEDZO"),
+                                ),
                               ),
-                            ),
-                            Container(
-                              height: 12.h,
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColors.whitehome),
-                            )
-                          ],
+                              Container(
+                                height: 12.h,
+                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: AppColors.whitehome),
+                              )
+                            ],
+                          ),
+                          margin: EdgeInsets.all(3),
                         ),
-                        margin: EdgeInsets.all(3),
-                      ),
-                      Divider(
-                        height: 3,
-                      ),
-                    ],
-                  );
-                },),
+                        Divider(
+                          height: 3,
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             );
           }
