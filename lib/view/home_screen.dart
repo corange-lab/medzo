@@ -542,8 +542,8 @@ class HomeScreen extends GetView<HomeController> {
                               ),
                         ),
                         TextButton(
-                            onPressed: () {
-                              Get.to(() => BookmarkScreen());
+                            onPressed: () async {
+                              await Get.to(() => BookmarkScreen());
                             },
                             child: Row(
                               children: [

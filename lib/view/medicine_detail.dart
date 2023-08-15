@@ -691,27 +691,22 @@ class _MedicineDetailState extends State<MedicineDetail>
     );
   }
 
-  Container reviewWidget(
-      context, medicineController, Medicine medicineDetails) {
+  Container reviewWidget(BuildContext context,
+      MedicineController medicineController, Medicine medicineDetails) {
     return Container(
       child: Stack(
         children: [
           StreamBuilder<List<Review>>(
-              stream: medicineController.getReview(medicineDetails.id),
+              stream: medicineController.getReview(medicineDetails.id!),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return MedicineShimmerWidget();
                 }
                 List<Review>? reviewList = snapshot.data!;
-                List<double> ratingList = [];
 
                 if (snapshot.hasData && reviewList.isNotEmpty) {
-                  for (var i = 0; i < reviewList.length; i++) {
-                    ratingList.add(reviewList[i].rating!);
-                  }
-
                   String medicineRating =
-                      medicineController.findMedicineRating(ratingList);
+                      medicineController.findMedicineRating(reviewList);
 
                   return Container(
                     margin: EdgeInsets.all(8),
@@ -793,7 +788,7 @@ class _MedicineDetailState extends State<MedicineDetail>
                               itemCount: reviewList.length,
                               itemBuilder: (context, index) {
                                 UserModel user = medicineController
-                                    .findUser(reviewList[index].userId);
+                                    .findUser(reviewList[index].userId!);
                                 return Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Column(

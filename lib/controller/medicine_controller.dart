@@ -21,11 +21,12 @@ class MedicineController extends GetxController {
 
   RxString updatingId = ''.obs;
 
+  List<Medicine> allMedicines = [];
+
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
-    // fetchMedicine();
+    fetchMedicine();
     fetchCategory();
   }
 
@@ -116,7 +117,12 @@ class MedicineController extends GetxController {
     return userController.findSingleUserFromAllUser(userId);
   }
 
-  String findMedicineRating(List<double> ratingList) {
+  String findMedicineRating(List<Review> reviewList) {
+    List<double> ratingList = [];
+    for (var i = 0; i < reviewList.length; i++) {
+      ratingList.add(reviewList[i].rating!);
+    }
+
     double sumRating = 0;
     for (var i in ratingList) {
       sumRating += i;
@@ -206,5 +212,36 @@ class MedicineController extends GetxController {
       return false;
     }
     return favouriteMedicines.contains(id);
+  }
+
+  Future<List<Medicine>> getPopularMedicinesByReviews(
+      {double minReviews = 5}) async {
+    final QuerySnapshot reviewSnapshot = await reviewRef.get();
+
+    final Map<String, double> medicineReviewCounts = {};
+
+    reviewSnapshot.docs.forEach((reviewDoc) {
+      final String medicineId = reviewDoc['medicineId'];
+
+      if (!medicineReviewCounts.containsKey(medicineId)) {
+        medicineReviewCounts[medicineId] = 1;
+      } else {
+        medicineReviewCounts[medicineId] =
+            medicineReviewCounts[medicineId]! + 1;
+      }
+    });
+
+    final List<String> popularMedicineIds = [];
+
+    medicineReviewCounts.forEach((medicineId, reviewCount) {
+      if (reviewCount >= minReviews) {
+        popularMedicineIds.add(medicineId);
+      }
+    });
+    // print('allMedicines.length ${allMedicines.length}');
+    final List<Medicine> popularMedicines = allMedicines
+        .where((medicine) => popularMedicineIds.contains(medicine.id))
+        .toList();
+    return popularMedicines;
   }
 }
