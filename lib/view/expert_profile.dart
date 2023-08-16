@@ -157,7 +157,7 @@ class ExpertProfileScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 7),
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.to(const ChatScreen());
+                          // Get.to( ChatScreen());
                         },
                         style: ElevatedButton.styleFrom(
                             elevation: 0,

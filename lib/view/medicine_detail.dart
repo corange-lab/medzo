@@ -9,10 +9,12 @@ import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/review_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/medicine_shimmer_widget.dart';
+import 'package:medzo/widgets/medicine_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
@@ -91,166 +93,169 @@ class _MedicineDetailState extends State<MedicineDetail>
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-              child: Container(
-                height: 140,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: AppColors.splashdetail),
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(8)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: SizedBox(
-                              height: 45,
-                              width: 45,
-                              child: SvgPicture.asset(AppImages.supplements),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TextWidget(
-                                  medicineDetails?.medicineName ?? '-',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall!
-                                      .copyWith(
-                                          fontSize: 14.5,
-                                          color: AppColors.darkPrimaryColor,
-                                          fontFamily: AppFont.fontBold,
-                                          letterSpacing: 0),
-                                ),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                SizedBox(
-                                  width: 160,
-                                  height: 35,
-                                  child: TextWidget(
-                                    "${medicineDetails?.shortDescription ?? '--'}",
-                                    textAlign: TextAlign.start,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(
-                                            height: 1.5,
-                                            color: AppColors.grey,
-                                            fontFamily: AppFont.fontFamily,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 11.5),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Spacer(),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 6),
-                              child: Container(
-                                height: 38,
-                                width: 38,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: AppColors.splashdetail),
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: SvgPicture.asset(
-                                    SvgIcon.fillbookmark,
-                                    height: 15,
-                                    color: AppColors.primaryColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 3,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 83),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: SmoothStarRating(
-                            rating: 4,
-                            allowHalfRating: true,
-                            defaultIconData: Icons.star_outline_rounded,
-                            filledIconData: Icons.star_rounded,
-                            halfFilledIconData: Icons.star_half_rounded,
-                            starCount: 5,
-                            size: 20,
-                            color: AppColors.primaryColor,
-                            borderColor: AppColors.primaryColor,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 85),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                SvgIcon.pill,
-                                color: AppColors.primaryColor,
-                                height: 14,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              TextWidget(
-                                medicineDetails?.genericName ?? '-',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(
-                                      color: AppColors.primaryColor,
-                                      fontFamily: AppFont.fontFamily,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.2,
-                                      fontSize: 12,
-                                    ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+            //   child: Container(
+            //     height: 140,
+            //     decoration: BoxDecoration(
+            //         border: Border.all(width: 1, color: AppColors.splashdetail),
+            //         color: AppColors.white,
+            //         borderRadius: BorderRadius.circular(8)),
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(vertical: 14),
+            //       child: Column(
+            //         children: [
+            //           Row(
+            //             mainAxisAlignment: MainAxisAlignment.start,
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: [
+            //               SizedBox(
+            //                 width: 10,
+            //               ),
+            //               Padding(
+            //                 padding: const EdgeInsets.only(right: 8),
+            //                 child: SizedBox(
+            //                   height: 45,
+            //                   width: 45,
+            //                   child: SvgPicture.asset(AppImages.supplements),
+            //                 ),
+            //               ),
+            //               SizedBox(
+            //                 width: 5,
+            //               ),
+            //               Padding(
+            //                 padding: const EdgeInsets.symmetric(horizontal: 8),
+            //                 child: Column(
+            //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //                   crossAxisAlignment: CrossAxisAlignment.start,
+            //                   children: [
+            //                     TextWidget(
+            //                       medicineDetails?.medicineName ?? '-',
+            //                       style: Theme.of(context)
+            //                           .textTheme
+            //                           .labelSmall!
+            //                           .copyWith(
+            //                               fontSize: 14.5,
+            //                               color: AppColors.darkPrimaryColor,
+            //                               fontFamily: AppFont.fontBold,
+            //                               letterSpacing: 0),
+            //                     ),
+            //                     SizedBox(
+            //                       height: 3,
+            //                     ),
+            //                     SizedBox(
+            //                       width: 160,
+            //                       height: 35,
+            //                       child: TextWidget(
+            //                         "${medicineDetails?.shortDescription ?? '--'}",
+            //                         textAlign: TextAlign.start,
+            //                         style: Theme.of(context)
+            //                             .textTheme
+            //                             .titleSmall!
+            //                             .copyWith(
+            //                                 height: 1.5,
+            //                                 color: AppColors.grey,
+            //                                 fontFamily: AppFont.fontFamily,
+            //                                 fontWeight: FontWeight.w400,
+            //                                 fontSize: 11.5),
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //               ),
+            //               const Spacer(),
+            //               GestureDetector(
+            //                 onTap: () {},
+            //                 child: Padding(
+            //                   padding: EdgeInsets.symmetric(horizontal: 6),
+            //                   child: Container(
+            //                     height: 38,
+            //                     width: 38,
+            //                     decoration: BoxDecoration(
+            //                         borderRadius: BorderRadius.circular(20),
+            //                         color: AppColors.splashdetail),
+            //                     child: Padding(
+            //                       padding: EdgeInsets.all(10),
+            //                       child: SvgPicture.asset(
+            //                         SvgIcon.fillbookmark,
+            //                         height: 15,
+            //                         color: AppColors.primaryColor,
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //               SizedBox(
+            //                 width: 5,
+            //               )
+            //             ],
+            //           ),
+            //           SizedBox(
+            //             height: 3,
+            //           ),
+            //           Padding(
+            //             padding: const EdgeInsets.only(left: 83),
+            //             child: Align(
+            //               alignment: Alignment.centerLeft,
+            //               child: SmoothStarRating(
+            //                 rating: 4,
+            //                 allowHalfRating: true,
+            //                 defaultIconData: Icons.star_outline_rounded,
+            //                 filledIconData: Icons.star_rounded,
+            //                 halfFilledIconData: Icons.star_half_rounded,
+            //                 starCount: 5,
+            //                 size: 20,
+            //                 color: AppColors.primaryColor,
+            //                 borderColor: AppColors.primaryColor,
+            //               ),
+            //             ),
+            //           ),
+            //           SizedBox(
+            //             height: 10,
+            //           ),
+            //           Padding(
+            //             padding: EdgeInsets.only(left: 85),
+            //             child: Align(
+            //               alignment: Alignment.center,
+            //               child: Row(
+            //                 mainAxisAlignment: MainAxisAlignment.start,
+            //                 children: [
+            //                   SvgPicture.asset(
+            //                     SvgIcon.pill,
+            //                     color: AppColors.primaryColor,
+            //                     height: 14,
+            //                   ),
+            //                   SizedBox(
+            //                     width: 5,
+            //                   ),
+            //                   TextWidget(
+            //                     medicineDetails?.genericName ?? '-',
+            //                     style: Theme.of(context)
+            //                         .textTheme
+            //                         .titleSmall!
+            //                         .copyWith(
+            //                           color: AppColors.primaryColor,
+            //                           fontFamily: AppFont.fontFamily,
+            //                           fontWeight: FontWeight.w500,
+            //                           letterSpacing: 0.2,
+            //                           fontSize: 12,
+            //                         ),
+            //                   ),
+            //                   SizedBox(
+            //                     width: 10,
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            MedicineWidget(
+                medicineDetail: medicineDetail!,
+                medicineBindPlace: MedicineBindPlace.dashboard),
             SizedBox(
               height: 15,
             ),

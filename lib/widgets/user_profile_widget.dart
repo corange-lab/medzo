@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
+import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/app_storage.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -134,7 +135,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 style: Theme.of(context)
                     .textTheme
                     .headline6!
-                    .copyWith(color: Colors.pink),
+                    .copyWith(color: AppColors.primaryColor,fontSize: 20,fontFamily: AppFont.fontBold),
               )
             : noUserBuilder;
       }

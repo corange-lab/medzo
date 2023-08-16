@@ -11,6 +11,9 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/theme/colors_theme.dart';
 import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/view/splash_screen.dart';
+import 'package:uuid/uuid.dart';
+
+var uuid = Uuid();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

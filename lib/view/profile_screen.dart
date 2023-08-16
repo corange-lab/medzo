@@ -1,4 +1,3 @@
-
 // ignore_for_file: deprecated_member_use
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -338,7 +337,7 @@ class ProfileScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 7),
                             child: ElevatedButton(
                               onPressed: () {
-                                Get.to(const ChatScreen());
+                                Get.to(ChatScreen(userId: userId));
                               },
                               style: ElevatedButton.styleFrom(
                                   elevation: 0,

@@ -5,18 +5,25 @@ import 'package:medzo/widgets/custom_widget.dart';
 class MyChatWidget extends Container {
   final String myMessage;
   final String time;
+  final bool sender;
 
-  MyChatWidget(this.myMessage, this.time);
+  MyChatWidget(this.myMessage, this.time, this.sender);
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment:
+          sender ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Container(
-          margin: const EdgeInsets.only(right: 10, left: 5, bottom: 2, top: 3),
+          margin: const EdgeInsets.only(
+            right: 10,
+            left: 10,
+            bottom: 5,
+          ),
           height: 45,
           decoration: BoxDecoration(
-              color: AppColors.primaryColor,
+              color: sender ? AppColors.primaryColor : AppColors.splashdetail,
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(6),
                   bottomLeft: Radius.circular(6),
@@ -30,10 +37,9 @@ class MyChatWidget extends Container {
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: TextWidget(myMessage,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: AppColors.black, fontSize: 14)),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: sender ? AppColors.black : AppColors.chatblack,
+                          fontSize: 14)),
                 ),
               ),
               Align(
@@ -41,10 +47,9 @@ class MyChatWidget extends Container {
                 child: Padding(
                   padding: const EdgeInsets.all(7),
                   child: TextWidget(time,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: AppColors.darkyellow, fontSize: 10)),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: sender ? AppColors.darkyellow : AppColors.grey,
+                          fontSize: 10)),
                 ),
               ),
             ],

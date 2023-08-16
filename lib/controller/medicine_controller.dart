@@ -28,6 +28,7 @@ class MedicineController extends GetxController {
     super.onInit();
     fetchMedicine();
     fetchCategory();
+    isMedicineFavourite();
   }
 
   final CollectionReference reviewRef =
@@ -132,26 +133,23 @@ class MedicineController extends GetxController {
     return averageRating.toStringAsFixed(1);
   }
 
-  Future<bool> isMedicineFavourite(String medicineId) async {
+  Future<void> isMedicineFavourite() async {
     final userFavouritesDoc =
         FirebaseFirestore.instance.collection('favourites').doc(currentUser);
 
     final docSnapshot = await userFavouritesDoc.get();
 
     if (docSnapshot.exists) {
-      List<dynamic> currentMedicines = docSnapshot.data()?['medicine'] ?? [];
-
-      bool isFavourite =
-          currentMedicines.any((item) => item['medicineId'] == medicineId);
-
-      return isFavourite;
+      currentMedicines = docSnapshot.data()?['medicine'] ?? [];
     } else {
-      return false;
+      currentMedicines = [];
     }
+    update();
   }
 
   Future<void> addFavouriteMedicine(String medicineId) async {
-    bool isFavourite = await isMedicineFavourite(medicineId);
+    bool isFavourite =
+        currentMedicines.any((item) => item['medicineId'] == medicineId);
 
     final userFavouritesDoc =
         FirebaseFirestore.instance.collection('favourites').doc(currentUser);
@@ -211,7 +209,7 @@ class MedicineController extends GetxController {
     if (id == null) {
       return false;
     }
-    return favouriteMedicines.contains(id);
+    return currentMedicines.any((medicine) => medicine['medicineId'] == id);
   }
 
   Future<List<Medicine>> getPopularMedicinesByReviews(

@@ -126,7 +126,7 @@ class HomeScreen extends GetView<HomeController> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Get.to(const MessageScreen());
+                  Get.to(()=>MessageScreen());
                 },
                 icon: SvgPicture.asset(
                   SvgIcon.chathome,
@@ -369,6 +369,7 @@ class HomeScreen extends GetView<HomeController> {
                                     end = snapshot.data!.length;
 
                                   return GridView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
                                     itemCount: end - start,
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
