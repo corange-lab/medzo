@@ -7,6 +7,7 @@ import 'package:medzo/model/category.dart';
 import 'package:medzo/model/medicine.dart';
 import 'package:medzo/model/review.dart';
 import 'package:medzo/model/user_model.dart';
+import 'package:medzo/utils/assets.dart';
 
 class MedicineController extends GetxController {
   TextEditingController reviewText = TextEditingController();
@@ -22,6 +23,17 @@ class MedicineController extends GetxController {
   RxString updatingId = ''.obs;
 
   List<Medicine> allMedicines = [];
+
+  List categoryImages = [
+    AppImages.painkiller,
+    AppImages.antidepreset,
+    AppImages.antibiotic,
+    AppImages.cardiovascular,
+    AppImages.supplements,
+    AppImages.alergies,
+    AppImages.devices,
+    AppImages.hypnotics,
+  ];
 
   @override
   void onInit() {

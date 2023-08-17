@@ -3,11 +3,11 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
 class MyChatWidget extends Container {
-  final String myMessage;
+  final String message;
   final String time;
   final bool sender;
 
-  MyChatWidget(this.myMessage, this.time, this.sender);
+  MyChatWidget(this.message, this.time, this.sender);
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +15,15 @@ class MyChatWidget extends Container {
       mainAxisAlignment:
           sender ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
+        // sender ? SizedBox() : CircularProfileAvatar(SvgIcon.profile,backgroundColor: AppColors.primaryColor,radius: 15),
+
         Container(
           margin: const EdgeInsets.only(
             right: 10,
             left: 10,
             bottom: 5,
           ),
-          height: 45,
+          height: 42,
           decoration: BoxDecoration(
               color: sender ? AppColors.primaryColor : AppColors.splashdetail,
               borderRadius: const BorderRadius.only(
@@ -36,7 +38,7 @@ class MyChatWidget extends Container {
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding: const EdgeInsets.all(10),
-                  child: TextWidget(myMessage,
+                  child: TextWidget(message,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: sender ? AppColors.black : AppColors.chatblack,
                           fontSize: 14)),

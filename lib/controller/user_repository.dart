@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:medzo/model/user_model.dart';
 
 class UserRepository {
@@ -11,7 +12,10 @@ class UserRepository {
   final CollectionReference _usersCollection =
       FirebaseFirestore.instance.collection('users');
 
+  String currentUser = FirebaseAuth.instance.currentUser!.uid;
+
   DocumentSnapshot? allUserLastDocument;
+
   /*
   * private constructor to make a singleton object
   * */
@@ -96,6 +100,16 @@ class UserRepository {
           .map((documentSnapshot) => UserModel.fromMap(
               documentSnapshot.data()! as Map<String, dynamic>))
           .toList();
+    });
+  }
+
+  Stream<List<UserModel>> allUserExceptCurrentUser() {
+    return _usersCollection.snapshots().map((querySnapshot) {
+      return querySnapshot.docs.where((document) {
+        return document.id != currentUser;
+      }).map((map) {
+        return UserModel.fromDocumentSnapshot(map);
+      }).toList();
     });
   }
 

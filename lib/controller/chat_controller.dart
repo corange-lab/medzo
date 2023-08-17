@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -63,13 +61,15 @@ class ChatController extends GetxController {
           .doc(newMessage.messageId)
           .set(newMessage.toMap());
 
-      log("Message Sent");
+      chatRoom!.lastMessage = message;
+
+      conversationRef.doc(chatRoom!.chatRoomId).set(chatRoom!.toMap());
     }
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> fetchMessages() {
     return conversationRef
-        .doc(chatRoom!.chatRoomId)
+        .doc(chatRoom?.chatRoomId)
         .collection('messages')
         .orderBy("createdTime", descending: true)
         .snapshots();

@@ -6,8 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/chat_controller.dart';
 import 'package:medzo/controller/post_controller.dart';
 import 'package:medzo/controller/profile_controller.dart';
+import 'package:medzo/controller/user_repository.dart';
+import 'package:medzo/model/chat_room.dart';
+import 'package:medzo/model/user_model.dart';
 import 'package:medzo/model/user_relationship.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -26,6 +30,8 @@ class ProfileScreen extends StatelessWidget {
   final String userId;
   final PostController postController =
       Get.put<PostController>(PostController());
+
+  final ChatController chatController = Get.put(ChatController());
 
   ProfileScreen(this.userId);
 
@@ -336,8 +342,19 @@ class ProfileScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 7),
                             child: ElevatedButton(
-                              onPressed: () {
-                                Get.to(ChatScreen(userId: userId));
+                              onPressed: () async {
+                                UserModel usermodel = await UserRepository
+                                    .instance
+                                    .fetchUser(userId);
+
+                                ChatRoom? chatroom =
+                                    await chatController.getChatRoom(userId);
+
+                                if (chatroom != null) {
+                                  Get.to(() => ChatScreen(
+                                        userModel: usermodel,
+                                      ));
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                   elevation: 0,

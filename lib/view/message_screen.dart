@@ -46,7 +46,7 @@ class MessageScreen extends StatelessWidget {
           shadowColor: AppColors.splashdetail.withOpacity(0.1),
         ),
         body: StreamBuilder(
-          stream: UserRepository.instance.streamAllUser(),
+          stream: UserRepository.instance.allUserExceptCurrentUser(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -66,11 +66,10 @@ class MessageScreen extends StatelessWidget {
                           await chatController.getChatRoom(user[index].id!);
 
                       if (chatRoom != null) {
-                        Get.to(()=>ChatScreen(
-                          userId: user[index].id,
-                          userModel: user[index],
-                          chatRoom: chatRoom,
-                        ));
+                        Get.to(() => ChatScreen(
+                              userModel: user[index],
+                              chatRoom: chatRoom,
+                            ));
                       }
                     },
                     leading: UserProfileWidget(userModel: user[index]),

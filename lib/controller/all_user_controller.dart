@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/user_repository.dart';
 import 'package:medzo/model/user_model.dart';
@@ -17,11 +16,9 @@ class AllUserController extends GetxController {
     fetchAllUser();
   }
 
-
-
   fetchAllUser() {
     try {
-       UserRepository.instance.streamAllUser().listen((updatedUserData) {
+      UserRepository.instance.streamAllUser().listen((updatedUserData) {
         print(
             'updatedUserData fetchAllUser hasData ${updatedUserData.isNotEmpty}');
         if (updatedUserData.isNotEmpty) {
@@ -32,7 +29,6 @@ class AllUserController extends GetxController {
       log(e.toString());
     }
   }
-
 
   UserModel findSingleUserFromAllUser(String userId) {
     UserModel user = allUsers.firstWhere((element) => element.id == userId);

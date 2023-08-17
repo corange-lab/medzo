@@ -63,6 +63,7 @@ dependencies:
   fluttertoast:
   excel: ^2.1.0
   uuid: ^3.0.7
+  flutter_chat_bubble: ^2.0.2
 
 dev_dependencies:
   flutter_test:

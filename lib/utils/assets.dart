@@ -24,6 +24,7 @@ class AppImages {
   static const String medicineBox1 = 'assets/images/medicine_box.png';
   static const String medzoLineLogo = 'assets/images/medzo_linelogo.svg';
   static const String medzoLineLogo1 = 'assets/images/medzo_linelogo.png';
+  static const String homeImage = 'assets/images/homeImage.jpg';
 
   // TODO: add asses
   static const String errorImage = 'assets/error_image.png';

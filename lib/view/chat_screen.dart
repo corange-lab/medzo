@@ -15,13 +15,14 @@ import 'package:medzo/widgets/chat_message_content.dart';
 import 'package:sizer/sizer.dart';
 
 class ChatScreen extends StatelessWidget {
-  String? userId;
   UserModel? userModel;
   ChatRoom? chatRoom;
 
-  ChatScreen({this.userId, this.userModel, this.chatRoom});
+  ChatScreen({this.userModel, this.chatRoom});
 
   ChatController chatController = Get.put(ChatController());
+
+  final FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,7 @@ class ChatScreen extends StatelessWidget {
             Expanded(
               flex: 8,
               child: TextFormField(
+                focusNode: focusNode,
                 textCapitalization: TextCapitalization.sentences,
                 controller: chatController.messageText,
                 maxLines: null,
@@ -88,13 +90,31 @@ class ChatScreen extends StatelessWidget {
                     horizontal: 10,
                     vertical: 15,
                   ),
+                  // prefixIcon: GestureDetector(
+                  //   onTap: () {
+                  //     FocusScope.of(context).requestFocus(focusNode);
+                  //   },
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(top: 15.0, bottom: 10),
+                  //     child: SvgPicture.asset(
+                  //       SvgIcon.smiley,
+                  //       height: 20,
+                  //     ),
+                  //   ),
+                  // )
                 ),
               ),
             ),
             Expanded(
               flex: 1,
               child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    chatController.messageText.text =
+                        chatController.messageText.text + "@";
+                    chatController.messageText.selection =
+                        TextSelection.fromPosition(TextPosition(
+                            offset: chatController.messageText.text.length));
+                  },
                   icon: SvgPicture.asset(
                     SvgIcon.at_icon,
                     height: 22,
@@ -136,7 +156,9 @@ class ChatScreen extends StatelessWidget {
               if (snapshot.hasData) {
                 QuerySnapshot dataMessage = snapshot.data as QuerySnapshot;
 
+
                 return ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   reverse: true,
                   itemCount: dataMessage.docs.length,
                   itemBuilder: (context, index) {
@@ -156,7 +178,11 @@ class ChatScreen extends StatelessWidget {
                 );
               } else {
                 return Center(
-                  child: Text("Say Hi!!"),
+                  child: Text(
+                    "Hello 🖐",
+                    style:
+                        TextStyle(color: AppColors.primaryColor, fontSize: 30),
+                  ),
                 );
               }
             } else {

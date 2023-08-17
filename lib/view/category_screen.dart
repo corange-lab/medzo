@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:medzo/controller/home_controller.dart';
+import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/model/category.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -20,7 +18,7 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: HomeController(),
+      init: MedicineController(),
       builder: (controller) {
         return Scaffold(
           backgroundColor: AppColors.whitehome,
@@ -55,7 +53,8 @@ class CategoryScreen extends StatelessWidget {
     );
   }
 
-  Container categoryWidget(HomeController controller, BuildContext context) {
+  Container categoryWidget(
+      MedicineController controller, BuildContext context) {
     return Container(
       child: GridView.builder(
         padding: EdgeInsets.zero,
@@ -64,6 +63,12 @@ class CategoryScreen extends StatelessWidget {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, childAspectRatio: 1.4),
         itemBuilder: (context, index) {
+          int imgIndex;
+          if (index < 8) {
+            imgIndex = index;
+          } else {
+            imgIndex = index - 8;
+          }
           return InkWell(
             onTap: () async {
               await Get.to(
@@ -76,27 +81,28 @@ class CategoryScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ClipRRect(
-                      child: CachedNetworkImage(
-                        height: 40,
-                        fadeInCurve: Curves.easeIn,
-                        imageUrl: CategoryList![index].image!,
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) => SizedBox(
-                          width: 120,
-                          child: Center(
-                            child: CupertinoActivityIndicator(
-                              color: AppColors.primaryColor,
-                              animating: true,
-                              radius: 12,
-                            ),
-                          ),
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.circular(7),
-                    ),
+                    // ClipRRect(
+                    //   child: CachedNetworkImage(
+                    //     height: 40,
+                    //     fadeInCurve: Curves.easeIn,
+                    //     imageUrl: CategoryList![index].image!,
+                    //     errorWidget: (context, url, error) => Icon(Icons.error),
+                    //     progressIndicatorBuilder:
+                    //         (context, url, downloadProgress) => SizedBox(
+                    //       width: 120,
+                    //       child: Center(
+                    //         child: CupertinoActivityIndicator(
+                    //           color: AppColors.primaryColor,
+                    //           animating: true,
+                    //           radius: 12,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     fit: BoxFit.cover,
+                    //   ),
+                    //   borderRadius: BorderRadius.circular(7),
+                    // ),
+                    SvgPicture.asset(controller.categoryImages[imgIndex]),
                     SizedBox(
                       height: 12,
                     ),
