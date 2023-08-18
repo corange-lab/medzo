@@ -54,7 +54,7 @@ class PostScreen extends GetView<PostController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextWidget(
-                  "Hellow🖐",
+                  "Hello🖐",
                   style: Theme.of(context)
                       .textTheme
                       .labelSmall!
@@ -94,7 +94,7 @@ class PostScreen extends GetView<PostController> {
             SizedBox(
               height: 10,
             ),
-            // ...BookmarkPostWidget(context),
+            ...BookmarkPostWidget(context),
           ],
         ),
       ),
@@ -513,7 +513,7 @@ class PostScreen extends GetView<PostController> {
                 ))
           ],
         ),
-      )
+      ),
     ];
   }
 }

@@ -156,7 +156,6 @@ class ChatScreen extends StatelessWidget {
               if (snapshot.hasData) {
                 QuerySnapshot dataMessage = snapshot.data as QuerySnapshot;
 
-
                 return ListView.builder(
                   physics: BouncingScrollPhysics(),
                   reverse: true,
@@ -164,12 +163,28 @@ class ChatScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     messageModel message = messageModel.fromMap(
                         dataMessage.docs[index].data() as Map<String, dynamic>);
+
+                    bool isFirstInGroup = false;
+
+                    if (index < dataMessage.docs.length - 1) {
+                      messageModel nextMessage = messageModel.fromMap(
+                          dataMessage.docs[index + 1].data()
+                              as Map<String, dynamic>);
+                      if (message.sender != nextMessage.sender) {
+                        isFirstInGroup = true;
+                      }
+                    } else {
+                      isFirstInGroup =
+                          true;
+                    }
+
                     String userMessage = message.message.toString();
                     String messageDate =
                         DateFormat('jm').format(message.createdTime!);
                     bool sender = message.sender == chatController.currentUser;
 
-                    return MyChatWidget(userMessage, messageDate, sender);
+                    return MyChatWidget(
+                        userMessage, messageDate, sender, isFirstInGroup);
                   },
                 );
               } else if (snapshot.hasError) {

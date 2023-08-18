@@ -91,18 +91,20 @@ class HomeScreen extends GetView<HomeController> {
               CarouselSlider.builder(
                 itemCount: 3,
                 itemBuilder: (context, index, realIndex) {
-                  return Image.asset(AppImages.homeImage);
+                  return Image.asset(AppImages.homeImage,fit: BoxFit.fill,);
                 },
                 options: CarouselOptions(
-                    initialPage: 0,
-                    enableInfiniteScroll: false,
-                    aspectRatio: 16 / 10,
-                    enlargeCenterPage: true,
-                    viewportFraction: 1,
-                    disableCenter: true,
-                    height: 35.h,
-                    autoPlay: true,
-                    reverse: true),
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  aspectRatio: 16 / 9,
+                  enlargeCenterPage: true,
+                  viewportFraction: 1,
+                  disableCenter: true,
+                  height: 35.h,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  autoPlay: true,
+                  // reverse: true
+                ),
               ),
               // Image.asset(AppImages.homeImage),
               Positioned(
@@ -134,7 +136,7 @@ class HomeScreen extends GetView<HomeController> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 3),
                                       child: TextWidget(
-                                        "Hellow🖐",
+                                        "Hello🖐",
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelSmall!
@@ -382,7 +384,7 @@ class HomeScreen extends GetView<HomeController> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 160,
+                                  height: 170,
                                   child: PageView.builder(
                                     controller: controller.pageController.value,
                                     onPageChanged: (value) {
