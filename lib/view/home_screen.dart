@@ -91,13 +91,18 @@ class HomeScreen extends GetView<HomeController> {
               CarouselSlider.builder(
                 itemCount: 3,
                 itemBuilder: (context, index, realIndex) {
-                  return Image.asset(AppImages.homeImage,fit: BoxFit.fill,);
+                  return Image.asset(
+                    AppImages.homeImage,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  );
                 },
                 options: CarouselOptions(
                   initialPage: 0,
                   enableInfiniteScroll: true,
                   aspectRatio: 16 / 9,
                   enlargeCenterPage: true,
+                  enlargeStrategy: CenterPageEnlargeStrategy.height,
                   viewportFraction: 1,
                   disableCenter: true,
                   height: 35.h,
@@ -115,7 +120,7 @@ class HomeScreen extends GetView<HomeController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 50,
+                        height: 7.h,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,7 +172,7 @@ class HomeScreen extends GetView<HomeController> {
                         ],
                       ),
                       SizedBox(
-                        height: 140,
+                        height: 17.h,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -384,7 +389,7 @@ class HomeScreen extends GetView<HomeController> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 170,
+                                  height: 22.h,
                                   child: PageView.builder(
                                     controller: controller.pageController.value,
                                     onPageChanged: (value) {
@@ -698,8 +703,8 @@ class HomeScreen extends GetView<HomeController> {
       id: 'PageUpdate',
       builder: (controller) {
         return Container(
-          height: 70,
-          alignment: Alignment.center,
+          height: 11.h,
+          alignment: Alignment.topCenter,
           decoration: BoxDecoration(
             boxShadow: [
               const BoxShadow(
@@ -710,96 +715,100 @@ class HomeScreen extends GetView<HomeController> {
             ],
             color: AppColors.white,
           ),
-          child: BottomNavigationBar(
-              backgroundColor: AppColors.white,
-              type: BottomNavigationBarType.fixed,
-              useLegacyColorScheme: true,
-              currentIndex: controller.pageIndex.value,
-              showUnselectedLabels: true,
-              selectedLabelStyle: TextStyle(
-                  fontSize: 12,
-                  fontFamily: AppFont.fontFamily,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0,
-                  color: AppColors.primaryColor),
-              unselectedLabelStyle: TextStyle(
-                  fontSize: 12,
-                  fontFamily: AppFont.fontFamily,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0,
-                  color: AppColors.grey),
-              onTap: (int selectedIndex) {
-                controller.pageUpdateOnHomeScreen(selectedIndex);
-              },
-              showSelectedLabels: true,
-              elevation: 0,
-              items: [
-                BottomNavigationBarItem(
-                    icon: Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: 5, left: 5, right: 5),
-                      child: Image.asset(
-                        AppImages.logo,
-                        color: controller.pageIndex.value == 0
-                            ? AppColors.primaryColor
-                            : AppColors.grey,
-                        height: 22,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BottomNavigationBar(
+                backgroundColor: AppColors.white,
+                type: BottomNavigationBarType.fixed,
+                useLegacyColorScheme: true,
+                currentIndex: controller.pageIndex.value,
+                showUnselectedLabels: true,
+                selectedLabelStyle: TextStyle(
+                    fontSize: 12,
+                    fontFamily: AppFont.fontFamily,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0,
+                    color: AppColors.primaryColor),
+                unselectedLabelStyle: TextStyle(
+                    fontSize: 12,
+                    fontFamily: AppFont.fontFamily,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0,
+                    color: AppColors.grey),
+                onTap: (int selectedIndex) {
+                  controller.pageUpdateOnHomeScreen(selectedIndex);
+                },
+                showSelectedLabels: true,
+                elevation: 0,
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 5,
+                        ),
+                        child: Image.asset(
+                          AppImages.logo,
+                          color: controller.pageIndex.value == 0
+                              ? AppColors.primaryColor
+                              : AppColors.grey,
+                          height: 22,
+                        ),
                       ),
-                    ),
-                    label: "Home"),
-                BottomNavigationBarItem(
-                    icon: Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 8, left: 5, right: 5, top: 3),
-                      child: SvgPicture.asset(
-                        SvgIcon.post,
-                        color: controller.pageIndex.value == 1
-                            ? AppColors.primaryColor
-                            : AppColors.grey,
-                        height: 15,
+                      label: "Home"),
+                  BottomNavigationBarItem(
+                      icon: Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 8, left: 5, right: 5, top: 3),
+                        child: SvgPicture.asset(
+                          SvgIcon.post,
+                          color: controller.pageIndex.value == 1
+                              ? AppColors.primaryColor
+                              : AppColors.grey,
+                          height: 15,
+                        ),
                       ),
-                    ),
-                    label: "Post"),
-                BottomNavigationBarItem(
-                    icon: Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: 6, left: 5, right: 5),
-                      child: SvgPicture.asset(
-                        SvgIcon.qrcode,
-                        color: controller.pageIndex.value == 2
-                            ? AppColors.primaryColor
-                            : AppColors.grey,
-                        height: 22,
+                      label: "Post"),
+                  BottomNavigationBarItem(
+                      icon: Padding(
+                        padding:
+                            const EdgeInsets.only(bottom: 6, left: 5, right: 5),
+                        child: SvgPicture.asset(
+                          SvgIcon.qrcode,
+                          color: controller.pageIndex.value == 2
+                              ? AppColors.primaryColor
+                              : AppColors.grey,
+                          height: 22,
+                        ),
                       ),
-                    ),
-                    label: "QR Code"),
-                BottomNavigationBarItem(
-                    icon: Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: 5, left: 5, right: 5),
-                      child: SvgPicture.asset(
-                        SvgIcon.bookmark,
-                        color: controller.pageIndex.value == 3
-                            ? AppColors.primaryColor
-                            : AppColors.grey,
-                        height: 22,
+                      label: "QR Code"),
+                  BottomNavigationBarItem(
+                      icon: Padding(
+                        padding:
+                            const EdgeInsets.only(bottom: 5, left: 5, right: 5),
+                        child: SvgPicture.asset(
+                          SvgIcon.bookmark,
+                          color: controller.pageIndex.value == 3
+                              ? AppColors.primaryColor
+                              : AppColors.grey,
+                          height: 22,
+                        ),
                       ),
-                    ),
-                    label: "Bookmarks"),
-                BottomNavigationBarItem(
-                    icon: Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: 5, left: 5, right: 5),
-                      child: SvgPicture.asset(
-                        SvgIcon.profile,
-                        color: controller.pageIndex.value == 4
-                            ? AppColors.primaryColor
-                            : AppColors.grey,
-                        height: 22,
+                      label: "Bookmarks"),
+                  BottomNavigationBarItem(
+                      icon: Padding(
+                        padding:
+                            const EdgeInsets.only(bottom: 5, left: 5, right: 5),
+                        child: SvgPicture.asset(
+                          SvgIcon.profile,
+                          color: controller.pageIndex.value == 4
+                              ? AppColors.primaryColor
+                              : AppColors.grey,
+                          height: 22,
+                        ),
                       ),
-                    ),
-                    label: "Profile"),
-              ]),
+                      label: "Profile"),
+                ]),
+          ),
         );
       },
     );

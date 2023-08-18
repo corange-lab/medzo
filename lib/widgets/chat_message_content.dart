@@ -33,7 +33,6 @@ class MyChatWidget extends Container {
               sender ? AppColors.primaryColor : AppColors.splashdetail,
           shadowColor: Colors.transparent,
           child: Container(
-            height: 42,
             decoration: BoxDecoration(
                 color: sender ? AppColors.primaryColor : AppColors.splashdetail,
                 borderRadius: isFirstMessage
@@ -47,25 +46,41 @@ class MyChatWidget extends Container {
                             topRight: Radius.circular(6),
                             bottomRight: Radius.circular(6),
                             bottomLeft: Radius.circular(6))
-                    : BorderRadius.circular(6)),
-            child: Row(
+                    : BorderRadius.circular(5)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: TextWidget(message,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color:
-                                sender ? AppColors.black : AppColors.chatblack,
-                            fontSize: 14)),
-                  ),
+                Row(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10, bottom: 2, top: 5, right: 5),
+                        child: TextWidget(message,
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    color: sender
+                                        ? AppColors.black
+                                        : AppColors.chatblack,
+                                    fontSize: 13,
+                                    height: 1.2)),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 45,
+                    )
+                  ],
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
-                    padding: const EdgeInsets.all(7),
+                    padding:
+                        const EdgeInsets.only(left: 7, bottom: 5, right: 7),
                     child: TextWidget(time,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             color:

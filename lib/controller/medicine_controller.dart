@@ -41,6 +41,7 @@ class MedicineController extends GetxController {
     fetchMedicine();
     fetchCategory();
     isMedicineFavourite();
+    fetchMedicineId();
   }
 
   final CollectionReference reviewRef =
@@ -73,6 +74,23 @@ class MedicineController extends GetxController {
     return data;
   }
 
+  Future<List<String>> fetchMedicineId() async {
+    DocumentSnapshot data = await favouriteRef.doc(currentUser).get();
+
+    List<String> medicineIds = [];
+
+    if (data.exists) {
+      List<Map<String, dynamic>> medicines =
+          List<Map<String, dynamic>>.from(data['medicine'] ?? []);
+      for (var medicine in medicines) {
+        medicineIds.add(medicine['medicineId']);
+      }
+    }
+    favouriteMedicines = medicineIds.obs;
+
+    return medicineIds;
+  }
+
   Stream<List<Medicine>> fetchFavouriteMedicine() {
     if (favouriteMedicines.isEmpty) {
       return Stream.empty();
@@ -88,6 +106,7 @@ class MedicineController extends GetxController {
         return Medicine.fromMap(e.data() as Map<String, dynamic>);
       }).toList();
     });
+
     return data;
   }
 

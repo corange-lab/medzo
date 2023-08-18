@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/chat/view/conversation_page/conversations_page.dart';
+import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/controller/post_controller.dart';
+import 'package:medzo/model/medicine.dart';
 import 'package:medzo/model/post_model.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
@@ -24,6 +26,7 @@ import 'package:medzo/view/post_list_screen.dart';
 import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/medicine_shimmer_widget.dart';
+import 'package:medzo/widgets/medicine_widget.dart';
 import 'package:medzo/widgets/user/my_name_text_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -33,6 +36,8 @@ class PostScreen extends GetView<PostController> {
 
   @override
   Widget build(BuildContext context) {
+    MedicineController medicineController = Get.put(MedicineController());
+
     Get.isRegistered<PostController>()
         ? Get.find<PostController>()
         : Get.put(PostController());
@@ -94,7 +99,7 @@ class PostScreen extends GetView<PostController> {
             SizedBox(
               height: 10,
             ),
-            ...BookmarkPostWidget(context),
+            ...BookmarkPostWidget(context, medicineController),
           ],
         ),
       ),
@@ -471,7 +476,8 @@ class PostScreen extends GetView<PostController> {
     ];
   }
 
-  List<Widget> BookmarkPostWidget(BuildContext context) {
+  List<Widget> BookmarkPostWidget(
+      BuildContext context, MedicineController medicineController) {
     return [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -514,6 +520,63 @@ class PostScreen extends GetView<PostController> {
           ],
         ),
       ),
+      StreamBuilder<List<Medicine>>(
+        stream: medicineController.fetchFavouriteMedicine(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return MedicineShimmerWidget(itemCount: 4);
+          }
+          if (snapshot.hasData) {
+            List<Medicine> medicineDetails = snapshot.data!;
+
+            return Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    await Future.delayed(Duration(seconds: 2));
+                  },
+                  color: AppColors.primaryColor,
+                  child: ListView.builder(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: medicineDetails.length,
+                    itemBuilder: (context, index) {
+                      return MedicineWidget(
+                        medicineDetail: medicineDetails.elementAt(index),
+                        medicineBindPlace: MedicineBindPlace.bookmark,
+                      );
+                    },
+                  ),
+                ));
+          } else {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    child: Image.asset(
+                      SvgIcon.nodata,
+                      scale: 0.5,
+                    ),
+                    width: 50,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    ConstString.noMedicine,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: AppColors.black,
+                        fontSize: 13,
+                        fontFamily: AppFont.fontBold),
+                  ),
+                ],
+              ),
+            );
+          }
+        },
+      )
     ];
   }
 }
@@ -536,7 +599,9 @@ class PostItemComponent extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Get.to(() => ProfileScreen(postData.creatorId!));
+              postData.creatorId != controller.loggedInUserId
+                  ? Get.to(() => ProfileScreen(postData.creatorId!))
+                  : null;
             },
             child: PostHeaderWidget(
                 context, postData, controller.findUser(postData.creatorId!)),

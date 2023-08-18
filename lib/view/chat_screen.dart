@@ -148,7 +148,7 @@ class ChatScreen extends StatelessWidget {
           image: DecorationImage(
               image: AssetImage(AppImages.chatback), fit: BoxFit.cover)),
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 90),
+        padding: const EdgeInsets.only(bottom: 90, left: 10, right: 10),
         child: StreamBuilder(
           stream: chatController.fetchMessages(),
           builder: (context, snapshot) {
@@ -174,8 +174,7 @@ class ChatScreen extends StatelessWidget {
                         isFirstInGroup = true;
                       }
                     } else {
-                      isFirstInGroup =
-                          true;
+                      isFirstInGroup = true;
                     }
 
                     String userMessage = message.message.toString();
