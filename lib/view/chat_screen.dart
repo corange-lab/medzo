@@ -10,6 +10,7 @@ import 'package:medzo/model/message_model.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/widgets/chat_header_widget.dart';
 import 'package:medzo/widgets/chat_message_content.dart';
 import 'package:sizer/sizer.dart';
@@ -42,7 +43,11 @@ class ChatScreen extends StatelessWidget {
               SvgIcon.backarrow,
               height: 15,
             )),
-        title: ChatHeader(userModel),
+        title: GestureDetector(
+            onTap: () {
+              Get.to(() => ProfileScreen(userModel!.id!));
+            },
+            child: ChatHeader(userModel)),
         actions: [
           IconButton(
               onPressed: () {},
@@ -52,7 +57,7 @@ class ChatScreen extends StatelessWidget {
               ))
         ],
       ),
-      body: chatWidget(context),
+      body: chatWidget(context, userModel!),
       bottomSheet: Container(
         height: 80,
         width: SizerUtil.width,
@@ -140,7 +145,7 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
-  Container chatWidget(BuildContext context) {
+  Container chatWidget(BuildContext context, UserModel userModel) {
     return Container(
       height: SizerUtil.height,
       width: SizerUtil.width,
@@ -182,8 +187,8 @@ class ChatScreen extends StatelessWidget {
                         DateFormat('jm').format(message.createdTime!);
                     bool sender = message.sender == chatController.currentUser;
 
-                    return MyChatWidget(
-                        userMessage, messageDate, sender, isFirstInGroup);
+                    return MyChatWidget(userMessage, messageDate, sender,
+                        isFirstInGroup, userModel.profilePicture!);
                   },
                 );
               } else if (snapshot.hasError) {

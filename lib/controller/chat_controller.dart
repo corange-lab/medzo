@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medzo/main.dart';
 import 'package:medzo/model/chat_room.dart';
 import 'package:medzo/model/message_model.dart';
@@ -43,6 +44,12 @@ class ChatController extends GetxController {
     return chatRoom;
   }
 
+  getChatUser() {
+    return conversationRef
+        .where("participants.${currentUser}", isEqualTo: true)
+        .snapshots();
+  }
+
   Future<void> sendMessage() async {
     String message = messageText.text.trim();
     messageText.clear();
@@ -62,6 +69,7 @@ class ChatController extends GetxController {
           .set(newMessage.toMap());
 
       chatRoom!.lastMessage = message;
+      chatRoom!.lastMessageTime = DateTime.now();
 
       conversationRef.doc(chatRoom!.chatRoomId).set(chatRoom!.toMap());
     }
@@ -73,5 +81,40 @@ class ChatController extends GetxController {
         .collection('messages')
         .orderBy("createdTime", descending: true)
         .snapshots();
+  }
+
+  String formatTimestamp(String timestamp) {
+    final now = DateTime.now();
+
+    String withoutOffset = timestamp.split(" UTC")[0];
+
+    String datePart = withoutOffset.split(' ')[0];
+    String timePart = withoutOffset.split(' ')[1];
+
+    String combined = '$datePart $timePart';
+
+    final inputFormat = DateFormat("y-MM-dd H:m:s.S");
+
+    DateTime messageDate;
+
+    try {
+      messageDate = inputFormat.parse(combined);
+      print("$messageDate data");
+    } catch (e) {
+      print("Error parsing date: $e");
+      return "Unknown date";
+    }
+
+    final difference = now.difference(messageDate);
+
+    if (difference.inDays == 0) {
+      final timeFormat = DateFormat('jm');
+      return timeFormat.format(messageDate);
+    } else if (difference.inDays == 1) {
+      return "yesterday";
+    } else {
+      final dateFormat = DateFormat('d MMMM y');
+      return dateFormat.format(messageDate);
+    }
   }
 }

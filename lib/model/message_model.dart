@@ -1,3 +1,5 @@
+import 'package:medzo/utils/firebase_utils.dart';
+
 class messageModel {
   String? messageId;
   String? sender;
@@ -17,7 +19,9 @@ class messageModel {
     sender = map['sender'];
     message = map['message'];
     isSeen = map['isSeen'];
-    createdTime = map['createdTime'].toDate();
+    createdTime = map['createdTime'] != null
+        ? FirebaseUtils.timestampToDateTime(map['createdTime'])
+        : null;;
   }
 
   Map<String,dynamic> toMap(){

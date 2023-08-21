@@ -193,6 +193,7 @@ class ConstString {
   static const String noReview = "No Reviews Found";
   static const String nopost = "No Post Data Found!";
   static const String nouser = "No User Found";
+  static const String nochat = "No Chat Found";
   static const String noFollowing = "No Following Found";
   static const String noFollower = "No Follower Found";
   static const String error = "An Error Occured!";
