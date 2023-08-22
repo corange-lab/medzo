@@ -45,7 +45,10 @@ class BookmarkScreen extends StatelessWidget {
         stream: medicineController.fetchFavouriteMedicine(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return MedicineShimmerWidget(itemCount: 4);
+            return MedicineShimmerWidget(
+              itemCount: 5,
+              height: 600,
+            );
           }
           if (snapshot.hasData) {
             List<Medicine> medicineDetails = snapshot.data!;

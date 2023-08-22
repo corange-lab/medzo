@@ -8,6 +8,7 @@ import 'package:sizer/sizer.dart';
 class MedicineShimmerWidget extends StatelessWidget {
   final int itemCount;
   final double height;
+
   const MedicineShimmerWidget(
       {super.key, this.itemCount = 3, this.height = 400});
 
@@ -47,8 +48,11 @@ class MedicineShimmerWidget extends StatelessWidget {
                   ),
                   margin: EdgeInsets.all(3),
                 ),
-                Divider(
-                  height: 3,
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Divider(
+                    height: 3,
+                  ),
                 ),
               ],
             );

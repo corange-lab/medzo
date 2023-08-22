@@ -28,6 +28,8 @@ class MedicineWidget extends StatelessWidget {
     return GetBuilder<MedicineController>(
         id: medicineDetail.id.toString(),
         builder: (ctrl) {
+          double rating = double.parse(medicineDetail.ratings! ?? "0.0");
+
           return GestureDetector(
             onTap: () {
               Get.to(MedicineDetail(medicineDetail: medicineDetail));
@@ -163,7 +165,7 @@ class MedicineWidget extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: SmoothStarRating(
-                            rating: 4,
+                            rating: rating,
                             allowHalfRating: true,
                             defaultIconData: Icons.star_outline_rounded,
                             filledIconData: Icons.star_rounded,

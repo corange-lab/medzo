@@ -22,7 +22,7 @@ class TextWidget extends Text {
     return Text(
       text,
       style: style ?? Theme.of(context).textTheme.bodyMedium,
-      maxLines: maxLines,
+      maxLines: maxLine,
       textAlign: textAlign,
     );
   }

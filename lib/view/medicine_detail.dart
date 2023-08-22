@@ -292,10 +292,6 @@ class _MedicineDetailState extends State<MedicineDetail>
                   text: "Review",
                   height: 30,
                 ),
-                // Tab(
-                //   text: "Q&A",
-                //   height: 30,
-                // ),
                 Tab(
                   text: "About",
                   height: 30,
@@ -322,7 +318,6 @@ class _MedicineDetailState extends State<MedicineDetail>
                   height: 450,
                   child: TabBarView(controller: tabController, children: [
                     reviewWidget(context, medicineController, medicineDetails!),
-                    // questionWidget(context, tabQuestionController),
                     aboutWidget(context),
                     warningWidget(context, medicineDetails),
                   ])),
@@ -698,6 +693,7 @@ class _MedicineDetailState extends State<MedicineDetail>
 
   Container reviewWidget(BuildContext context,
       MedicineController medicineController, Medicine medicineDetails) {
+    List<Review>? reviewList;
     return Container(
       child: Stack(
         children: [
@@ -707,11 +703,11 @@ class _MedicineDetailState extends State<MedicineDetail>
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return MedicineShimmerWidget();
                 }
-                List<Review>? reviewList = snapshot.data!;
+                reviewList = snapshot.data!;
 
-                if (snapshot.hasData && reviewList.isNotEmpty) {
+                if (snapshot.hasData && reviewList!.isNotEmpty) {
                   String medicineRating =
-                      medicineController.findMedicineRating(reviewList);
+                      medicineController.countMedicineRating(reviewList!);
 
                   return Container(
                     margin: EdgeInsets.all(8),
@@ -766,7 +762,7 @@ class _MedicineDetailState extends State<MedicineDetail>
                                       width: 5,
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 4),
+                                      padding: const EdgeInsets.only(top: 3),
                                       child: TextWidget(
                                         "${medicineRating ?? "0"}/5",
                                         style: Theme.of(context)
@@ -790,10 +786,10 @@ class _MedicineDetailState extends State<MedicineDetail>
                             height: SizerUtil.height,
                             child: ListView.builder(
                               physics: BouncingScrollPhysics(),
-                              itemCount: reviewList.length,
+                              itemCount: reviewList!.length,
                               itemBuilder: (context, index) {
                                 UserModel user = medicineController
-                                    .findUser(reviewList[index].userId!);
+                                    .findUser(reviewList![index].userId!);
                                 return Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Column(
@@ -809,7 +805,7 @@ class _MedicineDetailState extends State<MedicineDetail>
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 5),
                                           child: TextWidget(
-                                            "${reviewList[index].review}",
+                                            "${reviewList![index].review}",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleSmall!
@@ -911,7 +907,7 @@ class _MedicineDetailState extends State<MedicineDetail>
                   padding: const EdgeInsets.only(right: 18, top: 10),
                   child: ElevatedButton(
                       onPressed: () {
-                        Get.to(ReviewScreen(medicineDetails));
+                        Get.to(ReviewScreen(medicineDetails, reviewList));
                       },
                       style: ElevatedButton.styleFrom(
                           elevation: 0,

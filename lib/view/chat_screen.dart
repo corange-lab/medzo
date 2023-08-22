@@ -10,7 +10,6 @@ import 'package:medzo/model/message_model.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/assets.dart';
-import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/widgets/chat_header_widget.dart';
 import 'package:medzo/widgets/chat_message_content.dart';
 import 'package:sizer/sizer.dart';
@@ -44,9 +43,9 @@ class ChatScreen extends StatelessWidget {
               height: 15,
             )),
         title: GestureDetector(
-            onTap: () {
-              Get.to(() => ProfileScreen(userModel!.id!));
-            },
+            // onTap: () {
+            //   Get.off(() => ProfileScreen(userModel!.id!));
+            // },
             child: ChatHeader(userModel)),
         actions: [
           IconButton(
@@ -74,6 +73,8 @@ class ChatScreen extends StatelessWidget {
               flex: 8,
               child: TextFormField(
                 focusNode: focusNode,
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    fontSize: 14, height: 1.3, color: AppColors.black),
                 textCapitalization: TextCapitalization.sentences,
                 controller: chatController.messageText,
                 maxLines: null,
@@ -187,8 +188,8 @@ class ChatScreen extends StatelessWidget {
                         DateFormat('jm').format(message.createdTime!);
                     bool sender = message.sender == chatController.currentUser;
 
-                    return MyChatWidget(userMessage, messageDate, sender,
-                        isFirstInGroup, userModel.profilePicture!);
+                    return MyChatWidget(
+                        userMessage, messageDate, sender, isFirstInGroup);
                   },
                 );
               } else if (snapshot.hasError) {

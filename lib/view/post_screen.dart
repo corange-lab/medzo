@@ -524,7 +524,10 @@ class PostScreen extends GetView<PostController> {
         stream: medicineController.fetchFavouriteMedicine(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return MedicineShimmerWidget(itemCount: 4);
+            return MedicineShimmerWidget(
+              itemCount: 4,
+              height: 500,
+            );
           }
           if (snapshot.hasData) {
             List<Medicine> medicineDetails = snapshot.data!;

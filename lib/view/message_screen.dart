@@ -115,6 +115,8 @@ class MessageScreen extends StatelessWidget {
                               alignment: Alignment.topLeft,
                               child: TextWidget(
                                 "${chatRoom.lastMessage.toString()}",
+                                textAlign: TextAlign.start,
+                                maxLine: 1,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!

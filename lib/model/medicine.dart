@@ -5,18 +5,20 @@ class Medicine {
   String? categoryId;
   String? genericName;
   String? about;
+  String? ratings;
   String? warning;
-  String? medicationsAndSubstances;
+  // String? medicationsAndSubstances;
 
-  Medicine(
-      {this.id,
-      this.medicineName,
-      this.shortDescription,
-      this.categoryId,
-      this.genericName,
-      this.about,
-      this.warning,
-      this.medicationsAndSubstances});
+  Medicine({this.id,
+    this.medicineName,
+    this.shortDescription,
+    this.categoryId,
+    this.genericName,
+    this.about,
+    this.warning,
+    this.ratings,
+    // this.medicationsAndSubstances
+  });
 
   Medicine.fromMap(Map<String, dynamic> map) {
     id = map['id'];
@@ -26,7 +28,8 @@ class Medicine {
     genericName = map['genericName'];
     about = map['about'];
     warning = map['warning'];
-    medicationsAndSubstances = map['medicationsAndSubstances'];
+    ratings = map['ratings'];
+    // medicationsAndSubstances = map['medicationsAndSubstances'];
   }
 
   Map<String, dynamic> toMap() {
@@ -38,7 +41,8 @@ class Medicine {
     data['genericName'] = genericName;
     data['about'] = about;
     data['warning'] = warning;
-    data['medicationsAndSubstances'] = medicationsAndSubstances;
+    data['ratings'] = ratings;
+    // data['medicationsAndSubstances'] = medicationsAndSubstances;
     return data;
   }
 }

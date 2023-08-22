@@ -11,6 +11,7 @@ import 'package:medzo/utils/assets.dart';
 
 class MedicineController extends GetxController {
   TextEditingController reviewText = TextEditingController();
+  TextEditingController searchMedicineText = TextEditingController();
   double rating = 0.0;
 
   List<dynamic> currentMedicines = [];
@@ -24,6 +25,8 @@ class MedicineController extends GetxController {
 
   List<Medicine> allMedicines = [];
 
+  RxList<Medicine> medicines = <Medicine>[].obs;
+
   List categoryImages = [
     AppImages.painkiller,
     AppImages.antidepreset,
@@ -33,6 +36,27 @@ class MedicineController extends GetxController {
     AppImages.alergies,
     AppImages.devices,
     AppImages.hypnotics,
+  ];
+  List searchList = [
+    "Cetirizine",
+    "Cetuximab",
+    "Cetraxal",
+    "Cetamolol",
+    "Cetilistat"
+  ];
+  List searchsubtitleList = [
+    "in allergies",
+    "in cancer treatment",
+    "in antibiotics",
+    "in cardiovascular",
+    "in weightless"
+  ];
+  List searchIcons = [
+    SvgIcon.virus,
+    SvgIcon.first_aid,
+    SvgIcon.virus,
+    SvgIcon.heartbeat,
+    SvgIcon.person_run
   ];
 
   @override
@@ -55,6 +79,21 @@ class MedicineController extends GetxController {
 
   final CollectionReference favouriteRef =
       FirebaseFirestore.instance.collection('favourites');
+
+  void searchMedicineByName(String medicineName) {
+    medicineRef
+        .where(
+          "medicineName",
+          isGreaterThanOrEqualTo: medicineName,
+        )
+        .where("medicineName", isLessThan: medicineName + '\uf8ff')
+        .get()
+        .then((snapshot) {
+      medicines.value = snapshot.docs
+          .map((doc) => Medicine.fromMap(doc.data() as Map<String, dynamic>))
+          .toList();
+    });
+  }
 
   Stream<List<Medicine>> fetchMedicine() {
     var data = medicineRef.snapshots().map((event) {
@@ -149,7 +188,7 @@ class MedicineController extends GetxController {
     return userController.findSingleUserFromAllUser(userId);
   }
 
-  String findMedicineRating(List<Review> reviewList) {
+  String countMedicineRating(List<Review> reviewList) {
     List<double> ratingList = [];
     for (var i = 0; i < reviewList.length; i++) {
       ratingList.add(reviewList[i].rating!);

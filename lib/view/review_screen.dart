@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,8 +17,9 @@ import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.da
 
 class ReviewScreen extends StatefulWidget {
   final Medicine? medicineDetails;
+  final List<Review>? reviewList;
 
-  ReviewScreen(this.medicineDetails);
+  ReviewScreen(this.medicineDetails, this.reviewList);
 
   @override
   State<ReviewScreen> createState() => _ReviewScreenState();
@@ -249,6 +251,19 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       .doc(reviewId)
                       .set(review.toMap())
                       .then((value) {
+                    widget.reviewList!.add(review);
+
+                    String medicineRating = medicineController
+                        .countMedicineRating(widget.reviewList!);
+
+                    widget.medicineDetails!.ratings = medicineRating;
+
+                    medicineController.medicineRef.doc(medicineId).set(
+                        widget.medicineDetails!.toMap(),
+                        SetOptions(
+                          merge: true,
+                        ));
+
                     medicineController.reviewText.clear();
                     showDialog(
                       context: context,

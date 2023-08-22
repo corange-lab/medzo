@@ -11,10 +11,10 @@ class MyChatWidget extends Container {
   final String time;
   final bool sender;
   final bool isFirstMessage;
-  final String imgpath;
+  // final String imgpath;
 
   MyChatWidget(
-      this.message, this.time, this.sender, this.isFirstMessage, this.imgpath);
+      this.message, this.time, this.sender, this.isFirstMessage,);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,12 @@ class MyChatWidget extends Container {
             sender ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          sender
-              ? SizedBox()
-              : isFirstMessage
-                  ? temp.CircularProfileAvatar(imgpath,
-                      backgroundColor: AppColors.primaryColor, radius: 15)
-                  : SizedBox(),
+          // sender
+          //     ? SizedBox()
+          //     : isFirstMessage
+          //         ? temp.CircularProfileAvatar(imgpath,
+          //             backgroundColor: AppColors.primaryColor, radius: 15)
+          //         : SizedBox(),
           ChatBubble(
             clipper: ChatBubbleClipper1(
                 type:
@@ -41,7 +41,7 @@ class MyChatWidget extends Container {
             margin: isFirstMessage
                 ? EdgeInsets.only(bottom: 5)
                 : EdgeInsets.only(
-                    left: sender ? 0 : 42 /*12*/,
+                    left: sender ? 0 : 12 /*42*/,
                     right: sender ? 12 : 0,
                     bottom: 5),
             backGroundColor:
