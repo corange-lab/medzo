@@ -108,10 +108,8 @@ class HomeScreen extends GetView<HomeController> {
                   height: 35.h,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   autoPlay: true,
-                  // reverse: true
                 ),
               ),
-              // Image.asset(AppImages.homeImage),
               Positioned(
                 child: Padding(
                   padding:

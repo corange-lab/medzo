@@ -19,6 +19,7 @@ import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
+import 'package:medzo/view/bestMatchesScreen.dart';
 import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/image_preview_screen.dart';
 import 'package:medzo/view/post_detail_screen.dart';
@@ -157,7 +158,7 @@ class PostScreen extends GetView<PostController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextWidget(
-              ConstString.bestmarches,
+              ConstString.bestMatches,
               style: Get.textTheme.displayMedium!.copyWith(
                 color: AppColors.darkPrimaryColor,
                 fontFamily: AppFont.fontFamily,
@@ -167,7 +168,9 @@ class PostScreen extends GetView<PostController> {
               ),
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => BestMatchesScreen());
+                },
                 child: Row(
                   children: [
                     TextWidget(

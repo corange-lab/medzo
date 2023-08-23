@@ -7,6 +7,8 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
+import 'package:medzo/utils/string.dart';
+import 'package:medzo/view/medicine_detail.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
@@ -108,7 +110,10 @@ class SearchScreen extends StatelessWidget {
             elevation: 3,
             shadowColor: AppColors.splashdetail.withOpacity(0.1),
           ),
-          body: Obx(() => Padding(
+          body: Obx(() {
+            if (controller.medicines.isNotEmpty &&
+                controller.searchMedicineText.text.isNotEmpty) {
+              return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7),
                 child: ListView.builder(
                   itemCount: controller.medicines.length,
@@ -117,7 +122,7 @@ class SearchScreen extends StatelessWidget {
                     double rating = double.parse(medicine.ratings! ?? "0.0");
                     return GestureDetector(
                       onTap: () {
-                        // Get.to(MedicineDetail(medicineDetail: medicineDetail));
+                        Get.to(MedicineDetail(medicineDetail: medicine));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -240,7 +245,7 @@ class SearchScreen extends StatelessWidget {
                                                                   .fillbookmark
                                                               : SvgIcon
                                                                   .bookmark,
-                                                          height: 20,
+                                                          height: 18,
                                                           color: ctrl
                                                                   .isFavourite(
                                                                       medicine
@@ -320,51 +325,6 @@ class SearchScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                // SizedBox(
-                                //   height: 10,
-                                // ),
-                                // SizedBox(
-                                //   height: 35,
-                                //   child: ElevatedButton(
-                                //       onPressed: () {
-                                //
-                                //       },
-                                //       style: ElevatedButton.styleFrom(
-                                //           elevation: 0,
-                                //           backgroundColor:
-                                //               AppColors.splashdetail.withOpacity(0.7),
-                                //           fixedSize: Size(160, 0),
-                                //           shape: RoundedRectangleBorder(
-                                //               side: BorderSide(
-                                //                   width: 0.5,
-                                //                   color: AppColors.grey.withOpacity(0.1)),
-                                //               borderRadius: BorderRadius.circular(30))),
-                                //       child: Row(
-                                //         mainAxisAlignment: MainAxisAlignment.center,
-                                //         crossAxisAlignment: CrossAxisAlignment.center,
-                                //         children: [
-                                //           TextWidget(
-                                //             ConstString.viewmoredetails,
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .titleSmall!
-                                //                 .copyWith(
-                                //                     fontSize: 11,
-                                //                     color: AppColors.dark,
-                                //                     fontWeight: FontWeight.w500,
-                                //                     fontFamily: AppFont.fontMedium),
-                                //           ),
-                                //           SizedBox(
-                                //             width: 5,
-                                //           ),
-                                //           Icon(
-                                //             Icons.arrow_forward_rounded,
-                                //             size: 15,
-                                //             color: AppColors.dark,
-                                //           )
-                                //         ],
-                                //       )),
-                                // )
                               ],
                             ),
                           ),
@@ -373,7 +333,57 @@ class SearchScreen extends StatelessWidget {
                     );
                   },
                 ),
-              )),
+              );
+            } else {
+              if (controller.searchMedicineText.text.isNotEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        child: Image.asset(
+                          SvgIcon.nodata,
+                          scale: 0.5,
+                        ),
+                        width: 70,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        ConstString.noMedicine,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: AppColors.black,
+                            fontSize: 20,
+                            fontFamily: AppFont.fontBold),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(CupertinoIcons.doc_text_search,
+                          color: AppColors.primaryColor, size: 50),
+                      SizedBox(height: 15),
+                      Text(
+                        "Search Medicine",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayLarge!
+                            .copyWith(
+                                fontSize: 22,
+                                fontFamily: AppFont.fontFamilysemi,
+                                color: AppColors.black),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            }
+          }),
           // body: SingleChildScrollView(
           //   child: Column(
           //     children: [

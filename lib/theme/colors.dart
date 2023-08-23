@@ -54,7 +54,7 @@ class AppColors {
   static Color whitehome = const Color(0xfffcfcfc);
   static Color whitedown = const Color(0xffF8FAFA);
   static Color lightSky = const Color(0xffE8F5F5);
-  static Color orange = const Color(0xffFF4000);
+  static Color red = const Color(0xffea4001);
   static Color blue = const Color(0xff0064B2);
   static Color sky = const Color(0xff00B2CB);
   static Color lightgreen = const Color(0xff61CA05);

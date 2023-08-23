@@ -1,8 +1,8 @@
-
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -73,6 +73,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 color: AppColors.black),
           ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: IconButton(
+                onPressed: () {
+                  deleteDialogue(context);
+                },
+                icon: Icon(
+                  CupertinoIcons.delete_solid,
+                  color: Colors.red,
+                  size: 20,
+                )),
+          )
+        ],
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
       ),
@@ -247,60 +261,66 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       FirebaseAuth.instance.currentUser!.displayName;
                   String userid = FirebaseAuth.instance.currentUser!.uid;
 
-                  try {
-                    final ref =
-                        FirebaseStorage.instance.ref('profile_pics/$userid');
-                    final picFile = File(pickController.selectedImage);
-                    if (await picFile.exists()) {
-                      UploadTask uploadTask = ref.putFile(picFile);
+                  if (name.isNotEmpty && profession.isNotEmpty) {
+                    try {
+                      final ref =
+                          FirebaseStorage.instance.ref('profile_pics/$userid');
+                      final picFile = File(pickController.selectedImage);
+                      if (await picFile.exists()) {
+                        UploadTask uploadTask = ref.putFile(picFile);
 
-                      await Future.value(uploadTask).then((value) async {
-                        var newUrl = await ref.getDownloadURL();
-                        await UserRepository.getInstance()
-                            .updateUser(UserModel(
-                                name: name,
-                                profession: profession,
-                                email: FirebaseAuth.instance.currentUser!.email,
-                                profilePicture: newUrl.toString(),
-                                id: FirebaseAuth.instance.currentUser!.uid))
-                            .then((value) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return successDialogue(
-                                titleText: "Successful Changed",
-                                subtitle:
-                                    "Your profile has been changed successfully.",
-                                iconDialogue: SvgIcon.check_circle,
-                                btntext: "Done",
-                                onPressed: () {
-                                  Get.back();
-                                  Get.back();
-                                  Get.back();
-                                },
-                              );
-                            },
-                          );
+                        await Future.value(uploadTask).then((value) async {
+                          var newUrl = await ref.getDownloadURL();
+                          await UserRepository.getInstance()
+                              .updateUser(UserModel(
+                                  name: name,
+                                  profession: profession,
+                                  email:
+                                      FirebaseAuth.instance.currentUser!.email,
+                                  profilePicture: newUrl.toString(),
+                                  id: FirebaseAuth.instance.currentUser!.uid))
+                              .then((value) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return successDialogue(
+                                  titleText: "Successful Changed",
+                                  subtitle:
+                                      "Your profile has been changed successfully.",
+                                  iconDialogue: SvgIcon.check_circle,
+                                  btntext: "Done",
+                                  onPressed: () {
+                                    Get.back();
+                                    Get.back();
+                                    Get.back();
+                                  },
+                                );
+                              },
+                            );
+                          }).onError((error, stackTrace) {
+                            showInSnackBar("$error", isSuccess: false);
+                          });
                         }).onError((error, stackTrace) {
-                          showInSnackBar("$error", isSuccess: false);
+                          showInSnackBar("${error}", isSuccess: false);
                         });
-                      }).onError((error, stackTrace) {
-                        showInSnackBar("${error}", isSuccess: false);
-                      });
-                    } else {
-                      UserModel? userModel =
-                          await AuthApi.instance.getLoggedInUserData();
-                      await UserRepository.getInstance().updateUser(UserModel(
-                          name: name,
-                          profession: profession,
-                          email: FirebaseAuth.instance.currentUser!.email,
-                          profilePicture: userModel?.profilePicture,
-                          id: FirebaseAuth.instance.currentUser!.uid));
-                      Get.back();
-                      Get.back();
+                      } else {
+                        UserModel? userModel =
+                            await AuthApi.instance.getLoggedInUserData();
+                        await UserRepository.getInstance().updateUser(UserModel(
+                            name: name,
+                            profession: profession,
+                            email: FirebaseAuth.instance.currentUser!.email,
+                            profilePicture: userModel?.profilePicture,
+                            id: FirebaseAuth.instance.currentUser!.uid));
+                        Get.back();
+                        Get.back();
+                      }
+                    } catch (e) {
+                      print("Exception Thrown : $e");
                     }
-                  } catch (e) {
-                    print("Exception Thrown : $e");
+                  } else {
+                    Get.back();
+                    toast(message: "Please fill all the fields!");
                   }
                 },
                 style: ElevatedButton.styleFrom(

@@ -246,7 +246,7 @@ class Utils {
         children: [
           Image(
             image: const AssetImage(AppImages.errorImage),
-            color: AppColors.orange,
+            color: AppColors.red,
           ),
           const SizedBox(
             height: 20,

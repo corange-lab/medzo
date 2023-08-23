@@ -46,6 +46,7 @@ class ConstString {
   static const String follownow = "Follow Now";
   static const String editprofile = "Edit Profile";
   static const String message = "Message";
+  static const String bestMatches = "Best Matches";
   static const String back = "Back";
   static const String sendotp = "Send OTP";
   static const String writereview = "Write a Review";
@@ -227,7 +228,6 @@ class ConstString {
   static const String preview = "Preview";
   static const String bookmarkpost = "Bookmark Posts";
   static const String allpost = "All Posts";
-  static const String bestmarches = "Best Matches";
   static const String popularmedicine = "Popular Medicines";
   static const String popularquestions = "Popular Questions:";
   static const String mostrecent = "Most Recent";
@@ -253,6 +253,7 @@ class ConstString {
   static const String verificationotp = "Verification OTP";
   static const String profilesentance =
       "Find your closest \nmatches for the best \nand most important \nreviews!";
+
   static String otpDetails(String email) =>
       "Please enter 6 Digit OTP sent on your email address us ${extractDomainFromEmail(email)}";
 

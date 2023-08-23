@@ -66,6 +66,7 @@ class HomeController extends GetxController {
     } catch (e) {
       log(e.toString());
     }
+
     await FirebaseAuth.instance.signOut();
     AppStorage appStorage = AppStorage();
     appStorage.appLogout();
