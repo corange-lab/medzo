@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/chat/view/conversation_page/conversations_page.dart';
+import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/controller/post_controller.dart';
 import 'package:medzo/model/medicine.dart';
@@ -30,6 +31,7 @@ import 'package:medzo/widgets/medicine_shimmer_widget.dart';
 import 'package:medzo/widgets/medicine_widget.dart';
 import 'package:medzo/widgets/user/my_name_text_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class PostScreen extends GetView<PostController> {
@@ -38,6 +40,8 @@ class PostScreen extends GetView<PostController> {
   @override
   Widget build(BuildContext context) {
     MedicineController medicineController = Get.put(MedicineController());
+
+    AllUserController userController = Get.put(AllUserController());
 
     Get.isRegistered<PostController>()
         ? Get.find<PostController>()
@@ -96,7 +100,7 @@ class PostScreen extends GetView<PostController> {
             SizedBox(
               height: 10,
             ),
-            ...BestMatchesWidget(context),
+            BestMatchesWidget(context, userController),
             SizedBox(
               height: 10,
             ),
@@ -144,339 +148,279 @@ class PostScreen extends GetView<PostController> {
 
   void onPageChanged(PostController controller, int? value) {
     controller.pageIndex.value = value ?? 0;
-    // print('value $value');
-    // if (controller.selectedPageIndex.value == 3) {
-    //   navigateToHome();
-    // }
   }
 
-  List<Widget> BestMatchesWidget(BuildContext context) {
-    return [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextWidget(
-              ConstString.bestMatches,
-              style: Get.textTheme.displayMedium!.copyWith(
-                color: AppColors.darkPrimaryColor,
-                fontFamily: AppFont.fontFamily,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.5,
-                fontSize: 15.5,
+  StreamBuilder<Object?> BestMatchesWidget(
+      BuildContext context, AllUserController userController) {
+    final itemsPerPage = 6;
+    UserModel? currentUser = userController.currentUser;
+    return StreamBuilder<List<UserModel>>(
+      stream: userController.fetchMatchesUser(currentUser!.profession!),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              height: 195,
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // Replace this with your Shimmer placeholder widgets
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            maxRadius: 25,
+                          ),
+                          CircleAvatar(
+                            maxRadius: 25,
+                          ),
+                          CircleAvatar(
+                            maxRadius: 25,
+                          ),
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Medzo",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          Text(
+                            "Medzo",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          Text(
+                            "Medzo",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            maxRadius: 25,
+                          ),
+                          CircleAvatar(
+                            maxRadius: 25,
+                          ),
+                          CircleAvatar(
+                            maxRadius: 25,
+                          ),
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Medzo",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          Text(
+                            "Medzo",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          Text(
+                            "Medzo",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
-            TextButton(
-                onPressed: () {
-                  Get.to(() => BestMatchesScreen());
-                },
+          );
+        }
+
+        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          List<UserModel> userData = snapshot.data!;
+
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextWidget(
-                      ConstString.viewall,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: AppColors.primaryColor,
-                          height: 1.4,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: SvgPicture.asset(
-                        SvgIcon.arrowright,
-                        height: 18,
+                      ConstString.bestMatches,
+                      style: Get.textTheme.displayMedium!.copyWith(
+                        color: AppColors.darkPrimaryColor,
+                        fontFamily: AppFont.fontFamily,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                        fontSize: 15.5,
                       ),
-                    )
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Get.to(() => BestMatchesScreen(userData));
+                        },
+                        child: Row(
+                          children: [
+                            TextWidget(
+                              ConstString.viewall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                      color: AppColors.primaryColor,
+                                      height: 1.4,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 2),
+                              child: SvgPicture.asset(
+                                SvgIcon.arrowright,
+                                height: 18,
+                              ),
+                            )
+                          ],
+                        ))
                   ],
-                ))
-          ],
-        ),
-      ),
-      Container(
-        decoration: BoxDecoration(
-            border: Border.all(width: 1, color: AppColors.splashdetail),
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(5)),
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.symmetric(horizontal: 15),
-        height: 170,
-        alignment: Alignment.center,
-        child: PageView.builder(
-          controller: controller.pageController.value,
-          onPageChanged: (value) {
-            onPageChanged(controller, value);
-          },
-          itemCount: 2, // TODO:
-          itemBuilder: (context, index) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: AppColors.splashdetail),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5)),
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.symmetric(horizontal: 15),
+                height: userData.length > 3 ? 22.h : 12.h,
+                alignment: Alignment.center,
+                child: PageView.builder(
+                  controller: controller.pageController.value,
+                  onPageChanged: (value) {
+                    onPageChanged(controller, value);
+                  },
+                  itemCount: (userData.length / itemsPerPage).ceil(),
+                  itemBuilder: (context, index) {
+                    int start = index * itemsPerPage;
+                    int end = start + itemsPerPage;
+
+                    if (end > snapshot.data!.length) {
+                      end = snapshot.data!.length;
+                    }
+
+                    return GridView.builder(
+                      itemCount: end - start,
+                      padding: EdgeInsets.zero,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 3 / 2,
+                          mainAxisSpacing: 10),
+                      itemBuilder: (context, gridIndex) {
+                        UserModel user = userData[start + gridIndex];
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            OtherProfilePicWidget(
+                                profilePictureUrl: user.profilePicture,
+                                size: Size(45, 45)),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextWidget(
+                              "${user.name ?? "Medzo User"}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: AppFont.fontMedium,
+                                      color: AppColors.dark.withOpacity(0.5)),
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+              Obx(
+                () => Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (int i = 0;
+                          i < (snapshot.data!.length / itemsPerPage).ceil();
+                          i++)
+                        controller.pageIndex.value == i
+                            ? Container(
+                                height: 5,
+                                width: 17,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 2),
+                                decoration: BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    borderRadius: BorderRadius.circular(10)),
+                              )
+                            : Container(
+                                height: 5,
+                                width: 6,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 2),
+                                decoration: BoxDecoration(
+                                    color: AppColors.grey.withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Container(
+            margin: EdgeInsets.all(10),
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+                border: Border.all(width: 1, color: AppColors.splashdetail),
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(8)),
+            child: Center(
+                child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        width: 75,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipOval(
-                              child: SizedBox(
-                                height: 45,
-                                width: 45,
-                                child: Image.asset("assets/user5.jpg"),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            TextWidget(
-                              "Brookln Simons",
-                              // FIXME: add name
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: AppFont.fontMedium,
-                                      color: AppColors.dark.withOpacity(0.5)),
-                            )
-                          ],
-                        ),
-                        // color: Colors.black12,
-                      ),
-                    ),
-                    // SizedBox(
-                    //   width: Responsive.width(2, context),
-                    // ),
-                    Expanded(
-                      child: SizedBox(
-                        width: 90,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipOval(
-                              child: SizedBox(
-                                height: 45,
-                                width: 45,
-                                child: Image.asset("assets/user6.jpg"),
-                                // child: SvgPicture.asset("assets/user.svg",height: 50,),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            TextWidget(
-                              "Arlene McCoy",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: AppFont.fontMedium,
-                                      color: AppColors.dark.withOpacity(0.5)),
-                            )
-                          ],
-                        ),
-                        // color: Colors.black12,
-                      ),
-                    ),
-                    // SizedBox(
-                    //   width: Responsive.width(2, context),
-                    // ),
-                    Expanded(
-                      child: SizedBox(
-                        width: 70,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipOval(
-                              child: SizedBox(
-                                height: 45,
-                                width: 45,
-                                child: Image.asset("assets/user7.jpg"),
-                                // child: SvgPicture.asset("assets/user.svg",height: 50,),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            TextWidget(
-                              "Theresa Webb",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: AppFont.fontMedium,
-                                      color: AppColors.dark.withOpacity(0.5)),
-                            )
-                          ],
-                        ),
-                        // color: Colors.black12,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        width: 70,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipOval(
-                              child: SizedBox(
-                                height: 45,
-                                width: 45,
-                                child: Image.asset("assets/user8.jpg"),
-                                // child: SvgPicture.asset("assets/user.svg",height: 50,),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            TextWidget(
-                              "Wade Warren",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: AppFont.fontMedium,
-                                      color: AppColors.dark.withOpacity(0.5)),
-                            )
-                          ],
-                        ),
-                        // color: Colors.black12,
-                      ),
-                    ),
-                    // SizedBox(
-                    //   width: Responsive.width(2, context),
-                    // ),
-                    Expanded(
-                      child: SizedBox(
-                        width: 90,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipOval(
-                              child: SizedBox(
-                                height: 45,
-                                width: 45,
-                                child: Image.asset("assets/user9.jpg"),
-                                // child: SvgPicture.asset("assets/user.svg",height: 50,),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            TextWidget(
-                              "Darrell Steward",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: AppFont.fontMedium,
-                                      color: AppColors.dark.withOpacity(0.5)),
-                            )
-                          ],
-                        ),
-                        // color: Colors.black12,
-                      ),
-                    ),
-                    // SizedBox(
-                    //   width: Responsive.width(2, context),
-                    // ),
-                    Expanded(
-                      child: SizedBox(
-                        width: 70,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipOval(
-                              child: SizedBox(
-                                height: 45,
-                                width: 45,
-                                child: Image.asset("assets/user10.jpg"),
-                                // child: SvgPicture.asset("assets/user.svg",height: 50,),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            TextWidget(
-                              "Jenny Wilson",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: AppFont.fontMedium,
-                                      color: AppColors.dark.withOpacity(0.5)),
-                            )
-                          ],
-                        ),
-                        // color: Colors.black12,
-                      ),
-                    ),
-                  ],
+                Icon(CupertinoIcons.person_circle,
+                    color: AppColors.primaryColor, size: 45),
+                SizedBox(height: 10),
+                Text(
+                  ConstString.noMatchesUser,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: AppColors.black,
+                      fontSize: 15,
+                      fontFamily: AppFont.fontBold),
                 ),
               ],
-            );
-          },
-        ),
-      ),
-      Obx(
-        () => Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (int i = 0; i < 2; i++)
-                controller.pageIndex.value == i
-                    ? Container(
-                        height: 5,
-                        width: 17,
-                        margin: const EdgeInsets.symmetric(horizontal: 2),
-                        decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.circular(10)),
-                      )
-                    : Container(
-                        height: 5,
-                        width: 6,
-                        margin: const EdgeInsets.symmetric(horizontal: 2),
-                        decoration: BoxDecoration(
-                            color: Colors.black26,
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-            ],
-          ),
-        ),
-      ),
-    ];
+            )),
+          );
+        }
+      },
+    );
   }
 
   List<Widget> BookmarkPostWidget(
@@ -528,8 +472,8 @@ class PostScreen extends GetView<PostController> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return MedicineShimmerWidget(
-              itemCount: 4,
-              height: 500,
+              itemCount: 2,
+              height: 400,
             );
           }
           if (snapshot.hasData) {
@@ -537,16 +481,17 @@ class PostScreen extends GetView<PostController> {
 
             return Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 child: RefreshIndicator(
                   onRefresh: () async {
                     await Future.delayed(Duration(seconds: 2));
                   },
                   color: AppColors.primaryColor,
                   child: ListView.builder(
+                    padding: EdgeInsets.zero,
                     physics: ScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: medicineDetails.length,
+                    itemCount: medicineDetails.length >= 2 ? 2 : 1,
                     itemBuilder: (context, index) {
                       return MedicineWidget(
                         medicineDetail: medicineDetails.elementAt(index),

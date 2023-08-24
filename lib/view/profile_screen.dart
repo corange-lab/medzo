@@ -280,9 +280,57 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(
                           height: 15,
                         ),
-                        PostListWidget(
-                          streamQuery: postController.streamUserPosts(userId),
-                          type: PostFetchType.userPosts,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextWidget(
+                                ConstString.allpost,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayMedium!
+                                    .copyWith(
+                                      color: AppColors.darkPrimaryColor,
+                                      fontFamily: AppFont.fontFamily,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                      fontSize: 15.5,
+                                    ),
+                              ),
+                              TextButton(
+                                  onPressed: () async {},
+                                  child: Row(
+                                    children: [
+                                      TextWidget(
+                                        ConstString.viewall,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(
+                                                color: AppColors.primaryColor,
+                                                height: 1.4,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 14),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 2),
+                                        child: SvgPicture.asset(
+                                          SvgIcon.arrowright,
+                                          height: 18,
+                                        ),
+                                      )
+                                    ],
+                                  ))
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: PostListWidget(
+                            streamQuery: postController.streamUserPosts(userId),
+                            type: PostFetchType.userPosts,
+                          ),
                         ),
                       ],
                     ),

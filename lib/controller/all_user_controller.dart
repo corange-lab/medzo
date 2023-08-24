@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/user_repository.dart';
 import 'package:medzo/model/user_model.dart';
@@ -11,12 +12,23 @@ class AllUserController extends GetxController {
   RxList<UserModel> allUsers = <UserModel>[].obs;
 
   CollectionReference userRef = FirebaseFirestore.instance.collection("users");
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+  UserModel? currentUser;
 
   @override
   void onInit() {
     log('AllUserController onInit');
     super.onInit();
     fetchAllUser();
+    fetchCurrentUser();
+  }
+
+  fetchCurrentUser() async {
+    try {
+      currentUser = await fetchUser(userId);
+    } catch (e) {
+      print("An Error Occured : $e");
+    }
   }
 
   fetchAllUser() {
@@ -57,3 +69,6 @@ class AllUserController extends GetxController {
     return updatedUserData;
   }
 }
+
+
+

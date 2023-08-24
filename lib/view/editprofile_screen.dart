@@ -255,8 +255,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ElevatedButton(
                 onPressed: () async {
                   progressDialogue(context, title: "Profile updating");
-                  String name = controller.nameController.text;
-                  String profession = controller.professionController.text;
+                  String name = controller.nameController.text.trim();
+                  String profession =
+                      controller.professionController.text.trim();
                   String? username =
                       FirebaseAuth.instance.currentUser!.displayName;
                   String userid = FirebaseAuth.instance.currentUser!.uid;

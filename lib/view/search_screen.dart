@@ -12,14 +12,22 @@ import 'package:medzo/view/medicine_detail.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
   @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  @override
   Widget build(BuildContext context) {
+    bool isShow = false;
+
     return GetBuilder<MedicineController>(
       init: MedicineController(),
       builder: (controller) {
+        isShow = true;
         return Scaffold(
           backgroundColor: AppColors.whitehome,
           appBar: AppBar(
@@ -46,24 +54,28 @@ class SearchScreen extends StatelessWidget {
                     cursorColor: AppColors.grey,
                     onChanged: (value) {
                       controller.searchMedicineByName(value);
+                      if (controller.searchMedicineText.text.isNotEmpty) {
+                        isShow = true;
+                      } else {
+                        isShow = false;
+                      }
+                      setState(() {});
                     },
                     decoration: InputDecoration(
                       filled: true,
                       enabled: true,
-                      suffixIcon: controller.searchMedicineText.text.isEmpty
-                          ? SizedBox()
-                          : Padding(
-                              padding: const EdgeInsets.only(right: 3),
-                              child: IconButton(
-                                onPressed: () {
-                                  controller.searchMedicineText.clear();
-                                },
-                                icon: Icon(
-                                  Icons.close,
-                                  size: 22,
-                                ),
-                              ),
-                            ),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 3),
+                        child: IconButton(
+                          onPressed: () {
+                            controller.searchMedicineText.clear();
+                          },
+                          icon: Icon(
+                            Icons.close,
+                            size: 22,
+                          ),
+                        ),
+                      ),
                       prefixIcon: Padding(
                         padding: const EdgeInsets.only(
                             top: 15, bottom: 15, left: 10),

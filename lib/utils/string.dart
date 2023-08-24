@@ -191,6 +191,7 @@ class ConstString {
   static const String nodata = "No Data Found";
   static const String noMedicine = "No Medicine Found";
   static const String noCategory = "No Category Found";
+  static const String noMatchesUser = "No Matches User";
   static const String noReview = "No Reviews Found";
   static const String nopost = "No Post Data Found!";
   static const String nouser = "No User Found";

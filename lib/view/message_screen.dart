@@ -103,12 +103,12 @@ class MessageScreen extends StatelessWidget {
                               alignment: Alignment.topLeft,
                               child: TextWidget(
                                 "${userModel.name ?? "Medzo User"}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge!
-                                    .copyWith(
-                                        fontFamily: AppFont.fontBold,
-                                        fontSize: 15),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(
+                                          fontFamily: AppFont.fontBold,
+                                          fontSize: 15),
                               ),
                             ),
                             subtitle: Align(
