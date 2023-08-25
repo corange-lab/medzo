@@ -28,7 +28,7 @@ class MedicineWidget extends StatelessWidget {
     return GetBuilder<MedicineController>(
         id: medicineDetail.id.toString(),
         builder: (ctrl) {
-          double rating = double.parse(medicineDetail.ratings! ?? "0.0");
+          double rating = double.parse(medicineDetail.ratings ?? "0.0");
 
           return GestureDetector(
             onTap: () {
@@ -68,7 +68,7 @@ class MedicineWidget extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextWidget(
-                                    medicineDetail.medicineName ?? "",
+                                    medicineDetail.genericName ?? "",
                                     textAlign: TextAlign.start,
                                     style: Theme.of(context)
                                         .textTheme
@@ -196,7 +196,7 @@ class MedicineWidget extends StatelessWidget {
                                 width: 5,
                               ),
                               TextWidget(
-                                "${medicineDetail.genericName!.length > 20 ? "${medicineDetail.genericName!.substring(0, 20)}..." : medicineDetail.genericName}",
+                                "${(medicineDetail.medicineName ?? '').length > 20 ? "${(medicineDetail.medicineName ?? '').substring(0, 20)}..." : medicineDetail.medicineName}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleSmall!

@@ -131,7 +131,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   itemCount: controller.medicines.length,
                   itemBuilder: (context, index) {
                     final medicine = controller.medicines[index];
-                    double rating = double.parse(medicine.ratings! ?? "0.0");
+                    double rating = double.parse(medicine.ratings ?? "0.0");
                     return GestureDetector(
                       onTap: () {
                         Get.to(MedicineDetail(medicineDetail: medicine));
@@ -174,7 +174,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             TextWidget(
-                                              medicine.medicineName ?? "",
+                                              medicine.genericName ?? "",
                                               textAlign: TextAlign.start,
                                               style: Theme.of(context)
                                                   .textTheme
@@ -318,7 +318,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           width: 5,
                                         ),
                                         TextWidget(
-                                          "${medicine.genericName!.length > 20 ? "${medicine.genericName!.substring(0, 20)}..." : medicine.genericName}",
+                                          "${medicine.medicineName!.length > 20 ? "${medicine.medicineName!.substring(0, 20)}..." : medicine.medicineName}",
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleSmall!

@@ -65,7 +65,7 @@ class _MedicineDetailState extends State<MedicineDetail>
             padding: const EdgeInsets.only(right: 10),
             child: TextWidget(
               // FIXME: add Medicine Name
-              medicineDetail?.medicineName ?? '-',
+              medicineDetail?.genericName ?? '-',
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontSize: 17.5,
                   fontFamily: AppFont.fontBold,
@@ -332,9 +332,9 @@ class _MedicineDetailState extends State<MedicineDetail>
     return Container(
       // height: Responsive.height(10, context),
       margin: EdgeInsets.only(
-          bottom: medicineDetails.warning!.length > 300
+          bottom: (medicineDetails.warning ?? '').length > 300
               ? 20
-              : (medicineDetails.warning!.length > 100 ? 200 : 260),
+              : ((medicineDetails.warning ?? '').length > 100 ? 200 : 260),
           left: 10,
           right: 10,
           top: 10),
