@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/controller/chat_controller.dart';
-import 'package:medzo/controller/user_repository.dart';
 import 'package:medzo/model/chat_room.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
@@ -13,10 +13,10 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/chat_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user_profile_widget.dart';
-import 'package:shimmer/shimmer.dart';
 
 class MessageScreen extends StatelessWidget {
-  ChatController chatController = Get.put(ChatController());
+  final ChatController chatController = Get.put(ChatController());
+  final AllUserController allUserController = Get.put(AllUserController());
 
   @override
   Widget build(BuildContext context) {
@@ -71,87 +71,66 @@ class MessageScreen extends StatelessWidget {
                     Map<String, dynamic> participants = chatRoom.participants!;
 
                     List<String> participantKey = participants.keys.toList();
-
+                    print('participantKey[0] ${participantKey[0]}');
                     participantKey.remove(chatController.currentUser);
+                    UserModel? userModel = allUserController.allUsers
+                        .firstWhereOrNull(
+                            (element) => element.id == participantKey[0]);
+                    if (userModel == null) {
+                      return Container();
+                    }
+                    String lastMessageTime = chatController
+                        .formatTimestamp(chatRoom.lastMessageTime.toString());
 
-                    return FutureBuilder(
-                      future:
-                          UserRepository.instance.fetchUser(participantKey[0]),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          UserModel userModel = snapshot.data as UserModel;
+                    return ListTile(
+                      horizontalTitleGap: 10,
+                      onTap: () async {
+                        ChatRoom? chatRoom =
+                            await chatController.getChatRoom(userModel.id!);
 
-                          String lastMessageTime =
-                              chatController.formatTimestamp(
-                                  chatRoom.lastMessageTime.toString());
-
-                          return ListTile(
-                            horizontalTitleGap: 10,
-                            onTap: () async {
-                              ChatRoom? chatRoom = await chatController
-                                  .getChatRoom(userModel.id!);
-
-                              if (chatRoom != null) {
-                                Get.to(() => ChatScreen(
-                                      userModel: userModel,
-                                      chatRoom: chatRoom,
-                                    ));
-                              }
-                            },
-                            leading: UserProfileWidget(userModel: userModel),
-                            title: Align(
-                              alignment: Alignment.topLeft,
-                              child: TextWidget(
-                                "${userModel.name ?? "Medzo User"}",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelLarge!
-                                      .copyWith(
-                                          fontFamily: AppFont.fontBold,
-                                          fontSize: 15),
-                              ),
-                            ),
-                            subtitle: Align(
-                              alignment: Alignment.topLeft,
-                              child: TextWidget(
-                                "${chatRoom.lastMessage.toString()}",
-                                textAlign: TextAlign.start,
-                                maxLine: 1,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                        fontFamily: AppFont.fontMedium,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.3,
-                                        fontSize: 12.5,
-                                        color: AppColors.grey),
-                              ),
-                            ),
-                            trailing: TextWidget(
-                              "${lastMessageTime}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      color: AppColors.darkGrey, fontSize: 11),
-                            ),
-                          );
-                        } else {
-                          return Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Shimmer.fromColors(
-                              child: ListTile(
-                                leading: CircleAvatar(),
-                                title: Text("Medzo"),
-                                trailing: Icon(Icons.chat),
-                              ),
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: Colors.grey[100]!,
-                            ),
-                          );
+                        if (chatRoom != null) {
+                          Get.to(() => ChatScreen(
+                                userModel: userModel,
+                                chatRoom: chatRoom,
+                              ));
                         }
                       },
+                      leading: UserProfileWidget(userModel: userModel),
+                      title: Align(
+                        alignment: Alignment.topLeft,
+                        child: TextWidget(
+                          "${userModel.name ?? "Medzo User"}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(
+                                  fontFamily: AppFont.fontBold, fontSize: 15),
+                        ),
+                      ),
+                      subtitle: Align(
+                        alignment: Alignment.topLeft,
+                        child: TextWidget(
+                          "${chatRoom.lastMessage.toString()}",
+                          textAlign: TextAlign.start,
+                          maxLine: 1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(
+                                  fontFamily: AppFont.fontMedium,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.3,
+                                  fontSize: 12.5,
+                                  color: AppColors.grey),
+                        ),
+                      ),
+                      trailing: TextWidget(
+                        "${lastMessageTime}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: AppColors.darkGrey, fontSize: 11),
+                      ),
                     );
                   },
                 );

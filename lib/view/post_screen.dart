@@ -155,7 +155,7 @@ class PostScreen extends GetView<PostController> {
     final itemsPerPage = 6;
     UserModel? currentUser = userController.currentUser;
     return StreamBuilder<List<UserModel>>(
-      stream: userController.fetchMatchesUser(currentUser!.profession!),
+      stream: userController.fetchMatchesUser(currentUser?.profession ?? ''),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Shimmer.fromColors(
@@ -479,6 +479,9 @@ class PostScreen extends GetView<PostController> {
           if (snapshot.hasData) {
             List<Medicine> medicineDetails = snapshot.data!;
 
+            if (medicineDetails.isEmpty) {
+              return Container();
+            }
             return Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
