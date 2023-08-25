@@ -10,10 +10,10 @@ class SplashScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Future.delayed(const Duration(seconds: 5)).then((value) {
+    Future.delayed(const Duration(seconds: 5)).then((value) async {
       if (_auth.currentUser != null) {
         UserController userController = Get.find();
-        userController.fetchUser();
+        await userController.fetchUser();
         Get.offAll(() => HomeScreen());
       } else {
         Get.offAll(() => LoginScreen());

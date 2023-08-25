@@ -54,16 +54,6 @@ class HomeScreen extends GetView<HomeController> {
           );
         } else if (controller.pageIndex.value == 2) {
           return Scaffold(
-            body: Center(
-              child: Container(
-                color: AppColors.whitehome,
-                child: const Text("QR"),
-              ),
-            ),
-            bottomNavigationBar: bottomNavigationBar(controller, context),
-          );
-        } else if (controller.pageIndex.value == 3) {
-          return Scaffold(
             body: BookmarkScreen(),
             bottomNavigationBar: bottomNavigationBar(controller, context),
           );
@@ -632,7 +622,7 @@ class HomeScreen extends GetView<HomeController> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return MedicineShimmerWidget();
+                            return MedicineShimmerWidget(height: 100);
                           }
                           if (snapshot.hasData) {
                             List<Medicine> medicineDetails = snapshot.data!;
@@ -701,7 +691,7 @@ class HomeScreen extends GetView<HomeController> {
       id: 'PageUpdate',
       builder: (controller) {
         return Container(
-          height: 11.h,
+          height: 10.5.h,
           alignment: Alignment.topCenter,
           decoration: BoxDecoration(
             boxShadow: [
@@ -714,7 +704,7 @@ class HomeScreen extends GetView<HomeController> {
             color: AppColors.white,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: BottomNavigationBar(
                 backgroundColor: AppColors.white,
                 type: BottomNavigationBarType.fixed,
@@ -766,26 +756,26 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                       ),
                       label: "Post"),
-                  BottomNavigationBarItem(
-                      icon: Padding(
-                        padding:
-                            const EdgeInsets.only(bottom: 6, left: 5, right: 5),
-                        child: SvgPicture.asset(
-                          SvgIcon.qrcode,
-                          color: controller.pageIndex.value == 2
-                              ? AppColors.primaryColor
-                              : AppColors.grey,
-                          height: 22,
-                        ),
-                      ),
-                      label: "QR Code"),
+                  // BottomNavigationBarItem(
+                  //     icon: Padding(
+                  //       padding:
+                  //           const EdgeInsets.only(bottom: 6, left: 5, right: 5),
+                  //       child: SvgPicture.asset(
+                  //         SvgIcon.qrcode,
+                  //         color: controller.pageIndex.value == 2
+                  //             ? AppColors.primaryColor
+                  //             : AppColors.grey,
+                  //         height: 22,
+                  //       ),
+                  //     ),
+                  //     label: "QR Code"),
                   BottomNavigationBarItem(
                       icon: Padding(
                         padding:
                             const EdgeInsets.only(bottom: 5, left: 5, right: 5),
                         child: SvgPicture.asset(
                           SvgIcon.bookmark,
-                          color: controller.pageIndex.value == 3
+                          color: controller.pageIndex.value == 2
                               ? AppColors.primaryColor
                               : AppColors.grey,
                           height: 22,
@@ -798,7 +788,7 @@ class HomeScreen extends GetView<HomeController> {
                             const EdgeInsets.only(bottom: 5, left: 5, right: 5),
                         child: SvgPicture.asset(
                           SvgIcon.profile,
-                          color: controller.pageIndex.value == 4
+                          color: controller.pageIndex.value == 3
                               ? AppColors.primaryColor
                               : AppColors.grey,
                           height: 22,

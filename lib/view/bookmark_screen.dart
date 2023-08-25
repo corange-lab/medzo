@@ -50,7 +50,7 @@ class BookmarkScreen extends StatelessWidget {
               height: 600,
             );
           }
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             List<Medicine> medicineDetails = snapshot.data!;
 
             return Padding(

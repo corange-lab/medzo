@@ -65,7 +65,7 @@ class _MedicineDetailState extends State<MedicineDetail>
             padding: const EdgeInsets.only(right: 10),
             child: TextWidget(
               // FIXME: add Medicine Name
-              medicineDetail?.medicineName ?? '-',
+              medicineDetail?.genericName ?? '-',
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontSize: 17.5,
                   fontFamily: AppFont.fontBold,
@@ -331,363 +331,415 @@ class _MedicineDetailState extends State<MedicineDetail>
   Container warningWidget(context, Medicine medicineDetails) {
     return Container(
       // height: Responsive.height(10, context),
-      margin: EdgeInsets.only(
-          bottom: medicineDetails.warning!.length > 300
-              ? 20
-              : (medicineDetails.warning!.length > 100 ? 200 : 260),
-          left: 10,
-          right: 10,
-          top: 10),
+      // margin: EdgeInsets.only(
+      //     bottom: medicineDetails.warning!.length > 300
+      //         ? 20
+      //         : (medicineDetails.warning!.length > 100 ? 200 : 260),
+      //     left: 10,
+      //     right: 10,
+      //     top: 10),
       decoration: BoxDecoration(
           border: Border.all(width: 1, color: AppColors.splashdetail),
           color: AppColors.white,
           borderRadius: BorderRadius.circular(6)),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: TextWidget(
-                  medicineDetails.warning ?? '--',
-                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                        fontSize: 13.2,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: AppFont.fontMedium,
-                        height: 1.6,
-                        color: AppColors.dark,
+      child: medicineDetail!.warning != null
+          ? Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 10),
+                      child: TextWidget(
+                        medicineDetails.warning!,
+                        style:
+                            Theme.of(context).textTheme.displayMedium!.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: AppFont.fontMedium,
+                                  height: 1.6,
+                                  color: AppColors.dark,
+                                ),
+                        textAlign: TextAlign.start,
                       ),
-                  textAlign: TextAlign.start,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox(
+                                height: 70,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SvgPicture.asset(
+                                      SvgIcon.alcohol,
+                                      height: 25,
+                                    ),
+                                    TextWidget(
+                                      ConstString.alcohol,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              color: AppColors.grey,
+                                              fontSize: 11.5),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox(
+                                height: 70,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SvgPicture.asset(
+                                      SvgIcon.pill,
+                                      height: 25,
+                                    ),
+                                    TextWidget(
+                                      ConstString.maoi,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              color: AppColors.grey,
+                                              fontSize: 11.5),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 3),
+                              child: SizedBox(
+                                height: 70,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SvgPicture.asset(
+                                      SvgIcon.snowflack,
+                                      height: 25,
+                                    ),
+                                    TextWidget(
+                                      ConstString.therphy,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              color: AppColors.grey,
+                                              fontSize: 10.9),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox(
+                                height: 70,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SvgPicture.asset(
+                                      SvgIcon.Rx,
+                                      height: 25,
+                                      color: AppColors.grey,
+                                    ),
+                                    TextWidget(
+                                      ConstString.drugs,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              color: AppColors.grey,
+                                              fontSize: 11.5),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Center(
+                      child: TextWidget(
+                        ConstString.clickicon,
+                        style:
+                            Theme.of(context).textTheme.displayMedium!.copyWith(
+                                  height: 1.5,
+                                  fontFamily: AppFont.fontFamilysemi,
+                                  fontSize: 13.2,
+                                  color: AppColors.red,
+                                ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Row(
+            )
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: SizedBox(
-                          height: 70,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SvgPicture.asset(
-                                SvgIcon.alcohol,
-                                height: 25,
-                              ),
-                              TextWidget(
-                                ConstString.alcohol,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                        color: AppColors.grey, fontSize: 11.5),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                  SizedBox(
+                    child: Image.asset(
+                      SvgIcon.nodata,
+                      scale: 0.5,
                     ),
+                    width: 50,
                   ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: SizedBox(
-                          height: 70,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SvgPicture.asset(
-                                SvgIcon.pill,
-                                height: 25,
-                              ),
-                              TextWidget(
-                                ConstString.maoi,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                        color: AppColors.grey, fontSize: 11.5),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                  SizedBox(
+                    height: 10,
                   ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3),
-                        child: SizedBox(
-                          height: 70,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SvgPicture.asset(
-                                SvgIcon.snowflack,
-                                height: 25,
-                              ),
-                              TextWidget(
-                                ConstString.therphy,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                        color: AppColors.grey, fontSize: 10.9),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: SizedBox(
-                          height: 70,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SvgPicture.asset(
-                                SvgIcon.Rx,
-                                height: 25,
-                                color: AppColors.grey,
-                              ),
-                              TextWidget(
-                                ConstString.drugs,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                        color: AppColors.grey, fontSize: 11.5),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                  Text(
+                    ConstString.noWarning,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: AppColors.black,
+                        fontSize: 15,
+                        fontFamily: AppFont.fontBold),
                   ),
                 ],
               ),
-              TextWidget(
-                ConstString.clickicon,
-                style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                      height: 1.5,
-                      fontFamily: AppFont.fontFamilysemi,
-                      fontSize: 13.2,
-                      color: AppColors.red,
-                    ),
-                textAlign: TextAlign.start,
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
   Container aboutWidget(context) {
     return Container(
-      // height: 440,
-      margin: const EdgeInsets.only(bottom: 40, left: 10, right: 10, top: 10),
+      // margin: const EdgeInsets.only(bottom: 40, left: 10, right: 10, top: 10),
       decoration: BoxDecoration(
           border: Border.all(width: 1, color: AppColors.splashdetail),
           color: AppColors.white,
           borderRadius: BorderRadius.circular(6)),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: TextWidget(
-                  // FIXME: add Details about Medicine
-                  "Cetirizine is an over-the-counter antihistamine used to relieve allergy symptoms such as runny nose, sneezing, itching, watery eyes, and itching of the nose or throat. It also can help relieve itching and swelling caused by chronic urticaria (hives). Cetirizine works by blocking the effects of histamine, a substance in the body that causes allergy symptoms.",
-                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                        fontSize: 13.2,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: AppFont.fontMedium,
-                        height: 1.6,
-                        color: AppColors.dark,
+      child: medicineDetail!.about!.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: TextWidget(
+                        "${medicineDetail!.about}",
+                        style:
+                            Theme.of(context).textTheme.displayMedium!.copyWith(
+                                  fontSize: 13.2,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: AppFont.fontMedium,
+                                  height: 1.6,
+                                  color: AppColors.dark,
+                                ),
+                        textAlign: TextAlign.start,
                       ),
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: TextWidget(
-                  // FIXME: add Medicine details
-                  "Although Cetirizine is generally considered safe for use, the manufacturers often list several",
-                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                        fontSize: 13.2,
-                        height: 1.5,
-                        color: AppColors.dark,
-                      ),
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: TextWidget(
-                    // FIXME: add Medicine Details
-                    "potential warnings and precautions",
-                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                          fontSize: 13.2,
-                          height: 1.5,
-                          color: AppColors.primaryColor,
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox(
+                                height: 70,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SvgPicture.asset(
+                                      SvgIcon.pass_eye,
+                                      height: 25,
+                                    ),
+                                    TextWidget(
+                                      ConstString.drowsiness,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              color: AppColors.grey,
+                                              fontSize: 11.5),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                    textAlign: TextAlign.start,
-                  ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox(
+                                height: 70,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SvgPicture.asset(
+                                      SvgIcon.baby,
+                                      height: 25,
+                                    ),
+                                    TextWidget(
+                                      ConstString.pregnancy,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              color: AppColors.grey,
+                                              fontSize: 11.5),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox(
+                                height: 70,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SvgPicture.asset(
+                                      SvgIcon.pill,
+                                      height: 25,
+                                    ),
+                                    TextWidget(
+                                      ConstString.allergy,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              color: AppColors.grey,
+                                              fontSize: 11.5),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox(
+                                height: 70,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SvgPicture.asset(SvgIcon.masksad,
+                                        height: 25),
+                                    TextWidget(
+                                      ConstString.olderage,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                              color: AppColors.grey,
+                                              fontSize: 11.5),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    TextWidget(
+                      ConstString.clickicon,
+                      style:
+                          Theme.of(context).textTheme.displayMedium!.copyWith(
+                                height: 1.5,
+                                fontSize: 13,
+                                fontFamily: AppFont.fontFamilysemi,
+                                color: AppColors.red,
+                              ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
                 ),
               ),
-              Row(
+            )
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: SizedBox(
-                          height: 70,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SvgPicture.asset(
-                                SvgIcon.pass_eye,
-                                height: 25,
-                              ),
-                              TextWidget(
-                                ConstString.drowsiness,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                        color: AppColors.grey, fontSize: 11.5),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                  SizedBox(
+                    child: Image.asset(
+                      SvgIcon.nodata,
+                      scale: 0.5,
                     ),
+                    width: 50,
                   ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: SizedBox(
-                          height: 70,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SvgPicture.asset(
-                                SvgIcon.baby,
-                                height: 25,
-                              ),
-                              TextWidget(
-                                ConstString.pregnancy,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                        color: AppColors.grey, fontSize: 11.5),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                  SizedBox(
+                    height: 10,
                   ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: SizedBox(
-                          height: 70,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SvgPicture.asset(
-                                SvgIcon.pill,
-                                height: 25,
-                              ),
-                              TextWidget(
-                                ConstString.allergy,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                        color: AppColors.grey, fontSize: 11.5),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: SizedBox(
-                          height: 70,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SvgPicture.asset(SvgIcon.masksad, height: 25),
-                              TextWidget(
-                                ConstString.olderage,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                        color: AppColors.grey, fontSize: 11.5),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                  Text(
+                    ConstString.noAbout,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: AppColors.black,
+                        fontSize: 15,
+                        fontFamily: AppFont.fontBold),
                   ),
                 ],
               ),
-              SizedBox(
-                height: 5,
-              ),
-              TextWidget(
-                ConstString.clickicon,
-                style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                      height: 1.5,
-                      fontSize: 13,
-                      fontFamily: AppFont.fontFamilysemi,
-                      color: AppColors.red,
-                    ),
-                textAlign: TextAlign.start,
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
@@ -764,7 +816,7 @@ class _MedicineDetailState extends State<MedicineDetail>
                                     Padding(
                                       padding: const EdgeInsets.only(top: 3),
                                       child: TextWidget(
-                                        "${medicineRating ?? "0"}/5",
+                                        "${medicineRating}/5",
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelMedium!

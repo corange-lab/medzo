@@ -83,16 +83,25 @@ class MedicineController extends GetxController {
   void searchMedicineByName(String medicineName) {
     medicineRef
         .where(
-          "medicineName",
+          "genericName",
           isGreaterThanOrEqualTo: medicineName,
         )
-        .where("medicineName", isLessThan: medicineName + '\uf8ff')
+        .where("genericName", isLessThan: medicineName + '\uf8ff')
         .get()
         .then((snapshot) {
       medicines.value = snapshot.docs
           .map((doc) => Medicine.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
     });
+  }
+
+  Future<CategoryDataModel> fetchCategoryFromId(String categoryId) async {
+    DocumentSnapshot documentSnapshot = await categoryRef.doc(categoryId).get();
+
+    CategoryDataModel category = CategoryDataModel.fromMap(
+        documentSnapshot.data() as Map<String, dynamic>);
+
+    return category;
   }
 
   Stream<List<Medicine>> fetchMedicine() {

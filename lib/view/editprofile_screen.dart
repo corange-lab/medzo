@@ -258,8 +258,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   String name = controller.nameController.text.trim();
                   String profession =
                       controller.professionController.text.trim();
-                  String? username =
-                      FirebaseAuth.instance.currentUser!.displayName;
                   String userid = FirebaseAuth.instance.currentUser!.uid;
 
                   if (name.isNotEmpty && profession.isNotEmpty) {

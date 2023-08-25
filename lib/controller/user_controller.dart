@@ -91,7 +91,7 @@ class UserController extends GetxController {
     }).toList();
   }
 
-  /* // Stream of followers
+/* // Stream of followers
   Stream<List<UserRelationship>> followersStream =
       userService.streamFollowers('user_id');
 

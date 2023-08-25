@@ -98,7 +98,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               TextWidget(
                 // FIXME: add Medicine Name
-                medicineDetails?.medicineName ?? "-",
+                medicineDetails?.genericName ?? "-",
                 style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontSize: 15.5,
                     letterSpacing: 0,

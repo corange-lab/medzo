@@ -38,7 +38,7 @@ class MedicineShimmerWidget extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: 12.h,
+                        height: 10.h,
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),

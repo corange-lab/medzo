@@ -1,48 +1,52 @@
 class Medicine {
   String? id;
-  String? medicineName;
+  String? genericName;
   String? shortDescription;
   String? categoryId;
-  String? genericName;
+  String? brandName;
   String? about;
   String? ratings;
   String? warning;
-  // String? medicationsAndSubstances;
+  String? medicationsAndSubstances;
+  String? drugDrugInteractions;
 
   Medicine({this.id,
-    this.medicineName,
+    this.genericName,
     this.shortDescription,
     this.categoryId,
-    this.genericName,
+    this.brandName,
     this.about,
     this.warning,
     this.ratings,
-    // this.medicationsAndSubstances
+    this.medicationsAndSubstances,
+    this.drugDrugInteractions
   });
 
   Medicine.fromMap(Map<String, dynamic> map) {
     id = map['id'];
-    medicineName = map['medicineName'];
+    genericName = map['genericName'];
     shortDescription = map['shortDescription'];
     categoryId = map['categoryId'];
-    genericName = map['genericName'];
+    brandName = map['brandName'];
     about = map['about'];
     warning = map['warning'];
     ratings = map['ratings'];
-    // medicationsAndSubstances = map['medicationsAndSubstances'];
+    medicationsAndSubstances = map['medicationsAndSubstances'];
+    drugDrugInteractions = map['drugDrugInteractions'];
   }
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['medicineName'] = medicineName;
+    data['genericName'] = genericName;
     data['shortDescription'] = shortDescription;
     data['categoryId'] = categoryId;
-    data['genericName'] = genericName;
+    data['brandName'] = brandName;
     data['about'] = about;
     data['warning'] = warning;
     data['ratings'] = ratings;
-    // data['medicationsAndSubstances'] = medicationsAndSubstances;
+    data['medicationsAndSubstances'] = medicationsAndSubstances;
+    data['drugDrugInteractions'] = drugDrugInteractions;
     return data;
   }
 }
