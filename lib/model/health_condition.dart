@@ -1,7 +1,7 @@
 class HealthCondition {
   bool? doesHealthCondition;
   String? healthCondition;
-  String? healthConditionDuration;
+  var healthConditionDuration;
 
   HealthCondition({
     this.doesHealthCondition,

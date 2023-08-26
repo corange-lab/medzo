@@ -81,18 +81,34 @@ class MedicineController extends GetxController {
       FirebaseFirestore.instance.collection('favourites');
 
   void searchMedicineByName(String medicineName) {
-    medicineRef
-        .where(
-          "genericName",
-          isGreaterThanOrEqualTo: medicineName,
-        )
-        .where("genericName", isLessThan: medicineName + '\uf8ff')
-        .get()
-        .then((snapshot) {
-      medicines.value = snapshot.docs
-          .map((doc) => Medicine.fromMap(doc.data() as Map<String, dynamic>))
-          .toList();
-    });
+    try {
+      medicines.clear();
+      medicineRef
+          .where("genericName", isGreaterThanOrEqualTo: medicineName)
+          .where("genericName", isLessThan: medicineName + '\uf8ff')
+          .get()
+          .then((snapshot) {
+        var _medicines = snapshot.docs
+            .map((doc) => Medicine.fromMap(doc.data() as Map<String, dynamic>))
+            .toList();
+        medicines.addAll(_medicines);
+        // update();
+      });
+      // medicineRef
+      //     .where("brandName", isGreaterThanOrEqualTo: medicineName)
+      //     .where("brandName", isLessThan: medicineName + '\uf8ff')
+      //     .get()
+      //     .then((snapshot) {
+      //   var _medicines = snapshot.docs
+      //       .map((doc) => Medicine.fromMap(doc.data() as Map<String, dynamic>))
+      //       .toList();
+      //
+      //   medicines.addAll(_medicines);
+      //   update();
+      // });
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<CategoryDataModel> fetchCategoryFromId(String categoryId) async {

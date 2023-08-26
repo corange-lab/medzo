@@ -10,6 +10,7 @@ import 'package:medzo/model/health_condition.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/home_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -214,6 +215,11 @@ class QuestionScreen extends GetView<QuestionController> {
 
   Future<void> saveAndNext(QuestionController controller) async {
     if (controller.selectedPageIndex.value == 0) {
+      if (controller.healthAns.value == true &&
+          controller.healthDropdown.value == controller.healthCondition.first) {
+        showInSnackBar('Please select health condition or skip');
+        return;
+      }
       await animateToSpecifiedPage(controller, 1);
       controller.userModel = controller.userModel.copyWith(
         healthCondition: HealthCondition(
@@ -223,6 +229,11 @@ class QuestionScreen extends GetView<QuestionController> {
         ),
       );
     } else if (controller.selectedPageIndex.value == 1) {
+      if (controller.healthAns.value == true &&
+          controller.healthDropdown.value == controller.healthCondition.first) {
+        showInSnackBar('Please select health condition or skip');
+        return;
+      }
       await animateToSpecifiedPage(controller, 2);
       controller.userModel = controller.userModel.copyWith(
         currentMedication: CurrentMedication(
@@ -232,6 +243,13 @@ class QuestionScreen extends GetView<QuestionController> {
         ),
       );
     } else if (controller.selectedPageIndex.value == 2) {
+      if (controller.healthAns.value == true &&
+          (controller.allergiesController.text.trim().isEmpty ||
+              controller.howSeverAllergiesController.text.trim().isEmpty)) {
+        showInSnackBar('Please enter Allergy details or skip');
+        return;
+      }
+
       await animateToSpecifiedPage(controller, 3);
       controller.userModel = controller.userModel.copyWith(
         allergies: Allergies(
@@ -241,6 +259,10 @@ class QuestionScreen extends GetView<QuestionController> {
         ),
       );
     } else {
+      if (controller.ageController.text.trim().isEmpty) {
+        showInSnackBar('Please enter age or skip');
+        return;
+      }
       controller.userModel = controller.userModel.copyWith(
         ageGroup: AgeGroup(
           age: int.tryParse(controller.ageController.text.trim()) ?? 0,
@@ -385,95 +407,113 @@ class QuestionScreen extends GetView<QuestionController> {
                                     // }
                                   }),
                           ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: TextWidget(
-                              ctrl.questions[ctrl.selectedPageIndex.value][1],
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ctrl.selectedPageIndex.value == 0 ||
-                                  ctrl.selectedPageIndex.value == 1
-                              ? questionDropdown(context, ctrl)
-                              : ctrl.selectedPageIndex.value == 2
-                                  ? allergiesInputWidget(ctrl, context)
-                                  : ctrl.selectedPageIndex.value == 3
-                                      ? ageGroupWidget(context, ctrl)
-                                      : const SizedBox(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          ctrl.selectedPageIndex.value != 3
-                              ? Align(
+                          AnimatedOpacity(
+                            opacity: ctrl.healthAns.value ? 1 : 0,
+                            duration: Duration(milliseconds: 400),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                Align(
                                   alignment: Alignment.centerLeft,
                                   child: TextWidget(
                                     ctrl.questions[ctrl.selectedPageIndex.value]
-                                        [2],
+                                        [1],
                                     style:
                                         Theme.of(context).textTheme.titleLarge,
-                                    textAlign: TextAlign.left,
-                                  ))
-                              : const SizedBox(),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ctrl.selectedPageIndex.value != 3
-                              ? ctrl.selectedPageIndex.value == 0 ||
-                                      ctrl.selectedPageIndex.value == 1
-                                  ? Obx(() => Container(
-                                        decoration: BoxDecoration(
-                                            color: AppColors.splashdetail,
-                                            borderRadius:
-                                                BorderRadius.circular(30)),
-                                        height: 45,
-                                        width: SizerUtil.width,
-                                        child: DropdownButton(
-                                          underline: const SizedBox(),
-                                          items: ctrl.year.map((String items) {
-                                            return DropdownMenuItem<String>(
-                                              value: items,
-                                              child: TextWidget(
-                                                items,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .labelSmall!
-                                                    .copyWith(
-                                                        fontSize: 14,
-                                                        color: AppColors.black),
-                                              ),
-                                            );
-                                          }).toList(),
-                                          onChanged: (value) {
-                                            ctrl.yearDropdown.value = value!;
-                                          },
-                                          icon: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 210),
-                                            child: Icon(
-                                              Icons.keyboard_arrow_down,
-                                              color: AppColors.grey,
-                                            ),
-                                          ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                ctrl.selectedPageIndex.value == 0 ||
+                                        ctrl.selectedPageIndex.value == 1
+                                    ? questionDropdown(context, ctrl)
+                                    : ctrl.selectedPageIndex.value == 2
+                                        ? allergiesInputWidget(ctrl, context)
+                                        : ctrl.selectedPageIndex.value == 3
+                                            ? ageGroupWidget(context, ctrl)
+                                            : const SizedBox(),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                ctrl.selectedPageIndex.value != 3
+                                    ? Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: TextWidget(
+                                          ctrl.questions[
+                                              ctrl.selectedPageIndex.value][2],
                                           style: Theme.of(context)
                                               .textTheme
-                                              .titleMedium!
-                                              .copyWith(fontSize: 14),
-                                          value: ctrl.yearDropdown.value,
-                                          padding:
-                                              const EdgeInsets.only(left: 15),
-                                        ),
-                                      ))
-                                  : ctrl.selectedPageIndex.value == 2
-                                      ? howSeverAllergiesController(
-                                          ctrl, context)
-                                      : const SizedBox()
-                              : const SizedBox()
+                                              .titleLarge,
+                                          textAlign: TextAlign.left,
+                                        ))
+                                    : const SizedBox(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                ctrl.selectedPageIndex.value != 3
+                                    ? ctrl.selectedPageIndex.value == 0 ||
+                                            ctrl.selectedPageIndex.value == 1
+                                        ? Obx(() => Container(
+                                              decoration: BoxDecoration(
+                                                  color: AppColors.splashdetail,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30)),
+                                              height: 45,
+                                              width: SizerUtil.width,
+                                              child: DropdownButton(
+                                                underline: const SizedBox(),
+                                                items:
+                                                    ctrl.year.map((int items) {
+                                                  return DropdownMenuItem<int>(
+                                                    value: items,
+                                                    child: Container(
+                                                      width:
+                                                          SizerUtil.width * .75,
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: TextWidget(
+                                                        '$items ${items == 1 ? 'Year' : 'Years'}',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .labelSmall!
+                                                            .copyWith(
+                                                                fontSize: 14,
+                                                                color: AppColors
+                                                                    .black),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                                onChanged: (value) {
+                                                  ctrl.yearDropdown.value =
+                                                      value!;
+                                                },
+                                                iconSize: 25,
+                                                icon: Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  color: AppColors.grey,
+                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium!
+                                                    .copyWith(fontSize: 14),
+                                                value: ctrl.yearDropdown.value,
+                                                padding: const EdgeInsets.only(
+                                                    left: 15),
+                                              ),
+                                            ))
+                                        : ctrl.selectedPageIndex.value == 2
+                                            ? howSeverAllergiesController(
+                                                ctrl, context)
+                                            : const SizedBox()
+                                    : const SizedBox(),
+                              ],
+                            ),
+                          )
                         ],
                       );
                     },
@@ -497,24 +537,26 @@ class QuestionScreen extends GetView<QuestionController> {
             items: ctrl.healthCondition.map((String items) {
               return DropdownMenuItem<String>(
                 value: items,
-                child: TextWidget(
-                  items,
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelSmall!
-                      .copyWith(fontSize: 14, color: AppColors.black),
+                child: Container(
+                  width: SizerUtil.width * .75,
+                  alignment: Alignment.centerLeft,
+                  child: TextWidget(
+                    items.toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelSmall!
+                        .copyWith(fontSize: 14, color: AppColors.black),
+                  ),
                 ),
               );
             }).toList(),
             onChanged: (value) {
               ctrl.healthDropdown.value = value!;
             },
-            icon: Padding(
-              padding: const EdgeInsets.only(left: 180),
-              child: Icon(
-                Icons.keyboard_arrow_down,
-                color: AppColors.grey,
-              ),
+            iconSize: 25,
+            icon: Icon(
+              Icons.keyboard_arrow_down,
+              color: AppColors.grey,
             ),
             style:
                 Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14),
@@ -652,6 +694,7 @@ class QuestionScreen extends GetView<QuestionController> {
           groupValue: ctrl.healthAns.value,
           onChanged: (value) {
             ctrl.healthAns.value = value ?? false;
+            controller.update();
             // onChanged(value!);
           },
           activeColor: AppColors.primaryColor,
@@ -676,6 +719,7 @@ class QuestionScreen extends GetView<QuestionController> {
           groupValue: ctrl.healthAns.value,
           onChanged: (value) {
             ctrl.healthAns.value = value ?? true;
+            controller.update();
             // onChanged(value!);
           },
           activeColor: AppColors.primaryColor,

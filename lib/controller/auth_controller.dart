@@ -647,14 +647,22 @@ class AuthController extends GetxController {
     UserCredential credentials, {
     String? displayName,
   }) async {
-    List<String> name = getFirstLastName(credentials);
-    UserModel userModel = UserModel(
-        id: credentials.user?.uid,
-        email: credentials.user?.email,
-        name: (displayName ?? ('${name.first} ${name[1]}')),
-        profilePicture: credentials.user?.photoURL,
-        fcmToken: NotificationService.instance.deviceToken);
-    await UserRepository.getInstance().createNewUser(userModel);
+    late UserModel userModel;
+    bool isUserExist =
+        await UserRepository.getInstance().isUserExist(credentials.user!.uid);
+    if (!isUserExist) {
+      List<String> name = getFirstLastName(credentials);
+      userModel = UserModel(
+          id: credentials.user?.uid,
+          email: credentials.user?.email,
+          name: (displayName ?? ('${name.first} ${name[1]}')),
+          profilePicture: credentials.user?.photoURL,
+          fcmToken: NotificationService.instance.deviceToken);
+      await UserRepository.getInstance().createNewUser(userModel);
+    } else {
+      userModel =
+          await UserRepository.getInstance().fetchUser(credentials.user!.uid);
+    }
     return userModel;
   }
 

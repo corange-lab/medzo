@@ -245,72 +245,59 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(
                           height: 15,
                         ),
-                        FirebaseAuth.instance.currentUser!.uid == userId
-                            ? StreamBuilder(
-                                stream: userController.fetchMatchesUser(
-                                    userController.currentUser!.profession!),
-                                builder: (context, snapshot) {
-                                  List<UserModel>? userModel = snapshot.data;
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Get.to(
-                                          () => BestMatchesScreen(userModel));
-                                    },
-                                    child: Container(
-                                      height: 125,
-                                      width: SizerUtil.width,
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            colors: GradientThemeColors
-                                                .purpleGradient,
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight),
-                                        borderRadius: BorderRadius.circular(12),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Color(0x330064B2),
-                                            blurRadius: 24,
-                                            offset: Offset(0, 4),
-                                            spreadRadius: 0,
-                                          )
-                                        ],
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 4,
-                                            child: SvgPicture.asset(
-                                              AppImages.mobile_image,
-                                              height: 80,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 5,
-                                            child: TextWidget(
-                                              ConstString.profilesentance,
-                                              textAlign: TextAlign.start,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .labelLarge!
-                                                  .copyWith(
-                                                      color: AppColors.white,
-                                                      fontSize: 13.5,
-                                                      height: 1.7,
-                                                      letterSpacing: 0.3,
-                                                      fontFamily: AppFont
-                                                          .fontFamilysemi,
-                                                      wordSpacing: 0.3),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              )
-                            : SizedBox(),
+                        Visibility(
+                          visible:
+                              FirebaseAuth.instance.currentUser!.uid == userId,
+                          child: Container(
+                            height: 125,
+                            width: SizerUtil.width,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: GradientThemeColors.purpleGradient,
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight),
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x330064B2),
+                                  blurRadius: 24,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: SvgPicture.asset(
+                                    AppImages.mobile_image,
+                                    height: 80,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: TextWidget(
+                                    ConstString.profilesentance,
+                                    textAlign: TextAlign.start,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(
+                                            color: AppColors.white,
+                                            fontSize: 13.5,
+                                            height: 1.7,
+                                            letterSpacing: 0.3,
+                                            fontFamily: AppFont.fontFamilysemi,
+                                            wordSpacing: 0.3),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 15,
                         ),

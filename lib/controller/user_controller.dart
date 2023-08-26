@@ -27,7 +27,7 @@ class UserController extends GetxController {
     Get.lazyPut(() => AllUserController(), fenix: true);
     super.onInit();
     AllUserController allUserController = Get.find<AllUserController>();
-    // allUserController.fetchAllUser();
+    allUserController.fetchAllUser();
     fetchUser();
   }
 

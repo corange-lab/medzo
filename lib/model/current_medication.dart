@@ -1,7 +1,7 @@
 class CurrentMedication {
   bool? takingMedicine;
   String? currentTakingMedicine;
-  String? durationTakingMedicine;
+  var durationTakingMedicine;
 
   CurrentMedication({
     this.takingMedicine,

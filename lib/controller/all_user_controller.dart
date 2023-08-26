@@ -69,6 +69,3 @@ class AllUserController extends GetxController {
     return updatedUserData;
   }
 }
-
-
-

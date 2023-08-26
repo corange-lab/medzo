@@ -50,7 +50,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: SizedBox(
                   height: 45,
                   child: TextFormField(
-                    autofocus: false,
+                    autofocus: true,
                     textCapitalization: TextCapitalization.words,
                     controller: controller.searchMedicineText,
                     cursorColor: AppColors.grey,

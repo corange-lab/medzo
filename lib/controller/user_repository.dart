@@ -124,4 +124,8 @@ class UserRepository {
       print(event);
     });
   }
+
+  Future<bool> isUserExist(String uid) {
+    return _usersCollection.doc(uid).get().then((value) => value.exists);
+  }
 }

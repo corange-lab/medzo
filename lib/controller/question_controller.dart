@@ -15,8 +15,8 @@ class QuestionController extends GetxController {
 
   var pageController = PageController().obs;
   var selectedPageIndex = 0.obs;
-  RxString healthDropdown = "Ashthma".obs;
-  RxString yearDropdown = "1 Years".obs;
+  RxString healthDropdown = "Select Health Condition".obs;
+  RxInt yearDropdown = 1.obs;
 
   RxString selectedAge = "".obs;
 
@@ -58,10 +58,11 @@ class QuestionController extends GetxController {
   }
 
   List<String> healthCondition = [
-    "Ashthma",
+    "Select Health Condition",
+    "Asthma",
     "Diabetic",
     "Cancer",
-    "Food Poision",
+    "Food Poison",
     "Handicap"
   ];
 
@@ -72,15 +73,15 @@ class QuestionController extends GetxController {
     "Age"
   ];
 
-  List<String> year = [
-    "1 Years",
-    "2 Years",
-    "3 Years",
-    "5 Years",
-    "10 Years",
-    "12 Years",
-    "15 Years",
-    "20 Years",
+  List<int> year = [
+    1,
+    2,
+    3,
+    5,
+    10,
+    12,
+    15,
+    20,
   ];
 
   List ageGroup = [
