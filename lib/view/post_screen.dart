@@ -332,28 +332,33 @@ class PostScreen extends GetView<PostController> {
                           mainAxisSpacing: 10),
                       itemBuilder: (context, gridIndex) {
                         UserModel user = userData[start + gridIndex];
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            OtherProfilePicWidget(
-                                profilePictureUrl: user.profilePicture,
-                                size: Size(45, 45)),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            TextWidget(
-                              "${user.name ?? "Medzo User"}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: AppFont.fontMedium,
-                                      color: AppColors.dark.withOpacity(0.5)),
-                            )
-                          ],
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(() => ProfileScreen(user.id!));
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              OtherProfilePicWidget(
+                                  profilePictureUrl: user.profilePicture,
+                                  size: Size(45, 45)),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextWidget(
+                                "${user.name ?? "Medzo User"}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: AppFont.fontMedium,
+                                        color: AppColors.dark.withOpacity(0.5)),
+                              )
+                            ],
+                          ),
                         );
                       },
                     );

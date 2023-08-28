@@ -19,7 +19,6 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/string.dart';
-import 'package:medzo/view/bestMatchesScreen.dart';
 import 'package:medzo/view/chat_screen.dart';
 import 'package:medzo/view/editprofile_screen.dart';
 import 'package:medzo/view/follow_users_screen.dart';
@@ -245,107 +244,111 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(
                           height: 15,
                         ),
-                        Visibility(
-                          visible:
-                              FirebaseAuth.instance.currentUser!.uid == userId,
-                          child: Container(
-                            height: 125,
-                            width: SizerUtil.width,
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: GradientThemeColors.purpleGradient,
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight),
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color(0x330064B2),
-                                  blurRadius: 24,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 4,
-                                  child: SvgPicture.asset(
-                                    AppImages.mobile_image,
-                                    height: 80,
+                        GestureDetector(
+                          onTap: () {},
+                          child: Visibility(
+                            visible: FirebaseAuth.instance.currentUser!.uid ==
+                                userId,
+                            child: Container(
+                              height: 125,
+                              width: SizerUtil.width,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: GradientThemeColors.purpleGradient,
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight),
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x330064B2),
+                                    blurRadius: 24,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 4,
+                                    child: SvgPicture.asset(
+                                      AppImages.mobile_image,
+                                      height: 80,
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: TextWidget(
-                                    ConstString.profilesentance,
-                                    textAlign: TextAlign.start,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                            color: AppColors.white,
-                                            fontSize: 13.5,
-                                            height: 1.7,
-                                            letterSpacing: 0.3,
-                                            fontFamily: AppFont.fontFamilysemi,
-                                            wordSpacing: 0.3),
-                                  ),
-                                )
-                              ],
+                                  Expanded(
+                                    flex: 5,
+                                    child: TextWidget(
+                                      ConstString.profilesentance,
+                                      textAlign: TextAlign.start,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge!
+                                          .copyWith(
+                                              color: AppColors.white,
+                                              fontSize: 13.5,
+                                              height: 1.7,
+                                              letterSpacing: 0.3,
+                                              fontFamily:
+                                                  AppFont.fontFamilysemi,
+                                              wordSpacing: 0.3),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(
                           height: 15,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextWidget(
-                                ConstString.allpost,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                      color: AppColors.darkPrimaryColor,
-                                      fontFamily: AppFont.fontFamily,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.5,
-                                      fontSize: 15.5,
-                                    ),
-                              ),
-                              TextButton(
-                                  onPressed: () async {},
-                                  child: Row(
-                                    children: [
-                                      TextWidget(
-                                        ConstString.viewall,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge!
-                                            .copyWith(
-                                                color: AppColors.primaryColor,
-                                                height: 1.4,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 2),
-                                        child: SvgPicture.asset(
-                                          SvgIcon.arrowright,
-                                          height: 18,
-                                        ),
-                                      )
-                                    ],
-                                  ))
-                            ],
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 12),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: [
+                        //       TextWidget(
+                        //         ConstString.allpost,
+                        //         style: Theme.of(context)
+                        //             .textTheme
+                        //             .displayMedium!
+                        //             .copyWith(
+                        //               color: AppColors.darkPrimaryColor,
+                        //               fontFamily: AppFont.fontFamily,
+                        //               fontWeight: FontWeight.w600,
+                        //               letterSpacing: 0.5,
+                        //               fontSize: 15.5,
+                        //             ),
+                        //       ),
+                        //       TextButton(
+                        //           onPressed: () async {},
+                        //           child: Row(
+                        //             children: [
+                        //               TextWidget(
+                        //                 ConstString.viewall,
+                        //                 style: Theme.of(context)
+                        //                     .textTheme
+                        //                     .titleLarge!
+                        //                     .copyWith(
+                        //                         color: AppColors.primaryColor,
+                        //                         height: 1.4,
+                        //                         fontWeight: FontWeight.w600,
+                        //                         fontSize: 14),
+                        //               ),
+                        //               Padding(
+                        //                 padding: const EdgeInsets.only(top: 2),
+                        //                 child: SvgPicture.asset(
+                        //                   SvgIcon.arrowright,
+                        //                   height: 18,
+                        //                 ),
+                        //               )
+                        //             ],
+                        //           ))
+                        //     ],
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: PostListWidget(

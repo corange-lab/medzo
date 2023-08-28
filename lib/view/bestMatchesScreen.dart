@@ -8,6 +8,7 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 
@@ -53,6 +54,9 @@ class BestMatchesScreen extends StatelessWidget {
             if (userList!.isNotEmpty) {
               UserModel user = userList![index];
               return ListTile(
+                onTap: () {
+                  Get.to(()=>ProfileScreen(user.id!));
+                },
                 leading: OtherProfilePicWidget(
                   profilePictureUrl: user.profilePicture,
                   size: Size(45, 45),

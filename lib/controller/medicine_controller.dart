@@ -83,29 +83,28 @@ class MedicineController extends GetxController {
   void searchMedicineByName(String medicineName) {
     try {
       medicines.clear();
-      medicineRef
-          .where("genericName", isGreaterThanOrEqualTo: medicineName)
-          .where("genericName", isLessThan: medicineName + '\uf8ff')
-          .get()
-          .then((snapshot) {
-        var _medicines = snapshot.docs
-            .map((doc) => Medicine.fromMap(doc.data() as Map<String, dynamic>))
-            .toList();
-        medicines.addAll(_medicines);
-        // update();
-      });
       // medicineRef
-      //     .where("brandName", isGreaterThanOrEqualTo: medicineName)
-      //     .where("brandName", isLessThan: medicineName + '\uf8ff')
+      //     .where("genericName", isGreaterThanOrEqualTo: medicineName)
+      //     .where("genericName", isLessThan: medicineName + '\uf8ff')
       //     .get()
       //     .then((snapshot) {
       //   var _medicines = snapshot.docs
       //       .map((doc) => Medicine.fromMap(doc.data() as Map<String, dynamic>))
       //       .toList();
-      //
       //   medicines.addAll(_medicines);
-      //   update();
+      //   // update();
       // });
+      medicineRef
+          .where("brandName", isGreaterThanOrEqualTo: medicineName)
+          .where("brandName", isLessThan: medicineName + '\uf8ff')
+          .get()
+          .then((snapshot) {
+        var _medicines = snapshot.docs
+            .map((doc) => Medicine.fromMap(doc.data() as Map<String, dynamic>))
+            .toList();
+
+        medicines.addAll(_medicines);
+      });
     } catch (e) {
       print(e);
     }

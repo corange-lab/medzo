@@ -20,6 +20,8 @@ class ProfileController extends GetxController {
   Rx<UserModel> get user => _user;
   Rx<UserModel> _user = UserModel().obs;
 
+  String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
   Stream<QuerySnapshot>? dataSnapShot;
   late final Stream<List<UserRelationship>> followersStream;
   late final Stream<List<UserRelationship>> followingStream;

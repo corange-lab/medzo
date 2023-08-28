@@ -59,9 +59,9 @@ class MessageScreen extends StatelessWidget {
 
             if (snapshot.hasData) {
               QuerySnapshot user = snapshot.data as QuerySnapshot;
-
               if (user.docs.length > 0) {
                 return ListView.builder(
+                  shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   itemCount: user.docs.length,
                   itemBuilder: (context, index) {
@@ -71,7 +71,6 @@ class MessageScreen extends StatelessWidget {
                     Map<String, dynamic> participants = chatRoom.participants!;
 
                     List<String> participantKey = participants.keys.toList();
-                    print('participantKey[0] ${participantKey[0]}');
                     participantKey.remove(chatController.currentUser);
                     UserModel? userModel = allUserController.allUsers
                         .firstWhereOrNull(

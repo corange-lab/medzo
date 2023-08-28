@@ -47,6 +47,7 @@ class ChatController extends GetxController {
   getChatUser() {
     return conversationRef
         .where("participants.${currentUser}", isEqualTo: true)
+        // .orderBy("lastMessageTime", descending: true)
         .snapshots();
   }
 
@@ -99,7 +100,7 @@ class ChatController extends GetxController {
 
     try {
       messageDate = inputFormat.parse(combined);
-      print("$messageDate data");
+      // print("$messageDate data");
     } catch (e) {
       print("Error parsing date: $e");
       return "Unknown date";

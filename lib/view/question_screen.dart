@@ -420,6 +420,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                   child: TextWidget(
                                     ctrl.questions[ctrl.selectedPageIndex.value]
                                         [1],
+                                    textAlign: TextAlign.start,
                                     style:
                                         Theme.of(context).textTheme.titleLarge,
                                   ),
@@ -462,8 +463,11 @@ class QuestionScreen extends GetView<QuestionController> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           30)),
+                                              alignment: Alignment.center,
                                               height: 45,
                                               width: SizerUtil.width,
+                                              padding: EdgeInsets.only(
+                                                  left: 7, right: 15),
                                               child: DropdownButton(
                                                 underline: const SizedBox(),
                                                 items:
@@ -472,7 +476,7 @@ class QuestionScreen extends GetView<QuestionController> {
                                                     value: items,
                                                     child: Container(
                                                       width:
-                                                          SizerUtil.width * .75,
+                                                          SizerUtil.width * .7,
                                                       alignment:
                                                           Alignment.centerLeft,
                                                       child: TextWidget(
@@ -502,8 +506,8 @@ class QuestionScreen extends GetView<QuestionController> {
                                                     .titleMedium!
                                                     .copyWith(fontSize: 14),
                                                 value: ctrl.yearDropdown.value,
-                                                padding: const EdgeInsets.only(
-                                                    left: 15),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                               ),
                                             ))
                                         : ctrl.selectedPageIndex.value == 2
@@ -527,18 +531,22 @@ class QuestionScreen extends GetView<QuestionController> {
 
   Obx questionDropdown(BuildContext context, QuestionController ctrl) {
     return Obx(() => Container(
+          alignment: Alignment.center,
           decoration: BoxDecoration(
               color: AppColors.splashdetail,
               borderRadius: BorderRadius.circular(30)),
           height: 45,
           width: SizerUtil.width,
+          padding: EdgeInsets.only(right: 15, left: 7),
           child: DropdownButton(
+            borderRadius: BorderRadius.circular(15),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             underline: const SizedBox(),
+            isExpanded: true,
             items: ctrl.healthCondition.map((String items) {
               return DropdownMenuItem<String>(
                 value: items,
                 child: Container(
-                  width: SizerUtil.width * .75,
                   alignment: Alignment.centerLeft,
                   child: TextWidget(
                     items.toString(),
@@ -561,7 +569,6 @@ class QuestionScreen extends GetView<QuestionController> {
             style:
                 Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14),
             value: ctrl.healthDropdown.value,
-            padding: const EdgeInsets.only(left: 15),
           ),
         ));
   }
