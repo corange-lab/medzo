@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medzo/chat/view/widget/widget.dart';
+import 'package:medzo/controller/profile_controller.dart';
 import 'package:medzo/controller/user_controller.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';

@@ -90,9 +90,7 @@ class MedicineWidget extends StatelessWidget {
                                     height: 3,
                                   ),
                                   TextWidget(
-                                    // FIXME : Add short Description
-                                    "Medicine Description",
-                                    // "${(medicineDetail.shortDescription!.length > 70 ? "${medicineDetail.shortDescription!.substring(0, 70)}..." : medicineDetail.shortDescription) ?? "Medicine Description"}",
+                                    "${(medicineDetail.shortDescription!.length > 70 ? "${medicineDetail.shortDescription!.substring(0, 70)}..." : medicineDetail.shortDescription) ?? "Medicine Description"}",
                                     textAlign: TextAlign.start,
                                     textOverflow: TextOverflow.ellipsis,
                                     maxLine: 2,

@@ -6,7 +6,7 @@ class Medicine {
   String? brandName;
   String? about;
   String? ratings;
-  String? warning;
+  String? warnings;
   String? medicationsAndSubstances;
   String? drugDrugInteractions;
 
@@ -16,7 +16,7 @@ class Medicine {
     this.categoryId,
     this.brandName,
     this.about,
-    this.warning,
+    this.warnings,
     this.ratings,
     this.medicationsAndSubstances,
     this.drugDrugInteractions
@@ -29,7 +29,7 @@ class Medicine {
     categoryId = map['categoryId'];
     brandName = map['brandName'];
     about = map['about'];
-    warning = map['warning'];
+    warnings = map['warnings'];
     ratings = map['ratings'];
     medicationsAndSubstances = map['medicationsAndSubstances'];
     drugDrugInteractions = map['drugDrugInteractions'];
@@ -43,7 +43,7 @@ class Medicine {
     data['categoryId'] = categoryId;
     data['brandName'] = brandName;
     data['about'] = about;
-    data['warning'] = warning;
+    data['warnings'] = warnings;
     data['ratings'] = ratings;
     data['medicationsAndSubstances'] = medicationsAndSubstances;
     data['drugDrugInteractions'] = drugDrugInteractions;

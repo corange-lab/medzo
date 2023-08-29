@@ -342,7 +342,7 @@ class _MedicineDetailState extends State<MedicineDetail>
           border: Border.all(width: 1, color: AppColors.splashdetail),
           color: AppColors.white,
           borderRadius: BorderRadius.circular(6)),
-      child: medicineDetail!.warning != null
+      child: medicineDetail!.warnings != null
           ? Padding(
               padding: const EdgeInsets.all(10.0),
               child: SingleChildScrollView(
@@ -354,7 +354,7 @@ class _MedicineDetailState extends State<MedicineDetail>
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 10),
                       child: TextWidget(
-                        medicineDetails.warning!,
+                        medicineDetails.warnings!,
                         style:
                             Theme.of(context).textTheme.displayMedium!.copyWith(
                                   fontSize: 14,

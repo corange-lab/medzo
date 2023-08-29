@@ -194,9 +194,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               height: 3,
                                             ),
                                             TextWidget(
-                                              // FIXME : Add short Description
-                                              "Medicine Description",
-                                              // "${medicine.shortDescription!.length > 70 ? "${medicine.shortDescription!.substring(0, 70)}..." : medicine.shortDescription}",
+                                              "${medicine.shortDescription!.length > 70 ? "${medicine.shortDescription!.substring(0, 70)}..." : medicine.shortDescription}",
                                               textAlign: TextAlign.start,
                                               textOverflow:
                                                   TextOverflow.ellipsis,
@@ -285,25 +283,27 @@ class _SearchScreenState extends State<SearchScreen> {
                                 SizedBox(
                                   height: 3,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 75),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: SmoothStarRating(
-                                      rating: rating,
-                                      allowHalfRating: true,
-                                      defaultIconData:
-                                          Icons.star_outline_rounded,
-                                      filledIconData: Icons.star_rounded,
-                                      halfFilledIconData:
-                                          Icons.star_half_rounded,
-                                      starCount: 5,
-                                      size: 20,
-                                      color: AppColors.primaryColor,
-                                      borderColor: AppColors.primaryColor,
-                                    ),
-                                  ),
-                                ),
+                                rating == "0.0"
+                                    ? Padding(
+                                        padding: EdgeInsets.only(left: 75),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: SmoothStarRating(
+                                            rating: rating,
+                                            allowHalfRating: true,
+                                            defaultIconData:
+                                                Icons.star_outline_rounded,
+                                            filledIconData: Icons.star_rounded,
+                                            halfFilledIconData:
+                                                Icons.star_half_rounded,
+                                            starCount: 5,
+                                            size: 20,
+                                            color: AppColors.primaryColor,
+                                            borderColor: AppColors.primaryColor,
+                                          ),
+                                        ),
+                                      )
+                                    : SizedBox(),
                                 SizedBox(
                                   height: 10,
                                 ),
