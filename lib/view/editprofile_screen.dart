@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,6 +33,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   pickImageController pickController = Get.put(pickImageController());
   ProfileController controller = Get.find<ProfileController>();
   late UserModel userModel;
+
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   @override
   void initState() {
@@ -77,8 +80,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: IconButton(
-                onPressed: () {
-                  deleteDialogue(context);
+                onPressed: () async {
+                  return await deleteDialogue(context, () async {
+                    Get.back();
+                    bool hasInternet = await Utils.hasInternetConnection();
+                    if (!hasInternet) {
+                      showInSnackBar(ConstString.noConnection);
+                      return;
+                    }
+                    // show loading dialog while deleting user
+                    progressDialogue(context, title: "Deleting Account");
+                    await deleteUserFirestoreData();
+                    Get.back();
+                    // Get.offAll(() => LoginScreen());
+                    return;
+                  });
                 },
                 icon: Icon(
                   CupertinoIcons.delete_solid,
@@ -366,4 +382,305 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ],
     );
   }
+
+  Future deleteDialogue(BuildContext context, Function() callback) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 25),
+          backgroundColor: AppColors.white,
+          shape: const OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          alignment: Alignment.center,
+          title: Column(
+            children: [
+              Icon(
+                CupertinoIcons.delete,
+                size: 40,
+                color: Colors.red,
+              ),
+              SizedBox(height: 25),
+              Text(
+                ConstString.deleteAccount,
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      color: AppColors.darkPrimaryColor,
+                      fontFamily: AppFont.fontFamilysemi,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
+              ),
+              SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextWidget(
+                  "Are you sure you want to delete your account?\nAll information will be deleted. That can't be UNDONE",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                      fontSize: 13.5,
+                      color: AppColors.grey.withOpacity(0.9),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: AppFont.fontFamily,
+                      letterSpacing: 0),
+                ),
+              ),
+              SizedBox(height: 25),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        callback();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          fixedSize: Size(20, 55),
+                          backgroundColor: AppColors.black,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          elevation: 0),
+                      child: Text(
+                        "Yes",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(
+                                color: AppColors.buttontext,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: AppFont.fontMedium,
+                                fontSize: 15),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          fixedSize: Size(20, 55),
+                          backgroundColor: AppColors.splashdetail,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          elevation: 0),
+                      child: TextWidget(
+                        "NO",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(
+                                color: AppColors.dark,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: AppFont.fontMedium,
+                                fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> deleteUserFirestoreData() async {
+    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+    /// Delete user reviews
+    await deleteUserReviews(currentUserId);
+
+    /// Delete user Posts
+    await deleteUserPosts(currentUserId);
+
+    // Delete user favorites
+    await deleteUserFavouriteMedicines(currentUserId);
+
+    // Delete user conversation participants
+    await deleteUserConversations(currentUserId);
+
+    await removeCommentUserIdFromPostComments(currentUserId);
+    await removeUserIdFromLikedUsersInPostComments(currentUserId);
+    await removeUserIdFromLikedUsersInCommentComments(currentUserId);
+
+    // Delete user's followers and following
+    await deleteUserFollowFollowings(currentUserId);
+
+    await deleteUser(currentUserId);
+  }
+
+  Future<void> removeCommentUserIdFromPostComments(String userId) async {
+    // Fetch posts where any postComment's "commentUserId" is the user's ID
+    final QuerySnapshot querySnapshot = await instance()
+        .collection('posts')
+        .where('postComments', arrayContains: {
+      'commentUserId': userId,
+    }).get();
+
+    // Update each post document to remove the user's ID from commentUserId
+    querySnapshot.docs.forEach((doc) async {
+      List<Map<String, dynamic>> postComments = List.from(doc['postComments']);
+
+      postComments.removeWhere((comment) => comment['commentUserId'] == userId);
+
+      await doc.reference.update({'postComments': postComments});
+    });
+  }
+
+  Future<void> removeUserIdFromLikedUsersInPostComments(String userId) async {
+    // Fetch posts where any postComment's "likedUsers" contains the user's ID
+    final QuerySnapshot querySnapshot = await instance()
+        .collection('posts')
+        .where('postComments', arrayContains: {
+      'likedUsers': userId,
+    }).get();
+
+    // Update each post document to remove the user's ID from "likedUsers" in postComments
+    querySnapshot.docs.forEach((doc) async {
+      List<Map<String, dynamic>> postComments = List.from(doc['postComments']);
+
+      postComments.forEach((comment) {
+        if (comment.containsKey('likedUsers')) {
+          List<String> likedUsers = List.from(comment['likedUsers']);
+          likedUsers.remove(userId); // Remove the user's ID from likedUsers
+          comment['likedUsers'] = likedUsers;
+        }
+      });
+
+      await doc.reference.update({'postComments': postComments});
+    });
+  }
+
+  Future<void> removeUserIdFromLikedUsersInCommentComments(
+      String userId) async {
+    // Fetch posts where any postComment's "commentComments" have likedUsers containing user's ID
+    final QuerySnapshot querySnapshot =
+        await instance().collection('posts').get();
+
+    // Update each post document to remove the user's ID from "likedUsers" in commentComments
+    querySnapshot.docs.forEach((doc) async {
+      List<Map<String, dynamic>> postComments = List.from(doc['postComments']);
+
+      List<Map<String, dynamic>> updatedComments = [];
+
+      postComments.forEach((comment) {
+        if (comment.containsKey('commentComments')) {
+          List<Map<String, dynamic>> commentComments =
+              List.from(comment['commentComments']);
+
+          List<Map<String, dynamic>> updatedSubComments = [];
+
+          commentComments.forEach((subComment) {
+            if (subComment.containsKey('likedUsers')) {
+              List<String> likedUsers = List.from(subComment['likedUsers']);
+              likedUsers.remove(userId); // Remove the user's ID from likedUsers
+              subComment['likedUsers'] = likedUsers;
+            }
+            updatedSubComments.add(subComment);
+          });
+
+          comment['commentComments'] = updatedSubComments;
+        }
+        updatedComments.add(comment);
+      });
+
+      await doc.reference.update({'postComments': updatedComments});
+    });
+  }
+
+  Future<void> deleteUserConversations(String currentUserId) async {
+    final QuerySnapshot conversationQuerySnapshot = await instance()
+        .collection('conversation')
+        .where('participants.$currentUserId', isEqualTo: true)
+        .get();
+
+    // Delete each conversation document
+    conversationQuerySnapshot.docs.forEach((doc) {
+      doc.reference.delete();
+    });
+  }
+
+  Future<void> deleteUserFavouriteMedicines(String currentUserId) async {
+    await instance().collection("favourites").doc(currentUserId).delete();
+  }
+
+  Future<void> deleteUserFollowFollowings(String currentUserId) async {
+    QuerySnapshot<Map<String, dynamic>> followingUsersQuerySnapshot =
+        await instance()
+            .collection('followers')
+            .doc(currentUserId)
+            .collection('user_following')
+            .get();
+
+    followingUsersQuerySnapshot.docs.forEach((doc) {
+      doc.reference.delete();
+    });
+
+    QuerySnapshot<Map<String, dynamic>> followersUsersQuerySnapshot =
+        await instance()
+            .collection('followers')
+            .doc(currentUserId)
+            .collection('user_followers')
+            .get();
+    followersUsersQuerySnapshot.docs.forEach((doc) {
+      doc.reference.delete();
+    });
+  }
+
+  Future<void> deleteUser(String currentUserId) async {
+    String? imageUrl = controller.user.value.profilePicture;
+    if (imageUrl != null) {
+      await removeImage(imageUrl);
+    }
+    await instance().collection("users").doc(currentUserId).delete();
+    // FIXME: remove profile image from the store before delete the data
+    await FirebaseAuth.instance.currentUser!.delete();
+  }
+
+  Future<void> deleteUserPosts(String currentUserId) async {
+    QuerySnapshot<Map<String, dynamic>> postsQuerySnapshot = await instance()
+        .collection('posts')
+        .where('creatorId', isEqualTo: currentUserId)
+        .get();
+    postsQuerySnapshot.docs.forEach((doc) {
+      // FIXME: remove image from the store before delete the data
+      doc['postImages'].forEach((image) async {
+        await removeImage(image['url']);
+      });
+      doc.reference.delete();
+    });
+  }
+
+  Future<void> removeImage(String imageUrl) async {
+    try {
+      // Parse the image URL to get the path in Firebase Storage
+      Uri uri = Uri.parse(imageUrl);
+      String imagePath = uri.path;
+
+      print('imagePath $imagePath');
+      // Remove the image file from Firebase Storage
+      await _storage.ref(imagePath).delete();
+
+      // You can perform any necessary cleanup here, such as updating the user's data
+    } catch (error) {
+      print("Error removing image: $error");
+      return;
+    }
+  }
+
+  Future<void> deleteUserReviews(String currentUserId) async {
+    QuerySnapshot<Map<String, dynamic>> reviewQuerySnapshot = await instance()
+        .collection('reviews')
+        .where('userId', isEqualTo: currentUserId)
+        .get();
+    reviewQuerySnapshot.docs.forEach((doc) {
+      doc.reference.delete();
+    });
+  }
+
+  FirebaseFirestore instance() => FirebaseFirestore.instance;
 }
