@@ -16,6 +16,7 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/utils/utils.dart';
+import 'package:medzo/view/login_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/widgets/pick_image.dart';
@@ -92,7 +93,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     progressDialogue(context, title: "Deleting Account");
                     await deleteUserFirestoreData();
                     Get.back();
-                    // Get.offAll(() => LoginScreen());
+                    Get.offAll(() => LoginScreen());
                     return;
                   });
                 },
