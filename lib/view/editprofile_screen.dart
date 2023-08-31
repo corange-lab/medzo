@@ -323,12 +323,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       } else {
                         UserModel? userModel =
                             await AuthApi.instance.getLoggedInUserData();
-                        await UserRepository.getInstance().updateUser(UserModel(
-                            name: name,
-                            profession: profession,
-                            email: FirebaseAuth.instance.currentUser!.email,
-                            profilePicture: userModel?.profilePicture,
-                            id: FirebaseAuth.instance.currentUser!.uid));
+                        if (userModel != null) {
+                          await UserRepository.getInstance().updateUser(
+                              userModel.copyWith(
+                                  name: name,
+                                  profession: profession,
+                                  email:
+                                      FirebaseAuth.instance.currentUser!.email,
+                                  profilePicture: userModel.profilePicture,
+                                  id: FirebaseAuth.instance.currentUser!.uid));
+                        }
                         Get.back();
                         Get.back();
                       }

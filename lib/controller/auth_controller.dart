@@ -651,7 +651,7 @@ class AuthController extends GetxController {
         await UserRepository.getInstance().isUserExist(credentials.user!.uid);
     if (!isUserExist) {
       List<String> name = getFirstLastName(credentials);
-      userModel = UserModel(
+      userModel = UserModel.newUser(
           id: credentials.user?.uid,
           email: credentials.user?.email,
           name: (displayName ?? ('${name.first} ${name[1]}')),

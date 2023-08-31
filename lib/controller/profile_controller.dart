@@ -19,7 +19,7 @@ class ProfileController extends GetxController {
 
   // fetch the UserModel value from dataSnapShot
   Rx<UserModel> get user => _user;
-  Rx<UserModel> _user = UserModel().obs;
+  Rx<UserModel> _user = UserModel.newUser().obs;
 
   String currentUserId = FirebaseAuth.instance.currentUser!.uid;
 

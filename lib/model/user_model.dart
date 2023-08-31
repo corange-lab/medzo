@@ -21,7 +21,23 @@ class UserModel {
   final dynamic ageGroup; //AgeGroup?
   double? similarityScore;
 
-  UserModel({
+  UserModel._({
+    this.id,
+    this.name,
+    this.email,
+    this.fcmToken,
+    this.gender,
+    this.profilePicture,
+    this.profession,
+    this.enablePushNotification,
+    this.healthCondition,
+    this.currentMedication,
+    this.allergies,
+    this.ageGroup,
+    this.similarityScore,
+  });
+
+  UserModel.newUser({
     this.id,
     this.name,
     this.email,
@@ -54,7 +70,7 @@ class UserModel {
     dynamic allergies, // Allergies?
     double? similarityScore,
   }) {
-    return UserModel(
+    return UserModel._(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
@@ -94,7 +110,7 @@ class UserModel {
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
+    return UserModel._(
       id: map['id'],
       name: map['name'],
       email: map['email'],
@@ -141,7 +157,7 @@ class UserModel {
 
   factory UserModel.fromDocumentSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> map = snapshot.data() as Map<String, dynamic>;
-    return UserModel(
+    return UserModel._(
       id: map['id'],
       name: map['name'],
       email: map['email'],

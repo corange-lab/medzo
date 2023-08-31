@@ -23,7 +23,7 @@ class QuestionController extends GetxController {
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
 
-  UserModel userModel = UserModel();
+  UserModel userModel = UserModel.newUser();
   int currentQuestionnairesPosition = 0;
   QuestionController({this.currentQuestionnairesPosition = 0});
 

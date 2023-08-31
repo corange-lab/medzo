@@ -19,7 +19,7 @@ class UserController extends GetxController {
   User? get firebaseUser => FirebaseAuth.instance.currentUser;
 
   // current logged in user detail from users collection from firestore database
-  Rx<UserModel> loggedInUser = UserModel().obs;
+  Rx<UserModel> loggedInUser = UserModel.newUser().obs;
 
   @override
   void onInit() {
