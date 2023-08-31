@@ -20,7 +20,7 @@ class VerifyOTPScreen extends GetView<ForgotController> {
 
   final FocusNode fNode = FocusNode();
 
-  ForgotController forgotController = Get.put(ForgotController());
+  final ForgotController forgotController = Get.put(ForgotController());
 
   @override
   Widget build(BuildContext context) {

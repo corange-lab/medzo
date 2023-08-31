@@ -207,7 +207,7 @@ class _CustomTextEditingControllerState
                   ? widget.label //'Enter ${widget.hintText ?? 'value'}'
                   : null,
           labelStyle: widget.style ??
-              Theme.of(context).textTheme.headline4!.copyWith(
+              Theme.of(context).textTheme.headlineMedium!.copyWith(
                     fontWeight: FontWeight.normal,
                     fontSize: 16,
                     color: AppColors.graniteGray,

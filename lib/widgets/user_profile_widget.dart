@@ -132,10 +132,10 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         widget = (userData?.name != null && userData!.name!.isNotEmpty)
             ? Text(
                 userData!.name![0].toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(color: AppColors.primaryColor,fontSize: 20,fontFamily: AppFont.fontBold),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: AppColors.primaryColor,
+                    fontSize: 20,
+                    fontFamily: AppFont.fontBold),
               )
             : noUserBuilder;
       }

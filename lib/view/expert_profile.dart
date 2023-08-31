@@ -9,8 +9,6 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/utils/string.dart';
-import 'package:medzo/view/chat_screen.dart';
-import 'package:medzo/view/post_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 
 class ExpertProfileScreen extends StatelessWidget {

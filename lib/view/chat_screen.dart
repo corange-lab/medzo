@@ -15,12 +15,12 @@ import 'package:medzo/widgets/chat_message_content.dart';
 import 'package:sizer/sizer.dart';
 
 class ChatScreen extends StatelessWidget {
-  UserModel? userModel;
-  ChatRoom? chatRoom;
+  final UserModel? userModel;
+  final ChatRoom? chatRoom;
 
   ChatScreen({this.userModel, this.chatRoom});
 
-  ChatController chatController = Get.put(ChatController());
+  final ChatController chatController = Get.put(ChatController());
 
   final FocusNode focusNode = FocusNode();
 

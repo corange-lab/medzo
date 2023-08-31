@@ -44,7 +44,7 @@ class ChatController extends GetxController {
     return chatRoom;
   }
 
-  getChatUser() {
+  Stream<QuerySnapshot<Object?>> getChatUser() {
     return conversationRef
         .where("participants.${currentUser}", isEqualTo: true)
         // .orderBy("lastMessageTime", descending: true)

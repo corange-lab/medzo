@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -236,7 +235,7 @@ class SignUpScreen extends GetView<AuthController> {
                 onPressed: () async {
                   String password = controller.suppasswordTextController.text;
 
-                  String response = checkPassword(password);
+                  checkPassword(password);
                   progressDialogue(context, title: "SignUp In Progress");
                   await controller.signUp();
                 },

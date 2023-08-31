@@ -4,7 +4,6 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
-import '../chat/view/widget/widget.dart' as temp;
 
 class MyChatWidget extends Container {
   final String message;

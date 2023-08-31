@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/model/medicine.dart';
-import 'package:medzo/model/review.dart';
+import 'package:medzo/model/review_data_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
@@ -17,7 +17,7 @@ import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.da
 
 class ReviewScreen extends StatefulWidget {
   final Medicine? medicineDetails;
-  final List<Review>? reviewList;
+  final List<ReviewDataModel>? reviewList;
 
   ReviewScreen(this.medicineDetails, this.reviewList);
 
@@ -239,7 +239,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   final reviewId = medicineController.reviewRef.doc().id;
                   final userId = FirebaseAuth.instance.currentUser!.uid;
 
-                  Review review = Review(
+                  ReviewDataModel review = ReviewDataModel(
                       id: reviewId,
                       medicineId: medicineId,
                       userId: userId,

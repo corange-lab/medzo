@@ -6,7 +6,7 @@ import 'package:medzo/widgets/user_profile_widget.dart';
 
 // Not Used
 class UserListTile extends StatelessWidget {
-  UserFilterSearchModel user;
+  final UserFilterSearchModel user;
   UserListTile({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -42,7 +42,7 @@ class UserListTile extends StatelessWidget {
                                 user.name,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline3!
+                                    .displaySmall!
                                     .copyWith(
                                         fontSize: 15,
                                         color: AppColors.darkBlue,
@@ -57,7 +57,7 @@ class UserListTile extends StatelessWidget {
                                 "${double.tryParse((user.distance).toStringAsFixed(2))} km away",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline3!
+                                    .displaySmall!
                                     .copyWith(
                                         fontSize: 13,
                                         color: AppColors.grey,

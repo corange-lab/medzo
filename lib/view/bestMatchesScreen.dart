@@ -13,11 +13,11 @@ import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 
 class BestMatchesScreen extends StatelessWidget {
-  List<UserModel>? userList;
+  final List<UserModel>? userList;
 
   BestMatchesScreen(this.userList);
 
-  AllUserController userController = Get.put(AllUserController());
+  final AllUserController userController = Get.find<AllUserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +49,13 @@ class BestMatchesScreen extends StatelessWidget {
           shadowColor: AppColors.splashdetail.withOpacity(0.1),
         ),
         body: ListView.builder(
-          itemCount: userList!.length,
+          itemCount: userController.bestMatchesUserList.length,
           itemBuilder: (context, index) {
             if (userList!.isNotEmpty) {
               UserModel user = userList![index];
               return ListTile(
                 onTap: () {
-                  Get.to(()=>ProfileScreen(user.id!));
+                  Get.to(() => ProfileScreen(user.id!));
                 },
                 leading: OtherProfilePicWidget(
                   profilePictureUrl: user.profilePicture,

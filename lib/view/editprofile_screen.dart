@@ -40,7 +40,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   void initState() {
-    userModel = UserModel(
+    userModel = widget.userModel.copyWith(
         name: widget.userModel.name,
         profession: widget.userModel.profession,
         email: widget.userModel.email,
@@ -289,7 +289,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         await Future.value(uploadTask).then((value) async {
                           var newUrl = await ref.getDownloadURL();
                           await UserRepository.getInstance()
-                              .updateUser(UserModel(
+                              .updateUser(userModel.copyWith(
                                   name: name,
                                   profession: profession,
                                   email:

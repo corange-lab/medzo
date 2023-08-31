@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/medicine_controller.dart';
-import 'package:medzo/model/category.dart';
 import 'package:medzo/model/medicine.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -12,7 +11,6 @@ import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/responsive.dart';
 import 'package:medzo/view/medicine_detail.dart';
 import 'package:medzo/widgets/custom_widget.dart';
-import 'package:medzo/widgets/medicine_shimmer_widget.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 class MedicineWidget extends StatelessWidget {
@@ -37,12 +35,10 @@ class MedicineWidget extends StatelessWidget {
               Get.to(MedicineDetail(medicineDetail: medicineDetail));
             },
             child: Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
               child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 1, color: AppColors.splashdetail),
+                    border: Border.all(width: 1, color: AppColors.splashdetail),
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(8)),
                 child: Padding(
@@ -61,17 +57,15 @@ class MedicineWidget extends StatelessWidget {
                             child: SizedBox(
                                 height: 45,
                                 width: 45,
-                                child: SvgPicture.asset(
-                                    AppImages.supplements)),
+                                child: SvgPicture.asset(AppImages.supplements)),
                           ),
                           SizedBox(width: 5),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextWidget(
                                     medicineDetail.brandName ?? "",
@@ -80,11 +74,10 @@ class MedicineWidget extends StatelessWidget {
                                         .textTheme
                                         .labelSmall!
                                         .copyWith(
-                                        fontSize: 14.5,
-                                        color: AppColors
-                                            .darkPrimaryColor,
-                                        fontFamily: AppFont.fontBold,
-                                        letterSpacing: 0),
+                                            fontSize: 14.5,
+                                            color: AppColors.darkPrimaryColor,
+                                            fontFamily: AppFont.fontBold,
+                                            letterSpacing: 0),
                                   ),
                                   SizedBox(
                                     height: 3,
@@ -98,20 +91,18 @@ class MedicineWidget extends StatelessWidget {
                                         .textTheme
                                         .titleSmall!
                                         .copyWith(
-                                        height: 1.5,
-                                        color: AppColors.grey,
-                                        fontFamily:
-                                        AppFont.fontFamily,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12.5),
+                                            height: 1.5,
+                                            color: AppColors.grey,
+                                            fontFamily: AppFont.fontFamily,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12.5),
                                   ),
                                 ],
                               ),
                             ),
                           ),
                           Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 5),
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Container(
                               height: 38,
                               width: 38,
@@ -132,31 +123,30 @@ class MedicineWidget extends StatelessWidget {
                                               medicineDetail.id!);
                                         },
                                         icon: (ctrl.updatingId ==
-                                            medicineDetail.id)
+                                                medicineDetail.id)
                                             ? SizedBox(
-                                          width: 30,
-                                          child: Center(
-                                            child:
-                                            CupertinoActivityIndicator(
-                                              color: AppColors
-                                                  .primaryColor,
-                                              animating: true,
-                                              radius: 8,
-                                            ),
-                                          ),
-                                        )
+                                                width: 30,
+                                                child: Center(
+                                                  child:
+                                                      CupertinoActivityIndicator(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    animating: true,
+                                                    radius: 8,
+                                                  ),
+                                                ),
+                                              )
                                             : SvgPicture.asset(
-                                          ctrl.isFavourite(
-                                              medicineDetail.id)
-                                              ? SvgIcon.fillbookmark
-                                              : SvgIcon.bookmark,
-                                          height: 20,
-                                          color: ctrl.isFavourite(
-                                              medicineDetail.id)
-                                              ? AppColors
-                                              .primaryColor
-                                              : Colors.black,
-                                        ),
+                                                ctrl.isFavourite(
+                                                        medicineDetail.id)
+                                                    ? SvgIcon.fillbookmark
+                                                    : SvgIcon.bookmark,
+                                                height: 20,
+                                                color: ctrl.isFavourite(
+                                                        medicineDetail.id)
+                                                    ? AppColors.primaryColor
+                                                    : Colors.black,
+                                              ),
                                       );
                                     }),
                               ),
@@ -172,24 +162,22 @@ class MedicineWidget extends StatelessWidget {
                       ),
                       rating != 0.0
                           ? Padding(
-                        padding: EdgeInsets.only(left: 75),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: SmoothStarRating(
-                            rating: rating,
-                            allowHalfRating: true,
-                            defaultIconData:
-                            Icons.star_outline_rounded,
-                            filledIconData: Icons.star_rounded,
-                            halfFilledIconData:
-                            Icons.star_half_rounded,
-                            starCount: 5,
-                            size: 20,
-                            color: AppColors.primaryColor,
-                            borderColor: AppColors.primaryColor,
-                          ),
-                        ),
-                      )
+                              padding: EdgeInsets.only(left: 75),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: SmoothStarRating(
+                                  rating: rating,
+                                  allowHalfRating: true,
+                                  defaultIconData: Icons.star_outline_rounded,
+                                  filledIconData: Icons.star_rounded,
+                                  halfFilledIconData: Icons.star_half_rounded,
+                                  starCount: 5,
+                                  size: 20,
+                                  color: AppColors.primaryColor,
+                                  borderColor: AppColors.primaryColor,
+                                ),
+                              ),
+                            )
                           : SizedBox(),
                       SizedBox(
                         height: 10,
@@ -219,12 +207,12 @@ class MedicineWidget extends StatelessWidget {
                                       .textTheme
                                       .titleSmall!
                                       .copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontFamily: AppFont.fontFamily,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 0.2,
-                                    fontSize: 12,
-                                  ),
+                                        color: AppColors.primaryColor,
+                                        fontFamily: AppFont.fontFamily,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.2,
+                                        fontSize: 12,
+                                      ),
                                 ),
                               ),
                               SizedBox(

@@ -8,11 +8,11 @@ import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user_profile_widget.dart';
 
 class ChatHeader extends StatelessWidget {
-  UserModel? userModel;
+  final UserModel? userModel;
 
   ChatHeader(this.userModel);
 
-  AllUserController userController = Get.put(AllUserController());
+  final AllUserController userController = Get.put(AllUserController());
 
   @override
   Widget build(BuildContext context) {

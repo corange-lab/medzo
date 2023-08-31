@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/model/medicine.dart';
-import 'package:medzo/model/review.dart';
+import 'package:medzo/model/review_data_model.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
@@ -745,11 +745,11 @@ class _MedicineDetailState extends State<MedicineDetail>
 
   Container reviewWidget(BuildContext context,
       MedicineController medicineController, Medicine medicineDetails) {
-    List<Review>? reviewList;
+    List<ReviewDataModel>? reviewList;
     return Container(
       child: Stack(
         children: [
-          StreamBuilder<List<Review>>(
+          StreamBuilder<List<ReviewDataModel>>(
               stream: medicineController.getReview(medicineDetails.id!),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

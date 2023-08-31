@@ -345,8 +345,7 @@ class AuthController extends GetxController {
               );
               navigateToHomeScreen();
             } else {
-              AuthResponse newUser = await signUpWithEmailPassword(
-                  user!.email!, '',
+              await signUpWithEmailPassword(user!.email!, '',
                   credentials: userCredential);
               // navigateVerificationFlow(userCredential.user.email, newUser);
 
@@ -618,7 +617,7 @@ class AuthController extends GetxController {
         );
         await credentials.user!
             .updateDisplayName(displayName ?? ('${name.first} ${name[1]}'));
-        dynamic value = await authApi.sendEmailVerification(email: email);
+        await authApi.sendEmailVerification(email: email);
       } else {
         if (!(displayName != null && displayName.isNotEmpty)) {
           List<String> name = getFirstLastName(credentials);

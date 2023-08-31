@@ -19,20 +19,23 @@ class UserModel {
   final dynamic currentMedication; //CurrentMedication?
   final dynamic allergies; //Allergies?
   final dynamic ageGroup; //AgeGroup?
+  double? similarityScore;
 
-  UserModel(
-      {this.id,
-      this.name,
-      this.email,
-      this.fcmToken,
-      this.gender,
-      this.profilePicture,
-      this.profession,
-      this.enablePushNotification,
-      this.healthCondition,
-      this.currentMedication,
-      this.allergies,
-      this.ageGroup});
+  UserModel({
+    this.id,
+    this.name,
+    this.email,
+    this.fcmToken,
+    this.gender,
+    this.profilePicture,
+    this.profession,
+    this.enablePushNotification,
+    this.healthCondition,
+    this.currentMedication,
+    this.allergies,
+    this.ageGroup,
+    this.similarityScore,
+  });
 
   UserModel copyWith({
     String? id,
@@ -49,6 +52,7 @@ class UserModel {
     dynamic currentMedication, // CurrentMedication?
     dynamic ageGroup, // AgeGroup?
     dynamic allergies, // Allergies?
+    double? similarityScore,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -64,6 +68,7 @@ class UserModel {
       currentMedication: currentMedication ?? this.currentMedication,
       ageGroup: ageGroup ?? this.ageGroup,
       allergies: allergies ?? this.allergies,
+      similarityScore: similarityScore ?? this.similarityScore,
     );
   }
 

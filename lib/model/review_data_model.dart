@@ -1,6 +1,6 @@
 import 'package:medzo/utils/firebase_utils.dart';
 
-class Review {
+class ReviewDataModel {
   String? id;
   String? medicineId;
   String? userId;
@@ -8,7 +8,7 @@ class Review {
   String? review;
   DateTime? createdTime;
 
-  Review(
+  ReviewDataModel(
       {this.id,
       this.medicineId,
       this.userId,
@@ -16,7 +16,7 @@ class Review {
       this.review,
       this.createdTime});
 
-  Review.fromMap(Map<String, dynamic> map) {
+  ReviewDataModel.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     medicineId = map['medicineId'];
     userId = map['userId'];

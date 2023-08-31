@@ -141,14 +141,14 @@ class Utils {
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text(
           title,
-          style: Theme.of(context).textTheme.headline2?.copyWith(
+          style: Theme.of(context).textTheme.displayMedium?.copyWith(
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
               ),
         ),
         content: Text(
           (content != null) ? content : "",
-          style: Theme.of(context).textTheme.headline2?.copyWith(
+          style: Theme.of(context).textTheme.displayMedium?.copyWith(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
               ),
@@ -161,7 +161,7 @@ class Utils {
             },
             child: Text(
               'No',
-              style: Theme.of(context).textTheme.headline2?.copyWith(
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(
                   fontSize: 17,
                   fontWeight: FontWeight.w400,
                   color: AppColors.alertBoxTextColot),
@@ -172,7 +172,7 @@ class Utils {
             onPressed: onPressed,
             child: Text(
               'Yes',
-              style: Theme.of(context).textTheme.headline2?.copyWith(
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(
                   fontSize: 17,
                   fontWeight: FontWeight.w400,
                   color: AppColors.alertBoxTextColot),
@@ -255,7 +255,7 @@ class Utils {
             msg,
             style: Theme.of(context)
                 .textTheme
-                .headline1!
+                .displayLarge!
                 .copyWith(fontWeight: FontWeight.bold),
           ),
         ],

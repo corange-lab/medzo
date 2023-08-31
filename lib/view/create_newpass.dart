@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -18,7 +17,7 @@ class NewPassword extends GetView {
   final FocusNode fNode = FocusNode();
   final FocusNode fNode1 = FocusNode();
 
-  String? email;
+  final String? email;
 
   NewPassword(this.email);
 

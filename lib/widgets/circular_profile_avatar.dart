@@ -1,4 +1,6 @@
-part of './widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:medzo/theme/colors.dart';
 
 ///CircularProfileAvatar allows developers to implement circular profile avatar with border,
 /// overlay, initialsText and many other features which simplifies developer's job.

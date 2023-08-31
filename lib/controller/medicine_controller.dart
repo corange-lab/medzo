@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/model/category.dart';
 import 'package:medzo/model/medicine.dart';
-import 'package:medzo/model/review.dart';
+import 'package:medzo/model/review_data_model.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/assets.dart';
 
@@ -194,7 +194,7 @@ class MedicineController extends GetxController {
     return data;
   }
 
-  Stream<List<Review>> getReview(String medicineId) {
+  Stream<List<ReviewDataModel>> getReview(String medicineId) {
     var data = FirebaseFirestore.instance
         .collection('reviews')
         .where('medicineId', isEqualTo: medicineId)
@@ -202,7 +202,7 @@ class MedicineController extends GetxController {
         .snapshots()
         .map((event) {
       return event.docs.map((e) {
-        return Review.fromMap(e.data());
+        return ReviewDataModel.fromMap(e.data());
       }).toList();
     });
     return data;
@@ -212,7 +212,7 @@ class MedicineController extends GetxController {
     return userController.findSingleUserFromAllUser(userId);
   }
 
-  String countMedicineRating(List<Review> reviewList) {
+  String countMedicineRating(List<ReviewDataModel> reviewList) {
     List<double> ratingList = [];
     for (var i = 0; i < reviewList.length; i++) {
       ratingList.add(reviewList[i].rating!);
