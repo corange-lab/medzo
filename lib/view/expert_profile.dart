@@ -241,7 +241,7 @@ class ExpertProfileScreen extends StatelessWidget {
                   ),
                   TextButton(
                       onPressed: () {
-                        Get.to(const PostScreen());
+                        // Get.to(PostScreen());
                       },
                       child: Row(
                         children: [

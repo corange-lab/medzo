@@ -46,6 +46,8 @@ class HomeController extends GetxController {
     ConstString.hypnotics
   ];
 
+  String? userId;
+
   @override
   void onInit() {
     print(
@@ -53,8 +55,13 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  pageUpdateOnHomeScreen(int index) {
+  pageUpdateOnHomeScreen(int index, [String? userId]) {
     pageIndex.value = index;
+
+    if (index == 3 && userId != null) {
+      this.userId = userId;
+    }
+
     update(['PageUpdate']);
     update();
   }

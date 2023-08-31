@@ -49,7 +49,7 @@ class HomeScreen extends GetView<HomeController> {
           );
         } else if (controller.pageIndex.value == 1) {
           return Scaffold(
-            body: const PostScreen(),
+            body: PostScreen(controller.pageUpdateOnHomeScreen),
             bottomNavigationBar: bottomNavigationBar(controller, context),
           );
         } else if (controller.pageIndex.value == 2) {
@@ -57,11 +57,14 @@ class HomeScreen extends GetView<HomeController> {
             body: BookmarkScreen(),
             bottomNavigationBar: bottomNavigationBar(controller, context),
           );
+        } else if(controller.pageIndex.value == 3){
+          return Scaffold(
+            body: ProfileScreen(LoggedInUser),
+            bottomNavigationBar: bottomNavigationBar(controller, context),
+          );
         }
-        return Scaffold(
-          body: ProfileScreen(LoggedInUser),
-          bottomNavigationBar: bottomNavigationBar(controller, context),
-        );
+        return SizedBox();
+
       },
     );
   }

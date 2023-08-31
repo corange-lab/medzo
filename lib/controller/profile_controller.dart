@@ -16,6 +16,7 @@ class ProfileController extends GetxController {
   TextEditingController professionController = TextEditingController();
 
   AllUserController allUserController = Get.find<AllUserController>();
+
   // fetch the UserModel value from dataSnapShot
   Rx<UserModel> get user => _user;
   Rx<UserModel> _user = UserModel().obs;

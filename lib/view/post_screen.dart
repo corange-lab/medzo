@@ -21,7 +21,6 @@ import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
 import 'package:medzo/view/bestMatchesScreen.dart';
-import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/image_preview_screen.dart';
 import 'package:medzo/view/post_detail_screen.dart';
 import 'package:medzo/view/post_list_screen.dart';
@@ -35,7 +34,9 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class PostScreen extends GetView<PostController> {
-  const PostScreen({super.key});
+  final Function(int, [String]) switchTab;
+
+  PostScreen(this.switchTab);
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +106,9 @@ class PostScreen extends GetView<PostController> {
               height: 10,
             ),
             ...BookmarkPostWidget(context, medicineController),
+            SizedBox(
+              height: 60,
+            )
           ],
         ),
       ),
@@ -334,6 +338,7 @@ class PostScreen extends GetView<PostController> {
                         UserModel user = userData[start + gridIndex];
                         return GestureDetector(
                           onTap: () {
+                            // switchTab(3, user.id!);
                             Get.to(() => ProfileScreen(user.id!));
                           },
                           child: Column(
@@ -448,7 +453,8 @@ class PostScreen extends GetView<PostController> {
             ),
             TextButton(
                 onPressed: () async {
-                  await Get.to(() => BookmarkScreen());
+                  switchTab(2);
+                  // await Get.to(() => BookmarkScreen());
                 },
                 child: Row(
                   children: [
@@ -481,7 +487,7 @@ class PostScreen extends GetView<PostController> {
               height: 400,
             );
           }
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             List<Medicine> medicineDetails = snapshot.data!;
 
             if (medicineDetails.isEmpty) {
@@ -509,28 +515,37 @@ class PostScreen extends GetView<PostController> {
                   ),
                 ));
           } else {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    child: Image.asset(
-                      SvgIcon.nodata,
-                      scale: 0.5,
+            return Container(
+              height: 20.h,
+              alignment: Alignment.center,
+              margin: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                  color: AppColors.white,
+                  border: Border.all(width: 1, color: AppColors.splashdetail),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      child: Image.asset(
+                        SvgIcon.nodata,
+                        scale: 0.5,
+                      ),
+                      width: 50,
                     ),
-                    width: 50,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    ConstString.noMedicine,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: AppColors.black,
-                        fontSize: 13,
-                        fontFamily: AppFont.fontBold),
-                  ),
-                ],
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      ConstString.noMedicine,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: AppColors.black,
+                          fontSize: 14,
+                          fontFamily: AppFont.fontBold),
+                    ),
+                  ],
+                ),
               ),
             );
           }
@@ -788,21 +803,62 @@ class PostListWidget extends GetWidget<PostController> {
               return PostData.fromMap(doc.data() as Map<String, dynamic>);
             }).toList();
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => PostItemWidget(context,
-                        controller, postDataList.elementAt(index), index),
-                    separatorBuilder: (context, index) =>
-                        Divider(color: Colors.transparent),
-                    itemCount: itemCount(postDataList)),
-                getBottomWidget(postDataList, context)
-              ],
-            );
+            return postDataList.isNotEmpty
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ListView.separated(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) => PostItemWidget(
+                              context,
+                              controller,
+                              postDataList.elementAt(index),
+                              index),
+                          separatorBuilder: (context, index) =>
+                              Divider(color: Colors.transparent),
+                          itemCount: itemCount(postDataList)),
+                      getBottomWidget(postDataList, context)
+                    ],
+                  )
+                : Container(
+                    height: 20.h,
+                    margin: EdgeInsets.all(15),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: AppColors.white,
+                        border:
+                            Border.all(width: 1, color: AppColors.splashdetail),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            child: Image.asset(
+                              SvgIcon.nodata,
+                              scale: 0.5,
+                            ),
+                            width: 50,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            ConstString.nopost,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: AppColors.black,
+                                    fontSize: 14,
+                                    fontFamily: AppFont.fontBold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
           } else {
             return Center(
               child: Column(

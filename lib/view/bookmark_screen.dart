@@ -14,6 +14,7 @@ import 'package:medzo/widgets/medicine_shimmer_widget.dart';
 import 'package:medzo/widgets/medicine_widget.dart';
 
 class BookmarkScreen extends StatelessWidget {
+
   final MedicineController medicineController = Get.put(MedicineController());
 
   @override

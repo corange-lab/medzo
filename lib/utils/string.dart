@@ -189,6 +189,7 @@ class ConstString {
   static const String accountDetails = "Account details";
   static const String appSetting = "App settings";
   static const String nodata = "No Data Found";
+  static const String noPost = "No Post Found";
   static const String noMedicine = "No Medicine Found";
   static const String noCategory = "No Category Found";
   static const String noWarning = "No Warning Found";

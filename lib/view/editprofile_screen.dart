@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -35,7 +36,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   ProfileController controller = Get.find<ProfileController>();
   late UserModel userModel;
 
-  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseStorage storage = FirebaseStorage.instance;
 
   @override
   void initState() {
@@ -419,7 +420,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   "Are you sure you want to delete your account?\nAll information will be deleted. That can't be UNDONE",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                      fontSize: 13.5,
+                      fontSize: 14,
                       color: AppColors.grey.withOpacity(0.9),
                       fontWeight: FontWeight.w400,
                       fontFamily: AppFont.fontFamily,
@@ -638,7 +639,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       await removeImage(imageUrl);
     }
     await instance().collection("users").doc(currentUserId).delete();
-    // FIXME: remove profile image from the store before delete the data
     await FirebaseAuth.instance.currentUser!.delete();
   }
 
@@ -648,7 +648,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         .where('creatorId', isEqualTo: currentUserId)
         .get();
     postsQuerySnapshot.docs.forEach((doc) {
-      // FIXME: remove image from the store before delete the data
       doc['postImages'].forEach((image) async {
         await removeImage(image['url']);
       });
@@ -659,12 +658,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future<void> removeImage(String imageUrl) async {
     try {
       // Parse the image URL to get the path in Firebase Storage
-      Uri uri = Uri.parse(imageUrl);
-      String imagePath = uri.path;
+      // Uri uri = Uri.parse(imageUrl);
+      // String imagePath = uri.path;
 
-      print('imagePath $imagePath');
       // Remove the image file from Firebase Storage
-      await _storage.ref(imagePath).delete();
+      await storage.refFromURL(imageUrl).delete();
+      log("Deleted from storage");
 
       // You can perform any necessary cleanup here, such as updating the user's data
     } catch (error) {
