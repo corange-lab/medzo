@@ -428,6 +428,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       color: AppColors.grey.withOpacity(0.9),
                       fontWeight: FontWeight.w400,
                       fontFamily: AppFont.fontFamily,
+                      height: 1.5,
                       letterSpacing: 0),
                 ),
               ),

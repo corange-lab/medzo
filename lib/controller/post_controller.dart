@@ -155,8 +155,6 @@ class PostController extends GetxController {
           createdTime: DateTime.now())
     ]);
 
-    // add comment to current postData
-
     // clear comment controller
     commentController.clear();
     await postRef

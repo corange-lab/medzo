@@ -434,11 +434,9 @@ class PostDetailScreen extends GetWidget<PostController> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: ListView.separated(
-          // physics: AlwaysScrollableScrollPhysics(),
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            // design a best UI for the comment
             CommentData? commentData = postData.postComments?.elementAt(index);
             UserModel? commentedUser =
                 controller.findUser(commentData?.commentUserId ?? '');
@@ -647,13 +645,13 @@ class PostDetailScreen extends GetWidget<PostController> {
   Widget CommentOfCommentWidget(CommentData parentCommentData,
       CommentData commentData, UserModel userModel, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Card(
-            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius:
@@ -674,7 +672,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 1.5.h,
+                    height: 1.2.h,
                   ),
                   Align(
                     alignment: Alignment.topLeft,
@@ -728,7 +726,7 @@ class PostDetailScreen extends GetWidget<PostController> {
             ),
           ),
           SizedBox(
-            height: 8,
+            height: 5,
           ),
           Row(
             children: [
@@ -736,7 +734,6 @@ class PostDetailScreen extends GetWidget<PostController> {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      // FIXME: implement
                       await controller.addLikeOnCommentOfComment(
                           parentCommentData, commentData, commentData.id!);
                     },

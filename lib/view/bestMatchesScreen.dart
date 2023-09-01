@@ -49,7 +49,7 @@ class BestMatchesScreen extends StatelessWidget {
           shadowColor: AppColors.splashdetail.withOpacity(0.1),
         ),
         body: ListView.builder(
-          itemCount: userController.bestMatchesUserList.length,
+          itemCount: userList!.length,
           itemBuilder: (context, index) {
             if (userList!.isNotEmpty) {
               UserModel user = userList![index];

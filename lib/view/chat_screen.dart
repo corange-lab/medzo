@@ -47,14 +47,6 @@ class ChatScreen extends StatelessWidget {
             //   Get.off(() => ProfileScreen(userModel!.id!));
             // },
             child: ChatHeader(userModel)),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(
-                SvgIcon.more,
-                height: 16,
-              ))
-        ],
       ),
       body: chatWidget(context, userModel!),
       bottomSheet: Container(
@@ -111,21 +103,21 @@ class ChatScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: IconButton(
-                  onPressed: () {
-                    chatController.messageText.text =
-                        chatController.messageText.text + "@";
-                    chatController.messageText.selection =
-                        TextSelection.fromPosition(TextPosition(
-                            offset: chatController.messageText.text.length));
-                  },
-                  icon: SvgPicture.asset(
-                    SvgIcon.at_icon,
-                    height: 22,
-                  )),
-            ),
+            // Expanded(
+            //   flex: 1,
+            //   child: IconButton(
+            //       onPressed: () {
+            //         chatController.messageText.text =
+            //             chatController.messageText.text + "@";
+            //         chatController.messageText.selection =
+            //             TextSelection.fromPosition(TextPosition(
+            //                 offset: chatController.messageText.text.length));
+            //       },
+            //       icon: SvgPicture.asset(
+            //         SvgIcon.at_icon,
+            //         height: 22,
+            //       )),
+            // ),
             Expanded(
               flex: 1,
               child: IconButton(

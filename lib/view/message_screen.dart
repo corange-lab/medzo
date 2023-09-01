@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -81,54 +82,68 @@ class MessageScreen extends StatelessWidget {
                     String lastMessageTime = chatController
                         .formatTimestamp(chatRoom.lastMessageTime.toString());
 
-                    return ListTile(
-                      horizontalTitleGap: 10,
-                      onTap: () async {
-                        ChatRoom? chatRoom =
-                            await chatController.getChatRoom(userModel.id!);
-
-                        if (chatRoom != null) {
-                          Get.to(() => ChatScreen(
-                                userModel: userModel,
-                                chatRoom: chatRoom,
-                              ));
-                        }
-                      },
-                      leading: UserProfileWidget(userModel: userModel),
-                      title: Align(
-                        alignment: Alignment.topLeft,
-                        child: TextWidget(
-                          "${userModel.name ?? "Medzo User"}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(
-                                  fontFamily: AppFont.fontBold, fontSize: 15),
+                    return Dismissible(
+                      key: Key("value"),
+                      onDismissed: (direction) {},
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        color: AppColors.primaryColor,
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Icon(CupertinoIcons.delete),
                         ),
                       ),
-                      subtitle: Align(
-                        alignment: Alignment.topLeft,
-                        child: TextWidget(
-                          "${chatRoom.lastMessage.toString()}",
-                          textAlign: TextAlign.start,
-                          maxLine: 1,
+                      child: ListTile(
+                        horizontalTitleGap: 10,
+                        onTap: () async {
+                          ChatRoom? chatRoom =
+                              await chatController.getChatRoom(userModel.id!);
+
+                          if (chatRoom != null) {
+                            Get.to(() => ChatScreen(
+                                  userModel: userModel,
+                                  chatRoom: chatRoom,
+                                ));
+                          }
+                        },
+                        leading: UserProfileWidget(userModel: userModel),
+                        title: Align(
+                          alignment: Alignment.topLeft,
+                          child: TextWidget(
+                            "${userModel.name ?? "Medzo User"}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(
+                                    fontFamily: AppFont.fontBold, fontSize: 15),
+                          ),
+                        ),
+                        subtitle: Align(
+                          alignment: Alignment.topLeft,
+                          child: TextWidget(
+                            "${chatRoom.lastMessage.toString()}",
+                            textAlign: TextAlign.start,
+                            maxLine: 1,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    fontFamily: AppFont.fontMedium,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.3,
+                                    fontSize: 12.5,
+                                    color: AppColors.grey),
+                          ),
+                        ),
+                        trailing: TextWidget(
+                          "${lastMessageTime}",
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall!
                               .copyWith(
-                                  fontFamily: AppFont.fontMedium,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.3,
-                                  fontSize: 12.5,
-                                  color: AppColors.grey),
+                                  color: AppColors.darkGrey, fontSize: 11),
                         ),
-                      ),
-                      trailing: TextWidget(
-                        "${lastMessageTime}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(color: AppColors.darkGrey, fontSize: 11),
                       ),
                     );
                   },

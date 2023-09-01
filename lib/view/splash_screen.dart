@@ -1,6 +1,3 @@
-
-
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medzo/controller/splash_screen_controller.dart';
@@ -40,24 +37,32 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                     children: [
                       Column(
                         children: [
-                          BounceInDown(
-                            child: Image.asset(
-                              AppImages.medicineBox1,
-                              height: 140,
-                            ),
-                            duration: Duration(seconds: 2),
-                            delay: Duration(seconds: 2),
+                          // BounceInDown(
+                          //   child: Image.asset(
+                          //     AppImages.medicineBox1,
+                          //     height: 140,
+                          //   ),
+                          //   duration: Duration(seconds: 2),
+                          //   delay: Duration(seconds: 2),
+                          // ),
+                          Image.asset(
+                            AppImages.medicineBox1,
+                            height: 140,
                           ),
                           SizedBox(
                             height: 10,
                           ),
-                          ZoomIn(
-                            child: Image.asset(
-                              AppImages.medzoLineLogo1,
-                              height: 70,
-                            ),
-                            duration: Duration(seconds: 1),
+                          Image.asset(
+                            AppImages.medzoLineLogo1,
+                            height: 70,
                           ),
+                          // ZoomIn(
+                          //   child: Image.asset(
+                          //     AppImages.medzoLineLogo1,
+                          //     height: 70,
+                          //   ),
+                          //   duration: Duration(seconds: 1),
+                          // ),
                         ],
                       ),
                       SizedBox(
@@ -65,17 +70,14 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                       ),
                       Container(
                         height: Responsive.height(15, context),
-                        child: FadeIn(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
-                            child: TextWidget(
-                              "Disclaimer: The reviews and ratings on this app are solely the opinions of the users and are not intended to replace professional medical advice. The information provided on this app should not be used for diagnosis or treatment of any health problem or disease. Please consult your healthcare provider before taking any medication.",
-                              style: Theme.of(context).textTheme.displaySmall!,
-                              textAlign: TextAlign.center,
-                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 15),
+                          child: TextWidget(
+                            "Disclaimer: The reviews and ratings on this app are solely the opinions of the users and are not intended to replace professional medical advice. The information provided on this app should not be used for diagnosis or treatment of any health problem or disease. Please consult your healthcare provider before taking any medication.",
+                            style: Theme.of(context).textTheme.displaySmall!,
+                            textAlign: TextAlign.center,
                           ),
-                          delay: Duration(seconds: 4),
                         ),
                       )
                     ],

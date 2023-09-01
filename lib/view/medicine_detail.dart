@@ -11,6 +11,7 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/view/review_reply_screen.dart';
 import 'package:medzo/view/review_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/medicine_shimmer_widget.dart';
@@ -843,14 +844,14 @@ class _MedicineDetailState extends State<MedicineDetail>
                                 UserModel user = medicineController
                                     .findUser(reviewList![index].userId!);
                                 return Padding(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 2),
                                   child: Column(
                                     children: [
                                       reviewHeaderWidget(
                                           context, user, reviewList, index),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
+                                      // SizedBox(
+                                      //   height: 5,
+                                      // ),
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -876,7 +877,10 @@ class _MedicineDetailState extends State<MedicineDetail>
                                       Align(
                                         alignment: Alignment.topLeft,
                                         child: TextButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              medicineController.currentReviewData = reviewList![index];
+                                              Get.to(()=>ReviewReplyScreen(user,reviewList![index]));
+                                            },
                                             child: TextWidget(
                                               ConstString.viewreply,
                                               style: Theme.of(context)

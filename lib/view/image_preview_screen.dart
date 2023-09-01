@@ -92,7 +92,6 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
             GestureDetector(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            // TODO: handle image null an error
             child: CachedNetworkImage(
               imageUrl: widget.postData.postImages?.elementAt(index).url ?? '',
               errorWidget: (context, url, error) => Icon(Icons.error),
@@ -109,7 +108,7 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
               ),
               fit: BoxFit.cover,
             ),
-            // clipBehavior: Clip.antiAliasWithSaveLayer,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
           ),
         ),
         options: CarouselOptions(

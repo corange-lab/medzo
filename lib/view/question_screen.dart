@@ -48,36 +48,41 @@ class QuestionScreen extends GetView<QuestionController> {
                         SizedBox(
                           height: 55,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              screenTitle(controller, context),
-                              GestureDetector(
-                                onTap: () async =>
-                                    await skipQuestion(controller),
-                                child: Row(
-                                  children: [
-                                    TextWidget(
-                                      ConstString.skipButton,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(
+                        Obx(
+                          () => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                screenTitle(controller, context),
+                                controller.selectedPageIndex.value != 3
+                                    ? GestureDetector(
+                                        onTap: () async =>
+                                            await skipQuestion(controller),
+                                        child: Row(
+                                          children: [
+                                            TextWidget(
+                                              ConstString.skipButton,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium!
+                                                  .copyWith(
+                                                      color:
+                                                          AppColors.darkyellow,
+                                                      fontSize: 13.5),
+                                            ),
+                                            Icon(
+                                              CupertinoIcons.right_chevron,
+                                              size: 17,
                                               color: AppColors.darkyellow,
-                                              fontSize: 13.5),
-                                    ),
-                                    Icon(
-                                      CupertinoIcons.right_chevron,
-                                      size: 17,
-                                      color: AppColors.darkyellow,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    : SizedBox(),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: 25),
@@ -260,7 +265,7 @@ class QuestionScreen extends GetView<QuestionController> {
       );
     } else {
       if (controller.ageController.text.trim().isEmpty) {
-        showInSnackBar('Please enter age or skip');
+        showInSnackBar('Please enter age');
         return;
       }
       controller.userModel = controller.userModel.copyWith(

@@ -6,6 +6,7 @@ import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/model/category.dart';
 import 'package:medzo/model/medicine.dart';
 import 'package:medzo/model/review_data_model.dart';
+import 'package:medzo/model/review_reply_data.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/assets.dart';
 
@@ -21,9 +22,14 @@ class MedicineController extends GetxController {
 
   AllUserController userController = Get.put(AllUserController());
 
+  TextEditingController replyController = TextEditingController();
+  final FocusNode replyFocusNode = FocusNode();
+
   RxString updatingId = ''.obs;
 
   List<Medicine> allMedicines = [];
+
+  ReviewDataModel? currentReviewData;
 
   RxList<Medicine> medicines = <Medicine>[].obs;
 
@@ -335,5 +341,35 @@ class MedicineController extends GetxController {
         .where((medicine) => popularMedicineIds.contains(medicine.id))
         .toList();
     return popularMedicines;
+  }
+
+  Future<ReviewDataModel?> addReply() async {
+    var value = await reviewRef.doc(currentReviewData!.id).get();
+
+    if (value.data() == null) {
+      return null;
+    }
+
+    currentReviewData =
+        ReviewDataModel.fromMap(value.data() as Map<String, dynamic>);
+
+    String repliedId = reviewRef.doc().id;
+
+    currentReviewData = currentReviewData!.copyWith(reviewReplies: [
+      ...currentReviewData!.reviewReplies ?? [],
+      ReviewReplyModel(
+          id: repliedId,
+          userId: currentUser,
+          reply: replyController.text.trim(),
+          repliedTime: DateTime.now())
+    ]);
+
+    replyController.clear();
+    await reviewRef
+        .doc(currentReviewData!.id)
+        .set(currentReviewData!.toFirebaseMap(), SetOptions(merge: true));
+
+    replyFocusNode.unfocus();
+    return currentReviewData!;
   }
 }
