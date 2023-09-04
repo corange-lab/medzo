@@ -228,6 +228,7 @@ class ConstString {
   static const String uploadpost = "Upload Post";
   static const String postlist = "Post List";
   static const String newpost = "New Post";
+  // static const String popularMedicine = "Popular Medicines";
   static const String postdetail = "Post Detail";
   static const String reviewReply = "Review Reply";
   static const String preview = "Preview";

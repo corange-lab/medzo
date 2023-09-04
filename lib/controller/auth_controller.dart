@@ -100,7 +100,6 @@ class AuthController extends GetxController {
   }
 
   void navigateVerificationFlow(String email, AuthResponse? newUser) {
-    // TODO: uncomment below code
     Get.to(() => OTPScreen(
           email: email,
         ));

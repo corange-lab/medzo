@@ -26,7 +26,6 @@ import 'package:medzo/view/follow_users_screen.dart';
 import 'package:medzo/view/post_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -253,7 +252,7 @@ class ProfileScreen extends StatelessWidget {
                               onTap: () async {
                                 List<UserModel> userList = snapshot.data!;
 
-                                Get.to(BestMatchesScreen(userList));
+                                Get.to(() => BestMatchesScreen(userList));
                               },
                               child: Visibility(
                                 visible:

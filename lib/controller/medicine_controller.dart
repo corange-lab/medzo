@@ -134,7 +134,7 @@ class MedicineController extends GetxController {
     return data;
   }
 
-  Stream<List<Medicine>> fetchPopularMedicine() {
+  Stream<List<Medicine>> fetchHomePopularMedicine() {
     var data = medicineRef.limit(3).snapshots().map((event) {
       return event.docs.map((e) {
         return Medicine.fromMap(e.data() as Map<String, dynamic>);
@@ -160,6 +160,30 @@ class MedicineController extends GetxController {
     return medicineIds;
   }
 
+  Stream<List<Medicine>> fetchPopularMedicine() {
+    var data = medicineRef
+        .where('ratings', isGreaterThanOrEqualTo: "3.5")
+        .snapshots()
+        .map((event) {
+      return event.docs.map((e) {
+        return Medicine.fromMap(e.data() as Map<String, dynamic>);
+      }).toList();
+    });
+    return data;
+  }
+
+  Stream<List<Medicine>> getCategoryWiseMedicine(String categoryId) {
+    var data = medicineRef
+        .where('categoryId', isEqualTo: categoryId.trim())
+        .snapshots()
+        .map((event) {
+      return event.docs.map((e) {
+        return Medicine.fromMap(e.data() as Map<String, dynamic>);
+      }).toList();
+    });
+    return data;
+  }
+
   Stream<List<Medicine>> fetchFavouriteMedicine() {
     if (favouriteMedicines.isEmpty) {
       return Stream.empty();
@@ -183,18 +207,6 @@ class MedicineController extends GetxController {
     var data = categoryRef.snapshots().map((event) {
       return event.docs.map((e) {
         return CategoryDataModel.fromMap(e.data() as Map<String, dynamic>);
-      }).toList();
-    });
-    return data;
-  }
-
-  Stream<List<Medicine>> getCategoryWiseMedicine(String categoryId) {
-    var data = medicineRef
-        .where('categoryId', isEqualTo: categoryId.trim())
-        .snapshots()
-        .map((event) {
-      return event.docs.map((e) {
-        return Medicine.fromMap(e.data() as Map<String, dynamic>);
       }).toList();
     });
     return data;

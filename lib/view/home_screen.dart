@@ -18,6 +18,7 @@ import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/category_screen.dart';
 import 'package:medzo/view/categorywise_medicine.dart';
 import 'package:medzo/view/message_screen.dart';
+import 'package:medzo/view/popular_medicines.dart';
 import 'package:medzo/view/post_screen.dart';
 import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/view/search_screen.dart';
@@ -57,14 +58,13 @@ class HomeScreen extends GetView<HomeController> {
             body: BookmarkScreen(),
             bottomNavigationBar: bottomNavigationBar(controller, context),
           );
-        } else if(controller.pageIndex.value == 3){
+        } else if (controller.pageIndex.value == 3) {
           return Scaffold(
             body: ProfileScreen(LoggedInUser),
             bottomNavigationBar: bottomNavigationBar(controller, context),
           );
         }
         return SizedBox();
-
       },
     );
   }
@@ -594,7 +594,9 @@ class HomeScreen extends GetView<HomeController> {
                                   ),
                             ),
                             TextButton(
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  Get.to(() => PopularMedicines());
+                                },
                                 child: Row(
                                   children: [
                                     TextWidget(
@@ -621,7 +623,7 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                       ),
                       StreamBuilder<List<Medicine>>(
-                        stream: medicineController.fetchPopularMedicine(),
+                        stream: medicineController.fetchHomePopularMedicine(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {

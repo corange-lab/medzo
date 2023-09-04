@@ -10,7 +10,6 @@ import 'package:medzo/model/health_condition.dart';
 import 'package:medzo/model/user_model.dart';
 
 class AllUserController extends GetxController {
-  // current logged in user detail from users collection from firestore database
   RxList<UserModel> allUsers = <UserModel>[].obs;
 
   CollectionReference userRef = FirebaseFirestore.instance.collection("users");
@@ -42,10 +41,10 @@ class AllUserController extends GetxController {
             'updatedUserData fetchAllUser hasData ${updatedUserData.isNotEmpty}');
         if (updatedUserData.isNotEmpty) {
           allUsers.value = updatedUserData;
-          // findBestMatches(
-          //     allUsers.firstWhere((element) =>
-          //         element.id == FirebaseAuth.instance.currentUser!.uid),
-          //     allUsers);
+          findBestMatches(
+              allUsers.firstWhere((element) =>
+                  element.id == FirebaseAuth.instance.currentUser!.uid),
+              allUsers);
         }
       });
     } catch (e) {
@@ -79,15 +78,15 @@ class AllUserController extends GetxController {
 
   double calculateSimilarity(UserModel user1, UserModel user2) {
     double ageSimilarity = user1.ageGroup!.age == user2.ageGroup!.age ? 1 : 0;
-    double allergiesSimilarity = calculateStringSimilarity(
-        user1.allergies!.currentAllergies!, user2.allergies!.currentAllergies!);
+    // double allergiesSimilarity = calculateStringSimilarity(
+    //     user1.allergies?.currentAllergies!, user2.allergies?.currentAllergies!);
     double medicationSimilarity = calculateMedicationSimilarity(
         user1.currentMedication!, user2.currentMedication!);
     double healthConditionSimilarity = calculateHealthConditionSimilarity(
         user1.healthCondition!, user2.healthCondition!);
 
     double overallSimilarity = (ageSimilarity +
-            allergiesSimilarity +
+            // allergiesSimilarity +
             medicationSimilarity +
             healthConditionSimilarity) /
         4;
@@ -171,3 +170,11 @@ class AllUserController extends GetxController {
     return bestMatches;
   }
 }
+
+//double ageSimilarity;
+//     if ((user1.ageGroup!.age - 2) <= user2.ageGroup!.age &&
+//         user2.ageGroup!.age <= (user1.ageGroup!.age + 2)) {
+//       ageSimilarity = 1;
+//     } else {
+//       ageSimilarity = 0;
+//     }
