@@ -261,7 +261,7 @@ class ConstString {
       "Find your closest \nmatches for the best \nand most important \nreviews!";
 
   static String otpDetails(String email) =>
-      "Please enter 6 Digit OTP sent on your email address us ${extractDomainFromEmail(email)}";
+      "Please enter 6 Digit OTP sent to your email address ${extractDomainFromEmail(email)}";
 
   static String extractDomainFromEmail(String email) {
     return email.replaceRange(

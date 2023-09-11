@@ -191,7 +191,7 @@ class ChatScreen extends StatelessWidget {
               } else {
                 return Center(
                   child: Text(
-                    "Hello 🖐",
+                    "Hello 🤘",
                     style:
                         TextStyle(color: AppColors.primaryColor, fontSize: 30),
                   ),

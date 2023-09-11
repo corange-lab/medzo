@@ -20,9 +20,9 @@ class AppImages {
   static const String supplements = 'assets/images/supplements.svg';
   static const String splashback = 'assets/images/splash_background.png';
   static const String chatback = 'assets/images/chat_back.png';
-  static const String medicineBox = 'assets/images/medicine_box.svg';
   static const String medicineBox1 = 'assets/images/medicine_box.png';
   static const String medzoLineLogo = 'assets/images/medzo_linelogo.svg';
+  static const String newMedzoLineLogo = 'assets/images/newmedzoline.svg';
   static const String medzoLineLogo1 = 'assets/images/medzo_linelogo.png';
   static const String homeImage = 'assets/images/homeImage.jpg';
 
@@ -38,6 +38,7 @@ class AppImages {
 }
 
 class SvgIcon {
+  static const String newMedzo = 'assets/icons/newmedzo.svg';
   static const String alcohol = 'assets/icons/alcohol_icon.svg';
   static const String arrowup = 'assets/icons/arrowup.svg';
   static const String add = 'assets/icons/add.svg';

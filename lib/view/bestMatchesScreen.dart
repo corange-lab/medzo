@@ -13,7 +13,7 @@ import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 
 class BestMatchesScreen extends StatelessWidget {
-  final List<UserModel>? userList;
+  final List<UserModel> userList;
 
   BestMatchesScreen(this.userList);
 
@@ -48,54 +48,53 @@ class BestMatchesScreen extends StatelessWidget {
           elevation: 3,
           shadowColor: AppColors.splashdetail.withOpacity(0.1),
         ),
-        body: ListView.builder(
-          itemCount: userList!.length,
-          itemBuilder: (context, index) {
-            if (userList!.isNotEmpty) {
-              UserModel user = userList![index];
-              return ListTile(
-                onTap: () {
-                  Get.to(() => ProfileScreen(user.id!));
+        body: userList.length > 0
+            ? ListView.builder(
+                itemCount: userList.length,
+                itemBuilder: (context, index) {
+                  UserModel user = userList[index];
+                  return ListTile(
+                    onTap: () {
+                      Get.to(() => ProfileScreen(user.id!));
+                    },
+                    leading: OtherProfilePicWidget(
+                      profilePictureUrl: user.profilePicture,
+                      size: Size(45, 45),
+                    ),
+                    title: Text(
+                      user.name ?? "Medzo User",
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelLarge!
+                          .copyWith(fontFamily: AppFont.fontBold, fontSize: 15),
+                    ),
+                    subtitle: Text(
+                      user.profession ?? "Profession",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontFamily: AppFont.fontMedium,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.3,
+                          fontSize: 12.5,
+                          color: AppColors.grey),
+                    ),
+                  );
                 },
-                leading: OtherProfilePicWidget(
-                  profilePictureUrl: user.profilePicture,
-                  size: Size(45, 45),
-                ),
-                title: Text(
-                  user.name ?? "Medzo User",
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelLarge!
-                      .copyWith(fontFamily: AppFont.fontBold, fontSize: 15),
-                ),
-                subtitle: Text(
-                  user.profession ?? "Profession",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontFamily: AppFont.fontMedium,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.3,
-                      fontSize: 12.5,
-                      color: AppColors.grey),
-                ),
-              );
-            } else {
-              return Center(
-                  child: Column(
+              )
+            : Center(
+                child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(CupertinoIcons.person_circle,
-                      color: AppColors.primaryColor, size: 45),
-                  SizedBox(height: 10),
+                      color: AppColors.primaryColor, size: 65),
+                  SizedBox(height: 20),
                   Text(
                     ConstString.noMatchesUser,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: AppColors.black,
-                        fontSize: 15,
+                        fontSize: 20,
                         fontFamily: AppFont.fontBold),
                   ),
                 ],
-              ));
-            }
-          },
-        ));
+              )));
   }
 }

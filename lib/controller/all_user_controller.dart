@@ -36,12 +36,12 @@ class AllUserController extends GetxController {
 
   fetchAllUser() {
     try {
-      UserRepository.instance.streamAllUser().listen((updatedUserData) {
+      UserRepository.instance.streamAllUser().listen((updatedUserData) async {
         print(
             'updatedUserData fetchAllUser hasData ${updatedUserData.isNotEmpty}');
         if (updatedUserData.isNotEmpty) {
           allUsers.value = updatedUserData;
-          findBestMatches(
+          bestMatchesUserList = await findBestMatches(
               allUsers.firstWhere((element) =>
                   element.id == FirebaseAuth.instance.currentUser!.uid),
               allUsers);
@@ -77,16 +77,65 @@ class AllUserController extends GetxController {
   }
 
   double calculateSimilarity(UserModel user1, UserModel user2) {
-    double ageSimilarity = user1.ageGroup!.age == user2.ageGroup!.age ? 1 : 0;
-    // double allergiesSimilarity = calculateStringSimilarity(
-    //     user1.allergies?.currentAllergies!, user2.allergies?.currentAllergies!);
-    double medicationSimilarity = calculateMedicationSimilarity(
-        user1.currentMedication!, user2.currentMedication!);
-    double healthConditionSimilarity = calculateHealthConditionSimilarity(
-        user1.healthCondition!, user2.healthCondition!);
+    double ageSimilarity;
+    if (user1.ageGroup != false && user2.ageGroup != false) {
+      if (user1.ageGroup?.age != null && user2.ageGroup?.age != null) {
+        if ((user1.ageGroup.age - 2) <= user2.ageGroup.age &&
+            user2.ageGroup.age <= (user1.ageGroup.age + 2)) {
+          ageSimilarity = 1;
+        } else {
+          ageSimilarity = 0;
+        }
+      } else {
+        ageSimilarity = 0;
+      }
+    } else {
+      ageSimilarity = 0;
+    }
+
+    double allergiesSimilarity;
+
+    if (user1.allergies != false && user2.allergies != false) {
+      if (user1.allergies?.currentAllergies != null &&
+          user2.allergies?.currentAllergies != null) {
+        allergiesSimilarity = calculateStringSimilarity(
+            user1.allergies!.currentAllergies,
+            user2.allergies!.currentAllergies);
+      } else {
+        allergiesSimilarity = 0;
+      }
+    } else {
+      allergiesSimilarity = 0;
+    }
+
+    double medicationSimilarity;
+
+    if (user1.currentMedication != false && user2.currentMedication != false) {
+      if (user1.currentMedication != null && user2.currentMedication != null) {
+        medicationSimilarity = calculateMedicationSimilarity(
+            user1.currentMedication, user2.currentMedication);
+      } else {
+        medicationSimilarity = 0;
+      }
+    } else {
+      medicationSimilarity = 0;
+    }
+
+    double healthConditionSimilarity;
+
+    if (user1.healthCondition != false && user2.healthCondition != false) {
+      if (user1.healthCondition != null && user2.healthCondition != null) {
+        healthConditionSimilarity = calculateHealthConditionSimilarity(
+            user1.healthCondition, user2.healthCondition);
+      } else {
+        healthConditionSimilarity = 0;
+      }
+    } else {
+      healthConditionSimilarity = 0;
+    }
 
     double overallSimilarity = (ageSimilarity +
-            // allergiesSimilarity +
+            allergiesSimilarity +
             medicationSimilarity +
             healthConditionSimilarity) /
         4;
@@ -116,11 +165,10 @@ class AllUserController extends GetxController {
       double medicineNameSimilarity = calculateStringSimilarity(
           medication1.currentTakingMedicine!,
           medication2.currentTakingMedicine!);
-      num durationDifference = 1 -
-          (medication1.durationTakingMedicine! -
-                      medication2.durationTakingMedicine!)
-                  .abs() /
-              100;
+
+      num duration1 = parseDuration(medication1.durationTakingMedicine!);
+      num duration2 = parseDuration(medication2.durationTakingMedicine!);
+      num durationDifference = 1 - (duration1 - duration2).abs() / 100;
 
       similarityScore = (medicineNameSimilarity + durationDifference) / 2;
     }
@@ -138,11 +186,10 @@ class AllUserController extends GetxController {
     } else {
       double conditionNameSimilarity = calculateStringSimilarity(
           condition1.healthCondition!, condition2.healthCondition!);
-      num durationDifference = 1 -
-          (condition1.healthConditionDuration -
-                      condition2.healthConditionDuration)
-                  .abs() /
-              100;
+
+      num duration1 = parseDuration(condition1.healthConditionDuration);
+      num duration2 = parseDuration(condition2.healthConditionDuration);
+      num durationDifference = 1 - (duration1 - duration2).abs() / 100;
 
       similarityScore = (conditionNameSimilarity + durationDifference) / 2;
     }
@@ -158,6 +205,7 @@ class AllUserController extends GetxController {
       double similarityScore = calculateSimilarity(currentUser, user);
       if (similarityScore > 0.7) {
         user.similarityScore = similarityScore;
+        log("${user.name} Similarity Score : ${similarityScore.toPrecision(2)}");
         bestMatches.add(user);
       }
     }
@@ -166,15 +214,23 @@ class AllUserController extends GetxController {
         .sort((a, b) => b.similarityScore!.compareTo(a.similarityScore!));
 
     bestMatchesUserList = bestMatches;
-    print('bestMatches ${bestMatches.map((e) => e.toString())}');
+    print('bestMatches data ${bestMatches.map((e) => e.toString())}');
     return bestMatches;
   }
-}
 
-//double ageSimilarity;
-//     if ((user1.ageGroup!.age - 2) <= user2.ageGroup!.age &&
-//         user2.ageGroup!.age <= (user1.ageGroup!.age + 2)) {
-//       ageSimilarity = 1;
-//     } else {
-//       ageSimilarity = 0;
-//     }
+  num parseDuration(var duration) {
+    if (duration is num) {
+      return duration;
+    } else if (duration is String) {
+      try {
+        return num.parse(duration);
+      } catch (e) {
+        // print('Failed to parse duration: $duration');
+        return 0; // or some other default value
+      }
+    } else {
+      // print('Unexpected type for duration: ${duration.runtimeType}');
+      return 0; // or some other default value
+    }
+  }
+}

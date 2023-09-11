@@ -7,6 +7,7 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/view/input_email_forgot_password_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
@@ -42,15 +43,12 @@ class LoginScreen extends GetView<AuthController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Image.asset(AppImages.logo, height: 40),
-                            SizedBox(
-                              width: 7,
-                            ),
+                            Image.asset(AppImages.medicineBox1, height: 36),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 5),
                               child: SvgPicture.asset(
-                                AppImages.medzo,
-                                height: 23,
+                                AppImages.newMedzoLineLogo,
+                                height: 40,
                               ),
                             ),
                           ],

@@ -132,7 +132,7 @@ class HomeScreen extends GetView<HomeController> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 3),
                                       child: TextWidget(
-                                        "Hello🖐",
+                                        "Hello🤘",
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelSmall!
@@ -713,9 +713,10 @@ class HomeScreen extends GetView<HomeController> {
             child: BottomNavigationBar(
                 backgroundColor: AppColors.white,
                 type: BottomNavigationBarType.fixed,
-                useLegacyColorScheme: true,
+                // useLegacyColorScheme: true,
                 currentIndex: controller.pageIndex.value,
                 showUnselectedLabels: true,
+                unselectedItemColor: AppColors.grey,
                 selectedLabelStyle: TextStyle(
                     fontSize: 12,
                     fontFamily: AppFont.fontFamily,

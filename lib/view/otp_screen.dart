@@ -58,16 +58,12 @@ class OTPScreenWidget extends GetView<OTPController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset(AppImages.logo,
-                          height: Responsive.height(5, context)),
-                      SizedBox(
-                        width: Responsive.width(2, context),
-                      ),
+                      Image.asset(AppImages.medicineBox1, height: 36),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 5),
                         child: SvgPicture.asset(
-                          AppImages.medzo,
-                          height: Responsive.height(2.8, context),
+                          AppImages.newMedzoLineLogo,
+                          height: 40,
                         ),
                       ),
                     ],

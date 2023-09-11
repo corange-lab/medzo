@@ -64,7 +64,7 @@ class PostScreen extends GetView<PostController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextWidget(
-                  "Hello🖐",
+                  "Hello🤘",
                   style: Theme.of(context)
                       .textTheme
                       .labelSmall!
@@ -153,266 +153,170 @@ class PostScreen extends GetView<PostController> {
     controller.pageIndex.value = value ?? 0;
   }
 
-  StreamBuilder<Object?> BestMatchesWidget(
+  Widget BestMatchesWidget(
       BuildContext context, AllUserController userController) {
     final itemsPerPage = 6;
     UserModel? currentUser = userController.currentUser;
-    return StreamBuilder<List<UserModel>>(
-      stream: userController.fetchMatchesUser(currentUser?.profession ?? ''),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: Container(
-              height: 195,
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      // Replace this with your Shimmer placeholder widgets
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 25,
-                          ),
-                          CircleAvatar(
-                            maxRadius: 25,
-                          ),
-                          CircleAvatar(
-                            maxRadius: 25,
-                          ),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Medzo",
-                            style: TextStyle(fontSize: 13),
-                          ),
-                          Text(
-                            "Medzo",
-                            style: TextStyle(fontSize: 13),
-                          ),
-                          Text(
-                            "Medzo",
-                            style: TextStyle(fontSize: 13),
-                          ),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 25,
-                          ),
-                          CircleAvatar(
-                            maxRadius: 25,
-                          ),
-                          CircleAvatar(
-                            maxRadius: 25,
-                          ),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Medzo",
-                            style: TextStyle(fontSize: 13),
-                          ),
-                          Text(
-                            "Medzo",
-                            style: TextStyle(fontSize: 13),
-                          ),
-                          Text(
-                            "Medzo",
-                            style: TextStyle(fontSize: 13),
-                          ),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          );
-        }
+     if (userController.bestMatchesUserList.isNotEmpty) {
+      List<UserModel> userData = userController.bestMatchesUserList;
 
-        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-          List<UserModel> userData = snapshot.data!;
-
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextWidget(
-                      ConstString.bestMatches,
-                      style: Get.textTheme.displayMedium!.copyWith(
-                        color: AppColors.darkPrimaryColor,
-                        fontFamily: AppFont.fontFamily,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
-                        fontSize: 15.5,
-                      ),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Get.to(() => BestMatchesScreen(userData));
-                        },
-                        child: Row(
-                          children: [
-                            TextWidget(
-                              ConstString.viewall,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(
-                                      color: AppColors.primaryColor,
-                                      height: 1.4,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 2),
-                              child: SvgPicture.asset(
-                                SvgIcon.arrowright,
-                                height: 18,
-                              ),
-                            )
-                          ],
-                        ))
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: AppColors.splashdetail),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5)),
-                padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-                height: userData.length > 3 ? 22.h : 12.h,
-                alignment: Alignment.center,
-                child: PageView.builder(
-                  controller: controller.pageController.value,
-                  onPageChanged: (value) {
-                    onPageChanged(controller, value);
-                  },
-                  itemCount: (userData.length / itemsPerPage).ceil(),
-                  itemBuilder: (context, index) {
-                    int start = index * itemsPerPage;
-                    int end = start + itemsPerPage;
-
-                    if (end > snapshot.data!.length) {
-                      end = snapshot.data!.length;
-                    }
-
-                    return GridView.builder(
-                      itemCount: end - start,
-                      padding: EdgeInsets.zero,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 3 / 2,
-                          mainAxisSpacing: 10),
-                      itemBuilder: (context, gridIndex) {
-                        UserModel user = userData[start + gridIndex];
-                        return GestureDetector(
-                          onTap: () {
-                            // switchTab(3, user.id!);
-                            Get.to(() => ProfileScreen(user.id!));
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              OtherProfilePicWidget(
-                                  profilePictureUrl: user.profilePicture,
-                                  size: Size(45, 45)),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              TextWidget(
-                                "${user.name ?? "Medzo User"}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: AppFont.fontMedium,
-                                        color: AppColors.dark.withOpacity(0.5)),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-              Obx(
-                () => Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      for (int i = 0;
-                          i < (snapshot.data!.length / itemsPerPage).ceil();
-                          i++)
-                        controller.pageIndex.value == i
-                            ? Container(
-                                height: 5,
-                                width: 17,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 2),
-                                decoration: BoxDecoration(
-                                    color: AppColors.primaryColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                              )
-                            : Container(
-                                height: 5,
-                                width: 6,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 2),
-                                decoration: BoxDecoration(
-                                    color: AppColors.grey.withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                    ],
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextWidget(
+                  ConstString.bestMatches,
+                  style: Get.textTheme.displayMedium!.copyWith(
+                    color: AppColors.darkPrimaryColor,
+                    fontFamily: AppFont.fontFamily,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.5,
+                    fontSize: 15.5,
                   ),
                 ),
-              ),
-            ],
-          );
-        } else {
-          return Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(15),
+                TextButton(
+                    onPressed: () {
+                      Get.to(() => BestMatchesScreen(userData));
+                    },
+                    child: Row(
+                      children: [
+                        TextWidget(
+                          ConstString.viewall,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(
+                              color: AppColors.primaryColor,
+                              height: 1.4,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: SvgPicture.asset(
+                            SvgIcon.arrowright,
+                            height: 18,
+                          ),
+                        )
+                      ],
+                    ))
+              ],
+            ),
+          ),
+          Container(
             decoration: BoxDecoration(
                 border: Border.all(width: 1, color: AppColors.splashdetail),
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(8)),
-            child: Center(
-                child: Column(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5)),
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            height: userData.length > 3 ? 22.h : 12.h,
+            alignment: Alignment.center,
+            child: PageView.builder(
+              controller: controller.pageController.value,
+              onPageChanged: (value) {
+                onPageChanged(controller, value);
+              },
+              itemCount: (userData.length / itemsPerPage).ceil(),
+              itemBuilder: (context, index) {
+                int start = index * itemsPerPage;
+                int end = start + itemsPerPage;
+
+                if (end > userController.bestMatchesUserList.length) {
+                  end = userController.bestMatchesUserList.length;
+                }
+
+                return GridView.builder(
+                  itemCount: end - start,
+                  padding: EdgeInsets.zero,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio: 3 / 2,
+                      mainAxisSpacing: 10),
+                  itemBuilder: (context, gridIndex) {
+                    UserModel user = userData[start + gridIndex];
+                    return GestureDetector(
+                      onTap: () {
+                        // switchTab(3, user.id!);
+                        Get.to(() => ProfileScreen(user.id!));
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          OtherProfilePicWidget(
+                              profilePictureUrl: user.profilePicture,
+                              size: Size(45, 45)),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextWidget(
+                            "${user.name ?? "Medzo User"}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: AppFont.fontMedium,
+                                color: AppColors.dark.withOpacity(0.5)),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          Obx(
+                () => Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (int i = 0;
+                  i < (userController.bestMatchesUserList.length / itemsPerPage).ceil();
+                  i++)
+                    controller.pageIndex.value == i
+                        ? Container(
+                      height: 5,
+                      width: 17,
+                      margin:
+                      const EdgeInsets.symmetric(horizontal: 2),
+                      decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(10)),
+                    )
+                        : Container(
+                      height: 5,
+                      width: 6,
+                      margin:
+                      const EdgeInsets.symmetric(horizontal: 2),
+                      decoration: BoxDecoration(
+                          color: AppColors.grey.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Container(
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(15),
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: AppColors.splashdetail),
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(8)),
+        child: Center(
+            child: Column(
               children: [
                 Icon(CupertinoIcons.person_circle,
                     color: AppColors.primaryColor, size: 45),
@@ -426,10 +330,8 @@ class PostScreen extends GetView<PostController> {
                 ),
               ],
             )),
-          );
-        }
-      },
-    );
+      );
+    }
   }
 
   List<Widget> BookmarkPostWidget(
