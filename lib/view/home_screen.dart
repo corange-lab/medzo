@@ -347,7 +347,7 @@ class HomeScreen extends GetView<HomeController> {
                                       ),
                                       TextButton(
                                           onPressed: () {
-                                            Get.to(
+                                            Get.to(() =>
                                                 CategoryScreen(CategoryList));
                                           },
                                           child: Row(
@@ -429,41 +429,45 @@ class HomeScreen extends GetView<HomeController> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
-                                                  // ClipRRect(
-                                                  //   child: CachedNetworkImage(
-                                                  //     height: 40,
-                                                  //     imageUrl: CategoryList[
-                                                  //             start + gridIndex]
-                                                  //         .image!,
-                                                  //     errorWidget: (context,
-                                                  //             url, error) =>
-                                                  //         Icon(Icons.error),
-                                                  //     progressIndicatorBuilder:
-                                                  //         (context, url,
-                                                  //                 downloadProgress) =>
-                                                  //             SizedBox(
-                                                  //       width: 120,
-                                                  //       child: Center(
-                                                  //         child:
-                                                  //             CupertinoActivityIndicator(
-                                                  //           color: AppColors
-                                                  //               .primaryColor,
-                                                  //           animating: true,
-                                                  //           radius: 12,
-                                                  //         ),
-                                                  //       ),
-                                                  //     ),
-                                                  //     fit: BoxFit.cover,
-                                                  //   ),
-                                                  //   borderRadius:
-                                                  //       BorderRadius.circular(
-                                                  //           7),
-                                                  // ),
-                                                  SvgPicture.asset(
-                                                      medicineController
-                                                              .categoryImages[
-                                                          imgIndex],
-                                                      height: 40),
+                                                  ClipRRect(
+                                                    child: SvgPicture.network(
+                                                        CategoryList[start +
+                                                                gridIndex]
+                                                            .image!),
+                                                    // child: CachedNetworkImage(
+                                                    //   height: 40,
+                                                    //   imageUrl: CategoryList[
+                                                    //           start + gridIndex]
+                                                    //       .image!,
+                                                    //   errorWidget: (context,
+                                                    //           url, error) =>
+                                                    //       Icon(Icons.error),
+                                                    //   progressIndicatorBuilder:
+                                                    //       (context, url,
+                                                    //               downloadProgress) =>
+                                                    //           SizedBox(
+                                                    //     width: 120,
+                                                    //     child: Center(
+                                                    //       child:
+                                                    //           CupertinoActivityIndicator(
+                                                    //         color: AppColors
+                                                    //             .primaryColor,
+                                                    //         animating: true,
+                                                    //         radius: 12,
+                                                    //       ),
+                                                    //     ),
+                                                    //   ),
+                                                    //   fit: BoxFit.cover,
+                                                    // ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            7),
+                                                  ),
+                                                  // SvgPicture.asset(
+                                                  //     medicineController
+                                                  //             .categoryImages[
+                                                  //         imgIndex],
+                                                  //     height: 40),
                                                   SizedBox(
                                                     height: 10,
                                                   ),
@@ -471,7 +475,6 @@ class HomeScreen extends GetView<HomeController> {
                                                     CategoryList[
                                                             start + gridIndex]
                                                         .name!,
-                                                    // allCategoryItems[start + gridIndex],
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .labelSmall!

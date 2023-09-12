@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +32,8 @@ class MedicineController extends GetxController {
   List<Medicine> allMedicines = [];
 
   ReviewDataModel? currentReviewData;
+
+  String? categoryId;
 
   RxList<Medicine> medicines = <Medicine>[].obs;
 
@@ -116,14 +120,27 @@ class MedicineController extends GetxController {
     }
   }
 
-  Future<CategoryDataModel> fetchCategoryFromId(String categoryId) async {
-    DocumentSnapshot documentSnapshot = await categoryRef.doc(categoryId).get();
+  // Future<CategoryDataModel> fetchCategoryFromId(String categoryId) async {
+  //   DocumentSnapshot documentSnapshot = await categoryRef.doc(categoryId).get();
+  //
+  //   CategoryDataModel category = CategoryDataModel.fromMap(
+  //       documentSnapshot.data() as Map<String, dynamic>);
+  //
+  //   return category;
+  // }
 
-    CategoryDataModel category = CategoryDataModel.fromMap(
-        documentSnapshot.data() as Map<String, dynamic>);
+  Future<CategoryDataModel> fetchCategoryFromId(String categoryId) {
+    Completer<CategoryDataModel> completer = Completer();
 
-    return category;
+    categoryRef.doc(categoryId).get().then((documentSnapshot) {
+      completer.complete(CategoryDataModel.fromMap(
+          documentSnapshot.data() as Map<String, dynamic>
+      ));
+    });
+
+    return completer.future; // This line still returns a Future!
   }
+
 
   Stream<List<Medicine>> fetchMedicine() {
     var data = medicineRef.snapshots().map((event) {

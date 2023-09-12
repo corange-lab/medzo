@@ -205,7 +205,6 @@ class AllUserController extends GetxController {
       double similarityScore = calculateSimilarity(currentUser, user);
       if (similarityScore > 0.7) {
         user.similarityScore = similarityScore;
-        log("${user.name} Similarity Score : ${similarityScore.toPrecision(2)}");
         bestMatches.add(user);
       }
     }

@@ -81,28 +81,7 @@ class CategoryScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // ClipRRect(
-                    //   child: CachedNetworkImage(
-                    //     height: 40,
-                    //     fadeInCurve: Curves.easeIn,
-                    //     imageUrl: CategoryList![index].image!,
-                    //     errorWidget: (context, url, error) => Icon(Icons.error),
-                    //     progressIndicatorBuilder:
-                    //         (context, url, downloadProgress) => SizedBox(
-                    //       width: 120,
-                    //       child: Center(
-                    //         child: CupertinoActivityIndicator(
-                    //           color: AppColors.primaryColor,
-                    //           animating: true,
-                    //           radius: 12,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    //   borderRadius: BorderRadius.circular(7),
-                    // ),
-                    SvgPicture.asset(controller.categoryImages[imgIndex]),
+                    SvgPicture.network(CategoryList![index].image!),
                     SizedBox(
                       height: 12,
                     ),

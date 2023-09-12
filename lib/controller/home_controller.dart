@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:medzo/controller/user_repository.dart';
+import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/string.dart';
@@ -23,6 +25,10 @@ class HomeController extends GetxController {
 
   var selectedPageIndex = 0.obs;
   var pageController = PageController().obs;
+
+  String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  Rx<UserModel> loggedInUser = UserModel.newUser().obs;
+
 
   List categoryImage = [
     AppImages.painkiller,
@@ -53,6 +59,24 @@ class HomeController extends GetxController {
     print(
         'Logged In user id ${FirebaseAuth.instance.currentUser?.uid ?? '-null-'}');
     super.onInit();
+    fetchUser();
+  }
+
+  Future<void> fetchUser(
+      {void Function(UserModel userModel)? onSuccess}) async {
+    try {
+      UserRepository.instance
+          .streamUser(currentUserId)
+          .listen((updatedUserData) {
+        print('updatedUserData ${updatedUserData.name}');
+        loggedInUser.value = updatedUserData;
+        if (onSuccess != null) {
+          onSuccess(updatedUserData);
+        }
+      });
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   pageUpdateOnHomeScreen(int index, [String? userId]) {

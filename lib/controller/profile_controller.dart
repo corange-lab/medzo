@@ -149,7 +149,7 @@ class ProfileController extends GetxController {
         return PostData.fromMap(e.data());
       }).toList();
     });
-    print('asfasf ${data.length}');
+    print('${data.length}');
     return data;
   }
 }
