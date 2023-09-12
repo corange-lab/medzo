@@ -477,7 +477,7 @@ class _MedicineDetailState extends State<MedicineDetail>
                                     SvgPicture.asset(
                                       SvgIcon.Rx,
                                       height: 25,
-                                      color: AppColors.grey,
+                                      color: AppColors.grey2,
                                     ),
                                     TextWidget(
                                       ConstString.drugs,
