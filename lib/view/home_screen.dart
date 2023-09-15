@@ -5,15 +5,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/controller/home_controller.dart';
 import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/model/category.dart';
 import 'package:medzo/model/medicine.dart';
+import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/view/bestMatchesScreen.dart';
 import 'package:medzo/view/bookmark_screen.dart';
 import 'package:medzo/view/category_screen.dart';
 import 'package:medzo/view/categorywise_medicine.dart';
@@ -35,6 +38,8 @@ class HomeScreen extends GetView<HomeController> {
   final FocusNode fNode = FocusNode();
 
   final String LoggedInUser = FirebaseAuth.instance.currentUser!.uid;
+
+  AllUserController userController = Get.put(AllUserController());
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +78,14 @@ class HomeScreen extends GetView<HomeController> {
     MedicineController medicineController = Get.put(MedicineController());
 
     final itemsPerPage = 6;
+    List imgList = [
+      AppImages.frame1,
+      AppImages.frame2,
+      AppImages.frame3,
+      AppImages.frame4,
+      AppImages.frame5,
+      AppImages.frame6,
+    ];
 
     return Container(
       color: AppColors.whitehome,
@@ -82,12 +95,49 @@ class HomeScreen extends GetView<HomeController> {
           child: Stack(
             children: [
               CarouselSlider.builder(
-                itemCount: 3,
+                itemCount: imgList.length,
                 itemBuilder: (context, index, realIndex) {
-                  return Image.asset(
-                    AppImages.homeImage,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
+                  return Stack(
+                    children: [
+                      Image.asset(
+                        imgList[index],
+                        width: double.infinity,
+                        fit: BoxFit.fill,
+                      ),
+                      index == 1
+                          ? Positioned(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    List<UserModel> userList =
+                                        userController.bestMatchesUserList;
+
+                                    Get.to(() => BestMatchesScreen(userList));
+                                  },
+                                  child: Text(
+                                    "Explore Best Matches",
+                                    style: TextStyle(
+                                        fontFamily: AppFont.fontBold,
+                                        color: AppColors.white,
+                                        fontSize: 10),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      elevation: 0,
+                                      minimumSize: Size(120, 30),
+                                      backgroundColor: AppColors.primaryColor,
+                                      padding: EdgeInsets.zero),
+                                ),
+                              ),
+                              bottom: 15,
+                              left: 20,
+                            )
+                          : SizedBox()
+                    ],
                   );
                 },
                 options: CarouselOptions(
@@ -98,7 +148,7 @@ class HomeScreen extends GetView<HomeController> {
                   enlargeStrategy: CenterPageEnlargeStrategy.height,
                   viewportFraction: 1,
                   disableCenter: true,
-                  height: 35.h,
+                  height: 33.h,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   autoPlay: true,
                 ),
@@ -163,14 +213,14 @@ class HomeScreen extends GetView<HomeController> {
                         ],
                       ),
                       SizedBox(
-                        height: 17.h,
+                        height: 15.h,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: TextFormField(
                           readOnly: true,
                           onTap: () {
-                            Get.to(const SearchScreen());
+                            Get.to(() => const SearchScreen());
                           },
                           decoration: InputDecoration(
                             filled: true,

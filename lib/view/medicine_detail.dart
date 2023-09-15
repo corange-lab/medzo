@@ -547,7 +547,7 @@ class _MedicineDetailState extends State<MedicineDetail>
           border: Border.all(width: 1, color: AppColors.splashdetail),
           color: AppColors.white,
           borderRadius: BorderRadius.circular(6)),
-      child: medicineDetail!.about!.isNotEmpty
+      child: medicineDetail!.shortDescription!.isNotEmpty
           ? Padding(
               padding: const EdgeInsets.all(10.0),
               child: SingleChildScrollView(
@@ -558,7 +558,7 @@ class _MedicineDetailState extends State<MedicineDetail>
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: TextWidget(
-                        "${medicineDetail!.about}",
+                        "${medicineDetail!.shortDescription}",
                         style:
                             Theme.of(context).textTheme.displayMedium!.copyWith(
                                   fontSize: 13.2,
@@ -844,7 +844,8 @@ class _MedicineDetailState extends State<MedicineDetail>
                                 UserModel user = medicineController
                                     .findUser(reviewList![index].userId!);
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 2),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 2),
                                   child: Column(
                                     children: [
                                       reviewHeaderWidget(
@@ -878,8 +879,11 @@ class _MedicineDetailState extends State<MedicineDetail>
                                         alignment: Alignment.topLeft,
                                         child: TextButton(
                                             onPressed: () {
-                                              medicineController.currentReviewData = reviewList![index];
-                                              Get.to(()=>ReviewReplyScreen(user,reviewList![index]));
+                                              medicineController
+                                                      .currentReviewData =
+                                                  reviewList![index];
+                                              Get.to(() => ReviewReplyScreen(
+                                                  user, reviewList![index]));
                                             },
                                             child: TextWidget(
                                               ConstString.viewreply,
@@ -960,7 +964,8 @@ class _MedicineDetailState extends State<MedicineDetail>
                 height: 70,
                 width: SizerUtil.width,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 18, top: 10),
+                  padding:
+                      const EdgeInsets.only(right: 18, top: 10, bottom: 10),
                   child: ElevatedButton(
                       onPressed: () {
                         Get.to(ReviewScreen(medicineDetails, reviewList));

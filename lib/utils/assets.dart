@@ -25,6 +25,12 @@ class AppImages {
   static const String newMedzoLineLogo = 'assets/images/newmedzoline.svg';
   static const String medzoLineLogo1 = 'assets/images/medzo_linelogo.png';
   static const String homeImage = 'assets/images/homeImage.jpg';
+  static const String frame1 = 'assets/images/Frame 1.png';
+  static const String frame2 = 'assets/images/Frame 2.png';
+  static const String frame3 = 'assets/images/Frame 3.png';
+  static const String frame4 = 'assets/images/Frame 4.png';
+  static const String frame5 = 'assets/images/Frame 5.png';
+  static const String frame6 = 'assets/images/Frame 6.png';
 
   // TODO: add asses
   static const String errorImage = 'assets/error_image.png';
