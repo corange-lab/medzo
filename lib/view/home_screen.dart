@@ -85,6 +85,9 @@ class HomeScreen extends GetView<HomeController> {
       AppImages.frame4,
       AppImages.frame5,
       AppImages.frame6,
+      AppImages.frame7,
+      AppImages.frame8,
+      AppImages.frame9,
     ];
 
     return Container(
@@ -280,7 +283,7 @@ class HomeScreen extends GetView<HomeController> {
                                 height: 195,
                                 child: ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemCount: 1, // TODO:
+                                  itemCount: 1,
                                   itemBuilder: (context, index) {
                                     return Column(
                                       mainAxisAlignment:

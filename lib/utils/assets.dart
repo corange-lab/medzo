@@ -1,36 +1,29 @@
 class AppImages {
   static const String logo = 'assets/images/Logo.png';
-  static const String logo1 = 'assets/images/Logo.svg';
-  static const String medzo = 'assets/images/medzo.svg';
   static const String google = 'assets/images/google.svg';
   static const String apple = 'assets/images/apple.svg';
-  static const String medzologo = 'assets/images/medzo logo.svg';
   static const String alergies = 'assets/images/alergies.svg';
   static const String antibiotic = 'assets/images/anti_biotic.svg';
   static const String antidepreset = 'assets/images/anti_depresent.svg';
   static const String cardiovascular = 'assets/images/cardiovascular.svg';
-  static const String chat_message = 'assets/images/chat_message.svg';
   static const String devices = 'assets/images/devices.svg';
   static const String profile_picture = 'assets/appicon.png';
-  static const String hypnotics = 'assets/images/hypnotics.svg';
   static const String mobile_image = 'assets/images/mobile_image.svg';
-  static const String painkiller = 'assets/images/painkiller.svg';
-  static const String pill = 'assets/images/pill.png';
-  static const String pillw = 'assets/images/pillwhite.png';
-  static const String supplements = 'assets/images/supplements.svg';
   static const String splashback = 'assets/images/splash_background.png';
   static const String chatback = 'assets/images/chat_back.png';
   static const String medicineBox1 = 'assets/images/medicine_box.png';
   static const String medzoLineLogo = 'assets/images/medzo_linelogo.svg';
   static const String newMedzoLineLogo = 'assets/images/newmedzoline.svg';
   static const String medzoLineLogo1 = 'assets/images/medzo_linelogo.png';
-  static const String homeImage = 'assets/images/homeImage.jpg';
-  static const String frame1 = 'assets/images/Frame 1.png';
-  static const String frame2 = 'assets/images/Frame 2.png';
-  static const String frame3 = 'assets/images/Frame 3.png';
-  static const String frame4 = 'assets/images/Frame 4.png';
-  static const String frame5 = 'assets/images/Frame 5.png';
-  static const String frame6 = 'assets/images/Frame 6.png';
+  static const String frame1 = 'assets/images/dashboard1.png';
+  static const String frame2 = 'assets/images/dashboard2.png';
+  static const String frame3 = 'assets/images/dashboard3.png';
+  static const String frame4 = 'assets/images/dashboard4.png';
+  static const String frame5 = 'assets/images/dashboard5.png';
+  static const String frame6 = 'assets/images/dashboard6.png';
+  static const String frame7 = 'assets/images/dashboard7.png';
+  static const String frame8 = 'assets/images/dashboard8.png';
+  static const String frame9 = 'assets/images/dashboard9.png';
 
   // TODO: add asses
   static const String errorImage = 'assets/error_image.png';

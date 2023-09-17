@@ -7,8 +7,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medzo/controller/user_repository.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/app_storage.dart';
-import 'package:medzo/utils/assets.dart';
-import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/login_screen.dart';
 
 class HomeController extends GetxController {
@@ -28,29 +26,6 @@ class HomeController extends GetxController {
 
   String currentUserId = FirebaseAuth.instance.currentUser!.uid;
   Rx<UserModel> loggedInUser = UserModel.newUser().obs;
-
-
-  List categoryImage = [
-    AppImages.painkiller,
-    AppImages.antidepreset,
-    AppImages.antibiotic,
-    AppImages.cardiovascular,
-    AppImages.supplements,
-    AppImages.alergies,
-    AppImages.devices,
-    AppImages.hypnotics
-  ];
-
-  List categoryName = [
-    ConstString.painkillar,
-    ConstString.antidepresant,
-    ConstString.antibiotic,
-    ConstString.cardiovascular,
-    ConstString.supplements,
-    ConstString.allergies,
-    ConstString.devices,
-    ConstString.hypnotics
-  ];
 
   String? userId;
 

@@ -37,23 +37,6 @@ class MedicineController extends GetxController {
 
   RxList<Medicine> medicines = <Medicine>[].obs;
 
-  List categoryImages = [
-    AppImages.painkiller,
-    AppImages.antidepreset,
-    AppImages.antibiotic,
-    AppImages.cardiovascular,
-    AppImages.supplements,
-    AppImages.alergies,
-    AppImages.devices,
-    AppImages.hypnotics,
-  ];
-  List searchList = [
-    "Cetirizine",
-    "Cetuximab",
-    "Cetraxal",
-    "Cetamolol",
-    "Cetilistat"
-  ];
   List searchsubtitleList = [
     "in allergies",
     "in cancer treatment",
@@ -134,13 +117,11 @@ class MedicineController extends GetxController {
 
     categoryRef.doc(categoryId).get().then((documentSnapshot) {
       completer.complete(CategoryDataModel.fromMap(
-          documentSnapshot.data() as Map<String, dynamic>
-      ));
+          documentSnapshot.data() as Map<String, dynamic>));
     });
 
     return completer.future; // This line still returns a Future!
   }
-
 
   Stream<List<Medicine>> fetchMedicine() {
     var data = medicineRef.snapshots().map((event) {

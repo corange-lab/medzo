@@ -24,13 +24,15 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                   height: SizerUtil.height,
                   width: SizerUtil.width,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: GradientThemeColors.orangegradient,
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight),
-                      image: const DecorationImage(
-                          image: AssetImage(AppImages.splashback),
-                          fit: BoxFit.fill)),
+                    color: AppColors.primaryColor,
+                    // gradient: LinearGradient(
+                    //     colors: GradientThemeColors.orangegradient,
+                    //     begin: Alignment.topLeft,
+                    //     end: Alignment.bottomRight),
+                    // image: const DecorationImage(
+                    //     image: AssetImage(AppImages.splashback),
+                    //     fit: BoxFit.fill),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,14 +49,14 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                           // ),
                           Image.asset(
                             AppImages.medicineBox1,
-                            height: 140,
+                            height: 200,
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
                           ),
                           Image.asset(
                             AppImages.medzoLineLogo1,
-                            height: 70,
+                            height: 55,
                           ),
                           // ZoomIn(
                           //   child: Image.asset(
@@ -69,13 +71,19 @@ class SplashScreen extends GetWidget<SplashScreenController> {
                         height: Responsive.height(15, context),
                       ),
                       Container(
-                        height: Responsive.height(15, context),
+                        height: Responsive.height(20, context),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 15),
+                              horizontal: 15, vertical: 10),
                           child: TextWidget(
                             "Disclaimer: The reviews and ratings on this app are solely the opinions of the users and are not intended to replace professional medical advice. The information provided on this app should not be used for diagnosis or treatment of any health problem or disease. Please consult your healthcare provider before taking any medication.",
-                            style: Theme.of(context).textTheme.displaySmall!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .displaySmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                ),
                             textAlign: TextAlign.center,
                           ),
                         ),
