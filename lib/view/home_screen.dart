@@ -39,7 +39,7 @@ class HomeScreen extends GetView<HomeController> {
 
   final String LoggedInUser = FirebaseAuth.instance.currentUser!.uid;
 
-  AllUserController userController = Get.put(AllUserController());
+  final AllUserController userController = Get.put(AllUserController());
 
   @override
   Widget build(BuildContext context) {
