@@ -78,7 +78,7 @@ class HomeScreen extends GetView<HomeController> {
     MedicineController medicineController = Get.put(MedicineController());
 
     final itemsPerPage = 6;
-    List imgList = [
+    List<String> imgList = [
       AppImages.frame1,
       AppImages.frame2,
       AppImages.frame3,
@@ -102,10 +102,12 @@ class HomeScreen extends GetView<HomeController> {
                 itemBuilder: (context, index, realIndex) {
                   return Stack(
                     children: [
-                      Image.asset(
-                        imgList[index],
-                        width: double.infinity,
-                        fit: BoxFit.fill,
+                      Positioned.fill(
+                        child: Image.asset(
+                          imgList.elementAt(index),
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                       index == 1
                           ? Positioned(
