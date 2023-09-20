@@ -79,15 +79,18 @@ class HomeScreen extends GetView<HomeController> {
 
     final itemsPerPage = 6;
     List<String> imgList = [
-      AppImages.frame1,
-      AppImages.frame2,
-      AppImages.frame3,
-      AppImages.frame4,
-      AppImages.frame5,
-      AppImages.frame6,
-      AppImages.frame7,
-      AppImages.frame8,
-      AppImages.frame9,
+      // AppImages.frame1,
+      // AppImages.frame2,
+      // AppImages.frame3,
+      // AppImages.frame4,
+      // AppImages.frame5,
+      // AppImages.frame6,
+      // AppImages.frame7,
+      // AppImages.frame8,
+      // AppImages.frame9,
+      AppImages.d1,
+      AppImages.d2,
+      AppImages.d3,
     ];
 
     return Container(
@@ -109,39 +112,39 @@ class HomeScreen extends GetView<HomeController> {
                           fit: BoxFit.fill,
                         ),
                       ),
-                      index == 1
-                          ? Positioned(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    List<UserModel> userList =
-                                        userController.bestMatchesUserList;
-
-                                    Get.to(() => BestMatchesScreen(userList));
-                                  },
-                                  child: Text(
-                                    "Explore Best Matches",
-                                    style: TextStyle(
-                                        fontFamily: AppFont.fontBold,
-                                        color: AppColors.white,
-                                        fontSize: 10),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                      elevation: 0,
-                                      minimumSize: Size(120, 30),
-                                      backgroundColor: AppColors.primaryColor,
-                                      padding: EdgeInsets.zero),
-                                ),
-                              ),
-                              bottom: 15,
-                              left: 20,
-                            )
-                          : SizedBox()
+                      // index == 1
+                      //     ? Positioned(
+                      //         child: Padding(
+                      //           padding:
+                      //               const EdgeInsets.symmetric(vertical: 10),
+                      //           child: ElevatedButton(
+                      //             onPressed: () {
+                      //               List<UserModel> userList =
+                      //                   userController.bestMatchesUserList;
+                      //
+                      //               Get.to(() => BestMatchesScreen(userList));
+                      //             },
+                      //             child: Text(
+                      //               "Explore Best Matches",
+                      //               style: TextStyle(
+                      //                   fontFamily: AppFont.fontBold,
+                      //                   color: AppColors.white,
+                      //                   fontSize: 10),
+                      //             ),
+                      //             style: ElevatedButton.styleFrom(
+                      //                 shape: RoundedRectangleBorder(
+                      //                     borderRadius:
+                      //                         BorderRadius.circular(8)),
+                      //                 elevation: 0,
+                      //                 minimumSize: Size(120, 30),
+                      //                 backgroundColor: AppColors.primaryColor,
+                      //                 padding: EdgeInsets.zero),
+                      //           ),
+                      //         ),
+                      //         bottom: 15,
+                      //         left: 20,
+                      //       )
+                      //     : SizedBox()
                     ],
                   );
                 },
@@ -169,50 +172,60 @@ class HomeScreen extends GetView<HomeController> {
                         height: 7.h,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                  margin: const EdgeInsets.only(right: 10),
-                                  child:
-                                      MyProfilePicWidget(size: Size(45, 45))),
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 3),
-                                      child: TextWidget(
-                                        "Hello🤘",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall!
-                                            .copyWith(
-                                                fontSize: 14,
-                                                letterSpacing: 0,
-                                                color: AppColors.dark),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    MyNameTextWidget()
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     Container(
+                          //         margin: const EdgeInsets.only(right: 10),
+                          //         child:
+                          //             MyProfilePicWidget(size: Size(45, 45))),
+                          //     Align(
+                          //       alignment: Alignment.topLeft,
+                          //       child: Column(
+                          //         mainAxisAlignment:
+                          //             MainAxisAlignment.spaceEvenly,
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           Padding(
+                          //             padding: const EdgeInsets.only(left: 3),
+                          //             child: TextWidget(
+                          //               "Hello🤘",
+                          //               style: Theme.of(context)
+                          //                   .textTheme
+                          //                   .labelSmall!
+                          //                   .copyWith(
+                          //                       fontSize: 14,
+                          //                       letterSpacing: 0,
+                          //                       color: AppColors.dark),
+                          //             ),
+                          //           ),
+                          //           SizedBox(
+                          //             height: 5,
+                          //           ),
+                          //           MyNameTextWidget()
+                          //         ],
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           GestureDetector(
                             onTap: () {
                               Get.to(() => MessageScreen());
                             },
-                            child: SvgPicture.asset(
-                              SvgIcon.chathome,
-                              height: 22,
+                            child: ClipOval(
+                              child: Container(
+                                height: 45,
+                                width: 45,
+                                color: AppColors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    SvgIcon.chathome,
+                                    height: 22,
+                                  ),
+                                ),
+                              ),
                             ),
                           )
                         ],

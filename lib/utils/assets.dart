@@ -24,6 +24,9 @@ class AppImages {
   static const String frame7 = 'assets/images/dashboard7.png';
   static const String frame8 = 'assets/images/dashboard8.png';
   static const String frame9 = 'assets/images/dashboard9.png';
+  static const String d1 = 'assets/images/d1.png';
+  static const String d2 = 'assets/images/d2.png';
+  static const String d3 = 'assets/images/d3.png';
 
   // TODO: add asses
   static const String errorImage = 'assets/error_image.png';
