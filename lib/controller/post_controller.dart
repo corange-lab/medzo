@@ -9,6 +9,8 @@ import 'package:medzo/controller/user_controller.dart';
 import 'package:medzo/model/comment_data.dart';
 import 'package:medzo/model/post_model.dart';
 import 'package:medzo/model/user_model.dart';
+import 'package:medzo/utils/assets.dart';
+import 'package:medzo/widgets/dialogue.dart';
 
 class PostController extends GetxController {
   RxList<File> selectedMultiImages = <File>[].obs;
@@ -67,6 +69,29 @@ class PostController extends GetxController {
         .where('creatorId', isEqualTo: userId, isNotEqualTo: null)
         .orderBy('createdTime', descending: true)
         .snapshots();
+  }
+
+  deletePost(BuildContext context, String postId) {
+    postRef.doc(postId).delete().then((value) {
+      Get.back();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return successDialogue(
+            titleText: "Successful Deleted",
+            subtitle: "Your post has been Deleted successfully.",
+            iconDialogue: SvgIcon.check_circle,
+            btntext: "Okay",
+            onPressed: () {
+              update();
+              Get.back();
+            },
+          );
+        },
+      );
+    }).catchError((onError) {
+      print('Error deleting document: $onError');
+    });
   }
 
   UserModel findUser(String userId) {

@@ -1,5 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -16,12 +19,24 @@ import 'package:medzo/widgets/pick_image.dart';
 import 'package:sizer/sizer.dart';
 
 class AddPostScreen extends GetView<NewPostController> {
+  PostData? postData;
+
+  AddPostScreen({this.postData});
+
   @override
   Widget build(BuildContext context) {
     pickImageController pickController = Get.put(pickImageController());
     NewPostController controller = Get.isRegistered<NewPostController>()
         ? Get.find<NewPostController>()
         : Get.put(NewPostController());
+
+    // log("${postData!.postImages![0]}");
+
+    if (postData != null && postData!.id != null && postData!.id!.isNotEmpty) {
+      controller.description.text = postData?.description ?? "";
+    } else {
+      controller.description.text = "";
+    }
 
     return Scaffold(
       backgroundColor: AppColors.whitehome,
@@ -60,7 +75,9 @@ class AddPostScreen extends GetView<NewPostController> {
               toast(message: "Please add description");
               return;
             }
+
             progressDialogue(context, title: "Post Uploading");
+
             List<PostImageData> imageList = [];
 
             final postId = controller.postRef.doc().id;
@@ -100,49 +117,93 @@ class AddPostScreen extends GetView<NewPostController> {
               createdTime: DateTime.now(),
             );
 
-            await controller.postRef
-                .doc(postId)
-                .set(newPostData.toMap())
-                .then((value) async {
-              newPostData = PostData.fromMap(newPostData.toFirebaseMap());
+            if (postData != null &&
+                postData!.id != null &&
+                postData!.id!.isNotEmpty) {
+              await controller.postRef.doc(postData!.id).update({
+                'description': controller.description.text.trim(),
+              }).then((value) {
+                if (imageList.every((element) => element.uploaded == true)) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return successDialogue(
+                        titleText: "Successful Updated",
+                        subtitle: "Your post has been Updated successfully.",
+                        iconDialogue: SvgIcon.check_circle,
+                        btntext: "View",
+                        onPressed: () {
+                          Get.back();
+                          Get.back();
+                          Get.back();
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return FailureDialog(
+                        titleText: "Failed to Update",
+                        subtitle: "Your post has been failed to update.",
+                        iconDialogue: SvgIcon.info,
+                        btntext: "Close",
+                        onPressed: () {
+                          Get.back();
+                        },
+                      );
+                    },
+                  );
+                }
+              }).catchError((onError) {
+                log("Failed to update description: $onError");
+              });
+            } else {
+              await controller.postRef
+                  .doc(postId)
+                  .set(newPostData.toMap())
+                  .then((value) async {
+                newPostData = PostData.fromMap(newPostData.toFirebaseMap());
 
-              newPostData = newPostData.copyWith(id: postId);
-              controller.selectedMultiImages.clear();
+                newPostData = newPostData.copyWith(id: postId);
+                controller.selectedMultiImages.clear();
 
-              if (imageList.every((element) => element.uploaded == true)) {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return successDialogue(
-                      titleText: "Successful Uploaded",
-                      subtitle: "Your post has been uploaded successfully.",
-                      iconDialogue: SvgIcon.check_circle,
-                      btntext: "View",
-                      onPressed: () {
-                        Get.back();
-                        Get.back();
-                        Get.back();
-                      },
-                    );
-                  },
-                );
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return FailureDialog(
-                      titleText: "Failed to Upload",
-                      subtitle: "Your post has been failed to upload.",
-                      iconDialogue: SvgIcon.info,
-                      btntext: "Close",
-                      onPressed: () {
-                        Get.back();
-                      },
-                    );
-                  },
-                );
-              }
-            });
+                if (imageList.every((element) => element.uploaded == true)) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return successDialogue(
+                        titleText: "Successful Uploaded",
+                        subtitle: "Your post has been uploaded successfully.",
+                        iconDialogue: SvgIcon.check_circle,
+                        btntext: "View",
+                        onPressed: () {
+                          Get.back();
+                          Get.back();
+                          Get.back();
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return FailureDialog(
+                        titleText: "Failed to Upload",
+                        subtitle: "Your post has been failed to upload.",
+                        iconDialogue: SvgIcon.info,
+                        btntext: "Close",
+                        onPressed: () {
+                          Get.back();
+                        },
+                      );
+                    },
+                  );
+                }
+              });
+            }
           },
           style: ElevatedButton.styleFrom(
               elevation: 0,
@@ -151,7 +212,7 @@ class AddPostScreen extends GetView<NewPostController> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30))),
           child: TextWidget(
-            ConstString.uploadpost,
+            postData != null ? ConstString.updatepost : ConstString.uploadpost,
             style: Theme.of(context).textTheme.displayMedium!.copyWith(
                 fontSize: 15,
                 color: AppColors.buttontext,
@@ -213,30 +274,68 @@ class AddPostScreen extends GetView<NewPostController> {
               ),
             ),
           ),
-          Obx(
-            () => controller.selectedMultiImages.isNotEmpty
-                ? Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    child: Container(
-                      height: 110,
-                      width: SizerUtil.width,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: controller.selectedMultiImages.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Image.file(
-                                      controller.selectedMultiImages[index])));
-                        },
-                      ),
+          postData != null && postData!.id != null
+              ? Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: Container(
+                    height: 110,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: postData!.postImages!.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 7),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: CachedNetworkImage(
+                              imageUrl: postData!.postImages![index].url!,
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) => SizedBox(
+                                width: 120,
+                                child: Center(
+                                  child: CupertinoActivityIndicator(
+                                    color: AppColors.primaryColor,
+                                    animating: true,
+                                    radius: 14,
+                                  ),
+                                ),
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                          ),
+                        );
+                      },
                     ),
-                  )
-                : SizedBox(),
-          ),
+                  ),
+                )
+              : Obx(
+                  () => controller.selectedMultiImages.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 5),
+                          child: Container(
+                            height: 110,
+                            width: SizerUtil.width,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.selectedMultiImages.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child: Image.file(controller
+                                            .selectedMultiImages[index])));
+                              },
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                ),
           SizedBox(
             height: 10,
           ),

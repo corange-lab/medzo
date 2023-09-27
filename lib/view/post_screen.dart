@@ -25,11 +25,11 @@ import 'package:medzo/view/post_detail_screen.dart';
 import 'package:medzo/view/post_list_screen.dart';
 import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/widgets/medicine_shimmer_widget.dart';
 import 'package:medzo/widgets/medicine_widget.dart';
 import 'package:medzo/widgets/user/my_name_text_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class PostScreen extends GetView<PostController> {
@@ -157,7 +157,7 @@ class PostScreen extends GetView<PostController> {
       BuildContext context, AllUserController userController) {
     final itemsPerPage = 6;
     UserModel? currentUser = userController.currentUser;
-     if (userController.bestMatchesUserList.isNotEmpty) {
+    if (userController.bestMatchesUserList.isNotEmpty) {
       List<UserModel> userData = userController.bestMatchesUserList;
 
       return Column(
@@ -189,10 +189,10 @@ class PostScreen extends GetView<PostController> {
                               .textTheme
                               .titleLarge!
                               .copyWith(
-                              color: AppColors.primaryColor,
-                              height: 1.4,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14),
+                                  color: AppColors.primaryColor,
+                                  height: 1.4,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 2),
@@ -260,10 +260,10 @@ class PostScreen extends GetView<PostController> {
                                 .textTheme
                                 .titleSmall!
                                 .copyWith(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: AppFont.fontMedium,
-                                color: AppColors.dark.withOpacity(0.5)),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: AppFont.fontMedium,
+                                    color: AppColors.dark.withOpacity(0.5)),
                           )
                         ],
                       ),
@@ -274,33 +274,34 @@ class PostScreen extends GetView<PostController> {
             ),
           ),
           Obx(
-                () => Padding(
+            () => Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   for (int i = 0;
-                  i < (userController.bestMatchesUserList.length / itemsPerPage).ceil();
-                  i++)
+                      i <
+                          (userController.bestMatchesUserList.length /
+                                  itemsPerPage)
+                              .ceil();
+                      i++)
                     controller.pageIndex.value == i
                         ? Container(
-                      height: 5,
-                      width: 17,
-                      margin:
-                      const EdgeInsets.symmetric(horizontal: 2),
-                      decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.circular(10)),
-                    )
+                            height: 5,
+                            width: 17,
+                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                            decoration: BoxDecoration(
+                                color: AppColors.primaryColor,
+                                borderRadius: BorderRadius.circular(10)),
+                          )
                         : Container(
-                      height: 5,
-                      width: 6,
-                      margin:
-                      const EdgeInsets.symmetric(horizontal: 2),
-                      decoration: BoxDecoration(
-                          color: AppColors.grey.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
+                            height: 5,
+                            width: 6,
+                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                            decoration: BoxDecoration(
+                                color: AppColors.grey.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
                 ],
               ),
             ),
@@ -317,19 +318,19 @@ class PostScreen extends GetView<PostController> {
             borderRadius: BorderRadius.circular(8)),
         child: Center(
             child: Column(
-              children: [
-                Icon(CupertinoIcons.person_circle,
-                    color: AppColors.primaryColor, size: 45),
-                SizedBox(height: 10),
-                Text(
-                  ConstString.noMatchesUser,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: AppColors.black,
-                      fontSize: 15,
-                      fontFamily: AppFont.fontBold),
-                ),
-              ],
-            )),
+          children: [
+            Icon(CupertinoIcons.person_circle,
+                color: AppColors.primaryColor, size: 45),
+            SizedBox(height: 10),
+            Text(
+              ConstString.noMatchesUser,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: AppColors.black,
+                  fontSize: 15,
+                  fontFamily: AppFont.fontBold),
+            ),
+          ],
+        )),
       );
     }
   }
@@ -473,14 +474,13 @@ class PostItemComponent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () {
-              postData.creatorId != controller.loggedInUserId
-                  ? Get.to(() => ProfileScreen(postData.creatorId!))
-                  : null;
-            },
-            child: PostHeaderWidget(
-                context, postData, controller.findUser(postData.creatorId!)),
-          ),
+              onTap: () {
+                postData.creatorId != controller.loggedInUserId
+                    ? Get.to(() => ProfileScreen(postData.creatorId!))
+                    : null;
+              },
+              child: PostHeaderWidget(
+                  context, postData, controller.findUser(postData.creatorId!))),
           Container(
             height: 0.18.h,
             width: SizerUtil.width,
@@ -644,32 +644,58 @@ class PostItemComponent extends StatelessWidget {
   ListTile PostHeaderWidget(
       BuildContext context, PostData postData, UserModel thisPostUser) {
     return ListTile(
-      horizontalTitleGap: 10,
-      leading:
-          OtherProfilePicWidget(profilePictureUrl: thisPostUser.profilePicture),
-      title: Align(
-        alignment: Alignment.topLeft,
-        child: TextWidget(
-          thisPostUser.name ?? '',
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              fontFamily: AppFont.fontFamilysemi,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.3,
-              fontSize: 15),
-        ),
-      ),
-      subtitle: Padding(
-        padding: const EdgeInsets.only(left: 2),
-        child: Align(
+        horizontalTitleGap: 10,
+        leading: OtherProfilePicWidget(
+            profilePictureUrl: thisPostUser.profilePicture),
+        title: Align(
           alignment: Alignment.topLeft,
           child: TextWidget(
-            timeAgo(postData.createdTime ?? DateTime.now()),
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: AppColors.grey.withOpacity(0.8), fontSize: 12.5),
+            thisPostUser.name ?? '',
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                fontFamily: AppFont.fontFamilysemi,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.3,
+                fontSize: 15),
           ),
         ),
-      ),
-    );
+        subtitle: Padding(
+          padding: const EdgeInsets.only(left: 2),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: TextWidget(
+              timeAgo(postData.createdTime ?? DateTime.now()),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: AppColors.grey.withOpacity(0.8), fontSize: 12.5),
+            ),
+          ),
+        ),
+        trailing: controller.loggedInUserId == postData.creatorId
+            ? PopupMenuButton(
+                onSelected: (value) async {
+                  if (value == "Edit Post") {
+                    Get.to(() => AddPostScreen(
+                          postData: postData,
+                        ));
+                  }
+                  if (value == "Delete Post") {
+                    Get.back();
+                    progressDialogue(context, title: "Post Deleting");
+                    await controller.deletePost(context, postData.id!);
+                  }
+                },
+                padding: EdgeInsets.zero,
+                itemBuilder: (context) => <PopupMenuEntry>[
+                  PopupMenuItem(
+                    child: Text("Edit Post"),
+                    value: "Edit Post",
+                  ),
+                  PopupMenuItem(
+                    child: Text("Delete Post"),
+                    value: "Delete Post",
+                  )
+                ],
+              )
+            : SizedBox());
   }
 
   String timeAgo(DateTime d) {

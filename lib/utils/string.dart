@@ -226,6 +226,7 @@ class ConstString {
   static const String name = "Name";
   static const String uploadimage = "Upload Images";
   static const String uploadpost = "Upload Post";
+  static const String updatepost = "Update Post";
   static const String postlist = "Post List";
   static const String newpost = "New Post";
   // static const String popularMedicine = "Popular Medicines";

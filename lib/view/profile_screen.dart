@@ -31,7 +31,7 @@ import 'package:sizer/sizer.dart';
 class ProfileScreen extends StatelessWidget {
   final String userId;
   final PostController postController =
-      Get.put<PostController>(PostController());
+  Get.put<PostController>(PostController());
 
   final AllUserController userController = Get.put(AllUserController());
 
@@ -51,48 +51,53 @@ class ProfileScreen extends StatelessWidget {
               titleSpacing: 0,
               backgroundColor: AppColors.white,
               automaticallyImplyLeading:
-                  FirebaseAuth.instance.currentUser!.uid == userId
-                      ? false
-                      : true,
+              FirebaseAuth.instance.currentUser!.uid == userId
+                  ? false
+                  : true,
               leading: FirebaseAuth.instance.currentUser!.uid == userId
                   ? null
                   : IconButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: SvgPicture.asset(
-                        SvgIcon.backarrow,
-                        height: 15,
-                      )),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: SvgPicture.asset(
+                    SvgIcon.backarrow,
+                    height: 15,
+                  )),
               // centerTitle: FirebaseAuth.instance.currentUser!.uid == userId
               //     ? false
               //     : true,
               title: FirebaseAuth.instance.currentUser!.uid == userId
                   ? Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: TextWidget(
-                          ConstString.profile,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(
-                                  fontSize: 17.5,
-                                  fontFamily: AppFont.fontBold,
-                                  letterSpacing: 0,
-                                  color: AppColors.black),
-                        ),
-                      ),
-                    )
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: TextWidget(
+                    ConstString.profile,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(
+                        fontSize: 17.5,
+                        fontFamily: AppFont.fontBold,
+                        letterSpacing: 0,
+                        color: AppColors.black),
+                  ),
+                ),
+              )
                   : TextWidget(
-                      controller.user.value.name ?? '',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontSize: 17.5,
-                          fontFamily: AppFont.fontBold,
-                          letterSpacing: 0,
-                          color: AppColors.black),
-                    ),
+                controller.user.value.name ?? '',
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(
+                    fontSize: 17.5,
+                    fontFamily: AppFont.fontBold,
+                    letterSpacing: 0,
+                    color: AppColors.black),
+              ),
               elevation: 3,
               shadowColor: AppColors.splashdetail.withOpacity(0.1),
               actions: [
@@ -115,8 +120,8 @@ class ProfileScreen extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                       child: CircularProgressIndicator(
-                    color: AppColors.primaryColor,
-                  ));
+                        color: AppColors.primaryColor,
+                      ));
                 }
 
                 if (snapshot.hasData) {
@@ -129,38 +134,38 @@ class ProfileScreen extends StatelessWidget {
                             child: ClipOval(
                               child: Container(
                                 child: controller.user.value.profilePicture ==
-                                        null
+                                    null
                                     ? AppWidget.noProfileWidget(context)
                                     : Image.network(
-                                        controller.user.value.profilePicture ??
-                                            '',
-                                        fit: BoxFit.cover,
-                                        loadingBuilder: (BuildContext context,
-                                            Widget child,
-                                            ImageChunkEvent? loadingProgress) {
-                                          if (loadingProgress == null)
-                                            return child;
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
-                                                  : null,
-                                              color: AppColors.white,
-                                              strokeWidth: 3,
-                                            ),
-                                          );
-                                        },
-                                        errorBuilder:
-                                            (context, exception, stackTrack) =>
-                                                Icon(
-                                          Icons.error,
-                                        ),
+                                  controller.user.value.profilePicture ??
+                                      '',
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null)
+                                      return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress
+                                            .expectedTotalBytes !=
+                                            null
+                                            ? loadingProgress
+                                            .cumulativeBytesLoaded /
+                                            loadingProgress
+                                                .expectedTotalBytes!
+                                            : null,
+                                        color: AppColors.white,
+                                        strokeWidth: 3,
                                       ),
+                                    );
+                                  },
+                                  errorBuilder:
+                                      (context, exception, stackTrack) =>
+                                      Icon(
+                                        Icons.error,
+                                      ),
+                                ),
                                 height: 110,
                                 width: 110,
                                 color: AppColors.tilecolor,
@@ -169,15 +174,16 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ),
                         TextWidget(controller.user.value.name ?? '-',
-                            style: Theme.of(context)
+                            style: Theme
+                                .of(context)
                                 .textTheme
                                 .labelLarge!
                                 .copyWith(
-                                  fontSize: 17,
-                                  fontFamily: AppFont.fontBold,
-                                  letterSpacing: 0,
-                                  color: AppColors.darkPrimaryColor,
-                                )),
+                              fontSize: 17,
+                              fontFamily: AppFont.fontBold,
+                              letterSpacing: 0,
+                              color: AppColors.darkPrimaryColor,
+                            )),
                         SizedBox(
                           height: 15,
                         ),
@@ -190,13 +196,14 @@ class ProfileScreen extends StatelessWidget {
                             children: [
                               TextWidget(
                                 "${controller.user.value.profession ?? '-'}",
-                                style: Theme.of(context)
+                                style: Theme
+                                    .of(context)
                                     .textTheme
                                     .labelSmall!
                                     .copyWith(
-                                        color: AppColors.dark,
-                                        fontSize: 13,
-                                        letterSpacing: 0),
+                                    color: AppColors.dark,
+                                    fontSize: 13,
+                                    letterSpacing: 0),
                               ),
                               SizedBox(
                                 width: 5,
@@ -218,29 +225,30 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         FirebaseAuth.instance.currentUser!.uid == userId
                             ? ElevatedButton(
-                                onPressed: () async {
-                                  await Get.to(() =>
-                                      EditProfileScreen(controller.user.value));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    fixedSize: Size(150, 48),
-                                    backgroundColor: AppColors.primaryColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30))),
-                                child: TextWidget(
-                                  ConstString.editprofile,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayMedium!
-                                      .copyWith(
-                                        color: AppColors.black,
-                                        fontSize: 15,
-                                        fontFamily: AppFont.fontBold,
-                                      ),
-                                ),
-                              )
+                          onPressed: () async {
+                            await Get.to(() =>
+                                EditProfileScreen(controller.user.value));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              fixedSize: Size(150, 48),
+                              backgroundColor: AppColors.primaryColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(30))),
+                          child: TextWidget(
+                            ConstString.editprofile,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .displayMedium!
+                                .copyWith(
+                              color: AppColors.black,
+                              fontSize: 15,
+                              fontFamily: AppFont.fontBold,
+                            ),
+                          ),
+                        )
                             : userFollowActions(controller),
                         SizedBox(
                           height: 15,
@@ -289,17 +297,18 @@ class ProfileScreen extends StatelessWidget {
                                     child: TextWidget(
                                       ConstString.profilesentance,
                                       textAlign: TextAlign.start,
-                                      style: Theme.of(context)
+                                      style: Theme
+                                          .of(context)
                                           .textTheme
                                           .labelLarge!
                                           .copyWith(
-                                              color: AppColors.white,
-                                              fontSize: 13.5,
-                                              height: 1.7,
-                                              letterSpacing: 0.3,
-                                              fontFamily:
-                                                  AppFont.fontFamilysemi,
-                                              wordSpacing: 0.3),
+                                          color: AppColors.white,
+                                          fontSize: 13.5,
+                                          height: 1.7,
+                                          letterSpacing: 0.3,
+                                          fontFamily:
+                                          AppFont.fontFamilysemi,
+                                          wordSpacing: 0.3),
                                     ),
                                   )
                                 ],
@@ -317,16 +326,17 @@ class ProfileScreen extends StatelessWidget {
                             children: [
                               TextWidget(
                                 ConstString.allpost,
-                                style: Theme.of(context)
+                                style: Theme
+                                    .of(context)
                                     .textTheme
                                     .displayMedium!
                                     .copyWith(
-                                      color: AppColors.darkPrimaryColor,
-                                      fontFamily: AppFont.fontFamily,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.5,
-                                      fontSize: 15.5,
-                                    ),
+                                  color: AppColors.darkPrimaryColor,
+                                  fontFamily: AppFont.fontFamily,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.5,
+                                  fontSize: 15.5,
+                                ),
                               ),
                               TextButton(
                                   onPressed: () async {},
@@ -334,14 +344,15 @@ class ProfileScreen extends StatelessWidget {
                                     children: [
                                       TextWidget(
                                         ConstString.viewall,
-                                        style: Theme.of(context)
+                                        style: Theme
+                                            .of(context)
                                             .textTheme
                                             .titleLarge!
                                             .copyWith(
-                                                color: AppColors.primaryColor,
-                                                height: 1.4,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14),
+                                            color: AppColors.primaryColor,
+                                            height: 1.4,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 2),
@@ -382,13 +393,14 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         Text(
                           ConstString.nouser,
-                          style: Theme.of(context)
+                          style: Theme
+                              .of(context)
                               .textTheme
                               .bodyLarge!
                               .copyWith(
-                                  color: AppColors.black,
-                                  fontSize: 15.sp,
-                                  fontFamily: AppFont.fontBold),
+                              color: AppColors.black,
+                              fontSize: 15.sp,
+                              fontFamily: AppFont.fontBold),
                         ),
                       ],
                     ),
@@ -413,97 +425,100 @@ class ProfileScreen extends StatelessWidget {
             ),
             FirebaseAuth.instance.currentUser!.uid != userId
                 ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 7),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                UserModel usermodel = await UserRepository
-                                    .instance
-                                    .fetchUser(userId);
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 7),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          UserModel usermodel = await UserRepository
+                              .instance
+                              .fetchUser(userId);
 
-                                ChatRoom? chatroom =
-                                    await chatController.getChatRoom(userId);
+                          ChatRoom? chatroom =
+                          await chatController.getChatRoom(userId);
 
-                                if (chatroom != null) {
-                                  Get.to(() => ChatScreen(
-                                        userModel: usermodel,
-                                      ));
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  fixedSize: Size(150, 48),
-                                  backgroundColor: AppColors.splashdetail,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    SvgIcon.chat,
-                                    height: 22,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  TextWidget(
-                                    ConstString.chat,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium!
-                                        .copyWith(
-                                            color: AppColors.dark,
-                                            fontSize: 15,
-                                            fontFamily: AppFont.fontFamilysemi,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.w600),
-                                  ),
-                                ],
-                              ),
+                          if (chatroom != null) {
+                            Get.to(() =>
+                                ChatScreen(
+                                  userModel: usermodel,
+                                ));
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            fixedSize: Size(150, 48),
+                            backgroundColor: AppColors.splashdetail,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              SvgIcon.chat,
+                              height: 22,
                             ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 7),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                if (isFollowing) {
-                                  await controller.unfollowUser(userId);
-                                } else {
-                                  await controller.followUser(userId);
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  fixedSize: Size(150, 48),
-                                  backgroundColor: AppColors.primaryColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30))),
-                              child: TextWidget(
-                                isFollowing
-                                    ? ConstString.unfollow
-                                    : ConstString.follownow,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium!
-                                    .copyWith(
-                                        color: AppColors.black,
-                                        fontSize: 15,
-                                        fontFamily: AppFont.fontFamilysemi,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600),
-                              ),
+                            SizedBox(
+                              width: 5,
                             ),
-                          ),
+                            TextWidget(
+                              ConstString.chat,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                  color: AppColors.dark,
+                                  fontSize: 15,
+                                  fontFamily: AppFont.fontFamilysemi,
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  )
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 7),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (isFollowing) {
+                            await controller.unfollowUser(userId);
+                          } else {
+                            await controller.followUser(userId);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            fixedSize: Size(150, 48),
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
+                        child: TextWidget(
+                          isFollowing
+                              ? ConstString.unfollow
+                              : ConstString.follownow,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .displayMedium!
+                              .copyWith(
+                              color: AppColors.black,
+                              fontSize: 15,
+                              fontFamily: AppFont.fontFamilysemi,
+                              letterSpacing: 0,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
                 : SizedBox(),
           ],
         );
@@ -511,8 +526,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget FollowFollowingWidget(
-      BuildContext context, ProfileController controller) {
+  Widget FollowFollowingWidget(BuildContext context,
+      ProfileController controller) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -539,7 +554,11 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   TextWidget(
                     '${followers.length} Followers',
-                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .labelSmall!
+                        .copyWith(
                         color: AppColors.sky, letterSpacing: 0, fontSize: 14),
                   ),
                   // for (UserRelationship follower in followers)
@@ -584,7 +603,11 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   TextWidget(
                     '${following.length} Following',
-                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .labelSmall!
+                        .copyWith(
                         color: AppColors.sky, letterSpacing: 0, fontSize: 14),
                   ),
                   // for (UserRelationship followedUser in following)
