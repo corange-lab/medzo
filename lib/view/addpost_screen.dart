@@ -122,6 +122,7 @@ class AddPostScreen extends GetView<NewPostController> {
                 postData!.id!.isNotEmpty) {
               await controller.postRef.doc(postData!.id).update({
                 'description': controller.description.text.trim(),
+                'updatedTime': DateTime.now()
               }).then((value) {
                 if (imageList.every((element) => element.uploaded == true)) {
                   showDialog(
