@@ -209,8 +209,6 @@ class VerifyOTPScreen extends GetView<ForgotController> {
             ),
             // ElevatedButton(
             //   onPressed: () async {
-            //     // TODO: validate otp code and email before submit
-            //     // TODO: verify OTP
             // bool result = await controller.verifyOTP(
             //     email: email,
             //     otp: controller.otpController

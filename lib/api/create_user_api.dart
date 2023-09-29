@@ -205,8 +205,6 @@ class NewUser extends GetConnectImpl {
 
   Future<bool> sendOTP({required String email}) async {
     try {
-      // TODO: remove this
-      // return true;
       String url = APIRequest.sendOTPUrl;
       Map<String, dynamic> params = {'email': email, 'type': 'REGISTER'};
 
@@ -269,8 +267,6 @@ class NewUser extends GetConnectImpl {
 
   Future<bool> verifyOTP({required String email, required String otp}) async {
     try {
-      // return true;
-      // TODO: remove this
       String url = APIRequest.verifyOTPUrl;
       Map<String, dynamic> params = {
         'email': email,

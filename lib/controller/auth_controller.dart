@@ -134,7 +134,6 @@ class AuthController extends GetxController {
       // AuthResponse newUser = await signUpWithEmailPassword(email, password,
       //     credentials: userCredential);
       AuthResponse newUser = await signInWithEmailPassword(email, password);
-      // TODO: Vijay check and handle verification screen for not verified user userCredential.user!.emailVerified
       if (userCredential.user != null) {
         if (userCredential.user!.emailVerified) {
           navigateToHomeScreen();
@@ -346,9 +345,6 @@ class AuthController extends GetxController {
             } else {
               await signUpWithEmailPassword(user!.email!, '',
                   credentials: userCredential);
-              // navigateVerificationFlow(userCredential.user.email, newUser);
-
-              // TODO: handle different flow for social login
             }
           }
         }
@@ -402,8 +398,6 @@ class AuthController extends GetxController {
                   user!.email!, '',
                   credentials: userCredential);
               navigateVerificationFlow(guser.email, newUser);
-
-              // TODO: handle different flow for social login
             }
           }
         } else {

@@ -97,7 +97,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 height: 15,
               ),
               TextWidget(
-                // FIXME: add Medicine Name
                 medicineDetails?.genericName ?? "-",
                 style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontSize: 15.5,
@@ -240,12 +239,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   final userId = FirebaseAuth.instance.currentUser!.uid;
 
                   ReviewDataModel review = ReviewDataModel(
-                      id: reviewId,
-                      medicineId: medicineId,
-                      userId: userId,
-                      rating: ratingValue,
-                      review: medicineController.reviewText.text,
-                      createdTime: DateTime.now());
+                    id: reviewId,
+                    medicineId: medicineId,
+                    userId: userId,
+                    rating: ratingValue,
+                    review: medicineController.reviewText.text,
+                    createdTime: DateTime.now(),
+                  );
 
                   medicineController.reviewRef
                       .doc(reviewId)

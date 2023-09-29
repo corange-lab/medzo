@@ -18,7 +18,6 @@ class TextWidget extends Text {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Text(
       text,
       style: style ?? Theme.of(context).textTheme.bodyMedium,

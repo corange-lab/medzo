@@ -64,7 +64,6 @@ class CommentData {
     return data;
   }
 
-  // TODO: generate copyWith
   CommentData copyWith({
     String? id,
     String? content,

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -60,8 +58,8 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                              color: AppColors.white,
-                            ),
+                                  color: AppColors.white,
+                                ),
                           ),
                         )
                       ],
@@ -119,7 +117,9 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
                   ),
                 ),
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
@@ -193,13 +193,11 @@ class InputEmailForgotPasswordScreen extends GetView<ForgotController> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  // TODO: validate before send otp
-                  // TODO: send OTP API Call and handle success failure result here
                   String email = ctrl.emailTextController.text.trim();
                   if (!validateEmail(
                       ctrl.emailTextController.text, ctrl.emailValidate)) {
                     await ctrl.sendOTP(email: email).then((value) {
-                      Get.to(VerifyOTPScreen(email: email));
+                      Get.to(() => VerifyOTPScreen(email: email));
                       print("OTP Sent");
                     });
                   } else {

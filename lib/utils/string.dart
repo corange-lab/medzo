@@ -53,7 +53,8 @@ class ConstString {
   static const String askquestion = "Ask a Questions";
   static const String savencontinue = "Save and Continue";
   static const String cancel = "Cancel";
-  static const String delete = "Delete image";
+  static const String delete = "Delete";
+  static const String deleteImage = "Delete image";
   static const String logout = "Log Out";
   static const String report = "Report";
   static const String deleteAccount = "Delete account";
@@ -260,6 +261,11 @@ class ConstString {
   static const String verificationotp = "Verification OTP";
   static const String profilesentance =
       "Find your closest \nmatches for the best \nand most important \nreviews!";
+
+  static String deleteReview = "Delete Review";
+
+  static String deleteReviewMessage =
+      'Are you sure you want to delete this review?';
 
   static String otpDetails(String email) =>
       "Please enter 6 Digit OTP sent to your email address ${extractDomainFromEmail(email)}";

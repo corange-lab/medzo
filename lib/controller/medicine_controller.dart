@@ -52,6 +52,8 @@ class MedicineController extends GetxController {
     SvgIcon.person_run
   ];
 
+  String loggedInUserId = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   void onInit() {
     super.onInit();
@@ -381,5 +383,124 @@ class MedicineController extends GetxController {
 
     replyFocusNode.unfocus();
     return currentReviewData!;
+  }
+
+  Future<void> deleteReview(ReviewDataModel reviewData) async {
+    return await reviewRef.doc(reviewData.id).delete();
+  }
+
+  Future<void> deleteReviewReply(
+      ReviewDataModel reviewDataModel, ReviewReplyModel replyModel) async {
+    reviewDataModel.reviewReplies!.remove(replyModel);
+
+    return reviewRef
+        .doc(reviewDataModel.id)
+        .set(reviewDataModel.toFirebaseMap(), SetOptions(merge: true));
+  }
+
+  // check whether my ReviewDataModel has been upvoted by current user or not
+  bool isVoted(ReviewDataModel reviewData, {required bool forUpvote}) {
+    if (forUpvote) {
+      if (reviewData.upvoteUsers != null &&
+          reviewData.upvoteUsers!.isNotEmpty) {
+        return reviewData.upvoteUsers!.contains(userController.loggedInUser);
+      }
+    } else {
+      if (reviewData.downvoteUsers != null &&
+          reviewData.downvoteUsers!.isNotEmpty) {
+        return reviewData.downvoteUsers!.contains(userController.loggedInUser);
+      }
+    }
+    return false;
+  }
+
+  Future<void> addUpvote(
+    ReviewDataModel reviewData, {
+    required bool isForUpvote,
+  }) async {
+    if (reviewData.upvoteUsers == null) {
+      reviewData.upvoteUsers = [];
+    }
+    if (reviewData.downvoteUsers == null) {
+      reviewData.downvoteUsers = [];
+    }
+
+    if (isForUpvote) {
+      if (reviewData.upvoteUsers!.contains(userController.loggedInUser)) {
+        reviewData.upvoteUsers!.remove(userController.loggedInUser);
+      } else {
+        if (reviewData.downvoteUsers!.contains(userController.loggedInUser)) {
+          reviewData.downvoteUsers!.remove(userController.loggedInUser);
+        }
+
+        reviewData.upvoteUsers!.add(userController.loggedInUser);
+      }
+    } else {
+      if (reviewData.downvoteUsers!.contains(userController.loggedInUser)) {
+        reviewData.downvoteUsers!.remove(userController.loggedInUser);
+      } else {
+        if (reviewData.upvoteUsers!.contains(userController.loggedInUser)) {
+          reviewData.upvoteUsers!.remove(userController.loggedInUser);
+        }
+        reviewData.downvoteUsers!.add(userController.loggedInUser);
+      }
+    }
+    update();
+    return reviewRef
+        .doc(reviewData.id)
+        .set(reviewData.toFirebaseMap(), SetOptions(merge: true));
+  }
+
+  // check whether my ReviewReplyModel has been upvoted by current user or not
+  bool isReplyVoted(ReviewReplyModel reviewData, {required bool forUpvote}) {
+    if (forUpvote) {
+      if (reviewData.upvoteUsers != null &&
+          reviewData.upvoteUsers!.isNotEmpty) {
+        return reviewData.upvoteUsers!.contains(userController.loggedInUser);
+      }
+    } else {
+      if (reviewData.downvoteUsers != null &&
+          reviewData.downvoteUsers!.isNotEmpty) {
+        return reviewData.downvoteUsers!.contains(userController.loggedInUser);
+      }
+    }
+    return false;
+  }
+
+  Future<void> addReplyUpvote(
+    ReviewReplyModel reviewData, {
+    required bool isForUpvote,
+  }) async {
+    if (reviewData.upvoteUsers == null) {
+      reviewData.upvoteUsers = [];
+    }
+    if (reviewData.downvoteUsers == null) {
+      reviewData.downvoteUsers = [];
+    }
+
+    if (isForUpvote) {
+      if (reviewData.upvoteUsers!.contains(userController.loggedInUser)) {
+        reviewData.upvoteUsers!.remove(userController.loggedInUser);
+      } else {
+        if (reviewData.downvoteUsers!.contains(userController.loggedInUser)) {
+          reviewData.downvoteUsers!.remove(userController.loggedInUser);
+        }
+
+        reviewData.upvoteUsers!.add(userController.loggedInUser);
+      }
+    } else {
+      if (reviewData.downvoteUsers!.contains(userController.loggedInUser)) {
+        reviewData.downvoteUsers!.remove(userController.loggedInUser);
+      } else {
+        if (reviewData.upvoteUsers!.contains(userController.loggedInUser)) {
+          reviewData.upvoteUsers!.remove(userController.loggedInUser);
+        }
+        reviewData.downvoteUsers!.add(userController.loggedInUser);
+      }
+    }
+    update();
+    return reviewRef
+        .doc(reviewData.id)
+        .set(reviewData.toMap(), SetOptions(merge: true));
   }
 }

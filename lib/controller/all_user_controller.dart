@@ -18,6 +18,8 @@ class AllUserController extends GetxController {
 
   List<UserModel> bestMatchesUserList = [];
 
+  final String loggedInUser = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   void onInit() {
     log('AllUserController onInit');

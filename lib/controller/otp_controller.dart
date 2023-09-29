@@ -123,9 +123,6 @@ class OTPController extends GetxController {
       var verifyOTPResponse =
           await NewUser.instance.verifyOTP(email: email, otp: otp);
       if (!verifyOTPResponse) {
-        // TODO: show unable to verify OTP
-        // return showInSnackBar("Please Enter Valid OTP",
-        //     isSuccess: false);
         return toast(
             message: "Please Enter Valid OTP",
             gravity: ToastGravity.CENTER,

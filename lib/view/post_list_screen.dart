@@ -10,6 +10,7 @@ import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/date_time_extensions.dart';
 import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/image_preview_screen.dart';
@@ -284,7 +285,7 @@ class _PostListScreenState extends State<PostListScreen> {
       subtitle: Align(
         alignment: Alignment.topLeft,
         child: TextWidget(
-          timeAgo(postData.createdTime ?? DateTime.now()),
+          (postData.createdTime ?? DateTime.now()).timeAgo(),
           style: Theme.of(context)
               .textTheme
               .bodySmall!
@@ -292,28 +293,5 @@ class _PostListScreenState extends State<PostListScreen> {
         ),
       ),
     );
-  }
-
-  String timeAgo(DateTime d) {
-    Duration diff = DateTime.now().difference(d);
-    if (diff.inDays > 365) {
-      return "${(diff.inDays / 365).floor()}${(diff.inDays / 365).floor() == 1 ? " year" : " years"} ago";
-    }
-    if (diff.inDays > 30) {
-      return "${(diff.inDays / 30).floor()}${(diff.inDays / 30).floor() == 1 ? " month" : " months"} ago";
-    }
-    if (diff.inDays > 7) {
-      return "${(diff.inDays / 7).floor()}${(diff.inDays / 7).floor() == 1 ? " week" : " weeks"} ago";
-    }
-    if (diff.inDays > 0) {
-      return "${diff.inDays}${diff.inDays == 1 ? " day" : " days"} ago";
-    }
-    if (diff.inHours > 0) {
-      return "${diff.inHours}${diff.inHours == 1 ? " h" : " h"} ago";
-    }
-    if (diff.inMinutes > 0) {
-      return "${diff.inMinutes}${diff.inMinutes == 1 ? " min" : " min"} ago";
-    }
-    return "just now";
   }
 }

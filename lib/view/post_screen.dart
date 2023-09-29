@@ -16,6 +16,7 @@ import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/date_time_extensions.dart';
 import 'package:medzo/utils/enumeration.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/addpost_screen.dart';
@@ -154,9 +155,10 @@ class PostScreen extends GetView<PostController> {
   }
 
   Widget BestMatchesWidget(
-      BuildContext context, AllUserController userController) {
+    BuildContext context,
+    AllUserController userController,
+  ) {
     final itemsPerPage = 6;
-    UserModel? currentUser = userController.currentUser;
     if (userController.bestMatchesUserList.isNotEmpty) {
       List<UserModel> userData = userController.bestMatchesUserList;
 
@@ -534,7 +536,6 @@ class PostItemComponent extends StatelessWidget {
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
-                          // TODO: handle image null an error
                           child: CachedNetworkImage(
                             imageUrl:
                                 postData.postImages?.elementAt(index).url ?? '',
@@ -663,7 +664,7 @@ class PostItemComponent extends StatelessWidget {
           child: Align(
             alignment: Alignment.topLeft,
             child: TextWidget(
-              timeAgo(postData.createdTime ?? DateTime.now()),
+              (postData.createdTime ?? DateTime.now()).timeAgo(),
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: AppColors.grey.withOpacity(0.8), fontSize: 12.5),
             ),
@@ -696,29 +697,6 @@ class PostItemComponent extends StatelessWidget {
                 ],
               )
             : SizedBox());
-  }
-
-  String timeAgo(DateTime d) {
-    Duration diff = DateTime.now().difference(d);
-    if (diff.inDays > 365) {
-      return "${(diff.inDays / 365).floor()}${(diff.inDays / 365).floor() == 1 ? " year" : " years"} ago";
-    }
-    if (diff.inDays > 30) {
-      return "${(diff.inDays / 30).floor()}${(diff.inDays / 30).floor() == 1 ? " month" : " months"} ago";
-    }
-    if (diff.inDays > 7) {
-      return "${(diff.inDays / 7).floor()}${(diff.inDays / 7).floor() == 1 ? " week" : " weeks"} ago";
-    }
-    if (diff.inDays > 0) {
-      return "${diff.inDays}${diff.inDays == 1 ? " day" : " days"} ago";
-    }
-    if (diff.inHours > 0) {
-      return "${diff.inHours}${diff.inHours == 1 ? " h" : " h"} ago";
-    }
-    if (diff.inMinutes > 0) {
-      return "${diff.inMinutes}${diff.inMinutes == 1 ? " min" : " min"} ago";
-    }
-    return "just now";
   }
 }
 

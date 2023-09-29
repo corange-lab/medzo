@@ -9,15 +9,20 @@ class ReviewDataModel {
   String? review;
   List<ReviewReplyModel>? reviewReplies;
   DateTime? createdTime;
+  List<String?>? upvoteUsers;
+  List<String?>? downvoteUsers;
 
-  ReviewDataModel(
-      {this.id,
-      this.medicineId,
-      this.userId,
-      this.rating,
-      this.review,
-      this.reviewReplies,
-      this.createdTime});
+  ReviewDataModel({
+    this.id,
+    this.medicineId,
+    this.userId,
+    this.rating,
+    this.review,
+    this.reviewReplies,
+    this.createdTime,
+    this.upvoteUsers,
+    this.downvoteUsers,
+  });
 
   ReviewDataModel.fromMap(Map<String, dynamic> map) {
     id = map['id'];
@@ -29,8 +34,14 @@ class ReviewDataModel {
         ? List<ReviewReplyModel>.from(
             map['reviewReplies'].map((x) => ReviewReplyModel.fromMap(x)))
         : null;
-    map['createdTime'] != null
+    createdTime = map['createdTime'] != null
         ? FirebaseUtils.timestampToDateTime(map['createdTime'])
+        : null;
+    upvoteUsers = map['upvoteUsers'] != null
+        ? List<String?>.from(map['upvoteUsers'])
+        : null;
+    downvoteUsers = map['downvoteUsers'] != null
+        ? List<String?>.from(map['downvoteUsers'])
         : null;
   }
 
@@ -42,6 +53,12 @@ class ReviewDataModel {
     data['rating'] = this.rating;
     data['review'] = this.review;
     data['createdTime'] = this.createdTime;
+    if (this.upvoteUsers != null) {
+      data['upvoteUsers'] = this.upvoteUsers;
+    }
+    if (this.downvoteUsers != null) {
+      data['downvoteUsers'] = this.downvoteUsers;
+    }
     return data;
   }
 
@@ -59,6 +76,12 @@ class ReviewDataModel {
           .toList();
     }
     data['createdTime'] = this.createdTime;
+    if (this.upvoteUsers != null) {
+      data['upvoteUsers'] = this.upvoteUsers;
+    }
+    if (this.downvoteUsers != null) {
+      data['downvoteUsers'] = this.downvoteUsers;
+    }
     return data;
   }
 
@@ -73,12 +96,14 @@ class ReviewDataModel {
   }) {
     return ReviewDataModel(
       id: id ?? this.id,
-      medicineId : medicineId ?? this.medicineId,
-      userId : userId ?? this.userId,
-      rating : rating ?? this.rating,
-      review : review ?? this.review,
-      reviewReplies : reviewReplies ?? this.reviewReplies,
-      createdTime : createdTime ?? this.createdTime,
+      medicineId: medicineId ?? this.medicineId,
+      userId: userId ?? this.userId,
+      rating: rating ?? this.rating,
+      review: review ?? this.review,
+      reviewReplies: reviewReplies ?? this.reviewReplies,
+      createdTime: createdTime ?? this.createdTime,
+      upvoteUsers: upvoteUsers ?? this.upvoteUsers,
+      downvoteUsers: downvoteUsers ?? this.downvoteUsers,
     );
   }
 }

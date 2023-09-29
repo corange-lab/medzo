@@ -227,8 +227,9 @@ class PostController extends GetxController {
   }
 
   bool hasLikedThisCommentOfComment(commentData) {
-    if (commentData.likedUsers != null && commentData.likedUsers!.isNotEmpty) {
-      return commentData.likedUsers!
+    if (commentData.upvoteUsers != null &&
+        commentData.upvoteUsers!.isNotEmpty) {
+      return commentData.upvoteUsers!
           .contains(userController.loggedInUser.value.id);
     }
     return false;

@@ -12,6 +12,7 @@ import 'package:medzo/model/user_model.dart';
 import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/date_time_extensions.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/image_preview_screen.dart';
 import 'package:medzo/view/profile_screen.dart';
@@ -327,7 +328,7 @@ class PostDetailScreen extends GetWidget<PostController> {
       subtitle: Align(
         alignment: Alignment.topLeft,
         child: TextWidget(
-          timeAgo(postData.createdTime ?? DateTime.now()),
+          (postData.createdTime ?? DateTime.now()).timeAgo(),
           style: Theme.of(context)
               .textTheme
               .bodySmall!
@@ -489,7 +490,8 @@ class PostDetailScreen extends GetWidget<PostController> {
                         Padding(
                           padding: const EdgeInsets.only(left: 3),
                           child: TextWidget(
-                            timeAgo(commentData?.createdTime ?? DateTime.now()),
+                            (commentData?.createdTime ?? DateTime.now())
+                                .timeAgo(),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
@@ -692,7 +694,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                   Padding(
                     padding: const EdgeInsets.only(left: 3),
                     child: TextWidget(
-                      timeAgo(commentData.createdTime ?? DateTime.now()),
+                      (commentData.createdTime ?? DateTime.now()).timeAgo(),
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!
@@ -814,10 +816,10 @@ class PostDetailScreen extends GetWidget<PostController> {
     }
     return GestureDetector(
         onTap: () async {
-          // TODO: confirmation dialog
           await controller.deleteComment(postData, commentData);
         },
-        child: Icon(Icons.delete_rounded, color: AppColors.dark, size: 2.5.h));
+        child: Icon(Icons.delete_outlined,
+            color: AppColors.notificationOff, size: 2.5.h));
   }
 
   Widget ChildCommentDeleteButton(
@@ -827,38 +829,15 @@ class PostDetailScreen extends GetWidget<PostController> {
     }
     return GestureDetector(
         onTap: () async {
-          // TODO: confirmation dialog
           await controller.deleteCommentOfComment(
               parentCommentData, commentData, commentData.id!);
         },
-        child: Icon(Icons.delete_rounded, color: AppColors.dark, size: 2.5.h));
+        child: Icon(Icons.delete_outlined,
+            color: AppColors.notificationOff, size: 2.5.h));
   }
 
   void closeKeyboard(BuildContext context) {
     FocusManager.instance.primaryFocus?.unfocus();
     controller.commentFocusNode.unfocus();
-  }
-
-  String timeAgo(DateTime d) {
-    Duration diff = DateTime.now().difference(d);
-    if (diff.inDays > 365) {
-      return "${(diff.inDays / 365).floor()}${(diff.inDays / 365).floor() == 1 ? " year" : " years"} ago";
-    }
-    if (diff.inDays > 30) {
-      return "${(diff.inDays / 30).floor()}${(diff.inDays / 30).floor() == 1 ? " month" : " months"} ago";
-    }
-    if (diff.inDays > 7) {
-      return "${(diff.inDays / 7).floor()}${(diff.inDays / 7).floor() == 1 ? " week" : " weeks"} ago";
-    }
-    if (diff.inDays > 0) {
-      return "${diff.inDays}${diff.inDays == 1 ? " day" : " days"} ago";
-    }
-    if (diff.inHours > 0) {
-      return "${diff.inHours}${diff.inHours == 1 ? " h" : " h"} ago";
-    }
-    if (diff.inMinutes > 0) {
-      return "${diff.inMinutes}${diff.inMinutes == 1 ? " min" : " min"} ago";
-    }
-    return "just now";
   }
 }

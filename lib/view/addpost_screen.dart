@@ -19,7 +19,7 @@ import 'package:medzo/widgets/pick_image.dart';
 import 'package:sizer/sizer.dart';
 
 class AddPostScreen extends GetView<NewPostController> {
-  PostData? postData;
+  final PostData? postData;
 
   AddPostScreen({this.postData});
 
@@ -236,7 +236,6 @@ class AddPostScreen extends GetView<NewPostController> {
         children: [
           GestureDetector(
             onTap: () async {
-              // TODO: check below each condition
               await pickController.pickPostImage();
               controller.postImageFile =
                   await pickController.croppedPostFile!.path.obs;

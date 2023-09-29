@@ -165,7 +165,6 @@ class successDialogue extends AlertDialog {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return AlertDialog(
       insetPadding: EdgeInsets.zero,
       backgroundColor: AppColors.white,

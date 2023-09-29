@@ -45,8 +45,9 @@ class MedicineWidget extends StatelessWidget {
               if (snapshot.hasData) {
                 CategoryDataModel category = snapshot.data!;
                 return GestureDetector(
-                  onTap: () {
-                    Get.to(MedicineDetail(medicineDetail: medicineDetail));
+                  onTap: () async {
+                    await Get.to(
+                        () => MedicineDetail(medicineDetail: medicineDetail));
                   },
                   child: Padding(
                     padding:

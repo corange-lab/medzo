@@ -154,8 +154,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           CategoryDataModel category = snapshot.data!;
 
                           return GestureDetector(
-                            onTap: () {
-                              Get.to(MedicineDetail(medicineDetail: medicine));
+                            onTap: () async {
+                              await Get.to(() =>
+                                  MedicineDetail(medicineDetail: medicine));
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(

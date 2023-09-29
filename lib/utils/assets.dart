@@ -28,7 +28,6 @@ class AppImages {
   static const String d2 = 'assets/images/d2.png';
   static const String d3 = 'assets/images/d3.png';
 
-  // TODO: add asses
   static const String errorImage = 'assets/error_image.png';
   static const String cameraIcon =
       'assets/signin_signup_screen/camera_icon.png';
@@ -63,8 +62,7 @@ class SvgIcon {
   static const String gallery = 'assets/icons/gallery.svg';
   static const String gallerypng = 'assets/icons/gallery.png';
   static const String check_circle = 'assets/icons/check_circle_icon.svg';
-  static const String failure =
-      'assets/icons/check_circle_icon.svg'; // TODO: change image
+  static const String failure = 'assets/icons/check_circle_icon.svg';
   static const String delete = 'assets/icons/delete_icon.svg';
   static const String email = 'assets/icons/email_icon.svg';
   static const String info = 'assets/icons/Info.svg';
