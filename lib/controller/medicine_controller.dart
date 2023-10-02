@@ -58,6 +58,7 @@ class MedicineController extends GetxController {
   void onInit() {
     super.onInit();
     fetchMedicine();
+    fetchMedicineList();
     fetchCategory();
     isMedicineFavourite();
     fetchMedicineId();
@@ -133,6 +134,14 @@ class MedicineController extends GetxController {
     });
     return data;
   }
+
+  Future<List<Medicine>> fetchMedicineList() async {
+    QuerySnapshot snapshot = await medicineRef.get();
+    return snapshot.docs.map((doc) {
+      return Medicine.fromMap(doc.data() as Map<String, dynamic>);
+    }).toList();
+  }
+
 
   Stream<List<Medicine>> fetchHomePopularMedicine() {
     var data = medicineRef.limit(3).snapshots().map((event) {
@@ -391,7 +400,13 @@ class MedicineController extends GetxController {
 
   Future<void> deleteReviewReply(
       ReviewDataModel reviewDataModel, ReviewReplyModel replyModel) async {
-    reviewDataModel.reviewReplies!.remove(replyModel);
+    // reviewDataModel.reviewReplies!.remove(replyModel.id);
+    print("Before removal: ${reviewDataModel.reviewReplies!.length}");
+
+    reviewDataModel.reviewReplies!
+        .removeWhere((reply) => reply.id == replyModel.id);
+
+    print("After removal: ${reviewDataModel.reviewReplies!.length}");
 
     return reviewRef
         .doc(reviewDataModel.id)

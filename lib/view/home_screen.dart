@@ -76,15 +76,6 @@ class HomeScreen extends GetView<HomeController> {
 
     final itemsPerPage = 6;
     List<String> imgList = [
-      // AppImages.frame1,
-      // AppImages.frame2,
-      // AppImages.frame3,
-      // AppImages.frame4,
-      // AppImages.frame5,
-      // AppImages.frame6,
-      // AppImages.frame7,
-      // AppImages.frame8,
-      // AppImages.frame9,
       AppImages.d1,
       AppImages.d2,
       AppImages.d3,

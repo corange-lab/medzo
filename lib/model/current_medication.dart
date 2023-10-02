@@ -1,6 +1,6 @@
 class CurrentMedication {
   bool? takingMedicine;
-  String? currentTakingMedicine;
+  List<String>? currentTakingMedicine;
   var durationTakingMedicine;
 
   CurrentMedication({
@@ -11,14 +11,18 @@ class CurrentMedication {
 
   CurrentMedication.fromMap(Map<String, dynamic> json) {
     takingMedicine = json['takingMedicine'];
-    currentTakingMedicine = json['currentTakingMedicine'];
+    currentTakingMedicine = json['currentTakingMedicine'] != null && json['currentTakingMedicine'] is List
+        ? List<String>.from(json['currentTakingMedicine'])
+        : null;
     durationTakingMedicine = json['durationTakingMedicine'];
   }
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['takingMedicine'] = takingMedicine;
-    data['currentTakingMedicine'] = currentTakingMedicine;
+    if (this.currentTakingMedicine != null) {
+      data['currentTakingMedicine'] = this.currentTakingMedicine;
+    }
     data['durationTakingMedicine'] = durationTakingMedicine;
     return data;
   }

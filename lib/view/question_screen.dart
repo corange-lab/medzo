@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
+import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/controller/question_controller.dart';
 import 'package:medzo/model/age_group.dart';
 import 'package:medzo/model/allergies.dart';
@@ -92,7 +93,10 @@ class QuestionScreen extends GetView<QuestionController> {
                   ),
                 ),
               ),
-              Expanded(flex: 9, child: questionWidget(controller, context)),
+              Expanded(
+                  flex: 9,
+                  child: questionWidget(
+                      controller, context, controller.medicineController)),
             ],
           ),
           bottomSheet: Container(
@@ -235,14 +239,14 @@ class QuestionScreen extends GetView<QuestionController> {
       );
     } else if (controller.selectedPageIndex.value == 1) {
       if (controller.healthAns.value == true &&
-          controller.healthDropdown.value == controller.healthCondition.first) {
+          controller.medicineDropdown.value == controller.medicines.first) {
         showInSnackBar('Please select health condition or skip');
         return;
       }
       await animateToSpecifiedPage(controller, 2);
       controller.userModel = controller.userModel.copyWith(
         currentMedication: CurrentMedication(
-          currentTakingMedicine: controller.healthDropdown.value,
+          currentTakingMedicine: controller.medicineList.toSet().toList(),
           durationTakingMedicine: controller.yearDropdown.value,
           takingMedicine: controller.healthAns.value,
         ),
@@ -311,7 +315,8 @@ class QuestionScreen extends GetView<QuestionController> {
         duration: const Duration(milliseconds: 10), curve: Curves.easeInOut);
   }
 
-  Container questionWidget(QuestionController ctrl, BuildContext context) {
+  Container questionWidget(QuestionController ctrl, BuildContext context,
+      MedicineController medicineController) {
     return Container(
       height: SizerUtil.height / 1,
       decoration: const BoxDecoration(
@@ -433,14 +438,17 @@ class QuestionScreen extends GetView<QuestionController> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                ctrl.selectedPageIndex.value == 0 ||
-                                        ctrl.selectedPageIndex.value == 1
+                                ctrl.selectedPageIndex.value == 0
                                     ? questionDropdown(context, ctrl)
-                                    : ctrl.selectedPageIndex.value == 2
-                                        ? allergiesInputWidget(ctrl, context)
-                                        : ctrl.selectedPageIndex.value == 3
-                                            ? ageGroupWidget(context, ctrl)
-                                            : const SizedBox(),
+                                    : ctrl.selectedPageIndex.value == 1
+                                        ? medicineDropdown(
+                                            context, ctrl, medicineController)
+                                        : ctrl.selectedPageIndex.value == 2
+                                            ? allergiesInputWidget(
+                                                ctrl, context)
+                                            : ctrl.selectedPageIndex.value == 3
+                                                ? ageGroupWidget(context, ctrl)
+                                                : const SizedBox(),
                                 SizedBox(
                                   height: 20,
                                 ),
@@ -576,6 +584,120 @@ class QuestionScreen extends GetView<QuestionController> {
             value: ctrl.healthDropdown.value,
           ),
         ));
+  }
+
+  Obx medicineDropdown(BuildContext context, QuestionController ctrl,
+      MedicineController medicineController) {
+    print("Med List : ${ctrl.medicines.length}");
+    return Obx(() => ctrl.isLoading.value
+        ? CircularProgressIndicator()
+        : Column(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: AppColors.splashdetail,
+                    borderRadius: BorderRadius.circular(30)),
+                height: 45,
+                width: SizerUtil.width,
+                padding: EdgeInsets.only(right: 15, left: 7),
+                child: DropdownButton<String>(
+                  borderRadius: BorderRadius.circular(15),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  underline: const SizedBox(),
+                  isExpanded: true,
+                  items: [
+                    DropdownMenuItem<String>(
+                      value: 'Select Medicine',
+                      child: TextWidget(
+                        'Select Medicine',
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall!
+                            .copyWith(fontSize: 14, color: AppColors.black),
+                      ),
+                    ),
+                    ...ctrl.medicines
+                        .map<DropdownMenuItem<String>>((String items) {
+                      return DropdownMenuItem<String>(
+                        value: items,
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: TextWidget(
+                            items.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall!
+                                .copyWith(fontSize: 14, color: AppColors.black),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ],
+                  onChanged: (value) {
+                    ctrl.medicineDropdown.value = value!;
+                    ctrl.medicineList.add(value);
+                  },
+                  iconSize: 25,
+                  icon: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: AppColors.grey,
+                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontSize: 14),
+                  value: ctrl.medicineDropdown.value,
+                ),
+                // child: DropdownButton<String>(
+                //   borderRadius: BorderRadius.circular(15),
+                //   padding: EdgeInsets.symmetric(horizontal: 10),
+                //   underline: const SizedBox(),
+                //   isExpanded: true,
+                //   items: ctrl.medicineList.map<DropdownMenuItem<String>>((String items) {
+                //     return DropdownMenuItem<String>(
+                //       value: items,
+                //       child: Container(
+                //         alignment: Alignment.centerLeft,
+                //         child: TextWidget(
+                //           items.toString(),
+                //           style: Theme.of(context)
+                //               .textTheme
+                //               .labelSmall!
+                //               .copyWith(fontSize: 14, color: AppColors.black),
+                //         ),
+                //       ),
+                //     );
+                //   }).toList(),
+                //   onChanged: (value) {
+                //     ctrl.medicineDropdown.value = value!;
+                //   },
+                //   iconSize: 25,
+                //   icon: Icon(
+                //     Icons.keyboard_arrow_down,
+                //     color: AppColors.grey,
+                //   ),
+                //   style: Theme.of(context)
+                //       .textTheme
+                //       .titleMedium!
+                //       .copyWith(fontSize: 14),
+                //   value: ctrl.medicineDropdown.value,
+                // ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "${ctrl.medicineList.toSet().toList()}",
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: AppFont.fontMedium,
+                        height: 1.3),
+                  ))
+            ],
+          ));
   }
 
   TextFormField allergiesInputWidget(

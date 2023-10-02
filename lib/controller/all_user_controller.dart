@@ -164,9 +164,11 @@ class AllUserController extends GetxController {
     if (!(medication1.takingMedicine! || medication2.takingMedicine!)) {
       similarityScore *= 0.2;
     } else {
-      double medicineNameSimilarity = calculateStringSimilarity(
-          medication1.currentTakingMedicine!,
-          medication2.currentTakingMedicine!);
+      double medicineNameSimilarity = 0;
+
+      medicineNameSimilarity = calculateStringSimilarity(
+          medication1.currentTakingMedicine!.first,
+          medication2.currentTakingMedicine!.first);
 
       num duration1 = parseDuration(medication1.durationTakingMedicine!);
       num duration2 = parseDuration(medication2.durationTakingMedicine!);

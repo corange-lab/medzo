@@ -890,6 +890,8 @@ class _MedicineDetailState extends State<MedicineDetail>
                                             alignment: Alignment.topLeft,
                                             child: TextButton(
                                                 onPressed: () async {
+                                                  print(
+                                                      "For : ${review.reviewReplies?.length}");
                                                   medicineController
                                                           .currentReviewData =
                                                       review;
@@ -1101,8 +1103,10 @@ class _MedicineDetailState extends State<MedicineDetail>
         onTap: () async {
           await _deleteReviewDialog(context, reviewData);
         },
-        child: Icon(Icons.delete_outlined,
-            color: AppColors.notificationOff, size: 2.5.h));
+        child: Icon(
+          Icons.delete_outlined,
+          color: AppColors.notificationOff,
+        ));
   }
 
   Future<void> _deleteReviewDialog(
@@ -1121,9 +1125,11 @@ class _MedicineDetailState extends State<MedicineDetail>
           ),
           content: TextWidget(
             ConstString.deleteReviewMessage,
+            textAlign: TextAlign.left,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 14,
-                fontFamily: AppFont.fontBold,
+                fontSize: 15,
+                fontFamily: AppFont.fontMedium,
+                height: 1.3,
                 letterSpacing: 0,
                 color: AppColors.black),
           ),
@@ -1136,7 +1142,7 @@ class _MedicineDetailState extends State<MedicineDetail>
                 ConstString.cancel,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 14,
-                    fontFamily: AppFont.fontBold,
+                    fontFamily: AppFont.fontFamilysemi,
                     letterSpacing: 0,
                     color: AppColors.black),
               ),
@@ -1150,7 +1156,7 @@ class _MedicineDetailState extends State<MedicineDetail>
                 ConstString.delete,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 14,
-                    fontFamily: AppFont.fontBold,
+                    fontFamily: AppFont.fontFamilysemi,
                     letterSpacing: 0,
                     color: AppColors.notificationOff),
               ),

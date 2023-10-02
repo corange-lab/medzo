@@ -349,16 +349,19 @@ class ReviewReplyScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            // IconButton(
-                            //     onPressed: () {
-                            //       _deleteReviewDialog(context,
-                            //           isForReply: true);
-                            //     },
-                            //     icon: Icon(
-                            //       Icons.delete_outlined,
-                            //       color: AppColors.notificationOff,
-                            //       size: 3.5.h,
-                            //     ))
+                            replyData!.userId == controller.currentUser
+                                ? IconButton(
+                                    onPressed: () {
+                                      _deleteReviewDialog(context,
+                                          isForReply: true,
+                                          replyData: replyData);
+                                    },
+                                    icon: Icon(
+                                      Icons.delete_outlined,
+                                      color: AppColors.notificationOff,
+                                      // size: 3.5.h,
+                                    ))
+                                : SizedBox()
                           ],
                         ),
                       ),
@@ -369,7 +372,7 @@ class ReviewReplyScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20, bottom: 10),
                       child: TextWidget(
-                        "${replyData!.reply}",
+                        "${replyData.reply}",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             height: 1.7,
                             fontSize: 14,
@@ -434,10 +437,11 @@ class ReviewReplyScreen extends StatelessWidget {
           ),
           content: TextWidget(
             ConstString.deleteReviewMessage,
+            textAlign: TextAlign.left,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 14,
-                fontFamily: AppFont.fontBold,
+                fontSize: 15,
                 letterSpacing: 0,
+                height: 1.3,
                 color: AppColors.black),
           ),
           actions: [
@@ -449,7 +453,7 @@ class ReviewReplyScreen extends StatelessWidget {
                 ConstString.cancel,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 14,
-                    fontFamily: AppFont.fontBold,
+                    fontFamily: AppFont.fontFamilysemi,
                     letterSpacing: 0,
                     color: AppColors.black),
               ),
@@ -457,7 +461,7 @@ class ReviewReplyScreen extends StatelessWidget {
             TextButton(
               onPressed: () async {
                 if (isForReply) {
-                  if (replyData != null) {
+                  if (replyData!.reply != null) {
                     await controller.deleteReviewReply(review!, replyData);
                   }
                 } else {
@@ -470,9 +474,8 @@ class ReviewReplyScreen extends StatelessWidget {
                 ConstString.delete,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 14,
-                    fontFamily: AppFont.fontBold,
+                    fontFamily: AppFont.fontFamilysemi,
                     letterSpacing: 0,
-                    fontWeight: FontWeight.bold,
                     color: AppColors.notificationOff),
               ),
             ),
