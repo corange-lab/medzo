@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,8 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/string.dart';
 import 'package:medzo/view/input_email_forgot_password_screen.dart';
+import 'package:medzo/view/privacy_policy.dart';
+import 'package:medzo/view/terms_condition.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/dialogue.dart';
 import 'package:sizer/sizer.dart';
@@ -373,7 +376,63 @@ class LoginScreen extends GetView<AuthController> {
                 ],
               ),
               SizedBox(
-                height: 100,
+                height: 20,
+              ),
+              RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(children: [
+                    TextSpan(
+                        text:
+                            "By tapping Continue with Google or Apple, \nyou agree to Etsy's ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(
+                                color: AppColors.darkPrimaryColor,
+                                fontSize: 12.5,
+                                height: 1.4)),
+                    TextSpan(
+                        text: "Terms of Use",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(
+                                fontFamily: AppFont.fontFamilysemi,
+                                color: AppColors.darkPrimaryColor,
+                                fontSize: 12.5,
+                                decoration: TextDecoration.underline,
+                                height: 1.4),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.to(() => TermsCondition());
+                          }),
+                    TextSpan(
+                        text: " and ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(
+                                color: AppColors.darkPrimaryColor,
+                                fontSize: 12.5,
+                                height: 1.4)),
+                    TextSpan(
+                        text: "Privacy Policy",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(
+                                fontFamily: AppFont.fontFamilysemi,
+                                color: AppColors.darkPrimaryColor,
+                                fontSize: 12.5,
+                                decoration: TextDecoration.underline,
+                                height: 1.4),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.to(() => PrivacyPolicy());
+                          }),
+                  ])),
+              SizedBox(
+                height: 50,
               ),
               TextButton(
                 onPressed: () {

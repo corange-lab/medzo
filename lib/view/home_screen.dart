@@ -821,19 +821,6 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                       ),
                       label: "Post"),
-                  // BottomNavigationBarItem(
-                  //     icon: Padding(
-                  //       padding:
-                  //           const EdgeInsets.only(bottom: 6, left: 5, right: 5),
-                  //       child: SvgPicture.asset(
-                  //         SvgIcon.qrcode,
-                  //         color: controller.pageIndex.value == 2
-                  //             ? AppColors.primaryColor
-                  //             : AppColors.grey,
-                  //         height: 22,
-                  //       ),
-                  //     ),
-                  //     label: "QR Code"),
                   BottomNavigationBarItem(
                       icon: Padding(
                         padding:
