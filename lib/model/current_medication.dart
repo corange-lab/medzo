@@ -11,8 +11,10 @@ class CurrentMedication {
 
   CurrentMedication.fromMap(Map<String, dynamic> json) {
     takingMedicine = json['takingMedicine'];
-    currentTakingMedicine = json['currentTakingMedicine'] != null && json['currentTakingMedicine'] is List
-        ? List<String>.from(json['currentTakingMedicine'])
+    currentTakingMedicine = json['currentTakingMedicine'] != null
+        ? (json['currentTakingMedicine'] is String)
+            ? [json['currentTakingMedicine']]
+            : List<String>.from(json['currentTakingMedicine'])
         : null;
     durationTakingMedicine = json['durationTakingMedicine'];
   }
