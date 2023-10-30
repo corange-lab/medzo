@@ -51,3 +51,5 @@ app.*.map.json
 /android/app/release
 /.dart_tool/
 /.idea/
+config.bat
+node_modules
