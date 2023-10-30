@@ -255,7 +255,7 @@ class ConstString {
   static const String passrule1 = "Must not contain your name or email";
   static const String passrule2 = "At least 8 characters";
   static const String passrule3 = "Contain a symbol or a number";
-  static const String clickicon = "Click icons for more informations";
+  static const String clickicon = "Click icons for more information";
   static const String newpassworddetail =
       "Your new password must be different from previously used password.";
   static const String verificationotp = "Verification OTP";

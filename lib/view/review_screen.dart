@@ -271,7 +271,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         return successDialogue(
                           titleText: "Successful",
                           subtitle:
-                              "Your review has been summited \nsuccessfully.",
+                              "Your review has been submitted \nsuccessfully.",
                           iconDialogue: SvgIcon.check_circle,
                           btntext: "Continue",
                           onPressed: () {
