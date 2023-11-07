@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>129258897545-41t8gqfb0lglsbtbtigqjnbbrvjp2rqe.apps.googleusercontent.com</string>
+	<string>129258897545-415q8t4rlhrb1l4jpj81hgdq1pgsjkpf.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.129258897545-41t8gqfb0lglsbtbtigqjnbbrvjp2rqe</string>
+	<string>com.googleusercontent.apps.129258897545-415q8t4rlhrb1l4jpj81hgdq1pgsjkpf</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>129258897545-2pptudmm7og9mc4riakalcc53psg5b03.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.corange.medzo</string>
+	<string>com.medzo.app</string>
 	<key>PROJECT_ID</key>
 	<string>medzo-18785</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:129258897545:ios:66f2028dc373a609998658</string>
+	<string>1:129258897545:ios:edaff6ef9e6c0e88998658</string>
 </dict>
 </plist>
