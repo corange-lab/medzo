@@ -40,6 +40,8 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App is required photo library to pick image from gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string>App is required camera access to capture image for post and user profile</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
