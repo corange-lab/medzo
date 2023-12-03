@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medzo/model/comment_data.dart';
+import 'package:medzo/model/report_data.dart';
 import 'package:medzo/utils/firebase_utils.dart';
 
 class PostData {
@@ -9,6 +10,7 @@ class PostData {
   List<PostImageData>? postImages;
   List<CommentData>? postComments;
   List<String?>? likedUsers;
+  List<ReportData>? reportDataList;
   bool? isFavourite;
   final DateTime? createdTime;
   final DateTime? updatedTime;
@@ -20,6 +22,7 @@ class PostData {
     this.postImages,
     this.postComments,
     this.likedUsers,
+    this.reportDataList,
     this.createdTime,
     this.updatedTime,
   });
@@ -31,6 +34,7 @@ class PostData {
     required this.postImages,
     this.postComments,
     this.likedUsers,
+    this.reportDataList,
     required this.createdTime,
     this.updatedTime,
   });
@@ -42,6 +46,7 @@ class PostData {
     this.postImages,
     this.postComments,
     this.likedUsers,
+    this.reportDataList,
     this.createdTime,
     required this.updatedTime,
   });
@@ -53,6 +58,7 @@ class PostData {
     this.postImages,
     this.postComments,
     this.likedUsers,
+    this.reportDataList,
     required this.createdTime,
     this.updatedTime,
   });
@@ -64,14 +70,18 @@ class PostData {
       description: json['description'],
       postImages: json['postImages'] != null
           ? List<PostImageData>.from(
-          json['postImages'].map((x) => PostImageData.fromMap(x)))
+              json['postImages'].map((x) => PostImageData.fromMap(x)))
           : null,
       postComments: json['postComments'] != null
           ? List<CommentData>.from(
-          json['postComments'].map((x) => CommentData.fromJson(x)))
+              json['postComments'].map((x) => CommentData.fromJson(x)))
           : null,
       likedUsers: json['likedUsers'] != null
           ? List<String?>.from(json['likedUsers'])
+          : null,
+      reportDataList: json['reportDataList'] != null
+          ? List<ReportData>.from(
+              json['reportDataList'].map((x) => ReportData.fromMap(x)))
           : null,
       createdTime: json['createdTime'] != null
           ? FirebaseUtils.timestampToDateTime(json['createdTime'])
@@ -96,6 +106,14 @@ class PostData {
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;
     }
+    if (this.reportDataList != null) {
+      data['reportDataList'] = this
+          .reportDataList!
+          .map((reportData) => reportData is Map<String, dynamic>
+              ? reportData
+              : reportData.toMap())
+          .toList();
+    }
     data['createdTime'] = this.createdTime;
     data['updatedTime'] = this.updatedTime;
     return data;
@@ -110,23 +128,31 @@ class PostData {
       data['postImages'] = this
           .postImages!
           .map((image) =>
-      image is Map<String, dynamic> ? image : image.toFirebaseMap())
+              image is Map<String, dynamic> ? image : image.toFirebaseMap())
           .toList();
     }
     if (this.postComments != null) {
       data['postComments'] = this
           .postComments!
           .map((comment) =>
-      comment is Map<String, dynamic> ? comment : comment.toMap())
+              comment is Map<String, dynamic> ? comment : comment.toMap())
           .toList();
     }
     if (this.likedUsers != null) {
       data['likedUsers'] = this.likedUsers;
     }
+    if (this.reportDataList != null) {
+      data['reportDataList'] = this
+          .reportDataList!
+          .map((reportData) => reportData is Map<String, dynamic>
+              ? reportData
+              : reportData.toMap())
+          .toList();
+    }
     data['createdTime'] =
-    this.createdTime != null ? Timestamp.fromDate(this.createdTime!) : null;
+        this.createdTime != null ? Timestamp.fromDate(this.createdTime!) : null;
     data['updatedTime'] =
-    this.updatedTime != null ? Timestamp.fromDate(this.updatedTime!) : null;
+        this.updatedTime != null ? Timestamp.fromDate(this.updatedTime!) : null;
     return data;
   }
 
@@ -137,6 +163,7 @@ class PostData {
     List<PostImageData>? postImages,
     List<CommentData>? postComments,
     List<String?>? likedUsers,
+    List<ReportData>? reportDataList,
     bool? isFavourite,
     DateTime? createdTime,
     DateTime? updatedTime,
@@ -148,6 +175,7 @@ class PostData {
       postImages: postImages ?? this.postImages,
       postComments: postComments ?? this.postComments,
       likedUsers: likedUsers ?? this.likedUsers,
+      reportDataList: reportDataList ?? this.reportDataList,
       createdTime: createdTime ?? this.createdTime,
       updatedTime: updatedTime ?? this.updatedTime,
     );
@@ -156,11 +184,11 @@ class PostData {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is PostData &&
-              runtimeType == other.runtimeType &&
-              id == other.id &&
-              creatorId == other.creatorId &&
-              createdTime == other.createdTime;
+      other is PostData &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          creatorId == other.creatorId &&
+          createdTime == other.createdTime;
 
   @override
   int get hashCode => id.hashCode ^ creatorId.hashCode ^ createdTime.hashCode;
@@ -225,9 +253,9 @@ class PostImageData {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is PostImageData &&
-              runtimeType == other.runtimeType &&
-              id == other.id;
+      other is PostImageData &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
 
   @override
   int get hashCode => id.hashCode;

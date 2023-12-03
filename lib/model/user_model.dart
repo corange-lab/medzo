@@ -5,6 +5,7 @@ import 'package:medzo/model/age_group.dart';
 import 'package:medzo/model/allergies.dart';
 import 'package:medzo/model/current_medication.dart';
 import 'package:medzo/model/health_condition.dart';
+import 'package:medzo/utils/firebase_utils.dart';
 
 class UserModel {
   final String? id;
@@ -20,6 +21,8 @@ class UserModel {
   final dynamic allergies; //Allergies?
   final dynamic ageGroup; //AgeGroup?
   double? similarityScore;
+  final bool? isEulaAccepted;
+  final DateTime? eulaAcceptedDate;
 
   UserModel._({
     this.id,
@@ -35,6 +38,8 @@ class UserModel {
     this.allergies,
     this.ageGroup,
     this.similarityScore,
+    this.isEulaAccepted,
+    this.eulaAcceptedDate,
   });
 
   UserModel.newUser({
@@ -51,6 +56,8 @@ class UserModel {
     this.allergies,
     this.ageGroup,
     this.similarityScore,
+    this.isEulaAccepted,
+    this.eulaAcceptedDate,
   });
 
   UserModel copyWith({
@@ -69,6 +76,8 @@ class UserModel {
     dynamic ageGroup, // AgeGroup?
     dynamic allergies, // Allergies?
     double? similarityScore,
+    bool? isEulaAccepted,
+    DateTime? eulaAcceptedDate,
   }) {
     return UserModel._(
       id: id ?? this.id,
@@ -85,6 +94,8 @@ class UserModel {
       ageGroup: ageGroup ?? this.ageGroup,
       allergies: allergies ?? this.allergies,
       similarityScore: similarityScore ?? this.similarityScore,
+      isEulaAccepted: isEulaAccepted ?? this.isEulaAccepted,
+      eulaAcceptedDate: eulaAcceptedDate ?? this.eulaAcceptedDate,
     );
   }
 
@@ -106,6 +117,8 @@ class UserModel {
           : currentMedication?.toMap(),
       'age_group': (ageGroup is bool) ? ageGroup : ageGroup?.toMap(),
       'allergies': (allergies is bool) ? allergies : allergies?.toMap(),
+      'isEulaAccepted': isEulaAccepted,
+      'eulaAcceptedDate': eulaAcceptedDate,
     };
   }
 
@@ -139,6 +152,10 @@ class UserModel {
           : (map['allergies'] is bool)
               ? map['allergies']
               : Allergies.fromMap(map['allergies']),
+      isEulaAccepted: map['isEulaAccepted'],
+      eulaAcceptedDate: map['eulaAcceptedDate'] != null
+          ? FirebaseUtils.timestampToDateTime(map['eulaAcceptedDate'])
+          : null,
     );
   }
 
@@ -186,6 +203,10 @@ class UserModel {
           : (map['allergies'] is bool)
               ? map['allergies']
               : Allergies.fromMap(map['allergies']),
+      isEulaAccepted: map['isEulaAccepted'],
+      eulaAcceptedDate: map['eulaAcceptedDate'] != null
+          ? FirebaseUtils.timestampToDateTime(map['eulaAcceptedDate'])
+          : null,
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:medzo/controller/user_repository.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/app_storage.dart';
 import 'package:medzo/view/login_screen.dart';
+import 'package:medzo/widgets/dialogue.dart';
 
 class HomeController extends GetxController {
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -35,6 +36,12 @@ class HomeController extends GetxController {
         'Logged In user id ${FirebaseAuth.instance.currentUser?.uid ?? '-null-'}');
     super.onInit();
     fetchUser();
+    Future.delayed(Duration(seconds: 1)).then((value) {
+      if (loggedInUser.value.isEulaAccepted == null ||
+          loggedInUser.value.isEulaAccepted == false) {
+        showEulaDialog(Get.context!);
+      }
+    });
   }
 
   Future<void> fetchUser(
@@ -75,7 +82,7 @@ class HomeController extends GetxController {
 
     await FirebaseAuth.instance.signOut();
     AppStorage appStorage = AppStorage();
-    appStorage.appLogout();
+    await appStorage.appLogout();
 
     Get.offAll(() => LoginScreen());
   }

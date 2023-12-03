@@ -8,6 +8,7 @@ import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/controller/user_controller.dart';
 import 'package:medzo/model/comment_data.dart';
 import 'package:medzo/model/post_model.dart';
+import 'package:medzo/model/report_data.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/widgets/dialogue.dart';
@@ -94,6 +95,30 @@ class PostController extends GetxController {
     });
   }
 
+  Future reportPost(
+      BuildContext context, PostData postData, String reason) async {
+    return addReport(postData, reason).then((value) {
+      Get.back();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return successDialogue(
+            titleText: "Successfully Reported",
+            subtitle: "Post has been Reported successfully.",
+            iconDialogue: SvgIcon.check_circle,
+            btntext: "Okay",
+            onPressed: () {
+              update();
+              Get.back();
+            },
+          );
+        },
+      );
+    }).catchError((onError) {
+      print('Error reporting document: $onError');
+    });
+  }
+
   UserModel findUser(String userId) {
     return allUserController.findSingleUserFromAllUser(userId);
   }
@@ -102,6 +127,16 @@ class PostController extends GetxController {
   bool hasLikedThisComment(CommentData commentData) {
     if (commentData.likedUsers != null && commentData.likedUsers!.isNotEmpty) {
       return commentData.likedUsers!
+          .contains(userController.loggedInUser.value.id);
+    }
+    return false;
+  }
+
+  // check whether my PostData has been reported by current user or not
+  bool hasReportedThisComment(CommentData commentData) {
+    if (commentData.reportDataList != null &&
+        commentData.reportDataList!.isNotEmpty) {
+      return commentData.reportDataList! // TODO: change logic
           .contains(userController.loggedInUser.value.id);
     }
     return false;
@@ -132,10 +167,54 @@ class PostController extends GetxController {
         .set(postData.toFirebaseMap(), SetOptions(merge: true));
   }
 
+  Future<void> addReportOnComment(
+      PostData postData, String commentId, String reason) async {
+    // alter existing comment and add new comment
+
+    CommentData? commentData = (postData.postComments ?? [])
+        .toList()
+        .firstWhereOrNull((element) => element.id == commentId);
+    if (commentData?.reportDataList != null &&
+        commentData!.reportDataList!.isNotEmpty) {
+      if ((commentData.reportDataList ?? []).toList().firstWhereOrNull(
+              (element) =>
+                  element.userId == userController.loggedInUser.value.id) !=
+          null) {
+        print('already reported 3');
+        commentData.reportDataList!.removeWhere((element) =>
+            element.userId == userController.loggedInUser.value.id);
+        commentData.reportDataList!.add(ReportData(
+            userId: userController.loggedInUser.value.id!, reason: reason));
+      } else {
+        commentData.reportDataList!.add(ReportData(
+            userId: userController.loggedInUser.value.id!, reason: reason));
+      }
+    } else {
+      commentData?.reportDataList = [];
+      commentData?.reportDataList?.add(ReportData(
+          userId: userController.loggedInUser.value.id!, reason: reason));
+    }
+
+    update([postData.id ?? 'post${postData.id}']);
+    return postRef
+        .doc(postData.id)
+        .set(postData.toFirebaseMap(), SetOptions(merge: true));
+  }
+
   // check whether my PostData has been liked by current user or not
   bool isLiked(PostData postData) {
     if (postData.likedUsers != null && postData.likedUsers!.isNotEmpty) {
       return postData.likedUsers!
+          .contains(userController.loggedInUser.value.id);
+    }
+    return false;
+  }
+
+  // check whether my PostData has been Report by current user or not
+  bool isReported(PostData postData) {
+    if (postData.reportDataList != null &&
+        postData.reportDataList!.isNotEmpty) {
+      return postData.reportDataList!
           .contains(userController.loggedInUser.value.id);
     }
     return false;
@@ -153,6 +232,36 @@ class PostController extends GetxController {
     } else {
       postData.likedUsers = [];
       postData.likedUsers?.add(userController.loggedInUser.value.id);
+    }
+
+    // add comment to current postData
+    update([postData.id ?? 'post${postData.id}']);
+    return postRef
+        .doc(postData.id)
+        .set(postData.toFirebaseMap(), SetOptions(merge: true));
+  }
+
+  Future<void> addReport(PostData postData, String reason) async {
+    // alter existing comment and add new comment
+
+    if (postData.reportDataList != null &&
+        postData.reportDataList!.isNotEmpty) {
+      if ((postData.reportDataList ?? []).toList().firstWhereOrNull((element) =>
+              element.userId == userController.loggedInUser.value.id) !=
+          null) {
+        print('already reported 1');
+        postData.reportDataList!.removeWhere((element) =>
+            element.userId == userController.loggedInUser.value.id);
+        postData.reportDataList?.add(ReportData(
+            userId: userController.loggedInUser.value.id!, reason: reason));
+      } else {
+        postData.reportDataList!.add(ReportData(
+            userId: userController.loggedInUser.value.id!, reason: reason));
+      }
+    } else {
+      postData.reportDataList = [];
+      postData.reportDataList?.add(ReportData(
+          userId: userController.loggedInUser.value.id!, reason: reason));
     }
 
     // add comment to current postData
@@ -226,11 +335,21 @@ class PostController extends GetxController {
     return currentPostData!;
   }
 
-  bool hasLikedThisCommentOfComment(commentData) {
+  bool hasLikedThisCommentOfComment(CommentData commentData) {
     if (commentData.upvoteUsers != null &&
         commentData.upvoteUsers!.isNotEmpty) {
       return commentData.upvoteUsers!
           .contains(userController.loggedInUser.value.id);
+    }
+    return false;
+  }
+
+  bool hasReportedThisCommentOfComment(CommentData commentData) {
+    if (commentData.reportDataList != null &&
+        commentData.reportDataList!.isNotEmpty) {
+      return commentData.reportDataList!.firstWhereOrNull((element) =>
+              element.userId == userController.loggedInUser.value.id) !=
+          null;
     }
     return false;
   }
@@ -253,6 +372,40 @@ class PostController extends GetxController {
     } else {
       commentData?.likedUsers = [];
       commentData?.likedUsers?.add(userController.loggedInUser.value.id);
+    }
+
+    update([currentPostData!.id ?? 'post${currentPostData!.id}']);
+    return postRef
+        .doc(currentPostData!.id)
+        .set(currentPostData!.toFirebaseMap(), SetOptions(merge: true));
+  }
+
+  Future<void> addReportOnCommentOfComment(CommentData parentCommentData,
+      CommentData childCommentData, String commentId, String reason) async {
+    // alter existing comment and add new comment
+
+    CommentData? commentData = (parentCommentData.commentComments ?? [])
+        .toList()
+        .firstWhereOrNull((element) => element.id == commentId);
+    if (commentData?.reportDataList != null &&
+        commentData!.reportDataList!.isNotEmpty) {
+      if ((commentData.reportDataList ?? []).toList().firstWhereOrNull(
+              (element) =>
+                  element.userId == userController.loggedInUser.value.id) !=
+          null) {
+        print('already reported 2');
+        commentData.reportDataList!.removeWhere((element) =>
+            element.userId == userController.loggedInUser.value.id);
+        commentData.reportDataList?.add(ReportData(
+            userId: userController.loggedInUser.value.id!, reason: reason));
+      } else {
+        commentData.reportDataList?.add(ReportData(
+            userId: userController.loggedInUser.value.id!, reason: reason));
+      }
+    } else {
+      commentData?.reportDataList = [];
+      commentData?.reportDataList?.add(ReportData(
+          userId: userController.loggedInUser.value.id!, reason: reason));
     }
 
     update([currentPostData!.id ?? 'post${currentPostData!.id}']);
