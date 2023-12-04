@@ -14,9 +14,11 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/date_time_extensions.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/view/addpost_screen.dart';
 import 'package:medzo/view/image_preview_screen.dart';
 import 'package:medzo/view/profile_screen.dart';
 import 'package:medzo/widgets/custom_widget.dart';
+import 'package:medzo/widgets/dialogue.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -55,6 +57,52 @@ class PostDetailScreen extends GetWidget<PostController> {
         ),
         elevation: 3,
         shadowColor: AppColors.splashdetail.withOpacity(0.1),
+        actions: [
+          controller.loggedInUserId == controller.currentPostData!.creatorId
+              ? PopupMenuButton(
+                  onSelected: (value) async {
+                    if (value == "Edit Post") {
+                      Get.to(() => AddPostScreen(
+                            postData: controller.currentPostData!,
+                          ));
+                    }
+                    if (value == "Delete Post") {
+                      Get.back();
+                      progressDialogue(context, title: "Post Deleting");
+                      await controller.deletePost(
+                          context, controller.currentPostData!.id!);
+                    }
+                  },
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (context) => <PopupMenuEntry>[
+                    PopupMenuItem(
+                      child: Text("Edit Post"),
+                      value: "Edit Post",
+                    ),
+                    PopupMenuItem(
+                      child: Text("Delete Post"),
+                      value: "Delete Post",
+                    )
+                  ],
+                )
+              : IconButton(
+                  onPressed: () async {
+                    String? result = await showReportDialog(context, 'Post');
+                    if (result != null) {
+                      progressDialogue(context, title: "Reporting content...");
+                      await controller.reportPost(
+                          context, controller.currentPostData!, result);
+                      Get.back();
+                    } else {
+                      print('Report canceled');
+                    }
+                  },
+                  icon: Icon(
+                    Icons.report_gmailerrorred_outlined,
+                    color: Colors.red,
+                    size: 25,
+                  )),
+        ],
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -522,7 +570,8 @@ class PostDetailScreen extends GetWidget<PostController> {
                     ),
                     trailing: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: ParentCommentDeleteButton(postData, commentData!),
+                      child: ParentCommentDeleteButton(
+                          context, postData, commentData!),
                     ),
                   ),
                 ),
@@ -723,7 +772,8 @@ class PostDetailScreen extends GetWidget<PostController> {
               ),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: ChildCommentDeleteButton(parentCommentData, commentData),
+                child: ChildCommentDeleteButton(
+                    context, parentCommentData, commentData),
               ),
             ),
           ),
@@ -810,9 +860,27 @@ class PostDetailScreen extends GetWidget<PostController> {
     );
   }
 
-  Widget ParentCommentDeleteButton(PostData postData, CommentData commentData) {
+  Widget ParentCommentDeleteButton(
+      BuildContext context, PostData postData, CommentData commentData) {
     if (commentData.commentUserId != controller.loggedInUserId) {
-      return SizedBox();
+      return IconButton(
+          iconSize: 2.5.h,
+          onPressed: () async {
+            String? result = await showReportDialog(context, 'Comment');
+            if (result != null) {
+              progressDialogue(context, title: "Reporting content...");
+              await controller.addReportOnComment(
+                  postData, commentData.id!, result);
+              Get.back();
+            } else {
+              print('Report canceled');
+            }
+          },
+          icon: Icon(
+            Icons.report_gmailerrorred_outlined,
+            color: Colors.red,
+            size: 2.5.h,
+          ));
     }
     return GestureDetector(
         onTap: () async {
@@ -822,10 +890,29 @@ class PostDetailScreen extends GetWidget<PostController> {
             color: AppColors.notificationOff, size: 2.5.h));
   }
 
-  Widget ChildCommentDeleteButton(
+  Widget ChildCommentDeleteButton(BuildContext context,
       CommentData parentCommentData, CommentData commentData) {
     if (commentData.commentUserId != controller.loggedInUserId) {
-      return SizedBox();
+      return IconButton(
+          iconSize: 2.5.h,
+          onPressed: () async {
+            String? result = await showReportDialog(context, 'replied comment');
+            if (result != null) {
+              progressDialogue(context, title: "Reporting content...");
+              await controller.addReportOnCommentOfComment(
+                  parentCommentData, commentData, commentData.id!, result);
+              Get.back();
+            } else {
+              print('Report canceled');
+            }
+          },
+          icon: Icon(
+            Icons.report_gmailerrorred_outlined,
+            color: controller.hasReportedThisCommentOfComment(parentCommentData)
+                ? Colors.grey
+                : Colors.red,
+            size: 2.5.h,
+          ));
     }
     return GestureDetector(
         onTap: () async {

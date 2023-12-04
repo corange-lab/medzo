@@ -214,35 +214,81 @@ class MedicineWidget extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    SvgPicture.asset(
-                                      SvgIcon.pill,
-                                      color: AppColors.primaryColor,
-                                      height: 14,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    SizedBox(
-                                      width: 200,
-                                      child: TextWidget(
-                                        "${medicineDetail.genericName}",
-                                        maxLine: 2,
-                                        textAlign: TextAlign.start,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall!
-                                            .copyWith(
-                                              color: AppColors.primaryColor,
-                                              fontFamily: AppFont.fontFamily,
-                                              fontWeight: FontWeight.w500,
-                                              letterSpacing: 0.2,
-                                              fontSize: 12,
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            SvgIcon.pill,
+                                            color: AppColors.primaryColor,
+                                            height: 14,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          SizedBox(
+                                            // width: 150,
+                                            child: TextWidget(
+                                              "${medicineDetail.genericName}",
+                                              maxLine: 2,
+                                              textAlign: TextAlign.start,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall!
+                                                  .copyWith(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    fontFamily:
+                                                        AppFont.fontFamily,
+                                                    fontWeight: FontWeight.w500,
+                                                    letterSpacing: 0.2,
+                                                    fontSize: 12,
+                                                  ),
                                             ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     SizedBox(
                                       width: 10,
                                     ),
+                                    medicineDetail.link != null
+                                        ? Expanded(
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                await ctrl.launchSourceURL(
+                                                    medicineDetail.link!);
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                      Icons
+                                                          .insert_link_outlined,
+                                                      color: Color(0xff4daada),
+                                                      size: 14),
+                                                  SizedBox(width: 5),
+                                                  TextWidget(
+                                                    "Source of Info",
+                                                    maxLine: 2,
+                                                    textAlign: TextAlign.start,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleSmall!
+                                                        .copyWith(
+                                                          color:
+                                                              Color(0xff4daada),
+                                                          fontFamily: AppFont
+                                                              .fontFamily,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          letterSpacing: 0.2,
+                                                          fontSize: 12,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox(),
                                   ],
                                 ),
                               ),

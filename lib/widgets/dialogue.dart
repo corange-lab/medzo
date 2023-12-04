@@ -307,7 +307,8 @@ class FailureDialog extends AlertDialog {
   }
 }
 
-Future<String?> showReportDialog(BuildContext context, String title) async {
+Future<String?> showReportDialog(BuildContext context, String title,
+    {bool isForUser = false}) async {
   Completer<String?> completer = Completer<String?>();
 
   showDialog(
@@ -331,6 +332,7 @@ Future<String?> showReportDialog(BuildContext context, String title) async {
             completer.complete(selectedOption);
             Get.back();
           },
+          isForUser: isForUser,
         ),
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
@@ -346,7 +348,10 @@ Future<String?> showReportDialog(BuildContext context, String title) async {
 class ReportOptions extends StatefulWidget {
   final ValueChanged<String?> onReportSelected;
 
-  const ReportOptions({Key? key, required this.onReportSelected})
+  final bool isForUser;
+
+  const ReportOptions(
+      {Key? key, required this.onReportSelected, required this.isForUser})
       : super(key: key);
 
   @override
@@ -364,16 +369,39 @@ class _ReportOptionsState extends State<ReportOptions> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            _buildReportOption('Inappropriate Content'),
-            _buildReportOption('Spam'),
-            _buildReportOption('Harassment'),
-            _buildReportOption('False Information'),
-            _buildReportOption('Violence or Threats'),
-            _buildReportOption('Bullying'),
-            _buildReportOption('Hate Speech'),
-            _buildReportOption('Intellectual Property Violation'),
-            _buildReportOption('Privacy Violation'),
-            _buildReportOption('Child Endangerment'),
+            if (!widget.isForUser) ...[
+              _buildReportOption('Inappropriate Content'),
+              _buildReportOption('Spam'),
+              _buildReportOption('Harassment'),
+              _buildReportOption('False Information'),
+              _buildReportOption('Violence or Threats'),
+              _buildReportOption('Bullying'),
+              _buildReportOption('Hate Speech'),
+              _buildReportOption('Intellectual Property Violation'),
+              _buildReportOption('Privacy Violation'),
+              _buildReportOption('Child Endangerment'),
+            ] else ...[
+              _buildReportOption('Inappropriate Behavior',
+                  subtitle:
+                      'Harassment, bullying, offensive language, or fake accounts'),
+              _buildReportOption('Spam or Misuse',
+                  subtitle:
+                      'Spamming, unwanted messages, posting irrelevant content, or misuse of platform features'),
+              _buildReportOption('Violence or Threats',
+                  subtitle:
+                      'Threatening language, behavior, or promotion of violence/harm'),
+              _buildReportOption('False Information',
+                  subtitle:
+                      'Spreading misinformation, fake news, or manipulation of content/data'),
+              _buildReportOption('Privacy Violation',
+                  subtitle:
+                      'Sharing private/sensitive information without consent or unauthorized access to accounts'),
+              _buildReportOption('Intellectual Property Violation',
+                  subtitle: 'Copyright infringement or trademark violations'),
+              _buildReportOption('Other',
+                  subtitle:
+                      'Any other issues not covered by specific categories'),
+            ],
             SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -417,9 +445,9 @@ class _ReportOptionsState extends State<ReportOptions> {
     );
   }
 
-  Widget _buildReportOption(String optionText) {
+  Widget _buildReportOption(String optionText, {String? subtitle}) {
     return ListTile(
-      dense: true,
+      dense: subtitle == null,
       title: Text(
         optionText,
         style: TextStyle(
@@ -428,8 +456,23 @@ class _ReportOptionsState extends State<ReportOptions> {
           fontWeight: selectedOption == optionText
               ? FontWeight.bold
               : FontWeight.normal,
+          fontSize: subtitle != null ? 18.0 : 14.0,
         ),
       ),
+      subtitle: subtitle != null
+          ? Text(
+              subtitle,
+              style: TextStyle(
+                color: selectedOption == optionText
+                    ? Color(0xffe5b37d)
+                    : Colors.grey,
+                fontWeight: selectedOption == optionText
+                    ? FontWeight.bold
+                    : FontWeight.normal,
+                fontSize: 14.0,
+              ),
+            )
+          : null,
       onTap: () {
         setState(() {
           selectedOption = optionText;

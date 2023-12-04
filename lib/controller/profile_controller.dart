@@ -152,4 +152,22 @@ class ProfileController extends GetxController {
     print('${data.length}');
     return data;
   }
+
+  Future<void> reportOtherUser(
+      {required String targetUserId,
+      required String reporterId,
+      required String reason}) async {
+    try {
+      final reportsRef = FirebaseFirestore.instance.collection('reports');
+      await reportsRef.add({
+        'targetUserId': targetUserId,
+        'reporterId': reporterId,
+        'reason': reason,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      print('Report submitted successfully');
+    } catch (e) {
+      print('Error submitting report: $e');
+    }
+  }
 }

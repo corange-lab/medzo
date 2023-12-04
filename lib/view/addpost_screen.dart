@@ -55,7 +55,9 @@ class AddPostScreen extends GetView<NewPostController> {
         title: Align(
           alignment: Alignment.centerLeft,
           child: TextWidget(
-            ConstString.newpost,
+            (postData != null && postData!.id != null)
+                ? ConstString.updatepost
+                : ConstString.newpost,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontSize: 17.5,
                 fontFamily: AppFont.fontBold,

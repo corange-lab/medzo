@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,7 +23,11 @@ import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class PostListScreen extends StatefulWidget {
-  const PostListScreen({super.key});
+  final PostFetchType? type;
+
+  final Stream<QuerySnapshot>? streamQuery;
+
+  const PostListScreen({super.key, this.type, this.streamQuery});
 
   @override
   State<PostListScreen> createState() => _PostListScreenState();
@@ -30,6 +35,10 @@ class PostListScreen extends StatefulWidget {
 
 class _PostListScreenState extends State<PostListScreen> {
   PostController controller = Get.find<PostController>();
+
+  Stream<QuerySnapshot>? get streamQuery => widget.streamQuery;
+
+  PostFetchType? get type => widget.type;
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +73,8 @@ class _PostListScreenState extends State<PostListScreen> {
       ),
       body: SingleChildScrollView(
         child: PostListWidget(
-          streamQuery: controller.fetchAllPosts(),
-          type: PostFetchType.allPosts,
+          streamQuery: streamQuery ?? controller.fetchAllPosts(),
+          type: type ?? PostFetchType.allPosts,
         ),
       ),
     );

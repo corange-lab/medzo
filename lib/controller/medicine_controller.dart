@@ -11,6 +11,7 @@ import 'package:medzo/model/review_data_model.dart';
 import 'package:medzo/model/review_reply_data.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/url_launch.dart';
 
 class MedicineController extends GetxController {
   TextEditingController reviewText = TextEditingController();
@@ -141,7 +142,6 @@ class MedicineController extends GetxController {
       return Medicine.fromMap(doc.data() as Map<String, dynamic>);
     }).toList();
   }
-
 
   Stream<List<Medicine>> fetchHomePopularMedicine() {
     var data = medicineRef.limit(3).snapshots().map((event) {
@@ -517,5 +517,9 @@ class MedicineController extends GetxController {
     return reviewRef
         .doc(reviewData.id)
         .set(reviewData.toMap(), SetOptions(merge: true));
+  }
+
+  Future launchSourceURL(String url) {
+    return launchWebUrl(url).onError((error, stackTrace) => print(error));
   }
 }

@@ -1,5 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -696,7 +698,22 @@ class PostItemComponent extends StatelessWidget {
                   )
                 ],
               )
-            : SizedBox());
+            : IconButton(
+                onPressed: () async {
+                  String? result = await showReportDialog(context, 'Post');
+                  if (result != null) {
+                    progressDialogue(context, title: "Reporting content...");
+                    await controller.reportPost(context, postData, result);
+                    Get.back();
+                  } else {
+                    print('Report canceled');
+                  }
+                },
+                icon: Icon(
+                  Icons.report_gmailerrorred_outlined,
+                  color: Colors.red,
+                  size: 25,
+                )));
   }
 }
 
