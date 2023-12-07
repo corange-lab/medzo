@@ -519,11 +519,6 @@ class HomeScreen extends GetView<HomeController> {
                                                         BorderRadius.circular(
                                                             7),
                                                   ),
-                                                  // SvgPicture.asset(
-                                                  //     medicineController
-                                                  //             .categoryImages[
-                                                  //         imgIndex],
-                                                  //     height: 40),
                                                   SizedBox(
                                                     height: 10,
                                                   ),

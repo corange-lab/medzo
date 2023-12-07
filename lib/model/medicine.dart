@@ -13,16 +13,16 @@ class Medicine {
 
   Medicine(
       {this.id,
-      this.genericName,
-      this.shortDescription,
-      this.categoryId,
-      this.brandName,
-      this.link,
-      this.about,
-      this.warnings,
-      this.ratings,
-      this.medicationsAndSubstances,
-      this.drugDrugInteractions});
+        this.genericName,
+        this.shortDescription,
+        this.categoryId,
+        this.brandName,
+        this.link,
+        this.about,
+        this.warnings,
+        this.ratings,
+        this.medicationsAndSubstances,
+        this.drugDrugInteractions});
 
   Medicine.fromMap(Map<String, dynamic> map) {
     id = map['id'];

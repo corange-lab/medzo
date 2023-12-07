@@ -225,8 +225,7 @@ class MedicineWidget extends StatelessWidget {
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          SizedBox(
-                                            // width: 150,
+                                          Expanded(
                                             child: TextWidget(
                                               "${medicineDetail.genericName}",
                                               maxLine: 2,
