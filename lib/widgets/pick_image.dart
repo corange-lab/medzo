@@ -152,7 +152,8 @@ class pickImageController extends GetxController {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
-                                  .copyWith(fontSize: 14.5,color: AppColors.black),
+                                  .copyWith(
+                                      fontSize: 14.5, color: AppColors.black),
                             )
                           ],
                         ),
@@ -212,7 +213,8 @@ class pickImageController extends GetxController {
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
-                                .copyWith(fontSize: 14.5,color: AppColors.black),
+                                .copyWith(
+                                    fontSize: 14.5, color: AppColors.black),
                           )
                         ],
                       ),
