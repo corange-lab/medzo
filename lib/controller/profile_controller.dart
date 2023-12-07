@@ -6,9 +6,12 @@ import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/model/post_model.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/model/user_relationship.dart';
+import 'package:medzo/utils/utils.dart';
 
 class ProfileController extends GetxController {
   final String? uId;
+
+  var blockedUsersRef = FirebaseFirestore.instance.collection('blocked_users');
 
   ProfileController(this.uId);
 
@@ -168,6 +171,89 @@ class ProfileController extends GetxController {
       print('Report submitted successfully');
     } catch (e) {
       print('Error submitting report: $e');
+    }
+  }
+
+  Future<void> blockUser({
+    required String currentUserID,
+    required String blockedUserID,
+  }) async {
+    // Add the blocked user to the blocked_users collection
+    await blockedUsersRef.doc(currentUserID).set({
+      'blockedUserId': blockedUserID,
+    });
+    toast(message: 'blocked!');
+  }
+
+  Future<void> unblockUser({
+    required String currentUserID,
+    required String blockedUserID,
+  }) async {
+    // Remove the blocked user from the blocked_users collection
+    await blockedUsersRef.doc(currentUserID).delete();
+    toast(message: 'unblocked!');
+  }
+
+  Future<bool> isUserBlocked({
+    required String currentUserID,
+    required String otherUserID,
+  }) async {
+    // Check if the other user is in the blocked_users collection
+    DocumentSnapshot doc = await blockedUsersRef.doc(currentUserID).get();
+
+    // Return true if the other user is blocked, false otherwise
+    return doc.exists && doc['blockedUserId'] == otherUserID;
+  }
+
+  Stream<String> getUserBlockedStream({
+    required String currentUserID,
+    required String otherUserID,
+  }) async* {
+    while (true) {
+      await Future.delayed(
+          Duration(seconds: 2)); // Adjust the interval as needed
+
+      try {
+        // Check if the other user is in the blocked_users collection
+        DocumentSnapshot doc = await FirebaseFirestore.instance
+            .collection('blocked_users')
+            .doc(currentUserID)
+            .get();
+
+        // Yield true if the other user is blocked, false otherwise
+        yield doc.exists && doc['blockedUserId'] == otherUserID
+            ? "blocked"
+            : "unblocked";
+      } catch (e) {
+        // Handle errors if needed
+        print('Error checking block status: $e');
+        yield "unblocked"; // Return false in case of an error
+      }
+    }
+  }
+
+  Stream<bool> isUserBlockedStream({
+    required String currentUserID,
+    required String otherUserID,
+  }) async* {
+    while (true) {
+      await Future.delayed(
+          Duration(seconds: 2)); // Adjust the interval as needed
+
+      try {
+        // Check if the other user is in the blocked_users collection
+        DocumentSnapshot doc = await FirebaseFirestore.instance
+            .collection('blocked_users')
+            .doc(currentUserID)
+            .get();
+
+        // Yield true if the other user is blocked, false otherwise
+        yield doc.exists && doc['blockedUserId'] == otherUserID;
+      } catch (e) {
+        // Handle errors if needed
+        print('Error checking block status: $e');
+        yield false; // Return false in case of an error
+      }
     }
   }
 }

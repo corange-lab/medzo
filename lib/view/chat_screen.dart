@@ -121,8 +121,14 @@ class ChatScreen extends StatelessWidget {
             Expanded(
               flex: 1,
               child: IconButton(
-                  onPressed: () {
-                    chatController.sendMessage();
+                  onPressed: () async {
+                    String senderID = chatController.currentUser;
+                    String? receiverID =
+                        chatRoom?.participants?.keys.first != senderID
+                            ? senderID
+                            : chatRoom?.participants?.keys.last;
+                    await chatController.sendMessage(
+                        context: context, receiverID: receiverID);
                   },
                   icon: SvgPicture.asset(
                     SvgIcon.send,

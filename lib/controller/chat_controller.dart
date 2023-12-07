@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medzo/main.dart';
@@ -13,6 +13,18 @@ class ChatController extends GetxController {
   TextEditingController messageText = TextEditingController();
 
   ChatRoom? chatRoom;
+
+  bool? youBlockedReceiver, doesReceiverBlockedYou;
+
+  ChatController({this.chatRoom});
+
+  @override
+  void onInit() {
+    initSetup(chatRoom?.participants?.keys.first != currentUser
+        ? currentUser
+        : chatRoom?.participants?.keys.last);
+    super.onInit();
+  }
 
   CollectionReference conversationRef =
       FirebaseFirestore.instance.collection('conversation');
@@ -51,28 +63,26 @@ class ChatController extends GetxController {
         .snapshots();
   }
 
-  Future<void> sendMessage() async {
-    String message = messageText.text.trim();
-    messageText.clear();
-
-    if (message.isNotEmpty) {
-      messageModel newMessage = messageModel(
-          messageId: uuid.v1(),
-          message: message,
-          sender: currentUser,
-          createdTime: DateTime.now(),
-          isSeen: false);
-
-      conversationRef
-          .doc(chatRoom!.chatRoomId)
-          .collection("messages")
-          .doc(newMessage.messageId)
-          .set(newMessage.toMap());
-
-      chatRoom!.lastMessage = message;
-      chatRoom!.lastMessageTime = DateTime.now();
-
-      conversationRef.doc(chatRoom!.chatRoomId).set(chatRoom!.toMap());
+  Future<void> sendMessage(
+      {required BuildContext context, String? receiverID}) async {
+    if (receiverID != null) {
+      if (youBlockedReceiver == null || doesReceiverBlockedYou == null) {
+        await initSetup(receiverID);
+      }
+      if ((youBlockedReceiver != null && youBlockedReceiver!) ||
+          (doesReceiverBlockedYou != null && doesReceiverBlockedYou!)) {
+        if (!doesReceiverBlockedYou!) {
+          // Display a notification or message indicating that the recipient has blocked you
+          showBlockedNotification(context,
+              message: 'This user has blocked you');
+        } else {
+          // Display a notification or message indicating that you have blocked the recipient
+          showBlockedNotification(context,
+              message: 'You have blocked this user');
+        }
+      } else {
+        _sendMessage();
+      }
     }
   }
 
@@ -117,5 +127,61 @@ class ChatController extends GetxController {
       final dateFormat = DateFormat('d MMMM y');
       return dateFormat.format(messageDate);
     }
+  }
+
+  void _sendMessage() {
+    String message = messageText.text.trim();
+    messageText.clear();
+
+    if (message.isNotEmpty) {
+      messageModel newMessage = messageModel(
+          messageId: uuid.v1(),
+          message: message,
+          sender: currentUser,
+          createdTime: DateTime.now(),
+          isSeen: false);
+
+      conversationRef
+          .doc(chatRoom!.chatRoomId)
+          .collection("messages")
+          .doc(newMessage.messageId)
+          .set(newMessage.toMap());
+
+      chatRoom!.lastMessage = message;
+      chatRoom!.lastMessageTime = DateTime.now();
+
+      conversationRef.doc(chatRoom!.chatRoomId).set(chatRoom!.toMap());
+    }
+  }
+
+  void showBlockedNotification(BuildContext context,
+      {required String message}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message), duration: Duration(seconds: 2)));
+  }
+
+  Future<bool> isUserBlocked({
+    required String currentUserID,
+    required String otherUserID,
+  }) async {
+    var blockedUsersRef =
+        FirebaseFirestore.instance.collection('blocked_users');
+
+    // Check if the other user is in the blocked_users collection
+    DocumentSnapshot doc = await blockedUsersRef.doc(currentUserID).get();
+
+    // Return true if the other user is blocked, false otherwise
+    return doc.exists && doc['blockedUserId'] != otherUserID;
+  }
+
+  Future<void> initSetup([String? receiverID]) async {
+    if (receiverID == null) {
+      return;
+    }
+    youBlockedReceiver = await isUserBlocked(
+        currentUserID: currentUser, otherUserID: receiverID);
+
+    doesReceiverBlockedYou = await isUserBlocked(
+        currentUserID: receiverID, otherUserID: currentUser);
   }
 }

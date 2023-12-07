@@ -97,5 +97,6 @@ class SvgIcon {
   static const String verify = 'assets/icons/verify_icon.svg';
   static const String virus = 'assets/icons/virus_icon.svg';
   static const String nodata = 'assets/icons/nodata1.png';
+  static const String blockUser = 'assets/icons/blockuser.png';
   static const String masksad = 'assets/icons/masksad_icon.svg';
 }
