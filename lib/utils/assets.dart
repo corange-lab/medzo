@@ -43,6 +43,8 @@ class SvgIcon {
   static const String alcohol = 'assets/icons/alcohol_icon.svg';
   static const String arrowup = 'assets/icons/arrowup.svg';
   static const String add = 'assets/icons/add.svg';
+
+  // static const String blockUser = 'assets/icons/block_user.png';
   static const String arrowright = 'assets/icons/arrowright.svg';
   static const String arrowdown = 'assets/icons/arrowdown.svg';
   static const String antibiotic = 'assets/icons/antibiotic_icon.svg';

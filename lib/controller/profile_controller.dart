@@ -11,8 +11,6 @@ import 'package:medzo/utils/utils.dart';
 class ProfileController extends GetxController {
   final String? uId;
 
-  var blockedUsersRef = FirebaseFirestore.instance.collection('blocked_users');
-
   ProfileController(this.uId);
 
   TextEditingController nameController = TextEditingController();
@@ -25,6 +23,11 @@ class ProfileController extends GetxController {
   Rx<UserModel> _user = UserModel.newUser().obs;
 
   String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+  final CollectionReference blockedUserRef =
+      FirebaseFirestore.instance.collection('blocked_users');
+
+  RxBool isBlocked = false.obs;
 
   Stream<QuerySnapshot>? dataSnapShot;
   late final Stream<List<UserRelationship>> followersStream;
@@ -174,86 +177,84 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> blockUser({
-    required String currentUserID,
-    required String blockedUserID,
-  }) async {
-    // Add the blocked user to the blocked_users collection
-    await blockedUsersRef.doc(currentUserID).set({
-      'blockedUserId': blockedUserID,
-    });
-    toast(message: 'blocked!');
-  }
+  Future<void> blockUser(String myUserId, String blockedUserId) async {
+    try {
+      DocumentReference myUserDoc = blockedUserRef.doc(myUserId);
 
-  Future<void> unblockUser({
-    required String currentUserID,
-    required String blockedUserID,
-  }) async {
-    // Remove the blocked user from the blocked_users collection
-    await blockedUsersRef.doc(currentUserID).delete();
-    toast(message: 'unblocked!');
-  }
+      DocumentSnapshot myUserSnapshot = await myUserDoc.get();
 
-  Future<bool> isUserBlocked({
-    required String currentUserID,
-    required String otherUserID,
-  }) async {
-    // Check if the other user is in the blocked_users collection
-    DocumentSnapshot doc = await blockedUsersRef.doc(currentUserID).get();
+      // Check if the document exists
+      if (myUserSnapshot.exists) {
+        Map<String, dynamic> userData =
+            myUserSnapshot.data() as Map<String, dynamic> ?? {};
 
-    // Return true if the other user is blocked, false otherwise
-    return doc.exists && doc['blockedUserId'] == otherUserID;
-  }
+        List<String> blockedUserIds =
+            List<String>.from(userData['userIds'] as List<dynamic> ?? []);
 
-  Stream<String> getUserBlockedStream({
-    required String currentUserID,
-    required String otherUserID,
-  }) async* {
-    while (true) {
-      await Future.delayed(
-          Duration(seconds: 2)); // Adjust the interval as needed
+        // Check if the user is already blocked to avoid duplicates
+        if (!blockedUserIds.contains(blockedUserId)) {
+          blockedUserIds.add(blockedUserId);
 
-      try {
-        // Check if the other user is in the blocked_users collection
-        DocumentSnapshot doc = await FirebaseFirestore.instance
-            .collection('blocked_users')
-            .doc(currentUserID)
-            .get();
-
-        // Yield true if the other user is blocked, false otherwise
-        yield doc.exists && doc['blockedUserId'] == otherUserID
-            ? "blocked"
-            : "unblocked";
-      } catch (e) {
-        // Handle errors if needed
-        print('Error checking block status: $e');
-        yield "unblocked"; // Return false in case of an error
+          await myUserDoc.set({'userIds': blockedUserIds}).then((value) {
+            showInSnackBar("User Blocked!", isSuccess: false, title: "Medzo");
+          });
+        }
+      } else {
+        // If the document doesn't exist, create it and set the blocked user ID
+        await myUserDoc.set({
+          'userIds': [blockedUserId]
+        }).then((value) {
+          showInSnackBar("User Blocked!", isSuccess: false, title: "Medzo");
+        });
       }
+    } catch (e) {
+      print('Error blocking user: $e');
     }
   }
 
-  Stream<bool> isUserBlockedStream({
-    required String currentUserID,
-    required String otherUserID,
-  }) async* {
-    while (true) {
-      await Future.delayed(
-          Duration(seconds: 2)); // Adjust the interval as needed
+  Future<void> unblockUser(String myUserId, String blockedUserId) async {
+    try {
+      DocumentReference myUserDoc = blockedUserRef.doc(myUserId);
 
-      try {
-        // Check if the other user is in the blocked_users collection
-        DocumentSnapshot doc = await FirebaseFirestore.instance
-            .collection('blocked_users')
-            .doc(currentUserID)
-            .get();
+      DocumentSnapshot myUserSnapshot = await myUserDoc.get();
+      List<String> blockedUserIds = List.from(myUserSnapshot['userIds'] ?? []);
 
-        // Yield true if the other user is blocked, false otherwise
-        yield doc.exists && doc['blockedUserId'] == otherUserID;
-      } catch (e) {
-        // Handle errors if needed
-        print('Error checking block status: $e');
-        yield false; // Return false in case of an error
-      }
+      blockedUserIds.remove(blockedUserId);
+
+      await myUserDoc.set({'userIds': blockedUserIds}).then((value) {
+        showInSnackBar("User Unblocked!", isSuccess: false, title: "Medzo");
+      });
+    } catch (e) {
+      print('Error unblocking user: $e');
     }
+  }
+
+  Future<bool> isUserBlocked(String myUserId, String blockedUserId) async {
+    final DocumentSnapshot blockedUserDoc = await FirebaseFirestore.instance
+        .collection('blocked_users')
+        .doc(myUserId)
+        .get();
+
+    if (blockedUserDoc.exists &&
+        blockedUserDoc.data() is Map<String, dynamic>) {
+      Map<String, dynamic> data = blockedUserDoc.data() as Map<String, dynamic>;
+      List<dynamic> blockedUserIds = data['userIds'];
+      return blockedUserIds.contains(blockedUserId);
+    }
+    return false;
+  }
+
+  void checkIfUserIsBlocked(String currentUserId, String otherUserId) async {
+    bool isBlocked = await isUserBlocked(currentUserId, otherUserId);
+    this.isBlocked.value = isBlocked;
+  }
+
+  void toggleBlockUser(String currentUserId, String otherUserId) async {
+    if (isBlocked.value) {
+      await unblockUser(currentUserId, otherUserId);
+    } else {
+      await blockUser(currentUserId, otherUserId);
+    }
+    isBlocked.value = !isBlocked.value;
   }
 }

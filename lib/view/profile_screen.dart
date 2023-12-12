@@ -45,6 +45,8 @@ class ProfileScreen extends StatelessWidget {
     return GetBuilder<ProfileController>(
       init: ProfileController(userId),
       builder: (controller) {
+        controller.checkIfUserIsBlocked(
+            FirebaseAuth.instance.currentUser!.uid, userId);
         return Scaffold(
             backgroundColor: AppColors.whitehome,
             resizeToAvoidBottomInset: false,
@@ -105,44 +107,38 @@ class ProfileScreen extends StatelessWidget {
                         height: 25,
                       )),
                 ),
-                SizedBox(
-                  width: 60,
-                  child: TextButton(
-                    onPressed: () async {
-                      if (await controller.isUserBlocked(
-                          currentUserID: FirebaseAuth.instance.currentUser!.uid,
-                          otherUserID: userId)) {
-                        await controller.unblockUser(
-                            currentUserID:
-                                FirebaseAuth.instance.currentUser!.uid,
-                            blockedUserID: userId);
-                        return;
-                      } else {
-                        await controller.blockUser(
-                            currentUserID:
-                                FirebaseAuth.instance.currentUser!.uid,
-                            blockedUserID: userId);
-                      }
-                    },
-                    child: true
-                        ? StreamedIcon(
-                            context,
-                            controller.isUserBlockedStream(
-                                currentUserID:
-                                    FirebaseAuth.instance.currentUser!.uid,
-                                otherUserID: userId))
-                        : Column(
-                            children: [
-                              // StreamedText(
-                              //     context,
-                              //     controller.isUserBlockedStream(
-                              //         currentUserID:
-                              //             FirebaseAuth.instance.currentUser!.uid,
-                              //         otherUserID: userId))
-                            ],
-                          ),
-                  ),
-                ),
+                (FirebaseAuth.instance.currentUser!.uid != userId)
+                    ? Obx(() => TextButton(
+                        onPressed: () => controller.toggleBlockUser(
+                            FirebaseAuth.instance.currentUser!.uid, userId),
+                        child: !controller.isBlocked.value
+                            ? Image.asset(
+                                SvgIcon.blockUser,
+                                color: Colors.grey.shade600,
+                                width: 25,
+                                height: 25,
+                              )
+                            : Column(
+                                children: [
+                                  Image.asset(
+                                    SvgIcon.blockUser,
+                                    color: Colors.red,
+                                    width: 25,
+                                    height: 25,
+                                  ),
+                                  Text(
+                                    'blocked!',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall!
+                                        .copyWith(
+                                            color: Colors.red,
+                                            letterSpacing: 0,
+                                            fontSize: 8),
+                                  )
+                                ],
+                              )))
+                    : SizedBox(),
                 (FirebaseAuth.instance.currentUser!.uid != userId)
                     ? IconButton(
                         onPressed: () async {
@@ -499,6 +495,7 @@ class ProfileScreen extends StatelessWidget {
                                 if (chatroom != null) {
                                   Get.to(() => ChatScreen(
                                         userModel: usermodel,
+                                        receiverId: userId,
                                       ));
                                 }
                               },
@@ -589,39 +586,6 @@ class ProfileScreen extends StatelessWidget {
                 .textTheme
                 .labelSmall!
                 .copyWith(color: Colors.red, letterSpacing: 0, fontSize: 8),
-          );
-        });
-  }
-
-  Widget StreamedIcon(BuildContext context, Stream<bool> stream) {
-    return StreamBuilder<bool>(
-        stream: stream,
-        builder: (context, snapshot) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                SvgIcon.blockUser,
-                scale: 0.4,
-                color: (snapshot.data != null && snapshot.data == true)
-                    ? Colors.red
-                    : Colors.grey.shade600,
-                width: 25,
-                height: 25,
-              ),
-              (snapshot.data != null && snapshot.data == true)
-                  ? Visibility(
-                      visible: (snapshot.data != null && snapshot.data == true),
-                      child: Text(
-                        'blocked!',
-                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                            color: Colors.red, letterSpacing: 0, fontSize: 8),
-                      ),
-                    )
-                  : Container()
-            ],
           );
         });
   }

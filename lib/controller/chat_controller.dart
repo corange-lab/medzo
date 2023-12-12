@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:medzo/main.dart';
 import 'package:medzo/model/chat_room.dart';
 import 'package:medzo/model/message_model.dart';
+import 'package:medzo/theme/colors.dart';
 
 class ChatController extends GetxController {
   String currentUser = FirebaseAuth.instance.currentUser!.uid;
@@ -20,9 +23,9 @@ class ChatController extends GetxController {
 
   @override
   void onInit() {
-    initSetup(chatRoom?.participants?.keys.first != currentUser
-        ? currentUser
-        : chatRoom?.participants?.keys.last);
+    // initSetup(chatRoom?.participants?.keys.first != currentUser
+    //     ? currentUser
+    //     : chatRoom?.participants?.keys.last);
     super.onInit();
   }
 
@@ -65,25 +68,30 @@ class ChatController extends GetxController {
 
   Future<void> sendMessage(
       {required BuildContext context, String? receiverID}) async {
-    if (receiverID != null) {
-      if (youBlockedReceiver == null || doesReceiverBlockedYou == null) {
-        await initSetup(receiverID);
-      }
-      if ((youBlockedReceiver != null && youBlockedReceiver!) ||
-          (doesReceiverBlockedYou != null && doesReceiverBlockedYou!)) {
-        if (!doesReceiverBlockedYou!) {
-          // Display a notification or message indicating that the recipient has blocked you
-          showBlockedNotification(context,
-              message: 'This user has blocked you');
-        } else {
-          // Display a notification or message indicating that you have blocked the recipient
-          showBlockedNotification(context,
-              message: 'You have blocked this user');
-        }
-      } else {
-        _sendMessage();
-      }
+    if (receiverID == null) {
+      print("sendMessage: receiverID is null");
+      return;
     }
+
+    await initSetup(receiverID);
+
+    print(
+        "sendMessage: youBlockedReceiver = $youBlockedReceiver, doesReceiverBlockedYou = $doesReceiverBlockedYou");
+
+    if (youBlockedReceiver == true) {
+      print("sendMessage: Blocked by You");
+      showBlockedNotification(context, message: 'You have blocked this user');
+      return;
+    }
+
+    if (doesReceiverBlockedYou == true) {
+      print("sendMessage: Blocked by Receiver");
+      showBlockedNotification(context, message: 'This user has blocked you');
+      return;
+    }
+
+    _sendMessage();
+    print("sendMessage: Sending message");
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> fetchMessages() {
@@ -157,31 +165,42 @@ class ChatController extends GetxController {
   void showBlockedNotification(BuildContext context,
       {required String message}) {
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message), duration: Duration(seconds: 2)));
+      SnackBar(
+          content: Text(
+            message,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          duration: Duration(seconds: 2),
+          backgroundColor: AppColors.primaryColor),
+    );
   }
 
-  Future<bool> isUserBlocked({
-    required String currentUserID,
-    required String otherUserID,
-  }) async {
-    var blockedUsersRef =
-        FirebaseFirestore.instance.collection('blocked_users');
+  Future<bool> isUserBlocked(String myUserId, String blockedUserId) async {
+    try {
+      final DocumentSnapshot blockedUserDoc = await FirebaseFirestore.instance
+          .collection('blocked_users')
+          .doc(myUserId)
+          .get();
 
-    // Check if the other user is in the blocked_users collection
-    DocumentSnapshot doc = await blockedUsersRef.doc(currentUserID).get();
+      if (blockedUserDoc.exists) {
+        Map<String, dynamic> data =
+            blockedUserDoc.data() as Map<String, dynamic> ?? {};
 
-    // Return true if the other user is blocked, false otherwise
-    return doc.exists && doc['blockedUserId'] != otherUserID;
+        List<dynamic> blockedUserIds = data['userIds'] as List<dynamic> ?? [];
+        return blockedUserIds.contains(blockedUserId);
+      }
+    } catch (e) {
+      print('Error in isUserBlocked: $e');
+    }
+    return false;
   }
 
   Future<void> initSetup([String? receiverID]) async {
     if (receiverID == null) {
       return;
     }
-    youBlockedReceiver = await isUserBlocked(
-        currentUserID: currentUser, otherUserID: receiverID);
+    youBlockedReceiver = await isUserBlocked(currentUser, receiverID);
 
-    doesReceiverBlockedYou = await isUserBlocked(
-        currentUserID: receiverID, otherUserID: currentUser);
+    doesReceiverBlockedYou = await isUserBlocked(receiverID, currentUser);
   }
 }
