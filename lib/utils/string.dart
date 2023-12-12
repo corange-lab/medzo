@@ -201,6 +201,7 @@ class ConstString {
   static const String nouser = "No User Found";
   static const String nochat = "No Chat Found";
   static const String noFollowing = "No Following Found";
+  static const String noBlocked = "No Blocked User Found";
   static const String noFollower = "No Follower Found";
   static const String error = "An Error Occured!";
   static const String enablePushNotification = "Enable push notifications";

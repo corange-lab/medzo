@@ -465,152 +465,33 @@ class PostItemComponent extends StatelessWidget {
   final PostData postData;
   final PostController controller;
 
-  const PostItemComponent(
+  PostItemComponent(
       {super.key, required this.postData, required this.controller});
+
+  AllUserController allUserController = Get.put(AllUserController());
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.white,
-      padding: const EdgeInsets.only(bottom: 3),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-              onTap: () {
-                postData.creatorId != controller.loggedInUserId
-                    ? Get.to(() => ProfileScreen(postData.creatorId!))
-                    : null;
-              },
-              child: PostHeaderWidget(
-                  context, postData, controller.findUser(postData.creatorId!))),
-          Container(
-            height: 0.18.h,
-            width: SizerUtil.width,
-            color: AppColors.grey.withOpacity(0.1),
-          ),
-          GestureDetector(
-            onTap: () async {
-              controller.currentPostData = postData;
-              await Get.to(() => PostDetailScreen())?.whenComplete(() {
-                controller.currentPostData = null;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: TextWidget(
-                  postData.description ?? '',
-                  textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: 14,
-                      fontFamily: AppFont.fontMedium,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0,
-                      color: AppColors.dark.withOpacity(0.9),
-                      height: 1.5),
-                ),
-              ),
-            ),
-          ),
-          (postData.postImages ?? []).isNotEmpty
-              ? Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  child: Container(
-                    height: 160,
-                    alignment: Alignment.center,
-                    child: CarouselSlider.builder(
-                      itemCount: (postData.postImages ?? []).length,
-                      itemBuilder: (BuildContext context, int index,
-                              int pageViewIndex) =>
-                          GestureDetector(
-                        onTap: () {
-                          if (postData.postImages?.elementAt(index).url !=
-                              null) {
-                            Get.to(() => ImagePreviewScreen.withUrl(
-                                postData.postImages?.elementAt(index).url ?? '',
-                                postData,
-                                index));
-                          }
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                postData.postImages?.elementAt(index).url ?? '',
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) => SizedBox(
-                              width: 120,
-                              child: Center(
-                                child: CupertinoActivityIndicator(
-                                  color: AppColors.primaryColor,
-                                  animating: true,
-                                  radius: 14,
-                                ),
-                              ),
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                          // clipBehavior: Clip.antiAliasWithSaveLayer,
-                        ),
-                      ),
-                      options: CarouselOptions(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        initialPage: 0,
-                        enableInfiniteScroll: false,
-                        aspectRatio: 16 / 9,
-                        enlargeCenterPage: true,
-                        viewportFraction: 0.96,
-                        disableCenter: true,
-                        height: 500,
-                      ),
-                    ),
-                  ))
-              : SizedBox(),
-          Container(
-            height: 0.18.h,
-            width: SizerUtil.width,
-            color: AppColors.grey.withOpacity(0.1),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
+    return !allUserController.blockedUserList.contains(postData.creatorId)
+        ? Container(
+            color: AppColors.white,
+            padding: const EdgeInsets.only(bottom: 3),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: () async {
-                    await controller.addLike(postData);
-                  },
-                  child: controller.isLiked(postData)
-                      ? SvgPicture.asset(
-                          SvgIcon.likePost,
-                          height: 20,
-                          color: AppColors.primaryColor,
-                        )
-                      : SvgPicture.asset(
-                          SvgIcon.likePost,
-                          height: 20,
-                        ),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  postData.likedUsers?.length.toString() ?? "0",
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      color: AppColors.txtlike,
-                      letterSpacing: 0.3,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: AppFont.fontFamily),
-                ),
-                SizedBox(
-                  width: 15,
+                    onTap: () {
+                      postData.creatorId != controller.loggedInUserId
+                          ? Get.to(() => ProfileScreen(postData.creatorId!))
+                          : null;
+                    },
+                    child: PostHeaderWidget(context, postData,
+                        controller.findUser(postData.creatorId!))),
+                Container(
+                  height: 0.18.h,
+                  width: SizerUtil.width,
+                  color: AppColors.grey.withOpacity(0.1),
                 ),
                 GestureDetector(
                   onTap: () async {
@@ -619,29 +500,160 @@ class PostItemComponent extends StatelessWidget {
                       controller.currentPostData = null;
                     });
                   },
-                  child: SvgPicture.asset(
-                    SvgIcon.commentPost,
-                    height: 20,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextWidget(
+                        postData.description ?? '',
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: 14,
+                            fontFamily: AppFont.fontMedium,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0,
+                            color: AppColors.dark.withOpacity(0.9),
+                            height: 1.5),
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(
-                  width: 6,
+                (postData.postImages ?? []).isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        child: Container(
+                          height: 160,
+                          alignment: Alignment.center,
+                          child: CarouselSlider.builder(
+                            itemCount: (postData.postImages ?? []).length,
+                            itemBuilder: (BuildContext context, int index,
+                                    int pageViewIndex) =>
+                                GestureDetector(
+                              onTap: () {
+                                if (postData.postImages?.elementAt(index).url !=
+                                    null) {
+                                  Get.to(() => ImagePreviewScreen.withUrl(
+                                      postData.postImages
+                                              ?.elementAt(index)
+                                              .url ??
+                                          '',
+                                      postData,
+                                      index));
+                                }
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: CachedNetworkImage(
+                                  imageUrl: postData.postImages
+                                          ?.elementAt(index)
+                                          .url ??
+                                      '',
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          SizedBox(
+                                    width: 120,
+                                    child: Center(
+                                      child: CupertinoActivityIndicator(
+                                        color: AppColors.primaryColor,
+                                        animating: true,
+                                        radius: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                                // clipBehavior: Clip.antiAliasWithSaveLayer,
+                              ),
+                            ),
+                            options: CarouselOptions(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              initialPage: 0,
+                              enableInfiniteScroll: false,
+                              aspectRatio: 16 / 9,
+                              enlargeCenterPage: true,
+                              viewportFraction: 0.96,
+                              disableCenter: true,
+                              height: 500,
+                            ),
+                          ),
+                        ))
+                    : SizedBox(),
+                Container(
+                  height: 0.18.h,
+                  width: SizerUtil.width,
+                  color: AppColors.grey.withOpacity(0.1),
                 ),
-                Text(
-                  postData.postComments?.length.toString() ?? "0",
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      color: AppColors.txtlike,
-                      letterSpacing: 0.3,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: AppFont.fontFamily),
-                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          await controller.addLike(postData);
+                        },
+                        child: controller.isLiked(postData)
+                            ? SvgPicture.asset(
+                                SvgIcon.likePost,
+                                height: 20,
+                                color: AppColors.primaryColor,
+                              )
+                            : SvgPicture.asset(
+                                SvgIcon.likePost,
+                                height: 20,
+                              ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        postData.likedUsers?.length.toString() ?? "0",
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            color: AppColors.txtlike,
+                            letterSpacing: 0.3,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: AppFont.fontFamily),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          controller.currentPostData = postData;
+                          await Get.to(() => PostDetailScreen())
+                              ?.whenComplete(() {
+                            controller.currentPostData = null;
+                          });
+                        },
+                        child: SvgPicture.asset(
+                          SvgIcon.commentPost,
+                          height: 20,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 6,
+                      ),
+                      Text(
+                        postData.postComments?.length.toString() ?? "0",
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            color: AppColors.txtlike,
+                            letterSpacing: 0.3,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: AppFont.fontFamily),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           )
-        ],
-      ),
-    );
+        : SizedBox();
   }
 
   ListTile PostHeaderWidget(

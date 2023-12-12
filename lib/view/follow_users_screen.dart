@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/controller/profile_controller.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/model/user_relationship.dart';
@@ -13,17 +16,19 @@ import 'package:shimmer/shimmer.dart';
 
 import '../utils/string.dart';
 
-class FollowUsersScreen extends GetWidget<ProfileController> {
-  final String userId;
+class FollowUsersScreen extends StatelessWidget {
+  final String? userId;
 
-  const FollowUsersScreen({super.key, required this.userId});
+  FollowUsersScreen({super.key, required this.userId});
 
-  // this screen will have two tabs one is followers and other is following for specific user, where user can follow unfollow from the following screen
+  ProfileController controller =
+      Get.put(ProfileController(FirebaseAuth.instance.currentUser!.uid));
+  AllUserController allUserController = Get.put(AllUserController());
+
   @override
   Widget build(BuildContext context) {
-    // create two tab screen for followers and following
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         backgroundColor: AppColors.white,
         appBar: AppBar(
@@ -42,7 +47,7 @@ class FollowUsersScreen extends GetWidget<ProfileController> {
             alignment: Alignment.centerLeft,
             child: TextWidget(
               controller.allUserController
-                      .findSingleUserFromAllUser(userId)
+                      .findSingleUserFromAllUser(userId!)
                       .name ??
                   '',
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -63,6 +68,11 @@ class FollowUsersScreen extends GetWidget<ProfileController> {
               ),
               Tab(
                 text: 'Following',
+                height: 40,
+                // icon: Icon(Icons.person_add_alt_1_outlined)
+              ),
+              Tab(
+                text: 'Blocked',
                 height: 40,
                 // icon: Icon(Icons.person_add_alt_1_outlined)
               ),
@@ -91,8 +101,9 @@ class FollowUsersScreen extends GetWidget<ProfileController> {
         ),
         body: TabBarView(
           children: [
-            FollowersScreen(userId: userId),
-            FollowingScreen(userId: userId),
+            FollowersScreen(userId: userId!),
+            FollowingScreen(userId: userId!),
+            BlockedUserScreen(userId: userId!),
           ],
         ),
       ),
@@ -311,6 +322,144 @@ class FollowingScreen extends GetWidget<ProfileController> {
                 ),
                 Text(
                   ConstString.noFollowing,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: AppColors.black,
+                      fontSize: 18,
+                      fontFamily: AppFont.fontBold),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
+}
+
+class BlockedUserScreen extends GetWidget<AllUserController> {
+  final String userId;
+
+  const BlockedUserScreen({super.key, required this.userId});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<List<String>>(
+      stream: controller.getBlockedUserIds(userId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+              child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: ListView.builder(
+                    itemCount: 7, // TODO:
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          // Replace this with your Shimmer placeholder widgets
+                          Container(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: ListTile(
+                                    leading: CircleAvatar(),
+                                    trailing: Icon(Icons.account_circle),
+                                    title: Text("MEDZO"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            margin: EdgeInsets.all(3),
+                          ),
+                          Divider(
+                            height: 3,
+                          ),
+                        ],
+                      );
+                    },
+                  )));
+        }
+        if (snapshot.hasData && snapshot.data!.length > 0) {
+          List<String> ids = snapshot.data!;
+
+          return FutureBuilder(
+            future: controller.fetchUsersByIds(ids),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CupertinoActivityIndicator();
+              } else if (snapshot.hasData) {
+                List<UserModel> blockedUsers = snapshot.data!;
+                return RefreshIndicator(
+                  child: ListView.builder(
+                    itemCount: blockedUsers.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: OtherProfilePicWidget(
+                            profilePictureUrl:
+                                blockedUsers[index].profilePicture),
+                        title: Text(
+                          blockedUsers[index].name ?? '',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(
+                                  fontFamily: AppFont.fontFamilysemi,
+                                  fontSize: 15),
+                        ),
+                        subtitle: Text(
+                          blockedUsers[index].profession ?? '-',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    fontFamily: AppFont.fontMedium,
+                                    fontSize: 12.5,
+                                  ),
+                        ),
+                        trailing: TextButton(
+                            onPressed: () async {
+                              await controller.unblockUser(
+                                  userId, blockedUsers[index].id!);
+                            },
+                            child: Text(
+                              "Unblock",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(color: AppColors.red, fontSize: 13),
+                            )),
+                      );
+                    },
+                  ),
+                  onRefresh: () async {
+                    await Future.delayed(Duration(seconds: 2));
+                  },
+                  color: AppColors.primaryColor,
+                );
+              } else {
+                return Text(
+                  "No User Found!",
+                  style: Theme.of(context).textTheme.titleMedium,
+                );
+              }
+            },
+          );
+        } else {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  child: Image.asset(
+                    SvgIcon.nodata,
+                    scale: 0.5,
+                  ),
+                  width: 80,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  ConstString.noBlocked,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: AppColors.black,
                       fontSize: 18,

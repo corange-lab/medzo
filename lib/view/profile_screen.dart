@@ -611,6 +611,7 @@ class ProfileScreen extends StatelessWidget {
             final followers = snapshot.data!;
             return GestureDetector(
               onTap: () async {
+                print("UserId : ${userId}");
                 await Get.to(() => FollowUsersScreen(userId: userId));
               },
               child: Column(

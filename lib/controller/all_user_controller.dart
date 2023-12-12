@@ -8,6 +8,7 @@ import 'package:medzo/controller/user_repository.dart';
 import 'package:medzo/model/current_medication.dart';
 import 'package:medzo/model/health_condition.dart';
 import 'package:medzo/model/user_model.dart';
+import 'package:medzo/utils/utils.dart';
 
 class AllUserController extends GetxController {
   RxList<UserModel> allUsers = <UserModel>[].obs;
@@ -17,15 +18,20 @@ class AllUserController extends GetxController {
   UserModel? currentUser;
 
   List<UserModel> bestMatchesUserList = [];
+  List<String> blockedUserList = [];
+  RxBool isBlocked = false.obs;
 
   final String loggedInUser = FirebaseAuth.instance.currentUser!.uid;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     log('AllUserController onInit');
     super.onInit();
     fetchAllUser();
     fetchCurrentUser();
+    getBlockedUserIds(userId).listen((updatedList) {
+      blockedUserList = updatedList;
+    });
   }
 
   fetchCurrentUser() async {
@@ -51,6 +57,53 @@ class AllUserController extends GetxController {
       });
     } catch (e) {
       log(e.toString());
+    }
+  }
+
+  Stream<List<String>> getBlockedUserIds(String userId) {
+    return FirebaseFirestore.instance
+        .collection('blocked_users')
+        .doc(userId)
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.exists && snapshot.data()!.containsKey('userIds')) {
+        return blockedUserList = List<String>.from(snapshot.data()!['userIds']);
+      }
+      return blockedUserList = [];
+    });
+  }
+
+  Future<List<UserModel>> fetchUsersByIds(List<String> userIds) async {
+    List<UserModel> users = [];
+
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where(FieldPath.documentId, whereIn: userIds)
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      users.add(UserModel.fromDocumentSnapshot(doc));
+    }
+
+    return users;
+  }
+
+  Future<void> unblockUser(String currentUserId, String unBlockId) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    try {
+      DocumentReference blockedUsersRef =
+          firestore.collection('blocked_users').doc(currentUserId);
+
+      // Use arrayRemove to remove the user from the blocked list
+      await blockedUsersRef.update({
+        'userIds': FieldValue.arrayRemove([unBlockId])
+      }).then((value) {
+        showInSnackBar("User Unblocked", title: "Medzo", isSuccess: true);
+      });
+    } catch (e) {
+      // Handle exceptions
+      print('Error unblocking user: $e');
     }
   }
 
