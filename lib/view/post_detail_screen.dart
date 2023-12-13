@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/controller/post_controller.dart';
 import 'package:medzo/model/comment_data.dart';
 import 'package:medzo/model/post_model.dart';
@@ -26,6 +27,8 @@ class PostDetailScreen extends GetWidget<PostController> {
   PostDetailScreen({super.key});
 
   /// this screen is used to show post detail same as shown in the post List, UI will have similar to post single element and other details should be added like user can comment and like the post
+
+  AllUserController allUserController = Get.put(AllUserController());
 
   @override
   Widget build(BuildContext context) {
@@ -490,12 +493,230 @@ class PostDetailScreen extends GetWidget<PostController> {
             UserModel? commentedUser =
                 controller.findUser(commentData?.commentUserId ?? '');
 
-            return Column(
+            return !allUserController.blockedUserList.contains(commentedUser.id)
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Card(
+                        margin: EdgeInsets.all(10),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              10), // Adjust the radius as needed
+                        ),
+                        child: ListTile(
+                          tileColor: AppColors.listtile,
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                          dense: true,
+                          horizontalTitleGap: 10,
+                          leading: OtherProfilePicWidget(
+                              profilePictureUrl: commentedUser.profilePicture),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 0.8.h,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: TextWidget(
+                                    commentedUser.name ?? '-',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(
+                                            fontFamily: AppFont.fontFamilysemi,
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 0.3,
+                                            fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 3),
+                                child: TextWidget(
+                                  (commentData?.createdTime ?? DateTime.now())
+                                      .timeAgo(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          fontSize: 12, color: AppColors.dark),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 3),
+                                child: TextWidget(
+                                  commentData?.content ?? '-',
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          color: AppColors.grey,
+                                          fontSize: 12.5,
+                                          fontFamily: AppFont.fontFamily),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                            ],
+                          ),
+                          trailing: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: ParentCommentDeleteButton(
+                                context, postData, commentData!),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 16.w,
+                          ),
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  await controller.addLikeOnComment(
+                                      postData, commentData.id!);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  child: controller
+                                          .hasLikedThisComment(commentData)
+                                      ? Icon(
+                                          Icons.favorite_rounded,
+                                          color: AppColors.primaryColor,
+                                          size: 18,
+                                        )
+                                      : SvgPicture.asset(
+                                          SvgIcon.likePost,
+                                          height: 14,
+                                        ),
+                                ),
+                              ),
+                              SizedBox(width: 0.8.w),
+                              Text(
+                                commentData.likedUsers?.length.toString() ??
+                                    "0",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .copyWith(
+                                        color: AppColors.txtlike,
+                                        letterSpacing: 0.3,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: AppFont.fontFamily),
+                              ),
+                            ],
+                          ),
+                          SizedBox(width: 2.w),
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                SvgIcon.commentPost,
+                                height: 16,
+                              ),
+                              SizedBox(
+                                width: 1.w,
+                              ),
+                              Container(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    controller.replyingCommentData =
+                                        commentData;
+                                    controller.replyingCommentUser =
+                                        commentedUser;
+                                    controller.update(
+                                        [postData.id ?? 'post${postData.id}']);
+                                    FocusScope.of(context).requestFocus(
+                                        controller.commentFocusNode);
+                                  },
+                                  child: Text(
+                                    "Reply",
+                                    style: TextStyle(
+                                      color: AppColors.blacktxt,
+                                      fontFamily: AppFont.fontFamilysemi,
+                                      decoration: TextDecoration.underline,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(width: 50),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    CommentData? commentOfCommentData =
+                                        commentData.commentComments
+                                            ?.elementAt(index);
+                                    UserModel? commentedUser =
+                                        controller.findUser(commentOfCommentData
+                                                ?.commentUserId ??
+                                            '');
+                                    return CommentOfCommentWidget(
+                                        commentData,
+                                        commentOfCommentData!,
+                                        commentedUser,
+                                        context);
+                                  },
+                                  separatorBuilder: (context, index) => Divider(
+                                        color: Colors.transparent,
+                                      ),
+                                  itemCount:
+                                      commentData.commentComments?.length ?? 0),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : SizedBox();
+          },
+          separatorBuilder: (context, index) => Divider(
+                height: 3.h,
+              ),
+          itemCount: postData.postComments?.length ?? 0),
+    );
+  }
+
+  Widget CommentOfCommentWidget(CommentData parentCommentData,
+      CommentData commentData, UserModel userModel, BuildContext context) {
+    return !allUserController.blockedUserList.contains(userModel.id)
+        ? Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Card(
-                  margin: EdgeInsets.all(10),
+                  margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
@@ -506,30 +727,32 @@ class PostDetailScreen extends GetWidget<PostController> {
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                     dense: true,
-                    horizontalTitleGap: 10,
-                    leading: OtherProfilePicWidget(
-                        profilePictureUrl: commentedUser.profilePicture),
+                    horizontalTitleGap: 0,
+                    leading: SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: OtherProfilePicWidget(
+                          profilePictureUrl: userModel.profilePicture),
+                    ),
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 0.8.h,
+                          height: 1.2.h,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: TextWidget(
-                              commentedUser.name ?? '-',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(
-                                      fontFamily: AppFont.fontFamilysemi,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.3,
-                                      fontSize: 15),
-                            ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: TextWidget(
+                            userModel.name ?? '-',
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(
+                                    fontFamily: AppFont.fontFamilysemi,
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 0.3,
+                                    fontSize: 14.8),
                           ),
                         ),
                         SizedBox(
@@ -538,7 +761,7 @@ class PostDetailScreen extends GetWidget<PostController> {
                         Padding(
                           padding: const EdgeInsets.only(left: 3),
                           child: TextWidget(
-                            (commentData?.createdTime ?? DateTime.now())
+                            (commentData.createdTime ?? DateTime.now())
                                 .timeAgo(),
                             style: Theme.of(context)
                                 .textTheme
@@ -552,15 +775,16 @@ class PostDetailScreen extends GetWidget<PostController> {
                         Padding(
                           padding: const EdgeInsets.only(left: 3),
                           child: TextWidget(
-                            commentData?.content ?? '-',
+                            commentData.content ?? '-',
                             textAlign: TextAlign.start,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
                                 .copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: 12.5,
-                                    fontFamily: AppFont.fontFamily),
+                                    color: AppColors.grey.withOpacity(0.8),
+                                    fontFamily: AppFont.fontFamily,
+                                    letterSpacing: 0,
+                                    fontSize: 12.5),
                           ),
                         ),
                         SizedBox(
@@ -570,29 +794,29 @@ class PostDetailScreen extends GetWidget<PostController> {
                     ),
                     trailing: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: ParentCommentDeleteButton(
-                          context, postData, commentData!),
+                      child: ChildCommentDeleteButton(
+                          context, parentCommentData, commentData),
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 5,
                 ),
                 Row(
                   children: [
-                    SizedBox(
-                      width: 16.w,
-                    ),
                     Row(
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            await controller.addLikeOnComment(
-                                postData, commentData.id!);
+                            await controller.addLikeOnCommentOfComment(
+                                parentCommentData,
+                                commentData,
+                                commentData.id!);
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: controller.hasLikedThisComment(commentData)
+                            child: controller
+                                    .hasLikedThisCommentOfComment(commentData)
                                 ? Icon(
                                     Icons.favorite_rounded,
                                     color: AppColors.primaryColor,
@@ -604,260 +828,64 @@ class PostDetailScreen extends GetWidget<PostController> {
                                   ),
                           ),
                         ),
-                        SizedBox(width: 0.8.w),
-                        Text(
-                          commentData.likedUsers?.length.toString() ?? "0",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .copyWith(
-                                  color: AppColors.txtlike,
-                                  letterSpacing: 0.3,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: AppFont.fontFamily),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 2.w),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          SvgIcon.commentPost,
-                          height: 16,
-                        ),
-                        SizedBox(
-                          width: 1.w,
-                        ),
+                        SizedBox(width: 0.5.w),
                         Container(
-                          child: GestureDetector(
-                            onTap: () {
-                              controller.replyingCommentData = commentData;
-                              controller.replyingCommentUser = commentedUser;
-                              controller.update(
-                                  [postData.id ?? 'post${postData.id}']);
-                              FocusScope.of(context)
-                                  .requestFocus(controller.commentFocusNode);
-                            },
-                            child: Text(
-                              "Reply",
-                              style: TextStyle(
-                                color: AppColors.blacktxt,
-                                fontFamily: AppFont.fontFamilysemi,
-                                decoration: TextDecoration.underline,
-                                fontSize: 12,
-                              ),
-                            ),
+                          child: Text(
+                            commentData.likedUsers?.length.toString() ?? "0",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(
+                                    color: AppColors.txtlike,
+                                    letterSpacing: 0.3,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: AppFont.fontFamily),
                           ),
                         ),
                       ],
                     ),
+                    // SizedBox(
+                    //   width: 2.w,
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     SvgPicture.asset(
+                    //       SvgIcon.commentPost,
+                    //       height: 16,
+                    //     ),
+                    //     SizedBox(
+                    //       width: 1.w,
+                    //     ),
+                    //     GestureDetector(
+                    //       onTap: () {
+                    //         controller.replyingCommentData = commentData;
+                    //         controller.replyingCommentUser = userModel;
+                    //         controller.update([
+                    //           controller.currentPostData!.id ??
+                    //               'post${controller.currentPostData!.id}'
+                    //         ]);
+                    //         FocusScope.of(context)
+                    //             .requestFocus(controller.commentFocusNode);
+                    //       },
+                    //       child: Text(
+                    //         "Reply",
+                    //         style: TextStyle(
+                    //           color: AppColors.blacktxt,
+                    //           fontFamily: AppFont.fontFamilysemi,
+                    //           decoration: TextDecoration.underline,
+                    //           fontSize: 12,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(width: 50),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: ListView.separated(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              CommentData? commentOfCommentData =
-                                  commentData.commentComments?.elementAt(index);
-                              UserModel? commentedUser = controller.findUser(
-                                  commentOfCommentData?.commentUserId ?? '');
-                              return CommentOfCommentWidget(
-                                  commentData,
-                                  commentOfCommentData!,
-                                  commentedUser,
-                                  context);
-                            },
-                            separatorBuilder: (context, index) => Divider(
-                                  color: Colors.transparent,
-                                ),
-                            itemCount:
-                                commentData.commentComments?.length ?? 0),
-                      ),
-                    ),
-                  ],
-                ),
+                )
               ],
-            );
-          },
-          separatorBuilder: (context, index) => Divider(
-                height: 3.h,
-              ),
-          itemCount: postData.postComments?.length ?? 0),
-    );
-  }
-
-  Widget CommentOfCommentWidget(CommentData parentCommentData,
-      CommentData commentData, UserModel userModel, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Card(
-            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(10), // Adjust the radius as needed
             ),
-            child: ListTile(
-              tileColor: AppColors.listtile,
-              contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-              dense: true,
-              horizontalTitleGap: 0,
-              leading: SizedBox(
-                height: 30,
-                width: 30,
-                child: OtherProfilePicWidget(
-                    profilePictureUrl: userModel.profilePicture),
-              ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 1.2.h,
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextWidget(
-                      userModel.name ?? '-',
-                      textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                          fontFamily: AppFont.fontFamilysemi,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.3,
-                          fontSize: 14.8),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 3),
-                    child: TextWidget(
-                      (commentData.createdTime ?? DateTime.now()).timeAgo(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(fontSize: 12, color: AppColors.dark),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 3),
-                    child: TextWidget(
-                      commentData.content ?? '-',
-                      textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: AppColors.grey.withOpacity(0.8),
-                          fontFamily: AppFont.fontFamily,
-                          letterSpacing: 0,
-                          fontSize: 12.5),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                ],
-              ),
-              trailing: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: ChildCommentDeleteButton(
-                    context, parentCommentData, commentData),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Row(
-            children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      await controller.addLikeOnCommentOfComment(
-                          parentCommentData, commentData, commentData.id!);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child:
-                          controller.hasLikedThisCommentOfComment(commentData)
-                              ? Icon(
-                                  Icons.favorite_rounded,
-                                  color: AppColors.primaryColor,
-                                  size: 18,
-                                )
-                              : SvgPicture.asset(
-                                  SvgIcon.likePost,
-                                  height: 14,
-                                ),
-                    ),
-                  ),
-                  SizedBox(width: 0.5.w),
-                  Container(
-                    child: Text(
-                      commentData.likedUsers?.length.toString() ?? "0",
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                          color: AppColors.txtlike,
-                          letterSpacing: 0.3,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: AppFont.fontFamily),
-                    ),
-                  ),
-                ],
-              ),
-              // SizedBox(
-              //   width: 2.w,
-              // ),
-              // Row(
-              //   children: [
-              //     SvgPicture.asset(
-              //       SvgIcon.commentPost,
-              //       height: 16,
-              //     ),
-              //     SizedBox(
-              //       width: 1.w,
-              //     ),
-              //     GestureDetector(
-              //       onTap: () {
-              //         controller.replyingCommentData = commentData;
-              //         controller.replyingCommentUser = userModel;
-              //         controller.update([
-              //           controller.currentPostData!.id ??
-              //               'post${controller.currentPostData!.id}'
-              //         ]);
-              //         FocusScope.of(context)
-              //             .requestFocus(controller.commentFocusNode);
-              //       },
-              //       child: Text(
-              //         "Reply",
-              //         style: TextStyle(
-              //           color: AppColors.blacktxt,
-              //           fontFamily: AppFont.fontFamilysemi,
-              //           decoration: TextDecoration.underline,
-              //           fontSize: 12,
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-            ],
           )
-        ],
-      ),
-    );
+        : SizedBox();
   }
 
   Widget ParentCommentDeleteButton(

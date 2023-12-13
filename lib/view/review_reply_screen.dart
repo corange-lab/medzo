@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/model/review_data_model.dart';
 import 'package:medzo/model/review_reply_data.dart';
@@ -21,6 +22,8 @@ class ReviewReplyScreen extends StatelessWidget {
   final MedicineController controller = Get.put(MedicineController());
 
   ReviewReplyScreen(this.user, this.review);
+
+  AllUserController allUserController = Get.put(AllUserController());
 
   @override
   Widget build(BuildContext context) {
@@ -300,121 +303,130 @@ class ReviewReplyScreen extends StatelessWidget {
 
             UserModel? replyUser = controller.findUser(replyData?.userId ?? '');
 
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColors.listtile),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20, top: 10, bottom: 10, right: 10),
-                        child: OtherProfilePicWidget(
-                            profilePictureUrl: replyUser.profilePicture,
-                            size: Size(40, 40)),
-                      ),
-                      Expanded(
-                        child: Row(
+            return !allUserController.blockedUserList.contains(replyUser.id)
+                ? Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: AppColors.listtile),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20, top: 10, bottom: 10, right: 10),
+                              child: OtherProfilePicWidget(
+                                  profilePictureUrl: replyUser.profilePicture,
+                                  size: Size(40, 40)),
+                            ),
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Row(
                                 children: [
-                                  TextWidget(
-                                    replyUser.name ?? '-',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                            fontFamily: AppFont.fontFamilysemi,
-                                            fontWeight: FontWeight.w500,
-                                            letterSpacing: 0.3,
-                                            fontSize: 14),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextWidget(
+                                          replyUser.name ?? '-',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge!
+                                              .copyWith(
+                                                  fontFamily:
+                                                      AppFont.fontFamilysemi,
+                                                  fontWeight: FontWeight.w500,
+                                                  letterSpacing: 0.3,
+                                                  fontSize: 14),
+                                        ),
+                                        SizedBox(height: 10),
+                                        TextWidget(
+                                          (replyData?.repliedTime ??
+                                                  DateTime.now())
+                                              .timeAgo(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(
+                                                  fontSize: 11,
+                                                  color: AppColors.dark),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  SizedBox(height: 10),
-                                  TextWidget(
-                                    (replyData?.repliedTime ?? DateTime.now())
-                                        .timeAgo(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(
-                                            fontSize: 11,
-                                            color: AppColors.dark),
-                                  ),
+                                  replyData!.userId == controller.currentUser
+                                      ? IconButton(
+                                          onPressed: () {
+                                            _deleteReviewDialog(context,
+                                                isForReply: true,
+                                                replyData: replyData);
+                                          },
+                                          icon: Icon(
+                                            Icons.delete_outlined,
+                                            color: AppColors.notificationOff,
+                                            // size: 3.5.h,
+                                          ))
+                                      : SizedBox()
                                 ],
                               ),
                             ),
-                            replyData!.userId == controller.currentUser
-                                ? IconButton(
-                                    onPressed: () {
-                                      _deleteReviewDialog(context,
-                                          isForReply: true,
-                                          replyData: replyData);
-                                    },
-                                    icon: Icon(
-                                      Icons.delete_outlined,
-                                      color: AppColors.notificationOff,
-                                      // size: 3.5.h,
-                                    ))
-                                : SizedBox()
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, bottom: 10),
-                      child: TextWidget(
-                        "${replyData.reply}",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            height: 1.7,
-                            fontSize: 14,
-                            fontFamily: AppFont.fontMedium,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.dark),
-                        textAlign: TextAlign.start,
-                      ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 20, bottom: 10),
+                            child: TextWidget(
+                              "${replyData.reply}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                      height: 1.7,
+                                      fontSize: 14,
+                                      fontFamily: AppFont.fontMedium,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.dark),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  controller.addReplyUpvote(replyData,
+                                      isForUpvote: true);
+                                },
+                                icon: Icon(
+                                  Icons.plus_one,
+                                  color: controller.isReplyVoted(replyData,
+                                          forUpvote: true)
+                                      ? Colors.red
+                                      : Colors.black,
+                                )),
+                            IconButton(
+                                onPressed: () {
+                                  controller.addReplyUpvote(replyData,
+                                      isForUpvote: false);
+                                },
+                                icon: Icon(
+                                  Icons.exposure_minus_1,
+                                  color: controller.isReplyVoted(replyData,
+                                          forUpvote: false)
+                                      ? Colors.red
+                                      : Colors.black,
+                                )),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            controller.addReplyUpvote(replyData,
-                                isForUpvote: true);
-                          },
-                          icon: Icon(
-                            Icons.plus_one,
-                            color: controller.isReplyVoted(replyData,
-                                    forUpvote: true)
-                                ? Colors.red
-                                : Colors.black,
-                          )),
-                      IconButton(
-                          onPressed: () {
-                            controller.addReplyUpvote(replyData,
-                                isForUpvote: false);
-                          },
-                          icon: Icon(
-                            Icons.exposure_minus_1,
-                            color: controller.isReplyVoted(replyData,
-                                    forUpvote: false)
-                                ? Colors.red
-                                : Colors.black,
-                          )),
-                    ],
-                  ),
-                ],
-              ),
-            );
+                  )
+                : SizedBox();
           },
         );
       }),
