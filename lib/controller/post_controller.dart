@@ -60,7 +60,7 @@ class PostController extends GetxController {
     return postRef
         .where('creatorId', isNotEqualTo: null)
         .orderBy('createdTime', descending: true)
-        .limit(4)
+        .limit(30)
         .get()
         .asStream();
   }

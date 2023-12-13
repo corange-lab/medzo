@@ -28,7 +28,7 @@ class FollowUsersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: userId == controller.currentUserId ? 3 : 2,
       child: Scaffold(
         backgroundColor: AppColors.white,
         appBar: AppBar(
@@ -71,11 +71,12 @@ class FollowUsersScreen extends StatelessWidget {
                 height: 40,
                 // icon: Icon(Icons.person_add_alt_1_outlined)
               ),
-              Tab(
-                text: 'Blocked',
-                height: 40,
-                // icon: Icon(Icons.person_add_alt_1_outlined)
-              ),
+              if (userId == controller.currentUserId)
+                Tab(
+                  text: 'Blocked',
+                  height: 40,
+                  // icon: Icon(Icons.person_add_alt_1_outlined)
+                )
             ],
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
             physics: const BouncingScrollPhysics(),
@@ -103,7 +104,8 @@ class FollowUsersScreen extends StatelessWidget {
           children: [
             FollowersScreen(userId: userId!),
             FollowingScreen(userId: userId!),
-            BlockedUserScreen(userId: userId!),
+            if (userId == controller.currentUserId)
+              BlockedUserScreen(userId: userId!),
           ],
         ),
       ),

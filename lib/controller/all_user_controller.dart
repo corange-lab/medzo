@@ -99,7 +99,7 @@ class AllUserController extends GetxController {
       await blockedUsersRef.update({
         'userIds': FieldValue.arrayRemove([unBlockId])
       }).then((value) {
-        showInSnackBar("User Unblocked", title: "Medzo", isSuccess: true);
+        toast(message: "User Unblocked");
       });
     } catch (e) {
       // Handle exceptions

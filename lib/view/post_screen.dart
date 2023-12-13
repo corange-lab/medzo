@@ -734,7 +734,9 @@ class PostListWidget extends GetWidget<PostController> {
 
   final PostFetchType type;
 
-  const PostListWidget({super.key, this.streamQuery, required this.type});
+  PostListWidget({super.key, this.streamQuery, required this.type});
+
+  AllUserController allUserController = Get.put(AllUserController());
 
   @override
   Widget build(BuildContext context) {
@@ -756,9 +758,23 @@ class PostListWidget extends GetWidget<PostController> {
             );
           }
           if (snapshot.hasData) {
-            List<PostData> postDataList = snapshot.data!.docs.map((doc) {
-              return PostData.fromMap(doc.data() as Map<String, dynamic>);
-            }).toList();
+            List<PostData> postDataList = type == PostFetchType.dashboardPosts
+                ? snapshot.data!.docs
+                    .where((doc) {
+                      var data = doc.data()
+                          as Map<String, dynamic>?; // Explicitly cast to a map
+                      return data != null &&
+                          !allUserController.blockedUserList
+                              .contains(data['creatorId']);
+                    })
+                    .take(4) // Apply the limit here
+                    .map((doc) => PostData.fromMap(doc.data() as Map<String,
+                        dynamic>)) // Ensure this maps to PostData
+                    .toList()
+                : snapshot.data!.docs
+                    .map((doc) => PostData.fromMap(doc.data()
+                        as Map<String, dynamic>)) // Specify type here as well
+                    .toList();
 
             return postDataList.isNotEmpty
                 ? Column(
