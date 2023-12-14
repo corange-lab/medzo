@@ -79,8 +79,9 @@ class MessageScreen extends StatelessWidget {
                     if (userModel == null) {
                       return Container();
                     }
-                    String lastMessageTime = chatController
-                        .formatTimestamp(chatRoom.lastMessageTime.toString());
+                    String lastMessageTime = chatController.formatTimestamp(
+                        chatRoom.lastMessageTime?.toString() ??
+                            "Default Value");
 
                     return Dismissible(
                       key: Key("value"),

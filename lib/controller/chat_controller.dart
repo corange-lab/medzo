@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/main.dart';
 import 'package:medzo/model/chat_room.dart';
 import 'package:medzo/model/message_model.dart';
@@ -14,6 +15,8 @@ class ChatController extends GetxController {
   String currentUser = FirebaseAuth.instance.currentUser!.uid;
 
   TextEditingController messageText = TextEditingController();
+
+  AllUserController allUserController = Get.put(AllUserController());
 
   ChatRoom? chatRoom;
 
@@ -82,16 +85,14 @@ class ChatController extends GetxController {
       print("sendMessage: Blocked by You");
       showBlockedNotification(context, message: 'You have blocked this user');
       return;
-    }
-
-    if (doesReceiverBlockedYou == true) {
+    } else if (doesReceiverBlockedYou == true) {
       print("sendMessage: Blocked by Receiver");
       showBlockedNotification(context, message: 'This user has blocked you');
       return;
+    } else {
+      _sendMessage();
+      print("sendMessage: Sending message");
     }
-
-    _sendMessage();
-    print("sendMessage: Sending message");
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> fetchMessages() {
@@ -177,18 +178,21 @@ class ChatController extends GetxController {
 
   Future<bool> isUserBlocked(String myUserId, String blockedUserId) async {
     try {
-      final DocumentSnapshot blockedUserDoc = await FirebaseFirestore.instance
-          .collection('blocked_users')
-          .doc(myUserId)
-          .get();
+      // final DocumentSnapshot blockedUserDoc = await FirebaseFirestore.instance
+      //     .collection('blocked_users')
+      //     .doc(myUserId)
+      //     .get();
 
-      if (blockedUserDoc.exists) {
-        Map<String, dynamic> data =
-            blockedUserDoc.data() as Map<String, dynamic> ?? {};
+      // if (blockedUserDoc.exists) {
+      //   Map<String, dynamic> data =
+      //       blockedUserDoc.data() as Map<String, dynamic> ?? {};
 
-        List<dynamic> blockedUserIds = data['userIds'] as List<dynamic> ?? [];
-        return blockedUserIds.contains(blockedUserId);
-      }
+      List<dynamic> blockedUserIds = allUserController.blockedUserList;
+
+      print("Ids : ${blockedUserIds}");
+      print("${blockedUserId}");
+      return blockedUserIds.contains(blockedUserId);
+      // }
     } catch (e) {
       print('Error in isUserBlocked: $e');
     }

@@ -177,53 +177,111 @@ class ProfileController extends GetxController {
     }
   }
 
+  // Future<void> blockUser(String myUserId, String blockedUserId) async {
+  //   try {
+  //     DocumentReference myUserDoc = blockedUserRef.doc(myUserId);
+  //
+  //     DocumentSnapshot myUserSnapshot = await myUserDoc.get();
+  //
+  //     // Check if the document exists
+  //     if (myUserSnapshot.exists) {
+  //       Map<String, dynamic> userData =
+  //           myUserSnapshot.data() as Map<String, dynamic> ?? {};
+  //
+  //       List<String> blockedUserIds =
+  //           List<String>.from(userData['userIds'] as List<dynamic> ?? []);
+  //
+  //       // Check if the user is already blocked to avoid duplicates
+  //       if (!blockedUserIds.contains(blockedUserId)) {
+  //         blockedUserIds.add(blockedUserId);
+  //
+  //         await myUserDoc.set({'userIds': blockedUserIds}).then((value) {
+  //           showInSnackBar("User Blocked!", isSuccess: false, title: "Medzo");
+  //         });
+  //       }
+  //     } else {
+  //       // If the document doesn't exist, create it and set the blocked user ID
+  //       await myUserDoc.set({
+  //         'userIds': [blockedUserId]
+  //       }).then((value) {
+  //         showInSnackBar("User Blocked!", isSuccess: false, title: "Medzo");
+  //       });
+  //     }
+  //   } catch (e) {
+  //     print('Error blocking user: $e');
+  //   }
+  // }
+
+  // Future<void> unblockUser(String myUserId, String blockedUserId) async {
+  //   try {
+  //     DocumentReference myUserDoc = blockedUserRef.doc(myUserId);
+  //
+  //     DocumentSnapshot myUserSnapshot = await myUserDoc.get();
+  //     List<String> blockedUserIds = List.from(myUserSnapshot['userIds'] ?? []);
+  //
+  //     blockedUserIds.remove(blockedUserId);
+  //
+  //     await myUserDoc.set({'userIds': blockedUserIds}).then((value) {
+  //       showInSnackBar("User Unblocked!", isSuccess: false, title: "Medzo");
+  //     });
+  //   } catch (e) {
+  //     print('Error unblocking user: $e');
+  //   }
+  // }
+
   Future<void> blockUser(String myUserId, String blockedUserId) async {
     try {
-      DocumentReference myUserDoc = blockedUserRef.doc(myUserId);
+      // Block the other user from my profile
+      await _blockOrUnblockUser(myUserId, blockedUserId, add: true);
+      // Block myself from the other user's profile
+      await _blockOrUnblockUser(blockedUserId, myUserId, add: true);
 
-      DocumentSnapshot myUserSnapshot = await myUserDoc.get();
-
-      // Check if the document exists
-      if (myUserSnapshot.exists) {
-        Map<String, dynamic> userData =
-            myUserSnapshot.data() as Map<String, dynamic> ?? {};
-
-        List<String> blockedUserIds =
-            List<String>.from(userData['userIds'] as List<dynamic> ?? []);
-
-        // Check if the user is already blocked to avoid duplicates
-        if (!blockedUserIds.contains(blockedUserId)) {
-          blockedUserIds.add(blockedUserId);
-
-          await myUserDoc.set({'userIds': blockedUserIds}).then((value) {
-            showInSnackBar("User Blocked!", isSuccess: false, title: "Medzo");
-          });
-        }
-      } else {
-        // If the document doesn't exist, create it and set the blocked user ID
-        await myUserDoc.set({
-          'userIds': [blockedUserId]
-        }).then((value) {
-          showInSnackBar("User Blocked!", isSuccess: false, title: "Medzo");
-        });
-      }
+      toast(message: "User Blocked!");
     } catch (e) {
       print('Error blocking user: $e');
     }
   }
 
+  Future<void> _blockOrUnblockUser(String userId, String otherUserId,
+      {required bool add}) async {
+    DocumentReference userDoc = blockedUserRef.doc(userId);
+
+    DocumentSnapshot userSnapshot = await userDoc.get();
+
+    // Check if the document exists
+    if (userSnapshot.exists) {
+      Map<String, dynamic> userData =
+          userSnapshot.data() as Map<String, dynamic>;
+      List<String> blockedUserIds =
+          List<String>.from(userData['userIds'] as List<dynamic> ?? []);
+
+      if (add) {
+        if (!blockedUserIds.contains(otherUserId)) {
+          blockedUserIds.add(otherUserId);
+        }
+      } else {
+        blockedUserIds.remove(otherUserId);
+      }
+
+      await userDoc.update({'userIds': blockedUserIds});
+    } else {
+      // If the document does not exist, create it and set the blocked user ID
+      if (add) {
+        await userDoc.set({
+          'userIds': [otherUserId]
+        });
+      }
+    }
+  }
+
   Future<void> unblockUser(String myUserId, String blockedUserId) async {
     try {
-      DocumentReference myUserDoc = blockedUserRef.doc(myUserId);
+      // Unblock the other user from my profile
+      await _blockOrUnblockUser(myUserId, blockedUserId, add: false);
+      // Unblock myself from the other user's profile
+      await _blockOrUnblockUser(blockedUserId, myUserId, add: false);
 
-      DocumentSnapshot myUserSnapshot = await myUserDoc.get();
-      List<String> blockedUserIds = List.from(myUserSnapshot['userIds'] ?? []);
-
-      blockedUserIds.remove(blockedUserId);
-
-      await myUserDoc.set({'userIds': blockedUserIds}).then((value) {
-        showInSnackBar("User Unblocked!", isSuccess: false, title: "Medzo");
-      });
+      toast(message: "User Unblocked!");
     } catch (e) {
       print('Error unblocking user: $e');
     }

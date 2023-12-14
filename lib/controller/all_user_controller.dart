@@ -32,6 +32,7 @@ class AllUserController extends GetxController {
     getBlockedUserIds(userId).listen((updatedList) {
       blockedUserList = updatedList;
     });
+    update();
   }
 
   fetchCurrentUser() async {
@@ -88,18 +89,46 @@ class AllUserController extends GetxController {
     return users;
   }
 
+  // Future<void> unblockUser(String currentUserId, String unBlockId) async {
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //
+  //   try {
+  //     DocumentReference blockedUsersRef =
+  //         firestore.collection('blocked_users').doc(currentUserId);
+  //
+  //     // Use arrayRemove to remove the user from the blocked list
+  //     await blockedUsersRef.update({
+  //       'userIds': FieldValue.arrayRemove([unBlockId])
+  //     }).then((value) {
+  //       toast(message: "User Unblocked");
+  //     });
+  //   } catch (e) {
+  //     // Handle exceptions
+  //     print('Error unblocking user: $e');
+  //   }
+  // }
+
   Future<void> unblockUser(String currentUserId, String unBlockId) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     try {
-      DocumentReference blockedUsersRef =
+      // Reference to current user's document
+      DocumentReference currentUserRef =
           firestore.collection('blocked_users').doc(currentUserId);
+      // Reference to the other user's document
+      DocumentReference otherUserRef =
+          firestore.collection('blocked_users').doc(unBlockId);
 
-      // Use arrayRemove to remove the user from the blocked list
-      await blockedUsersRef.update({
+      // Remove the other user from current user's blocked list
+      await currentUserRef.update({
         'userIds': FieldValue.arrayRemove([unBlockId])
       }).then((value) {
         toast(message: "User Unblocked");
+      });
+
+      // Remove the current user from the other user's blocked list
+      await otherUserRef.update({
+        'userIds': FieldValue.arrayRemove([currentUserId])
       });
     } catch (e) {
       // Handle exceptions
