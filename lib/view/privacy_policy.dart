@@ -43,7 +43,4 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
     );
   }
 
-  Future launchSourceURL(String url) {
-    return launchWebUrl(url).onError((error, stackTrace) => print(error));
-  }
 }
