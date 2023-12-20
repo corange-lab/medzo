@@ -16,6 +16,7 @@ class UserModel {
   final String? profilePicture;
   final String? profession;
   final bool? enablePushNotification;
+  final bool? isBlocked;
   final dynamic healthCondition; //HealthCondition?
   final dynamic currentMedication; //CurrentMedication?
   final dynamic allergies; //Allergies?
@@ -33,6 +34,7 @@ class UserModel {
     this.profilePicture,
     this.profession,
     this.enablePushNotification,
+    this.isBlocked,
     this.healthCondition,
     this.currentMedication,
     this.allergies,
@@ -51,6 +53,7 @@ class UserModel {
     this.profilePicture,
     this.profession,
     this.enablePushNotification,
+    this.isBlocked,
     this.healthCondition,
     this.currentMedication,
     this.allergies,
@@ -71,6 +74,7 @@ class UserModel {
     String? profilePicture,
     String? profession,
     bool? enablePushNotification,
+    bool? isBlocked,
     dynamic healthCondition, // HealthCondition?
     dynamic currentMedication, // CurrentMedication?
     dynamic ageGroup, // AgeGroup?
@@ -89,6 +93,7 @@ class UserModel {
       profession: profession ?? this.profession,
       enablePushNotification:
           enablePushNotification ?? this.enablePushNotification,
+      isBlocked: isBlocked ?? this.isBlocked,
       healthCondition: healthCondition ?? this.healthCondition,
       currentMedication: currentMedication ?? this.currentMedication,
       ageGroup: ageGroup ?? this.ageGroup,
@@ -109,6 +114,7 @@ class UserModel {
       'profile_picture': profilePicture,
       'profession': profession,
       'enablePushNotification': enablePushNotification,
+      'isBlocked': isBlocked,
       'health_condition': (healthCondition is bool)
           ? healthCondition
           : healthCondition?.toMap(),
@@ -132,6 +138,7 @@ class UserModel {
       profilePicture: map['profile_picture'],
       profession: map['profession'],
       enablePushNotification: map['enablePushNotification'],
+      isBlocked: map['isBlocked'],
       healthCondition: map['health_condition'] == null
           ? null
           : (map['health_condition'] is bool)
@@ -183,6 +190,7 @@ class UserModel {
       profilePicture: map['profile_picture'],
       profession: map['profession'],
       enablePushNotification: map['enablePushNotification'],
+      isBlocked: map['isBlocked'],
       healthCondition: map['health_condition'] == null
           ? null
           : (map['health_condition'] is bool)

@@ -566,6 +566,18 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "logging",
+      "rootUri": "file:///C:/Users/dell/AppData/Local/Pub/Cache/hosted/pub.dev/logging-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "mailer",
+      "rootUri": "file:///C:/Users/dell/AppData/Local/Pub/Cache/hosted/pub.dev/mailer-6.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///C:/Users/dell/AppData/Local/Pub/Cache/hosted/pub.dev/matcher-0.12.16",
       "packageUri": "lib/",
@@ -938,7 +950,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-12-14T10:46:07.849589Z",
+  "generated": "2023-12-20T11:28:28.294318Z",
   "generator": "pub",
   "generatorVersion": "3.1.5"
 }

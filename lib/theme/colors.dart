@@ -34,6 +34,7 @@ class AppColors {
   static Color txtborder = const Color(0xFFF29D38);
 
   static Color primaryColor = const Color(0xffF29D38);
+  static Color secondaryColor = const Color(0xffc46d1d);
   static Color darkPrimaryColor = const Color(0xff0D0D0D);
   static Color black = const Color(0xff180E02);
   static Color blacktxt = const Color(0xff505050);

@@ -55,11 +55,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           alignment: Alignment.centerLeft,
           child: TextWidget(
             ConstString.addreview,
-            style: Theme
-                .of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontSize: 17.5,
                 fontFamily: AppFont.fontBold,
                 letterSpacing: 0,
@@ -81,11 +77,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               TextWidget(
                 ConstString.writereview,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .headlineLarge!
-                    .copyWith(
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontSize: 21,
                     letterSpacing: 0,
                     fontFamily: AppFont.fontBold),
@@ -95,11 +87,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               TextWidget(
                 ConstString.leavereview,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontSize: 13,
                     letterSpacing: 0,
                     color: AppColors.grey.withOpacity(0.8),
@@ -110,11 +98,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               TextWidget(
                 medicineDetails?.genericName ?? "-",
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .headlineLarge!
-                    .copyWith(
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     fontSize: 15.5,
                     letterSpacing: 0,
                     color: AppColors.darkPrimaryColor,
@@ -127,11 +111,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 alignment: Alignment.topLeft,
                 child: TextWidget(
                   ConstString.rateproduct,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headlineLarge!
-                      .copyWith(
+                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                       fontSize: 14,
                       letterSpacing: 0,
                       fontWeight: FontWeight.w500,
@@ -168,11 +148,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 children: [
                   TextWidget(
                     ConstString.review,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .headlineLarge!
-                        .copyWith(
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
                         letterSpacing: 0,
@@ -202,29 +178,28 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     enabled: true,
                     fillColor: AppColors.searchbar.withOpacity(0.5),
                     hintText: "Write a review",
-                    hintStyle: Theme
-                        .of(context)
+                    hintStyle: Theme.of(context)
                         .textTheme
                         .headlineSmall!
                         .copyWith(fontSize: 14),
                     border: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: AppColors.whitehome, width: 0.5),
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: AppColors.whitehome, width: 0.5),
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     disabledBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: AppColors.whitehome, width: 0.5),
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: AppColors.whitehome, width: 0.5),
+                          BorderSide(color: AppColors.whitehome, width: 0.5),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -238,8 +213,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 alignment: Alignment.topRight,
                 child: TextWidget(
                   "210 character required",
-                  style: Theme
-                      .of(context)
+                  style: Theme.of(context)
                       .textTheme
                       .displaySmall!
                       .copyWith(color: AppColors.icongrey, fontSize: 11.5),
@@ -250,10 +224,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  if (medicineController.reviewText.text
-                      .trim()
-                      .isEmpty) {
+                  if (medicineController.reviewText.text.trim().isEmpty) {
                     toast(message: "Please add review");
+                    return;
+                  }
+
+                  if (Utils.hasAbusiveWords(
+                      medicineController.reviewText.text.trim())) {
+                    toast(message: "You can't enter abuse words.");
                     return;
                   }
 
@@ -263,9 +241,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       medicineController.rating.toStringAsFixed(1));
 
                   String medicineId = medicineDetails!.id!;
-                  final reviewId = medicineController.reviewRef
-                      .doc()
-                      .id;
+                  final reviewId = medicineController.reviewRef.doc().id;
                   final userId = FirebaseAuth.instance.currentUser!.uid;
 
                   ReviewDataModel review = ReviewDataModel(
@@ -301,7 +277,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         return successDialogue(
                           titleText: "Successful",
                           subtitle:
-                          "Your review has been submitted \nsuccessfully.",
+                              "Your review has been submitted \nsuccessfully.",
                           iconDialogue: SvgIcon.check_circle,
                           btntext: "Continue",
                           onPressed: () {
@@ -322,11 +298,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         borderRadius: BorderRadius.circular(30))),
                 child: TextWidget(
                   ConstString.submit,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .displayMedium!
-                      .copyWith(
+                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
                       color: AppColors.buttontext,
                       fontSize: 15,
                       fontFamily: AppFont.fontMedium),

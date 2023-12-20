@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'package:medzo/controller/medicine_controller.dart';
 import 'package:medzo/model/medicine.dart';
 import 'package:medzo/theme/colors.dart';
@@ -12,9 +14,9 @@ import 'package:medzo/utils/string.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/medicine_shimmer_widget.dart';
 import 'package:medzo/widgets/medicine_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BookmarkScreen extends StatelessWidget {
-
   final MedicineController medicineController = Get.put(MedicineController());
 
   @override

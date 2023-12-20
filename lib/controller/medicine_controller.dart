@@ -12,6 +12,7 @@ import 'package:medzo/model/review_reply_data.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/url_launch.dart';
+import 'package:medzo/utils/utils.dart';
 
 class MedicineController extends GetxController {
   TextEditingController reviewText = TextEditingController();
@@ -401,12 +402,12 @@ class MedicineController extends GetxController {
   Future<void> deleteReviewReply(
       ReviewDataModel reviewDataModel, ReviewReplyModel replyModel) async {
     // reviewDataModel.reviewReplies!.remove(replyModel.id);
-    print("Before removal: ${reviewDataModel.reviewReplies!.length}");
+    print("Before removal: ${reviewDataModel.reviewReplies?.length}");
 
-    reviewDataModel.reviewReplies!
-        .removeWhere((reply) => reply.id == replyModel.id);
+    reviewDataModel.reviewReplies
+        ?.removeWhere((reply) => reply.id == replyModel.id);
 
-    print("After removal: ${reviewDataModel.reviewReplies!.length}");
+    print("After removal: ${reviewDataModel.reviewReplies?.length}");
 
     return reviewRef
         .doc(reviewDataModel.id)

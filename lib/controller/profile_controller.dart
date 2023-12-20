@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/model/post_model.dart';
 import 'package:medzo/model/user_model.dart';
@@ -163,71 +165,77 @@ class ProfileController extends GetxController {
       {required String targetUserId,
       required String reporterId,
       required String reason}) async {
+    DocumentReference userRef =
+        FirebaseFirestore.instance.collection('users').doc(targetUserId);
     try {
       final reportsRef = FirebaseFirestore.instance.collection('reports');
+
+      var existingReportQuery = await reportsRef
+          .where('reporterId', isEqualTo: reporterId)
+          .where('targetUserId', isEqualTo: targetUserId)
+          .limit(1)
+          .get();
+
+      if (existingReportQuery.docs.isNotEmpty) {
+        toast(message: "User Already Reported!");
+        return;
+      }
+
       await reportsRef.add({
         'targetUserId': targetUserId,
         'reporterId': reporterId,
         'reason': reason,
         'timestamp': FieldValue.serverTimestamp(),
       });
+
+      DocumentSnapshot userSnapshot = await userRef.get();
+      Map<String, dynamic> userData =
+          userSnapshot.data() as Map<String, dynamic>? ?? {};
+      bool isBlocked = userData['isBlocked'] ?? false;
+      int reportCount = userData['reportCount'] ?? 0;
+      reportCount++;
+
+      if (reportCount + 1 > 10) {
+        sendUserAccountReportEmail(targetUserId);
+        reportCount = 0;
+        isBlocked = true;
+        print("User Blocked");
+      }
+      await userRef
+          .update({'reportCount': reportCount, 'isBlocked': isBlocked});
       print('Report submitted successfully');
     } catch (e) {
       print('Error submitting report: $e');
     }
   }
 
-  // Future<void> blockUser(String myUserId, String blockedUserId) async {
-  //   try {
-  //     DocumentReference myUserDoc = blockedUserRef.doc(myUserId);
-  //
-  //     DocumentSnapshot myUserSnapshot = await myUserDoc.get();
-  //
-  //     // Check if the document exists
-  //     if (myUserSnapshot.exists) {
-  //       Map<String, dynamic> userData =
-  //           myUserSnapshot.data() as Map<String, dynamic> ?? {};
-  //
-  //       List<String> blockedUserIds =
-  //           List<String>.from(userData['userIds'] as List<dynamic> ?? []);
-  //
-  //       // Check if the user is already blocked to avoid duplicates
-  //       if (!blockedUserIds.contains(blockedUserId)) {
-  //         blockedUserIds.add(blockedUserId);
-  //
-  //         await myUserDoc.set({'userIds': blockedUserIds}).then((value) {
-  //           showInSnackBar("User Blocked!", isSuccess: false, title: "Medzo");
-  //         });
-  //       }
-  //     } else {
-  //       // If the document doesn't exist, create it and set the blocked user ID
-  //       await myUserDoc.set({
-  //         'userIds': [blockedUserId]
-  //       }).then((value) {
-  //         showInSnackBar("User Blocked!", isSuccess: false, title: "Medzo");
-  //       });
-  //     }
-  //   } catch (e) {
-  //     print('Error blocking user: $e');
-  //   }
-  // }
+  Future<void> sendUserAccountReportEmail(String recipientEmail) async {
+    final smtpServer = gmail('savaliyakevin171@gmail.com', 'ujsorydlhlgjtndu');
 
-  // Future<void> unblockUser(String myUserId, String blockedUserId) async {
-  //   try {
-  //     DocumentReference myUserDoc = blockedUserRef.doc(myUserId);
-  //
-  //     DocumentSnapshot myUserSnapshot = await myUserDoc.get();
-  //     List<String> blockedUserIds = List.from(myUserSnapshot['userIds'] ?? []);
-  //
-  //     blockedUserIds.remove(blockedUserId);
-  //
-  //     await myUserDoc.set({'userIds': blockedUserIds}).then((value) {
-  //       showInSnackBar("User Unblocked!", isSuccess: false, title: "Medzo");
-  //     });
-  //   } catch (e) {
-  //     print('Error unblocking user: $e');
-  //   }
-  // }
+    final message = Message()
+      ..from = Address('savaliyakevin171@gmail.com', 'Medzo')
+      ..recipients.add(recipientEmail)
+      ..subject = 'Account Deactivation Notice'
+      ..text = '''Hello,
+
+We're reaching out to inform you that your account has been deactivated. This action was taken because more than 10 users reported your account for posting content that violates our community guidelines, specifically relating to explicit language, hate speech, and other forms of prohibited content on your profile.
+
+We take the safety and comfort of our community very seriously, and we do not tolerate hate speech or explicit language on our platform. This decision is in line with our commitment to maintain a respectful and safe environment for all users.
+
+If you believe this deactivation is a mistake or if you have any questions or concerns, please don't hesitate to reach out to us at medzo@gmail.com. We're here to help and will review your case carefully.
+
+Thank you for your understanding.
+
+Best regards,
+Medzo Support Team''';
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ${sendReport.toString()}');
+    } catch (e) {
+      print('Error sending email: $e');
+    }
+  }
 
   Future<void> blockUser(String myUserId, String blockedUserId) async {
     try {

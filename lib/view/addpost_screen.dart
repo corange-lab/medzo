@@ -78,6 +78,11 @@ class AddPostScreen extends GetView<NewPostController> {
               return;
             }
 
+            if (Utils.hasAbusiveWords(controller.description.text.trim())) {
+              toast(message: "You can't enter abuse words.");
+              return;
+            }
+
             progressDialogue(context, title: "Post Uploading");
 
             List<PostImageData> imageList = [];

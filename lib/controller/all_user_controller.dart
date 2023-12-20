@@ -89,6 +89,33 @@ class AllUserController extends GetxController {
     return users;
   }
 
+
+  Future<bool?> fetchIsBlockedStatus(String userId) async {
+    try {
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+
+      if (userSnapshot.exists) {
+        Map<String, dynamic> userData =
+        userSnapshot.data() as Map<String, dynamic>;
+        bool? isBlocked = userData['isBlocked'];
+
+        if (isBlocked != null) {
+          return isBlocked;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Error fetching isBlocked status: $e');
+      return null;
+    }
+  }
+
   // Future<void> unblockUser(String currentUserId, String unBlockId) async {
   //   FirebaseFirestore firestore = FirebaseFirestore.instance;
   //

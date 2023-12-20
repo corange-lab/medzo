@@ -1,9 +1,13 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:medzo/controller/all_user_controller.dart';
 import 'package:medzo/controller/user_controller.dart';
 import 'package:medzo/model/comment_data.dart';
@@ -11,7 +15,9 @@ import 'package:medzo/model/post_model.dart';
 import 'package:medzo/model/report_data.dart';
 import 'package:medzo/model/user_model.dart';
 import 'package:medzo/utils/assets.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/dialogue.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PostController extends GetxController {
   RxList<File> selectedMultiImages = <File>[].obs;
@@ -241,34 +247,108 @@ class PostController extends GetxController {
         .set(postData.toFirebaseMap(), SetOptions(merge: true));
   }
 
-  Future<void> addReport(PostData postData, String reason) async {
-    // alter existing comment and add new comment
+  // Future<void> addReport(PostData postData, String reason) async {
+  //   // alter existing comment and add new comment
+  //
+  //   if (postData.reportDataList != null &&
+  //       postData.reportDataList!.isNotEmpty) {
+  //     if ((postData.reportDataList ?? []).toList().firstWhereOrNull((element) =>
+  //             element.userId == userController.loggedInUser.value.id) !=
+  //         null) {
+  //       // postData.reportDataList!.removeWhere((element) =>
+  //       //     element.userId == userController.loggedInUser.value.id);
+  //       postData.reportDataList?.add(ReportData(
+  //           userId: userController.loggedInUser.value.id!, reason: reason));
+  //     } else {
+  //       postData.reportDataList!.add(ReportData(
+  //           userId: userController.loggedInUser.value.id!, reason: reason));
+  //     }
+  //   } else {
+  //     postData.reportDataList = [];
+  //     postData.reportDataList?.add(ReportData(
+  //         userId: userController.loggedInUser.value.id!, reason: reason));
+  //   }
+  //
+  //   // add comment to current postData
+  //   await postRef
+  //       .doc(postData.id)
+  //       .set(postData.toFirebaseMap(), SetOptions(merge: true));
+  //
+  //   if (postData.reportDataList!.length > 9) {
+  //     try {
+  //       await postRef.doc(postData.id).delete();
+  //       print('Post deleted due to excessive reports');
+  //     } catch (e) {
+  //       print('Error deleting post: $e');
+  //     }
+  //   }
+  //   update([postData.id ?? 'post${postData.id}']);
+  // }
 
-    if (postData.reportDataList != null &&
-        postData.reportDataList!.isNotEmpty) {
-      if ((postData.reportDataList ?? []).toList().firstWhereOrNull((element) =>
-              element.userId == userController.loggedInUser.value.id) !=
-          null) {
-        print('already reported 1');
-        postData.reportDataList!.removeWhere((element) =>
-            element.userId == userController.loggedInUser.value.id);
-        postData.reportDataList?.add(ReportData(
-            userId: userController.loggedInUser.value.id!, reason: reason));
-      } else {
-        postData.reportDataList!.add(ReportData(
-            userId: userController.loggedInUser.value.id!, reason: reason));
-      }
-    } else {
-      postData.reportDataList = [];
-      postData.reportDataList?.add(ReportData(
-          userId: userController.loggedInUser.value.id!, reason: reason));
+  Future<void> addReport(PostData postData, String reason) async {
+    String? userId = FirebaseAuth.instance.currentUser?.uid;
+    String? postId = postData.id;
+
+    if (userId == null || postId == null) {
+      print('User ID or Post ID is null');
+      return;
     }
 
-    // add comment to current postData
-    update([postData.id ?? 'post${postData.id}']);
-    return postRef
-        .doc(postData.id)
-        .set(postData.toFirebaseMap(), SetOptions(merge: true));
+    postData.reportDataList ??= [];
+
+    bool alreadyReported =
+        postData.reportDataList!.any((report) => report.userId == userId);
+
+    if (!alreadyReported) {
+      postData.reportDataList?.add(ReportData(userId: userId, reason: reason));
+      await postRef
+          .doc(postId)
+          .set(postData.toFirebaseMap(), SetOptions(merge: true));
+    } else {
+      toast(message: "Post Already Reported!");
+    }
+
+    if (postData.reportDataList!.length > 9) {
+      try {
+        await postRef.doc(postId).delete();
+        sendUserPostReportEmail(userId);
+        print('Post deleted due to excessive reports');
+      } catch (e) {
+        print('Error deleting post: $e');
+      }
+    }
+
+    update([postId]);
+  }
+
+  Future<void> sendUserPostReportEmail(String recepientEmail) async {
+    final smtpServer = gmail('savaliyakevin171@gmail.com', 'ujsorydlhlgjtndu');
+
+    final message = Message()
+      ..from = Address('savaliyakevin171@gmail.com', 'Medzo')
+      ..recipients.add(recepientEmail)
+      ..subject = 'Post Removal Notification'
+      ..text = '''Hello,
+
+We hope this message finds you well. We are writing to inform you that one of your posts has been removed from our platform. This action was taken because the post in question received reports from more than 10 users for containing explicit language, hate speech, and other forms of prohibited content on your profile.
+
+Our community is our top priority, and we are committed to maintaining a safe and respectful environment for all users. As such, we strictly enforce our guidelines against hate speech and explicit content.
+
+We understand that this may be disappointing, but we encourage you to review our community guidelines to ensure your future posts align with our standards.
+
+If you have any questions or concerns about this action, or if you believe this removal was in error, please don't hesitate to reach out to us at themedzoteam@gmail.com.. We're here to assist you and address any issues you may have.
+
+Thank you for your understanding and cooperation.
+
+Best regards,
+Medzo Support Team''';
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ${sendReport.toString()}');
+    } catch (e) {
+      print('Error sending email: $e');
+    }
   }
 
   Future<PostData?> addComment() async {

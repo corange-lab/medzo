@@ -451,13 +451,13 @@ class _ReportOptionsState extends State<ReportOptions> {
       title: Text(
         optionText,
         style: TextStyle(
-          color:
-              selectedOption == optionText ? Color(0xffF29D38) : Colors.black,
-          fontWeight: selectedOption == optionText
-              ? FontWeight.bold
-              : FontWeight.normal,
-          fontSize: subtitle != null ? 18.0 : 14.0,
-        ),
+            color:
+                selectedOption == optionText ? Color(0xffF29D38) : Colors.black,
+            fontWeight: selectedOption == optionText
+                ? FontWeight.bold
+                : FontWeight.normal,
+            fontSize: subtitle != null ? 16.0 : 14.0,
+            fontFamily: AppFont.fontMedium),
       ),
       subtitle: subtitle != null
           ? Text(
@@ -469,6 +469,7 @@ class _ReportOptionsState extends State<ReportOptions> {
                 fontWeight: selectedOption == optionText
                     ? FontWeight.bold
                     : FontWeight.normal,
+                fontFamily: AppFont.fontMedium,
                 fontSize: 14.0,
               ),
             )
@@ -512,7 +513,7 @@ class EulaDialog extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blue, Colors.purple],
+            colors: [AppColors.primaryColor, AppColors.secondaryColor],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),

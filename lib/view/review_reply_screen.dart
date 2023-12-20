@@ -11,6 +11,7 @@ import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/date_time_extensions.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:medzo/widgets/user/other_profile_pic_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -255,7 +256,12 @@ class ReviewReplyScreen extends StatelessWidget {
               onTap: () async {
                 ReviewDataModel? reviewData;
 
-                reviewData = await controller.addReply();
+                if (!Utils.hasAbusiveWords(
+                    controller.replyController.text.trim())) {
+                  reviewData = await controller.addReply();
+                } else {
+                  toast(message: "You can't enter abuse words.");
+                }
 
                 if (reviewData != null) {
                   controller.currentReviewData = reviewData;
@@ -304,127 +310,154 @@ class ReviewReplyScreen extends StatelessWidget {
             UserModel? replyUser = controller.findUser(replyData?.userId ?? '');
 
             return !allUserController.blockedUserList.contains(replyUser.id)
-                ? Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: AppColors.listtile),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20, top: 10, bottom: 10, right: 10),
-                              child: OtherProfilePicWidget(
-                                  profilePictureUrl: replyUser.profilePicture,
-                                  size: Size(40, 40)),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        TextWidget(
-                                          replyUser.name ?? '-',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge!
-                                              .copyWith(
-                                                  fontFamily:
-                                                      AppFont.fontFamilysemi,
-                                                  fontWeight: FontWeight.w500,
-                                                  letterSpacing: 0.3,
-                                                  fontSize: 14),
-                                        ),
-                                        SizedBox(height: 10),
-                                        TextWidget(
-                                          (replyData?.repliedTime ??
-                                                  DateTime.now())
-                                              .timeAgo(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                  fontSize: 11,
-                                                  color: AppColors.dark),
-                                        ),
-                                      ],
+                ? FutureBuilder(
+                    future:
+                        allUserController.fetchIsBlockedStatus(replyUser.id!),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasData) {
+                        bool isBlocked = snapshot.data!;
+                        return Visibility(
+                          visible: !isBlocked,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: AppColors.listtile),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20,
+                                          top: 10,
+                                          bottom: 10,
+                                          right: 10),
+                                      child: OtherProfilePicWidget(
+                                          profilePictureUrl:
+                                              replyUser.profilePicture,
+                                          size: Size(40, 40)),
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextWidget(
+                                                  replyUser.name ?? '-',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelLarge!
+                                                      .copyWith(
+                                                          fontFamily: AppFont
+                                                              .fontFamilysemi,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          letterSpacing: 0.3,
+                                                          fontSize: 14),
+                                                ),
+                                                SizedBox(height: 10),
+                                                TextWidget(
+                                                  (replyData?.repliedTime ??
+                                                          DateTime.now())
+                                                      .timeAgo(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall!
+                                                      .copyWith(
+                                                          fontSize: 11,
+                                                          color:
+                                                              AppColors.dark),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          replyData!.userId ==
+                                                  controller.currentUser
+                                              ? IconButton(
+                                                  onPressed: () {
+                                                    _deleteReviewDialog(context,
+                                                        isForReply: true,
+                                                        replyData: replyData);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.delete_outlined,
+                                                    color: AppColors
+                                                        .notificationOff,
+                                                    // size: 3.5.h,
+                                                  ))
+                                              : SizedBox()
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, bottom: 10),
+                                    child: TextWidget(
+                                      "${replyData.reply}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(
+                                              height: 1.7,
+                                              fontSize: 14,
+                                              fontFamily: AppFont.fontMedium,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppColors.dark),
+                                      textAlign: TextAlign.start,
                                     ),
                                   ),
-                                  replyData!.userId == controller.currentUser
-                                      ? IconButton(
-                                          onPressed: () {
-                                            _deleteReviewDialog(context,
-                                                isForReply: true,
-                                                replyData: replyData);
-                                          },
-                                          icon: Icon(
-                                            Icons.delete_outlined,
-                                            color: AppColors.notificationOff,
-                                            // size: 3.5.h,
-                                          ))
-                                      : SizedBox()
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20, bottom: 10),
-                            child: TextWidget(
-                              "${replyData.reply}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      height: 1.7,
-                                      fontSize: 14,
-                                      fontFamily: AppFont.fontMedium,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.dark),
-                              textAlign: TextAlign.start,
+                                ),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          controller.addReplyUpvote(replyData,
+                                              isForUpvote: true);
+                                        },
+                                        icon: Icon(
+                                          Icons.plus_one,
+                                          color: controller.isReplyVoted(
+                                                  replyData,
+                                                  forUpvote: true)
+                                              ? Colors.red
+                                              : Colors.black,
+                                        )),
+                                    IconButton(
+                                        onPressed: () {
+                                          controller.addReplyUpvote(replyData,
+                                              isForUpvote: false);
+                                        },
+                                        icon: Icon(
+                                          Icons.exposure_minus_1,
+                                          color: controller.isReplyVoted(
+                                                  replyData,
+                                                  forUpvote: false)
+                                              ? Colors.red
+                                              : Colors.black,
+                                        )),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  controller.addReplyUpvote(replyData,
-                                      isForUpvote: true);
-                                },
-                                icon: Icon(
-                                  Icons.plus_one,
-                                  color: controller.isReplyVoted(replyData,
-                                          forUpvote: true)
-                                      ? Colors.red
-                                      : Colors.black,
-                                )),
-                            IconButton(
-                                onPressed: () {
-                                  controller.addReplyUpvote(replyData,
-                                      isForUpvote: false);
-                                },
-                                icon: Icon(
-                                  Icons.exposure_minus_1,
-                                  color: controller.isReplyVoted(replyData,
-                                          forUpvote: false)
-                                      ? Colors.red
-                                      : Colors.black,
-                                )),
-                          ],
-                        ),
-                      ],
-                    ),
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    },
                   )
                 : SizedBox();
           },

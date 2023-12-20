@@ -10,6 +10,7 @@ import 'package:medzo/main.dart';
 import 'package:medzo/model/chat_room.dart';
 import 'package:medzo/model/message_model.dart';
 import 'package:medzo/theme/colors.dart';
+import 'package:medzo/utils/utils.dart';
 
 class ChatController extends GetxController {
   String currentUser = FirebaseAuth.instance.currentUser!.uid;
@@ -90,7 +91,13 @@ class ChatController extends GetxController {
       showBlockedNotification(context, message: 'This user has blocked you');
       return;
     } else {
-      _sendMessage();
+      if (!Utils.hasAbusiveWords(messageText.text.trim())) {
+        _sendMessage();
+      } else {
+        toast(message: "You can't enter abuse words.");
+        return;
+      }
+
       print("sendMessage: Sending message");
     }
   }
@@ -178,21 +185,15 @@ class ChatController extends GetxController {
 
   Future<bool> isUserBlocked(String myUserId, String blockedUserId) async {
     try {
-      // final DocumentSnapshot blockedUserDoc = await FirebaseFirestore.instance
-      //     .collection('blocked_users')
-      //     .doc(myUserId)
-      //     .get();
+      bool? isBlocked =
+          await allUserController.fetchIsBlockedStatus(blockedUserId);
 
-      // if (blockedUserDoc.exists) {
-      //   Map<String, dynamic> data =
-      //       blockedUserDoc.data() as Map<String, dynamic> ?? {};
-
-      List<dynamic> blockedUserIds = allUserController.blockedUserList;
-
-      print("Ids : ${blockedUserIds}");
-      print("${blockedUserId}");
-      return blockedUserIds.contains(blockedUserId);
-      // }
+      if (!isBlocked!) {
+        List<dynamic> blockedUserIds = allUserController.blockedUserList;
+        return blockedUserIds.contains(blockedUserId);
+      } else {
+        return true;
+      }
     } catch (e) {
       print('Error in isUserBlocked: $e');
     }

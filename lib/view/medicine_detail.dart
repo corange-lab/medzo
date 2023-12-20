@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -849,131 +850,173 @@ class _MedicineDetailState extends State<MedicineDetail>
                                     medicineController.findUser(review.userId!);
                                 return !allUserController.blockedUserList
                                         .contains(user.id)
-                                    ? Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 2),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: reviewHeaderWidget(
-                                                      context,
-                                                      user,
-                                                      reviewList,
-                                                      index),
-                                                ),
-                                                _getTrailingIcon(
-                                                    reviewList!
-                                                        .elementAt(index),
-                                                    medicineController,
-                                                    context)
-                                              ],
-                                            ),
-                                            Align(
-                                              alignment: Alignment.centerLeft,
+                                    ? FutureBuilder(
+                                        future: allUserController
+                                            .fetchIsBlockedStatus(user.id!),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return PostShimmerWidget();
+                                          } else if (snapshot.hasData) {
+                                            bool isBlocked = snapshot.data!;
+                                            return Visibility(
+                                              visible: !isBlocked,
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        horizontal: 5),
-                                                child: TextWidget(
-                                                  "${review.review}",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleSmall!
-                                                      .copyWith(
-                                                          height: 1.7,
-                                                          fontSize: 12.5,
-                                                          fontFamily: AppFont
-                                                              .fontMedium,
-                                                          letterSpacing: 0,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color:
-                                                              AppColors.dark),
-                                                  textAlign: TextAlign.start,
+                                                        horizontal: 10,
+                                                        vertical: 2),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child:
+                                                              reviewHeaderWidget(
+                                                                  context,
+                                                                  user,
+                                                                  reviewList,
+                                                                  index),
+                                                        ),
+                                                        _getTrailingIcon(
+                                                            reviewList!
+                                                                .elementAt(
+                                                                    index),
+                                                            medicineController,
+                                                            context)
+                                                      ],
+                                                    ),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 5),
+                                                        child: TextWidget(
+                                                          "${review.review}",
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .titleSmall!
+                                                              .copyWith(
+                                                                  height: 1.7,
+                                                                  fontSize:
+                                                                      12.5,
+                                                                  fontFamily:
+                                                                      AppFont
+                                                                          .fontMedium,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color:
+                                                                      AppColors
+                                                                          .dark),
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Align(
+                                                          alignment:
+                                                              Alignment.topLeft,
+                                                          child: TextButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                print(
+                                                                    "For : ${review.reviewReplies?.length}");
+                                                                medicineController
+                                                                        .currentReviewData =
+                                                                    review;
+                                                                var result = await Get.to(() =>
+                                                                    ReviewReplyScreen(
+                                                                        user,
+                                                                        review));
+                                                                if (result ==
+                                                                    'Deleted') {
+                                                                  reviewList!
+                                                                      .removeAt(
+                                                                          index);
+                                                                  medicineController
+                                                                      .update();
+                                                                }
+                                                              },
+                                                              child: TextWidget(
+                                                                ConstString
+                                                                    .viewreply,
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .labelMedium!
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            12.5,
+                                                                        fontFamily:
+                                                                            AppFont
+                                                                                .fontFamilysemi,
+                                                                        letterSpacing:
+                                                                            0.2),
+                                                              )),
+                                                        ),
+                                                        IconButton(
+                                                            onPressed: () {
+                                                              medicineController
+                                                                  .addUpvote(
+                                                                      review,
+                                                                      isForUpvote:
+                                                                          true);
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.plus_one,
+                                                              color: medicineController
+                                                                      .isVoted(
+                                                                          review,
+                                                                          forUpvote:
+                                                                              true)
+                                                                  ? Colors.red
+                                                                  : Colors
+                                                                      .black,
+                                                            )),
+                                                        IconButton(
+                                                            onPressed: () {
+                                                              medicineController
+                                                                  .addUpvote(
+                                                                      review,
+                                                                      isForUpvote:
+                                                                          false);
+                                                            },
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .exposure_minus_1,
+                                                              color: medicineController.isVoted(
+                                                                      review,
+                                                                      forUpvote:
+                                                                          false)
+                                                                  ? Colors.red
+                                                                  : Colors
+                                                                      .black,
+                                                            )),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      height: 1,
+                                                      width: 300,
+                                                      color: AppColors.grey
+                                                          .withOpacity(0.1),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: TextButton(
-                                                      onPressed: () async {
-                                                        print(
-                                                            "For : ${review.reviewReplies?.length}");
-                                                        medicineController
-                                                                .currentReviewData =
-                                                            review;
-                                                        var result =
-                                                            await Get.to(() =>
-                                                                ReviewReplyScreen(
-                                                                    user,
-                                                                    review));
-                                                        if (result ==
-                                                            'Deleted') {
-                                                          reviewList!
-                                                              .removeAt(index);
-                                                          medicineController
-                                                              .update();
-                                                        }
-                                                      },
-                                                      child: TextWidget(
-                                                        ConstString.viewreply,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .labelMedium!
-                                                            .copyWith(
-                                                                fontSize: 12.5,
-                                                                fontFamily: AppFont
-                                                                    .fontFamilysemi,
-                                                                letterSpacing:
-                                                                    0.2),
-                                                      )),
-                                                ),
-                                                IconButton(
-                                                    onPressed: () {
-                                                      medicineController
-                                                          .addUpvote(review,
-                                                              isForUpvote:
-                                                                  true);
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.plus_one,
-                                                      color: medicineController
-                                                              .isVoted(review,
-                                                                  forUpvote:
-                                                                      true)
-                                                          ? Colors.red
-                                                          : Colors.black,
-                                                    )),
-                                                IconButton(
-                                                    onPressed: () {
-                                                      medicineController
-                                                          .addUpvote(review,
-                                                              isForUpvote:
-                                                                  false);
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.exposure_minus_1,
-                                                      color: medicineController
-                                                              .isVoted(review,
-                                                                  forUpvote:
-                                                                      false)
-                                                          ? Colors.red
-                                                          : Colors.black,
-                                                    )),
-                                              ],
-                                            ),
-                                            Container(
-                                              height: 1,
-                                              width: 300,
-                                              color: AppColors.grey
-                                                  .withOpacity(0.1),
-                                            ),
-                                          ],
-                                        ),
+                                            );
+                                          } else {
+                                            return SizedBox();
+                                          }
+                                        },
                                       )
                                     : SizedBox();
                               },
