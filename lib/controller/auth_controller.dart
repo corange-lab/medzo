@@ -78,7 +78,7 @@ class AuthController extends GetxController {
     if (currentQuestionnairesPosition == -1) {
       return Get.offAll(() => HomeScreen());
     } else {
-      return Get.off(() => QuestionScreen(
+      return Get.offAll(() => QuestionScreen(
           currentQuestionnairesPosition: currentQuestionnairesPosition));
     }
   }

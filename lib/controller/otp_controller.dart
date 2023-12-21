@@ -129,7 +129,7 @@ class OTPController extends GetxController {
             isSuccess: true,
             color: Colors.red);
       } else {
-        Get.off(() => QuestionScreen());
+        Get.offAll(() => QuestionScreen());
       }
 
       isLoading = true;
