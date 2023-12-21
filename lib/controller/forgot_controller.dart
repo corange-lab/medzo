@@ -15,7 +15,7 @@ class ForgotController extends GetxController {
   bool emailValidate = false;
 
   Timer? timer;
-  RxInt start = 300.obs;
+  RxInt start = 30.obs;
   RxBool resendButton = true.obs;
 
   TextEditingController emailTextController = TextEditingController();
@@ -29,7 +29,7 @@ class ForgotController extends GetxController {
   var hidepass2 = true.obs;
 
   RxInt startTimer() {
-    start = 300.obs;
+    start = 30.obs;
     const oneSec = Duration(seconds: 1);
     timer = Timer.periodic(
       oneSec,

@@ -101,4 +101,6 @@ class SvgIcon {
   static const String nodata = 'assets/icons/nodata1.png';
   static const String blockUser = 'assets/icons/blockuser.png';
   static const String masksad = 'assets/icons/masksad_icon.svg';
+  static const String likeIcon = 'assets/icons/like_icon.svg';
+  static const String dislikeIcon = 'assets/icons/dislike_icon.svg';
 }

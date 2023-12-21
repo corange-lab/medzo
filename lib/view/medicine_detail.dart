@@ -964,43 +964,71 @@ class _MedicineDetailState extends State<MedicineDetail>
                                                               )),
                                                         ),
                                                         IconButton(
-                                                            onPressed: () {
-                                                              medicineController
-                                                                  .addUpvote(
-                                                                      review,
-                                                                      isForUpvote:
-                                                                          true);
-                                                            },
-                                                            icon: Icon(
-                                                              Icons.plus_one,
-                                                              color: medicineController
-                                                                      .isVoted(
-                                                                          review,
-                                                                          forUpvote:
-                                                                              true)
-                                                                  ? Colors.red
-                                                                  : Colors
-                                                                      .black,
-                                                            )),
+                                                          onPressed: () {
+                                                            medicineController
+                                                                .addUpvote(
+                                                                    review,
+                                                                    isForUpvote:
+                                                                        true);
+                                                          },
+                                                          icon:
+                                                              SvgPicture.asset(
+                                                            SvgIcon.likeIcon,
+                                                            color: medicineController
+                                                                    .isVoted(
+                                                                        review,
+                                                                        forUpvote:
+                                                                            true)
+                                                                ? AppColors
+                                                                    .primaryColor
+                                                                : AppColors
+                                                                    .black,
+                                                          ),
+                                                          // icon: Icon(
+                                                          //   Icons.plus_one,
+                                                          //   color: medicineController
+                                                          //           .isVoted(
+                                                          //               review,
+                                                          //               forUpvote:
+                                                          //                   true)
+                                                          //       ? Colors.red
+                                                          //       : Colors
+                                                          //           .black,
+                                                          // )
+                                                        ),
                                                         IconButton(
-                                                            onPressed: () {
-                                                              medicineController
-                                                                  .addUpvote(
-                                                                      review,
-                                                                      isForUpvote:
-                                                                          false);
-                                                            },
-                                                            icon: Icon(
-                                                              Icons
-                                                                  .exposure_minus_1,
-                                                              color: medicineController.isVoted(
-                                                                      review,
-                                                                      forUpvote:
-                                                                          false)
-                                                                  ? Colors.red
-                                                                  : Colors
-                                                                      .black,
-                                                            )),
+                                                          onPressed: () {
+                                                            medicineController
+                                                                .addUpvote(
+                                                                    review,
+                                                                    isForUpvote:
+                                                                        false);
+                                                          },
+                                                          icon:
+                                                              SvgPicture.asset(
+                                                            SvgIcon.dislikeIcon,
+                                                            color: medicineController
+                                                                    .isVoted(
+                                                                        review,
+                                                                        forUpvote:
+                                                                            false)
+                                                                ? AppColors
+                                                                    .primaryColor
+                                                                : AppColors
+                                                                    .black,
+                                                          ),
+                                                          // icon: Icon(
+                                                          //   Icons
+                                                          //       .exposure_minus_1,
+                                                          //   color: medicineController.isVoted(
+                                                          //           review,
+                                                          //           forUpvote:
+                                                          //               false)
+                                                          //       ? Colors.red
+                                                          //       : Colors
+                                                          //           .black,
+                                                          // )
+                                                        ),
                                                       ],
                                                     ),
                                                     Container(
