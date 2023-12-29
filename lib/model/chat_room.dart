@@ -6,11 +6,10 @@ class ChatRoom {
   String? lastMessage;
   DateTime? lastMessageTime;
 
-  ChatRoom(
-      {this.chatRoomId,
-      this.participants,
-      this.lastMessage,
-      this.lastMessageTime});
+  ChatRoom({this.chatRoomId,
+    this.participants,
+    this.lastMessage,
+    this.lastMessageTime});
 
   ChatRoom.fromMap(Map<String, dynamic> map) {
     chatRoomId = map['chatRoomId'];

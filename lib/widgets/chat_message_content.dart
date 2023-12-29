@@ -4,16 +4,18 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
-
 class MyChatWidget extends Container {
   final String message;
   final String time;
   final bool sender;
   final bool isFirstMessage;
-  // final String imgpath;
 
   MyChatWidget(
-      this.message, this.time, this.sender, this.isFirstMessage,);
+    this.message,
+    this.time,
+    this.sender,
+    this.isFirstMessage,
+  );
 
   @override
   Widget build(BuildContext context) {

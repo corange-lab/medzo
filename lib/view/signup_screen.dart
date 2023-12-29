@@ -369,7 +369,7 @@ class SignUpScreen extends GetView<AuthController> {
                   text: TextSpan(children: [
                     TextSpan(
                         text:
-                            "By tapping Continue with Google or Apple, \nyou agree to Etsy's ",
+                            "By tapping Continue with Google or Apple, \nyou agree to Medzo ",
                         style: Theme.of(context)
                             .textTheme
                             .displayMedium!
@@ -418,7 +418,7 @@ class SignUpScreen extends GetView<AuthController> {
                           }),
                   ])),
               SizedBox(
-                height: 50,
+                height: 10,
               ),
               TextButton(
                 onPressed: () {

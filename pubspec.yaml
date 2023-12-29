@@ -55,7 +55,7 @@ dependencies:
   intl: ^0.18.1
   firebase_storage: ^11.2.5
   flutter_image_compress: ^2.0.3
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.0
   carousel_slider: ^4.2.1
   shimmer: ^3.0.0
   animate_do:

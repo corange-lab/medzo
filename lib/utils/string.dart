@@ -231,6 +231,7 @@ class ConstString {
   static const String updatepost = "Update Post";
   static const String postlist = "Post List";
   static const String newpost = "New Post";
+
   // static const String popularMedicine = "Popular Medicines";
   static const String postdetail = "Post Detail";
   static const String reviewReply = "Review Reply";
@@ -246,8 +247,8 @@ class ConstString {
   static const String viewall1 = "View All";
   static const String verifyotp = "Verify OTP";
   static const String orloginwith = "or log in with";
-  static const String didnthaveanaccount = "Didn’t have an account? ";
-  static const String didntreceivecode = "Didn’t receive code? ";
+  static const String didnthaveanaccount = "Don’t have an account? ";
+  static const String didntreceivecode = "Don’t receive code? ";
   static const String resendit = "Resend It";
   static const String alreadyhaveaccount = "Already have an account? ";
   static const String createaccount = "Create an Account";
