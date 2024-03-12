@@ -12,6 +12,7 @@ import 'package:medzo/theme/colors.dart';
 import 'package:medzo/utils/app_font.dart';
 import 'package:medzo/utils/assets.dart';
 import 'package:medzo/utils/string.dart';
+import 'package:medzo/utils/utils.dart';
 import 'package:medzo/widgets/custom_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -493,7 +494,14 @@ void showEulaDialog(BuildContext context) {
   );
 }
 
-class EulaDialog extends StatelessWidget {
+class EulaDialog extends StatefulWidget {
+  @override
+  State<EulaDialog> createState() => _EulaDialogState();
+}
+
+class _EulaDialogState extends State<EulaDialog> {
+  bool hasAgreed = false;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -502,43 +510,38 @@ class EulaDialog extends StatelessWidget {
       ),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
-      child: contentBox(context),
-    );
-  }
-
-  Widget contentBox(BuildContext context) {
-    return Scaffold(
-      key: Key('eula_dialog'),
-      backgroundColor: Colors.transparent,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.primaryColor, AppColors.secondaryColor],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+      child: Scaffold(
+        key: Key('eula_dialog'),
+        backgroundColor: Colors.transparent,
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColors.primaryColor, AppColors.secondaryColor],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            borderRadius: BorderRadius.circular(16.0),
           ),
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'User License Agreement',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'User License Agreement',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: SingleChildScrollView(
-                  child: Text(
-                    '''
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: SingleChildScrollView(
+                    child: Text(
+                      '''
               Welcome to Medzo!
 
 1. Overview
@@ -601,70 +604,104 @@ To exercise your rights or request information about your data, fill out a data 
 
 Thank you for trusting Medzo with your information.
                     ''',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                      letterSpacing: 0.5,
-                      height: 1.4,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        letterSpacing: 0.5,
+                        height: 1.4,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    await updateUser();
-                    Get.back();
-                  },
-                  child: Text(
-                    'I Agree',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    onPrimary: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
+              CheckboxListTile(
+                value: hasAgreed,
+                onChanged: (bool? value) {
+                  setState(() {
+                    hasAgreed = value!;
+                  });
+                },
+                contentPadding: EdgeInsets.all(5),
+                checkboxShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
+                checkColor: AppColors.white,
+                fillColor: MaterialStateProperty.all(AppColors.primaryColor),
+                hoverColor: AppColors.primaryColor,
+                visualDensity: VisualDensity.compact,
+                title: Text(
+                  'I agree to the EULA license agreement',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 16),
-                TextButton(
-                  onPressed: () {
-                    // Get.back();
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return MandatoryAgreementDialog();
-                      },
-                    );
-
-                    Future.delayed(Duration(seconds: 2), () {
+                controlAffinity: ListTileControlAffinity.leading,
+                activeColor: Colors.white,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (!hasAgreed) {
+                        toast(message: 'Please agree to the EULA to continue');
+                        return;
+                      }
+                      await updateUser();
                       Get.back();
-                    });
-                  },
-                  child: Text(
-                    'I Disagree',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                    },
+                    child: Text(
+                      'I Agree',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.blue,
+                      backgroundColor: Colors.white,
+                      disabledBackgroundColor: Colors.grey,
+                      disabledForegroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-          ],
+                  SizedBox(width: 16),
+                  TextButton(
+                    onPressed: () {
+                      // Get.back();
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return MandatoryAgreementDialog();
+                        },
+                      );
+
+                      Future.delayed(Duration(seconds: 2), () {
+                        Get.back();
+                      });
+                    },
+                    child: Text(
+                      'I Disagree',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16.0),
+            ],
+          ),
         ),
       ),
     );
